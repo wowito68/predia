@@ -1,0 +1,92 @@
+# ========================================
+# VARIABLES DE ENTORNO - PRODUCCIÓN
+# ========================================
+# IMPORTANTE: Copia este archivo como .env.production en tu servidor
+# y completa los valores reales. NUNCA commitees .env.production al repositorio.
+
+# ========================================
+# BASE DE DATOS
+# ========================================
+# Formato: mysql://usuario:contraseña@host:puerto/nombre_bd
+# Ejemplo: mysql://predia_user:mi_password_seguro@localhost:3306/predia_db
+DATABASE_URL="mysql://predia_user:TU_PASSWORD_AQUI@localhost:3306/predia_db"
+
+# ========================================
+# AUTENTICACIÓN JWT
+# ========================================
+# Genera un secreto seguro con: openssl rand -base64 32
+JWT_SECRET="TU_JWT_SECRET_SUPER_SEGURO_AQUI_MINIMO_32_CARACTERES"
+
+# Tiempo de expiración del token (ejemplos: 1h, 7d, 30d)
+JWT_EXPIRES_IN="7d"
+
+# ========================================
+# NEXT.JS
+# ========================================
+NODE_ENV="production"
+
+# URL base de la aplicación (sin slash al final)
+# Ejemplo: https://predia.tu-dominio.com o http://tu-ip-publica:3000
+NEXT_PUBLIC_API_URL="http://TU_IP_O_DOMINIO:3000"
+
+# Puerto en el que corre la aplicación
+PORT=3000
+
+# ========================================
+# SEGURIDAD
+# ========================================
+# Dominios permitidos para CORS (separados por comas)
+ALLOWED_ORIGINS="http://localhost:3000,https://tu-dominio.com"
+
+# Configuración de cookies seguras
+SECURE_COOKIES="true"
+COOKIE_DOMAIN=".tu-dominio.com"
+
+# ========================================
+# LOGGING Y MONITOREO
+# ========================================
+# Nivel de logs: error, warn, info, debug
+LOG_LEVEL="info"
+
+# ========================================
+# PRISMA
+# ========================================
+# Habilitar logs de queries (solo para debugging)
+# PRISMA_QUERY_LOG="true"
+
+# ========================================
+# SMTP (Opcional - para envío de emails)
+# ========================================
+# SMTP_HOST="smtp.gmail.com"
+# SMTP_PORT="587"
+# SMTP_USER="tu-email@gmail.com"
+# SMTP_PASSWORD="tu-password-de-aplicacion"
+# SMTP_FROM="PREDIA <noreply@tu-dominio.com>"
+
+# ========================================
+# ALMACENAMIENTO (Opcional - para archivos)
+# ========================================
+# Directorio para archivos subidos
+UPLOAD_DIR="/var/www/predia/uploads"
+
+# Tamaño máximo de archivos en MB
+MAX_FILE_SIZE_MB="10"
+
+# ========================================
+# RATE LIMITING (Opcional)
+# ========================================
+# Máximo de requests por IP por ventana de tiempo
+# RATE_LIMIT_MAX="100"
+# RATE_LIMIT_WINDOW_MS="900000"
+
+# ========================================
+# BACKUP (Opcional)
+# ========================================
+# Directorio para backups de base de datos
+# BACKUP_DIR="/var/backups/predia"
+
+# ========================================
+# VERCEL ANALYTICS (Opcional)
+# ========================================
+# Si usas Vercel Analytics
+# NEXT_PUBLIC_VERCEL_ANALYTICS_ID="tu-analytics-id"

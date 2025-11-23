@@ -1,0 +1,222 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Rol {
+  id_rol      Int       @id @default(autoincrement())
+  nombre_rol  String    @unique @db.VarChar(50)
+  descripcion String?   @db.Text
+  activo      Boolean   @default(true)
+  usuarios    Usuario[]
+
+  @@map("rol")
+}
+
+model Usuario {
+  id_usuario         Int                      @id @default(autoincrement())
+  username           String                   @unique @db.VarChar(100)
+  password_hash      String                   @db.VarChar(255)
+  id_rol             Int
+  nombre             String                   @db.VarChar(100)
+  apellido_paterno   String                   @db.VarChar(100)
+  apellido_materno   String?                  @db.VarChar(100)
+  email              String                   @unique @db.VarChar(100)
+  telefono           String?                  @db.VarChar(20)
+  cedula_profesional String?                  @unique @db.VarChar(50)
+  especialidad       String?                  @db.VarChar(100)
+  activo             Boolean                  @default(true)
+  ultimo_acceso      DateTime?
+  fecha_registro     DateTime                 @default(now())
+  fecha_modificacion DateTime?                @default(now()) @updatedAt
+  auditoria          auditoria[]
+  estudios           EstudioLaboratorio[]
+  historiales        HistorialClinico[]
+  mediciones         MedicionAntropometrica[]
+  predicciones       Prediccion[]
+  rol                Rol                      @relation(fields: [id_rol], references: [id_rol])
+
+  @@index([id_rol], map: "usuario_id_rol_fkey")
+  @@map("usuario")
+}
+
+model Direccion {
+  id_direccion  Int        @id @default(autoincrement())
+  calle         String     @db.VarChar(255)
+  numero        String?    @db.VarChar(20)
+  apartamento   String?    @db.VarChar(20)
+  ciudad        String     @db.VarChar(100)
+  provincia     String     @db.VarChar(100)
+  codigo_postal String?    @db.VarChar(10)
+  pais          String     @db.VarChar(100)
+  pacientes     Paciente[]
+
+  @@map("direccion")
+}
+
+model Paciente {
+  id_paciente        Int                      @id @default(autoincrement())
+  cedula             String                   @unique @db.VarChar(50)
+  nombre             String                   @db.VarChar(100)
+  apellido_paterno   String                   @db.VarChar(100)
+  apellido_materno   String?                  @db.VarChar(100)
+  genero             String                   @db.VarChar(10)
+  fecha_nacimiento   DateTime
+  edad               Int?
+  telefono           String?                  @db.VarChar(20)
+  email              String?                  @db.VarChar(100)
+  id_direccion       Int?
+  foto_perfil        String?                  @db.Text
+  activo             Boolean                  @default(true)
+  fecha_registro     DateTime                 @default(now())
+  fecha_modificacion DateTime?                @default(now()) @updatedAt
+  estudios           EstudioLaboratorio[]
+  historiales        HistorialClinico[]
+  mediciones         MedicionAntropometrica[]
+  direccion          Direccion?               @relation(fields: [id_direccion], references: [id_direccion])
+  predicciones       Prediccion[]
+
+  @@index([id_direccion], map: "paciente_id_direccion_fkey")
+  @@map("paciente")
+}
+
+model EstudioLaboratorio {
+  id_estudio         Int          @id @default(autoincrement())
+  id_paciente        Int
+  id_usuario         Int
+  fecha_estudio      DateTime     @default(now())
+  urea               Float?
+  creatinina         Float?
+  hba1c              Float?
+  glucosa_ayunas     Float?
+  colesterol_total   Float?
+  trigliceridos      Float?
+  hdl                Float?
+  ldl                Float?
+  vldl               Float?
+  observaciones      String?      @db.Text
+  archivo_pdf        String?      @db.VarChar(255)
+  activo             Boolean      @default(true)
+  fecha_registro     DateTime     @default(now())
+  fecha_modificacion DateTime?    @default(now()) @updatedAt
+  paciente           Paciente     @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario            Usuario      @relation(fields: [id_usuario], references: [id_usuario])
+  predicciones       Prediccion[]
+
+  @@index([id_paciente], map: "estudio_laboratorio_id_paciente_fkey")
+  @@index([id_usuario], map: "estudio_laboratorio_id_usuario_fkey")
+  @@map("estudio_laboratorio")
+}
+
+model MedicionAntropometrica {
+  id_medicion            Int          @id @default(autoincrement())
+  id_paciente            Int
+  id_usuario             Int
+  fecha_medicion         DateTime     @default(now())
+  peso                   Float?
+  altura                 Float?
+  imc                    Float?
+  circunferencia_cintura Float?
+  circunferencia_cadera  Float?
+  presion_sistolica      Int?
+  presion_diastolica     Int?
+  observaciones          String?      @db.Text
+  activo                 Boolean      @default(true)
+  fecha_registro         DateTime     @default(now())
+  fecha_modificacion     DateTime?    @default(now()) @updatedAt
+  paciente               Paciente     @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario                Usuario      @relation(fields: [id_usuario], references: [id_usuario])
+  predicciones           Prediccion[]
+
+  @@index([id_paciente], map: "medicion_antropometrica_id_paciente_fkey")
+  @@index([id_usuario], map: "medicion_antropometrica_id_usuario_fkey")
+  @@map("medicion_antropometrica")
+}
+
+model ModeloIA {
+  id_modelo           Int          @id @default(autoincrement())
+  version             String       @unique @db.VarChar(50)
+  fecha_entrenamiento DateTime
+  accuracy            Float
+  n_samples_train     Int
+  n_samples_test      Int
+  features            String       @db.Text
+  feature_importance  String?      @db.Text
+  descripcion         String?      @db.Text
+  archivo_modelo      String?      @db.VarChar(255)
+  activo              Boolean      @default(true)
+  fecha_registro      DateTime     @default(now())
+  predicciones        Prediccion[]
+
+  @@map("modelo_ia")
+}
+
+model Prediccion {
+  id_prediccion            Int                     @id @default(autoincrement())
+  id_paciente              Int
+  id_usuario               Int
+  id_modelo                Int
+  id_estudio               Int?
+  id_medicion              Int?
+  fecha_prediccion         DateTime                @default(now())
+  datos_entrada            String                  @db.Text
+  resultado                String                  @db.VarChar(50)
+  probabilidad_diabetes    Float
+  probabilidad_no_diabetes Float
+  nivel_riesgo             String                  @db.VarChar(50)
+  factores_riesgo          String?                 @db.Text
+  recomendaciones          String?                 @db.Text
+  validado                 Boolean                 @default(false)
+  diagnostico_confirmado   String                  @default("Pendiente") @db.VarChar(50)
+  notas_medicas            String?                 @db.Text
+  fecha_validacion         DateTime?
+  fecha_registro           DateTime                @default(now())
+  fecha_modificacion       DateTime?               @default(now()) @updatedAt
+  estudio                  EstudioLaboratorio?     @relation(fields: [id_estudio], references: [id_estudio])
+  medicion                 MedicionAntropometrica? @relation(fields: [id_medicion], references: [id_medicion])
+  modelo                   ModeloIA                @relation(fields: [id_modelo], references: [id_modelo])
+  paciente                 Paciente                @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario                  Usuario                 @relation(fields: [id_usuario], references: [id_usuario])
+
+  @@index([id_estudio], map: "prediccion_id_estudio_fkey")
+  @@index([id_medicion], map: "prediccion_id_medicion_fkey")
+  @@index([id_modelo], map: "prediccion_id_modelo_fkey")
+  @@index([id_paciente], map: "prediccion_id_paciente_fkey")
+  @@index([id_usuario], map: "prediccion_id_usuario_fkey")
+  @@map("prediccion")
+}
+
+model HistorialClinico {
+  id_historial   Int      @id @default(autoincrement())
+  id_paciente    Int
+  id_usuario     Int
+  fecha_registro DateTime @default(now())
+  tipo_evento    String   @db.VarChar(50)
+  descripcion    String   @db.Text
+  diagnostico    String?  @db.Text
+  tratamiento    String?  @db.Text
+  observaciones  String?  @db.Text
+  paciente       Paciente @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario        Usuario  @relation(fields: [id_usuario], references: [id_usuario])
+
+  @@index([id_paciente], map: "historial_clinico_id_paciente_fkey")
+  @@index([id_usuario], map: "historial_clinico_id_usuario_fkey")
+  @@map("historial_clinico")
+}
+
+model auditoria {
+  id_auditoria   Int       @id @default(autoincrement())
+  id_usuario     Int
+  accion         String    @db.VarChar(100)
+  detalles       String?   @db.VarChar(500)
+  resultado      String?   @db.VarChar(20)
+  fecha_registro DateTime? @default(now()) @db.Timestamp(0)
+  usuario        Usuario   @relation(fields: [id_usuario], references: [id_usuario], onDelete: Cascade, onUpdate: Restrict, map: "auditoria_ibfk_1")
+
+  @@index([fecha_registro], map: "idx_fecha")
+  @@index([id_usuario], map: "idx_usuario")
+}
