@@ -1,19 +1,19 @@
-# 🏥 Diabetes AI - Sistema de Predicción de Diabetes
+#  Diabetes AI - Sistema de Predicción de Diabetes
 
 Plataforma completa de predicción de diabetes basada en Machine Learning, con backend REST, frontend completo y base de datos MySQL.
 
-## ✨ Características
+##  Características
 
-- ✅ **24+ Endpoints REST** - API completa y documentada
-- ✅ **Modelo ML** - 97.89% accuracy (757 muestras entrenamiento)
-- ✅ **Frontend Completo** - Login, dashboard, gestión de pacientes
-- ✅ **Autenticación JWT** - Tokens de 7 días
-- ✅ **Control de Acceso** - Roles: Admin, Médico, Enfermero
-- ✅ **Base de Datos** - 11 modelos relacionados
-- ✅ **Auditoría** - Registro completo de acciones
-- ✅ **Validación** - Validación de datos clínicos
+- **24+ Endpoints REST** - API completa y documentada
+-  **Modelo ML** - 97.89% accuracy (757 muestras entrenamiento)
+-  **Frontend Completo** - Login, dashboard, gestión de pacientes
+-  **Autenticación JWT** - Tokens de 7 días
+-  **Control de Acceso** - Roles: Admin, Médico, Enfermero
+-  **Base de Datos** - 11 modelos relacionados
+-  **Auditoría** - Registro completo de acciones
+-  **Validación** - Validación de datos clínicos
 
-## 🚀 Inicio Rápido
+##  Inicio Rápido
 
 ```bash
 # 1. Instalar dependencias
@@ -31,7 +31,7 @@ pnpm dev
 # Contraseña: password123
 ```
 
-## 📚 Documentación
+##  Documentación
 
 **Empieza aquí:** [`INDEX.md`](./INDEX.md)
 
@@ -54,7 +54,7 @@ pnpm dev
 - **Validación**: Zod
 - **ML**: Modelo Python (97.89% accuracy)
 
-## 📊 Endpoints Principales
+##  Endpoints Principales
 
 ```
 POST   /api/auth/login              - Autenticación
@@ -68,7 +68,7 @@ GET    /api/predicciones/[id]       - Obtener predicción
 
 Ver todos en [`REFERENCIA_TÉCNICA.md`](./REFERENCIA_TÉCNICA.md)
 
-## 📊 Modelos de Base de Datos
+##  Modelos de Base de Datos
 
 - Rol
 - Usuario
@@ -82,7 +82,7 @@ Ver todos en [`REFERENCIA_TÉCNICA.md`](./REFERENCIA_TÉCNICA.md)
 - ModeloIA
 - RelacionMedicaPaciente
 
-## 🔐 Credenciales de Prueba
+##  Credenciales de Prueba
 
 | Usuario | Rol | Contraseña |
 |---------|-----|-----------|
@@ -90,7 +90,7 @@ Ver todos en [`REFERENCIA_TÉCNICA.md`](./REFERENCIA_TÉCNICA.md)
 | dr_juan | Médico | password123 |
 | enf_pedro | Enfermero | password123 |
 
-## 🎯 Casos de Uso
+##  Casos de Uso
 
 ### Crear Paciente y Predicción
 1. Login en http://localhost:3000
@@ -113,7 +113,7 @@ curl -X POST http://localhost:3000/api/pacientes \
   -d '{"cedula":"123","nombre":"Juan","apellido_paterno":"Pérez","genero":"M","fecha_nacimiento":"1990-01-01"}'
 ```
 
-## 🚨 Si Algo No Funciona
+##  Si Algo No Funciona
 
 1. Revisa [`TROUBLESHOOTING.md`](./TROUBLESHOOTING.md)
 2. Verifica MySQL está corriendo
@@ -129,16 +129,7 @@ curl -X POST http://localhost:3000/api/pacientes \
 - [`DEPLOYMENT.md`](./DEPLOYMENT.md) - Producción
 - [`TROUBLESHOOTING.md`](./TROUBLESHOOTING.md) - Solución de problemas
 
-## 📝 Estado del Proyecto
 
-✅ Backend: 100% funcional
-✅ Frontend: 100% funcional
-✅ Base de Datos: Completamente configurada
-✅ ML Model: Integrado y funcionando
-✅ Documentación: Exhaustiva
-✅ Listo para: Desarrollo y Producción
-
-## 🎉 ¡Comienza Ahora!
 
 ```bash
 pnpm dev
