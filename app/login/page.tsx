@@ -50,14 +50,14 @@ export default function LoginPage() {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
             <Stethoscope className="w-8 h-8 text-white" />
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">PREDIA</CardTitle>
-          <CardDescription className="text-gray-600">Plataforma de apoyo para diagnóstico temprano</CardDescription>
+          <CardTitle className="text-2xl font-bold text-foreground">PREDIA</CardTitle>
+          <CardDescription className="text-muted-foreground">Plataforma de apoyo para diagnóstico temprano</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">

@@ -129,10 +129,10 @@ ${new Date().toLocaleString()}
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center space-y-4">
           <Loader2 className="h-12 w-12 animate-spin text-blue-600 mx-auto" />
-          <p className="text-gray-600">Cargando predicción...</p>
+          <p className="text-muted-foreground">Cargando predicción...</p>
         </div>
       </div>
     )
@@ -140,7 +140,7 @@ ${new Date().toLocaleString()}
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <MedicalHeader />
         <main className="max-w-6xl mx-auto py-6 px-4">
           <Alert className="border-red-200 bg-red-50">
@@ -156,7 +156,7 @@ ${new Date().toLocaleString()}
 
   if (!prediccion) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <MedicalHeader />
         <main className="max-w-6xl mx-auto py-6 px-4">
           <Alert className="border-yellow-200 bg-yellow-50">
@@ -170,7 +170,7 @@ ${new Date().toLocaleString()}
   const paciente = prediccion.paciente || { nombre: "Paciente", apellido_paterno: "Desconocido", cedula: "N/A", genero: "M" }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <MedicalHeader />
 
       <main className="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -178,8 +178,8 @@ ${new Date().toLocaleString()}
         <div className="mb-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Resultado del Análisis</h1>
-              <p className="mt-2 text-gray-600">
+              <h1 className="text-3xl font-bold text-foreground">Resultado del Análisis</h1>
+              <p className="mt-2 text-muted-foreground">
                 Paciente: {paciente.nombre} {paciente.apellido_paterno}
               </p>
               <p className="text-sm text-gray-500">
