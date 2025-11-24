@@ -65,8 +65,8 @@ export const GET = requireAuth(async (request: NextRequest, { user }) => {
     }
 
     // Paginación
-    sql += ` ORDER BY p.fecha_registro DESC LIMIT ? OFFSET ?`
-    params.push(limit, offset)
+   sql += ` LIMIT ${limit} OFFSET ${offset}`
+// NO agregues limit ni offset a params
 
     const pacientes = await query<PacienteConUltimaPredicion>(sql, params)
 

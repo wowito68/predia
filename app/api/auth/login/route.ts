@@ -63,10 +63,10 @@ export async function POST(req: NextRequest) {
     // Setear cookie segura (opcional, para redundancia)
     response.headers.append(
       "Set-Cookie",
-      serialize("auth-token", result.token || "", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+           serialize("auth-token", result.token || "", {
+        httpOnly: false,  // CAMBIAR a false para que el middleware pueda leerlo
+        secure: false,     // CAMBIAR a false (sin HTTPS aún)
+        sameSite: "lax",   // CAMBIAR de strict a lax
         path: "/",
         maxAge: 60 * 60 * 24 * 7, // 7 días
       }),

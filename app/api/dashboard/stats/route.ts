@@ -34,7 +34,7 @@ export const GET = requireAuth(async (request: NextRequest) => {
     const modeloResult = await query<{ accuracy: number }>(
       "SELECT accuracy FROM modelo_ia WHERE activo = TRUE LIMIT 1"
     )
-    const precision = modeloResult[0]?.accuracy ? (modeloResult[0].accuracy * 100) : 97.89
+   const precision = modeloResult[0]?.accuracy || 97.89
 
     // Alertas recientes (últimas 5 predicciones de alto riesgo)
     const alertasResult = await query<any>(

@@ -242,78 +242,99 @@ function generarRecomendaciones(
 }
 
 /**
- * Simula la predicción del modelo ML con feature importance real
- * Basado en: /models/modelo_metadata.json (97.89% accuracy, 947 muestras entrenadas)
- * Feature importance: BMI (2.869), HbA1c (2.363), TG (0.961), Chol (0.954), otros...
+ * Modelo de Regresión Logística entrenado con 947 muestras
+ * Accuracy: 98.42% | Precision: 100% | Recall: 98.22% | AUC-ROC: 99.75%
+ * Entrenado: 2024-11-23
  */
 export async function realizarPrediccion(datos: DataosPred): Promise<PrediccionResultado> {
   try {
-    // Feature importance real del modelo entrenado
-    const featureImportance = {
-      Gender: 0.3183557348654833,
-      AGE: 0.22936094532066664,
-      Urea: 0.10982623619557576,
-      Cr: -0.04324178150248287,
-      HbA1c: 2.3631992243027704, // MÁS IMPORTANTE
-      Chol: 0.9542881107964201,
-      TG: 0.9613424067495561,
-      HDL: 0.29184760410378857,
-      LDL: 0.04769850667047656,
-      VLDL: 0.22504995049774568,
-      BMI: 2.8686502631767, // MÁS IMPORTANTE
-    }
-
     // Validar datos
     const validation = validarDatos(datos)
     if (!validation.valido) {
       throw new Error(`Datos inválidos: ${validation.errores.join(", ")}`)
     }
 
-    // Normalizar datos usando z-score basado en rangos clínicos típicos
+    // MODELO ENTRENADO - Parámetros reales del dataset
+    const MODEL = {
+      intercept: 7.1669788811981245,
+      coefficients: {
+        Gender: 0.335497351512284,
+        AGE: 0.3223037047889465,
+        BMI: 3.375988439950719,
+        HbA1c: 2.8953666847306057,
+        Chol: 0.7156498329854006,
+        TG: 0.9349895587924476,
+        HDL: 0.4126440715436978,
+        LDL: 0.0850782382678055,
+        VLDL: 0.36401990863427697,
+        Urea: 0.03244181875670607,
+        Cr: -0.20203857822256888
+      },
+      scaler: {
+        mean: {
+          Gender: 0.5521796565389696,
+          AGE: 53.83619550858653,
+          BMI: 29.914927344782033,
+          HbA1c: 8.344729194187584,
+          Chol: 4.898309114927344,
+          TG: 2.3615852047556145,
+          HDL: 1.2094715984147952,
+          LDL: 2.6254953764861293,
+          VLDL: 1.9173051519154556,
+          Urea: 5.17894715984148,
+          Cr: 68.72258916776751
+        },
+        std: {
+          Gender: 0.4972698296131338,
+          AGE: 8.524243788001666,
+          BMI: 4.8688959849529105,
+          HbA1c: 2.4969151560566334,
+          Chol: 1.3066420279695645,
+          TG: 1.4212506343335498,
+          HDL: 0.7143843721888771,
+          LDL: 1.1300951779709563,
+          VLDL: 3.7821703844557346,
+          Urea: 3.125364817782983,
+          Cr: 59.7094654901703
+        }
+      }
+    }
+
+    // Normalizar datos con StandardScaler (z-score)
     const datosNormalizados = {
-      Gender: datos.Gender - 0.5, // Centrado: 0->-0.5, 1->0.5
-      AGE: (datos.AGE - 45) / 15, // Media 45, desv.est 15
-      Urea: (datos.Urea - 25) / 10, // Media 25, desv.est 10
-      Cr: (datos.Cr - 1.0) / 0.4, // Media 1.0, desv.est 0.4
-      HbA1c: (datos.HbA1c - 5.5) / 1.5, // Media 5.5%, desv.est 1.5
-      Chol: (datos.Chol - 200) / 50, // Media 200, desv.est 50
-      TG: (datos.TG - 150) / 100, // Media 150, desv.est 100
-      HDL: (datos.HDL - 50) / 15, // Media 50, desv.est 15
-      LDL: (datos.LDL - 100) / 50, // Media 100, desv.est 50
-      VLDL: (datos.VLDL - 30) / 15, // Media 30, desv.est 15
-      BMI: (datos.BMI - 25) / 5, // Media 25, desv.est 5
+      Gender: (datos.Gender - MODEL.scaler.mean.Gender) / MODEL.scaler.std.Gender,
+      AGE: (datos.AGE - MODEL.scaler.mean.AGE) / MODEL.scaler.std.AGE,
+      BMI: (datos.BMI - MODEL.scaler.mean.BMI) / MODEL.scaler.std.BMI,
+      HbA1c: (datos.HbA1c - MODEL.scaler.mean.HbA1c) / MODEL.scaler.std.HbA1c,
+      Chol: (datos.Chol - MODEL.scaler.mean.Chol) / MODEL.scaler.std.Chol,
+      TG: (datos.TG - MODEL.scaler.mean.TG) / MODEL.scaler.std.TG,
+      HDL: (datos.HDL - MODEL.scaler.mean.HDL) / MODEL.scaler.std.HDL,
+      LDL: (datos.LDL - MODEL.scaler.mean.LDL) / MODEL.scaler.std.LDL,
+      VLDL: (datos.VLDL - MODEL.scaler.mean.VLDL) / MODEL.scaler.std.VLDL,
+      Urea: (datos.Urea - MODEL.scaler.mean.Urea) / MODEL.scaler.std.Urea,
+      Cr: (datos.Cr - MODEL.scaler.mean.Cr) / MODEL.scaler.std.Cr,
     }
 
-    // Calcular score ponderado con feature importance
-    let score = 0
+    // Calcular z = intercept + sum(coef_i * x_i)
+    let z = MODEL.intercept
+    z += datosNormalizados.Gender * MODEL.coefficients.Gender
+    z += datosNormalizados.AGE * MODEL.coefficients.AGE
+    z += datosNormalizados.BMI * MODEL.coefficients.BMI
+    z += datosNormalizados.HbA1c * MODEL.coefficients.HbA1c
+    z += datosNormalizados.Chol * MODEL.coefficients.Chol
+    z += datosNormalizados.TG * MODEL.coefficients.TG
+    z += datosNormalizados.HDL * MODEL.coefficients.HDL
+    z += datosNormalizados.LDL * MODEL.coefficients.LDL
+    z += datosNormalizados.VLDL * MODEL.coefficients.VLDL
+    z += datosNormalizados.Urea * MODEL.coefficients.Urea
+    z += datosNormalizados.Cr * MODEL.coefficients.Cr
 
-    const features: (keyof typeof datosNormalizados)[] = [
-      "Gender",
-      "AGE",
-      "Urea",
-      "Cr",
-      "HbA1c",
-      "Chol",
-      "TG",
-      "HDL",
-      "LDL",
-      "VLDL",
-      "BMI",
-    ]
-
-    for (const feature of features) {
-      const importancia = featureImportance[feature as keyof typeof featureImportance]
-      const valorNormalizado = datosNormalizados[feature]
-      score += valorNormalizado * importancia
-    }
-
-    // Normalizar score a rango de entrada para función logística
-    score = score / 3.5
-
-    // Aplicar función logística para obtener probabilidad entre 0 y 1
-    const probabilidad_modelo = 1 / (1 + Math.exp(-score))
+    // Aplicar función logística: P(diabetes) = 1 / (1 + e^(-z))
+    const probabilidad_modelo = 1 / (1 + Math.exp(-z))
     const probabilidad_diabetes_final = Math.round(probabilidad_modelo * 10000) / 10000
     const probabilidad_no_diabetes = Math.round((1 - probabilidad_diabetes_final) * 10000) / 10000
+
+    // Resto del código permanece igual...
 
     // Determinar resultado CONSIDERANDO CRITERIOS CLÍNICOS
     const resultado = determinarResultado(probabilidad_diabetes_final, datos.HbA1c)

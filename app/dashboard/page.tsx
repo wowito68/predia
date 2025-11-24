@@ -126,7 +126,7 @@ export default function DashboardPage() {
               <Activity className="h-4 w-4 text-purple-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats?.precision || 97.89}%</div>
+             <div className="text-2xl font-bold">{(stats?.precision || 97.89).toFixed(2)}%</div>
               <p className="text-xs text-gray-600">Modelo entrenado</p>
             </CardContent>
           </Card>
