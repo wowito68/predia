@@ -127,13 +127,13 @@ export default function EditarPacientePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <MedicalHeader />
         <main className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Card>
             <CardContent className="pt-6 text-center">
               <Loader2 className="w-8 h-8 animate-spin mx-auto text-blue-600" />
-              <p className="mt-4 text-gray-600">Cargando paciente...</p>
+              <p className="mt-4 text-muted-foreground">Cargando paciente...</p>
             </CardContent>
           </Card>
         </main>
@@ -143,7 +143,7 @@ export default function EditarPacientePage() {
 
   if (!paciente) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <MedicalHeader />
         <main className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Alert className="border-red-200 bg-red-50">
@@ -159,13 +159,13 @@ export default function EditarPacientePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <MedicalHeader />
 
       <main className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Editar Paciente</h1>
-          <p className="mt-2 text-gray-600">Actualice la información del paciente</p>
+          <h1 className="text-3xl font-bold text-foreground">Editar Paciente</h1>
+          <p className="mt-2 text-muted-foreground">Actualice la información del paciente</p>
         </div>
 
         {error && (

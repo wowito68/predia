@@ -138,7 +138,7 @@ export default function PrediccionesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <MedicalHeader />
 
       <main className="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -151,8 +151,8 @@ export default function PrediccionesPage() {
               </Button>
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Predicciones de Diabetes</h1>
-              <p className="mt-2 text-gray-600">Historial de análisis con IA del paciente</p>
+              <h1 className="text-3xl font-bold text-foreground">Predicciones de Diabetes</h1>
+              <p className="mt-2 text-muted-foreground">Historial de análisis con IA del paciente</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -178,14 +178,14 @@ export default function PrediccionesPage() {
           <Card>
             <CardContent className="pt-6 text-center">
               <Loader2 className="w-8 h-8 animate-spin mx-auto text-blue-600" />
-              <p className="mt-4 text-gray-600">Cargando predicciones...</p>
+              <p className="mt-4 text-muted-foreground">Cargando predicciones...</p>
             </CardContent>
           </Card>
         ) : predicciones.length === 0 ? (
           <Card>
             <CardContent className="pt-6 text-center">
               <Activity className="w-12 h-12 mx-auto text-gray-300" />
-              <p className="mt-4 text-gray-600">No hay predicciones registradas para este paciente</p>
+              <p className="mt-4 text-muted-foreground">No hay predicciones registradas para este paciente</p>
             </CardContent>
           </Card>
         ) : (
@@ -232,12 +232,12 @@ export default function PrediccionesPage() {
                   {/* Factores de Riesgo */}
                   {pred.factores_riesgo && pred.factores_riesgo.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-3">Factores de Riesgo Identificados:</h4>
+                      <h4 className="font-semibold text-foreground mb-3">Factores de Riesgo Identificados:</h4>
                       <ul className="space-y-2">
                         {pred.factores_riesgo.map((factor, i) => (
                           <li key={i} className="flex gap-3">
                             <span className="text-red-500 font-bold">•</span>
-                            <span className="text-gray-700">{factor}</span>
+                            <span className="text-foreground">{factor}</span>
                           </li>
                         ))}
                       </ul>
@@ -247,10 +247,10 @@ export default function PrediccionesPage() {
                   {/* Recomendaciones */}
                   {pred.recomendaciones && (
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-3">Recomendaciones Médicas:</h4>
+                      <h4 className="font-semibold text-foreground mb-3">Recomendaciones Médicas:</h4>
                       <div className="bg-green-50 border border-green-200 rounded-lg p-4 space-y-2">
                         {pred.recomendaciones.split("\n").map((rec, i) => (
-                          <p key={i} className="text-gray-700 text-sm">
+                          <p key={i} className="text-foreground text-sm">
                             {rec}
                           </p>
                         ))}
@@ -260,13 +260,13 @@ export default function PrediccionesPage() {
 
                   {/* Datos Clínicos */}
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">Datos Clínicos Utilizados:</h4>
+                    <h4 className="font-semibold text-foreground mb-3">Datos Clínicos Utilizados:</h4>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {pred.datos_entrada &&
                         Object.entries(pred.datos_entrada).map(([key, value]) => (
-                          <div key={key} className="bg-gray-50 p-3 rounded border">
-                            <p className="text-xs text-gray-600 font-semibold">{key}</p>
-                            <p className="text-lg font-bold text-gray-900">{value}</p>
+                          <div key={key} className="bg-background p-3 rounded border">
+                            <p className="text-xs text-muted-foreground font-semibold">{key}</p>
+                            <p className="text-lg font-bold text-foreground">{value}</p>
                           </div>
                         ))}
                     </div>
