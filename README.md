@@ -44,7 +44,7 @@ pnpm dev
 | **TROUBLESHOOTING.md** | Problemas | 5 min |
 | **FIX_FECHA_MODIFICACION.md** | Fix de BD | 5 min |
 
-## 🛠️ Stack Tecnológico
+##  Stack Tecnológico
 
 - **Frontend**: Next.js 15.2.4, React 19.0.0, TypeScript 5.9.3, Tailwind CSS
 - **Backend**: Next.js API Routes, Node.js
@@ -120,7 +120,7 @@ curl -X POST http://localhost:3000/api/pacientes \
 3. Revisa logs en terminal (pnpm dev)
 4. Abre consola del navegador (F12 → Console)
 
-## 📞 Documentación Completa
+##  Documentación Completa
 
 - [`INDEX.md`](./INDEX.md) - Índice de documentación
 - [`INICIO_RÁPIDO.md`](./INICIO_RÁPIDO.md) - Setup rápido
