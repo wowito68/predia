@@ -64,11 +64,11 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <MedicalHeader />
         <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center h-64">
-            <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
         </main>
       </div>
@@ -76,13 +76,13 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <MedicalHeader />
 
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Panel de Control</h1>
-          <p className="mt-2 text-gray-600">Sistema de apoyo para diagnóstico temprano de diabetes</p>
+          <h1 className="text-3xl font-bold text-foreground">Panel de Control</h1>
+          <p className="mt-2 text-muted-foreground">Sistema de apoyo para diagnóstico temprano de diabetes</p>
         </div>
 
         {/* Estadísticas principales */}
@@ -94,7 +94,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats?.totalPacientes || 0}</div>
-              <p className="text-xs text-gray-600">Registros activos</p>
+              <p className="text-xs text-muted-foreground">Registros activos</p>
             </CardContent>
           </Card>
 
@@ -105,7 +105,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats?.prediccionesHoy || 0}</div>
-              <p className="text-xs text-gray-600">Análisis realizados</p>
+              <p className="text-xs text-muted-foreground">Análisis realizados</p>
             </CardContent>
           </Card>
 
@@ -116,7 +116,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">{stats?.riesgoAlto || 0}</div>
-              <p className="text-xs text-gray-600">Requieren seguimiento</p>
+              <p className="text-xs text-muted-foreground">Requieren seguimiento</p>
             </CardContent>
           </Card>
 
@@ -126,8 +126,8 @@ export default function DashboardPage() {
               <Activity className="h-4 w-4 text-purple-600" />
             </CardHeader>
             <CardContent>
-             <div className="text-2xl font-bold">{(stats?.precision || 97.89).toFixed(2)}%</div>
-              <p className="text-xs text-gray-600">Modelo entrenado</p>
+              <div className="text-2xl font-bold">{(stats?.precision || 97.89).toFixed(2)}%</div>
+              <p className="text-xs text-muted-foreground">Modelo entrenado</p>
             </CardContent>
           </Card>
         </div>
@@ -144,7 +144,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <Link href="/nuevo-paciente">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">Iniciar Evaluación</Button>
+                <Button className="w-full">Iniciar Evaluación</Button>
               </Link>
             </CardContent>
           </Card>
@@ -179,29 +179,21 @@ export default function DashboardPage() {
                 {stats.alertas.map((alerta) => (
                   <div
                     key={alerta.id}
-                    className={`flex items-center justify-between p-3 rounded-lg border ${alerta.nivel_riesgo === "Muy Alto"
+                    className={`flex items-center justify-between p-3 rounded-lg border ${
+                      alerta.nivel_riesgo === "Muy Alto"
                         ? "bg-red-50 border-red-200"
                         : "bg-orange-50 border-orange-200"
-                      }`}
+                    }`}
                   >
                     <div>
-                      <p
-                        className={`font-medium ${alerta.nivel_riesgo === "Muy Alto" ? "text-red-900" : "text-orange-900"
-                          }`}
-                      >
+                      <p className={`font-medium ${alerta.nivel_riesgo === "Muy Alto" ? "text-red-900" : "text-orange-900"}`}>
                         {alerta.paciente} - Cédula: {alerta.cedula}
                       </p>
-                      <p
-                        className={`text-sm ${alerta.nivel_riesgo === "Muy Alto" ? "text-red-700" : "text-orange-700"
-                          }`}
-                      >
+                      <p className={`text-sm ${alerta.nivel_riesgo === "Muy Alto" ? "text-red-700" : "text-orange-700"}`}>
                         Riesgo {alerta.nivel_riesgo.toLowerCase()} detectado - Probabilidad: {(alerta.probabilidad * 100).toFixed(1)}%
                       </p>
                     </div>
-                    <span
-                      className={`text-xs ${alerta.nivel_riesgo === "Muy Alto" ? "text-red-600" : "text-orange-600"
-                        }`}
-                    >
+                    <span className={`text-xs ${alerta.nivel_riesgo === "Muy Alto" ? "text-red-600" : "text-orange-600"}`}>
                       {alerta.tiempo_relativo}
                     </span>
                   </div>
