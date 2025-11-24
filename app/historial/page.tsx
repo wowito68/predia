@@ -113,13 +113,13 @@ export default function HistorialPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <MedicalHeader />
         <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Card>
             <CardContent className="pt-6 text-center">
               <Loader2 className="w-8 h-8 animate-spin mx-auto text-blue-600" />
-              <p className="mt-4 text-gray-600">Cargando historial...</p>
+              <p className="mt-4 text-muted-foreground">Cargando historial...</p>
             </CardContent>
           </Card>
         </main>
@@ -128,13 +128,13 @@ export default function HistorialPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <MedicalHeader />
 
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Historial de Predicciones</h1>
-          <p className="mt-2 text-gray-600">Registro de todas las evaluaciones realizadas</p>
+          <h1 className="text-3xl font-bold text-foreground">Historial de Predicciones</h1>
+          <p className="mt-2 text-muted-foreground">Registro de todas las evaluaciones realizadas</p>
         </div>
 
         {/* Controles de filtrado */}
@@ -186,22 +186,22 @@ export default function HistorialPage() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Paciente</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Fecha</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Resultado</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Confianza</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Estado</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Registrado por</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Acciones</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Paciente</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Fecha</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Resultado</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Confianza</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Estado</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Registrado por</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredPredicciones.map((pred) => (
-                    <tr key={pred.id_prediccion} className="border-b hover:bg-gray-50">
+                    <tr key={pred.id_prediccion} className="border-b hover:bg-background">
                       <td className="py-3 px-4">
-                        <div className="font-medium text-gray-900">{pred.paciente_nombre}</div>
+                        <div className="font-medium text-foreground">{pred.paciente_nombre}</div>
                       </td>
-                      <td className="py-3 px-4 text-gray-600">
+                      <td className="py-3 px-4 text-muted-foreground">
                         {new Date(pred.fecha_prediccion).toLocaleDateString("es-ES")}
                       </td>
                       <td className="py-3 px-4">
@@ -216,13 +216,13 @@ export default function HistorialPage() {
                           </span>
                         </div>
                       </td>
-                      <td className="py-3 px-4 text-gray-600">
+                      <td className="py-3 px-4 text-muted-foreground">
                         {(pred.probabilidad_diabetes * 100).toFixed(1)}%
                       </td>
                       <td className="py-3 px-4">
                         {getRiskBadge(pred.nivel_riesgo, pred.resultado_prediccion)}
                       </td>
-                      <td className="py-3 px-4 text-gray-600">{pred.usuario_nombre}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{pred.usuario_nombre}</td>
                       <td className="py-3 px-4">
                         <Button
                           variant="ghost"
@@ -250,7 +250,7 @@ export default function HistorialPage() {
             {/* Paginación */}
             {total > limit && (
               <div className="flex justify-between items-center mt-4 pt-4 border-t">
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-muted-foreground">
                   Mostrando {Math.min(limit, filteredPredicciones.length)} de {total} registros
                 </div>
                 <div className="flex gap-2">

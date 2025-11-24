@@ -301,14 +301,14 @@ export default function PacientesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <MedicalHeader />
 
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Pacientes</h1>
-            <p className="mt-2 text-gray-600">Gestione los datos de los pacientes registrados</p>
+            <h1 className="text-3xl font-bold text-foreground">Pacientes</h1>
+            <p className="mt-2 text-muted-foreground">Gestione los datos de los pacientes registrados</p>
           </div>
           <div className="flex gap-2">
             <Button
@@ -350,7 +350,7 @@ export default function PacientesPage() {
                 />
               </div>
             </div>
-            <p className="text-sm text-gray-500 mt-2">Total: {total} pacientes</p>
+            <p className="text-sm text-muted-foreground mt-2">Total: {total} pacientes</p>
           </CardContent>
         </Card>
 
@@ -359,14 +359,14 @@ export default function PacientesPage() {
           <Card>
             <CardContent className="pt-6 text-center">
               <Loader2 className="w-8 h-8 animate-spin mx-auto text-blue-600" />
-              <p className="mt-4 text-gray-600">Cargando pacientes...</p>
+              <p className="mt-4 text-muted-foreground">Cargando pacientes...</p>
             </CardContent>
           </Card>
         ) : pacientes.length === 0 ? (
           <Card>
             <CardContent className="pt-6 text-center">
               <User className="w-12 h-12 mx-auto text-gray-300" />
-              <p className="mt-4 text-gray-600">No se encontraron pacientes</p>
+              <p className="mt-4 text-muted-foreground">No se encontraron pacientes</p>
             </CardContent>
           </Card>
         ) : (
@@ -391,7 +391,7 @@ export default function PacientesPage() {
                         const edad = calcularEdad(paciente.fecha_nacimiento)
 
                         return (
-                          <tr key={paciente.id_paciente} className="border-b hover:bg-gray-50">
+                          <tr key={paciente.id_paciente} className="border-b hover:bg-background">
                             <td className="py-4 px-4 font-medium">{getNombreCompleto(paciente)}</td>
                             <td className="py-4 px-4">{paciente.cedula}</td>
                             <td className="py-4 px-4">{edad} años</td>
@@ -409,14 +409,14 @@ export default function PacientesPage() {
                               {paciente.resultado ? (
                                 <div>
                                   <p className="font-medium">{paciente.resultado}</p>
-                                  <p className="text-xs text-gray-500">
+                                  <p className="text-xs text-muted-foreground">
                                     {paciente.probabilidad_diabetes
                                       ? `${(paciente.probabilidad_diabetes * 100).toFixed(1)}% riesgo`
                                       : ""}
                                   </p>
                                 </div>
                               ) : (
-                                <span className="text-gray-500">Sin predicción</span>
+                                <span className="text-muted-foreground">Sin predicción</span>
                               )}
                             </td>
                             <td className="py-4 px-4 text-center">
@@ -472,7 +472,7 @@ export default function PacientesPage() {
                     </Button>
                     {getPaginationRange(page, totalPages).map((p, idx) =>
                       typeof p === "string" ? (
-                        <span key={`ellipsis-${idx}`} className="px-3 py-2 text-gray-500">
+                        <span key={`ellipsis-${idx}`} className="px-3 py-2 text-muted-foreground">
                           ...
                         </span>
                       ) : (
@@ -507,7 +507,7 @@ export default function PacientesPage() {
                 <CardTitle className="text-red-600">¿Eliminar paciente?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Está a punto de eliminar a <strong>{getNombreCompleto(pacienteAEliminar)}</strong>{" "}
                   (Cédula: <strong>{pacienteAEliminar.cedula}</strong>).
                 </p>

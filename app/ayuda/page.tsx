@@ -50,17 +50,17 @@ export default function AyudaPage() {
     }
   }
 
-  const accuracy = metrics?.accuracy ? (metrics.accuracy * 100).toFixed(1) : "97.89"
+ const accuracy = metrics?.accuracy ? metrics.accuracy.toFixed(2) : "98.42"
   const totalSamples = (metrics?.n_samples_train || 0) + (metrics?.n_samples_test || 0)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <MedicalHeader />
 
       <main className="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Centro de Ayuda</h1>
-          <p className="mt-2 text-gray-600">Guía completa para el uso de PREDIA - Sistema de Predicción de Diabetes</p>
+          <h1 className="text-3xl font-bold text-foreground">Centro de Ayuda</h1>
+          <p className="mt-2 text-muted-foreground">Guía completa para el uso de PREDIA - Sistema de Predicción de Diabetes</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -73,7 +73,7 @@ export default function AyudaPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-gray-700">
+                <p className="text-foreground">
                   PREDIA (Predicción de Diabetes con IA) es una herramienta de apoyo diagnóstico que utiliza inteligencia artificial para
                   evaluar el riesgo de diabetes en pacientes, basándose en parámetros clínicos específicos.
                 </p>
@@ -105,24 +105,24 @@ export default function AyudaPage() {
                 ) : (
                   <>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-center p-4 bg-background rounded-lg">
                         <div className="text-2xl font-bold text-purple-600">{accuracy}%</div>
-                        <div className="text-sm text-gray-600">Precisión (Accuracy)</div>
+                        <div className="text-sm text-muted-foreground">Precisión (Accuracy)</div>
                       </div>
-                      <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-center p-4 bg-background rounded-lg">
                         <div className="text-2xl font-bold text-blue-600">{totalSamples}</div>
-                        <div className="text-sm text-gray-600">Muestras Totales</div>
+                        <div className="text-sm text-muted-foreground">Muestras Totales</div>
                       </div>
-                      <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-center p-4 bg-background rounded-lg">
                         <div className="text-2xl font-bold text-green-600">{metrics?.n_samples_train || 757}</div>
-                        <div className="text-sm text-gray-600">Entrenamiento</div>
+                        <div className="text-sm text-muted-foreground">Entrenamiento</div>
                       </div>
-                      <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-center p-4 bg-background rounded-lg">
                         <div className="text-2xl font-bold text-orange-600">{metrics?.n_samples_test || 190}</div>
-                        <div className="text-sm text-gray-600">Validación</div>
+                        <div className="text-sm text-muted-foreground">Validación</div>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-600 mt-4">
+                    <p className="text-sm text-muted-foreground mt-4">
                       Modelo entrenado con dataset \"Predict Diabetes From Medical Records\" de Kaggle.
                     </p>
                   </>
