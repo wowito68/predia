@@ -168,7 +168,7 @@ export default function PrediccionesPage() {
         </div>
 
         {error && (
-          <Alert className="mb-6 border-red-200 bg-red-50">
+          <Alert className="mb-6 border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
             <AlertCircle className="h-4 w-4 text-red-600" />
             <AlertDescription className="text-red-800">{error}</AlertDescription>
           </Alert>
@@ -248,7 +248,7 @@ export default function PrediccionesPage() {
                   {pred.recomendaciones && (
                     <div>
                       <h4 className="font-semibold text-foreground mb-3">Recomendaciones Médicas:</h4>
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-4 space-y-2">
+                      <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 space-y-2">
                         {pred.recomendaciones.split("\n").map((rec, i) => (
                           <p key={i} className="text-foreground text-sm">
                             {rec}
