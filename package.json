@@ -15,7 +15,7 @@
     "db:setup": "npm run db:migrate && npm run db:seed",
     "db:reset": "prisma migrate reset --force",
     "db:generate": "prisma generate",
-    "setup": "bash scripts/setup-database.sh"
+    "setup": "bash setup.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

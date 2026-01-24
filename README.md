@@ -19,8 +19,8 @@ Plataforma completa de predicción de diabetes basada en Machine Learning, con b
 # 1. Instalar dependencias
 pnpm install
 
-# 2. Configurar variables de entorno
-cp .env.example .env.local
+# 2. Configurar y configurar entorno (Script unificado)
+./setup.sh
 
 # 3. Iniciar servidor
 pnpm dev
