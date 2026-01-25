@@ -19,6 +19,7 @@ import {
   User,
   Eye,
   FileSpreadsheet,
+  ClipboardList,
 } from "lucide-react"
 
 // ✅ Hook de debounce para búsqueda
@@ -421,6 +422,13 @@ export default function PacientesPage() {
                             </td>
                             <td className="py-4 px-4 text-center">
                               <div className="flex justify-center gap-2">
+                                <button
+                                  onClick={() => router.push(`/pacientes/${paciente.id_paciente}/historial`)}
+                                  title="Ver historial clínico"
+                                  className="p-2 hover:bg-purple-100 rounded text-purple-600"
+                                >
+                                  <ClipboardList className="w-4 h-4" />
+                                </button>
                                 <button
                                   onClick={() => handleVerPredicciones(paciente.id_paciente)}
                                   title="Ver predicciones"
