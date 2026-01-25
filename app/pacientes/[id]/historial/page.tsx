@@ -164,20 +164,83 @@ export default function HistorialPacientePage() {
 
                 {/* Tabs del historial */}
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                    <TabsList className="grid w-full grid-cols-4 lg:grid-cols-9 mb-6">
-                        <TabsTrigger value="resumen">Resumen</TabsTrigger>
-                        <TabsTrigger value="consultas">Consultas</TabsTrigger>
-                        <TabsTrigger value="vacunas">Vacunas</TabsTrigger>
-                        <TabsTrigger value="patologias">Patologías</TabsTrigger>
-                        <TabsTrigger value="alergias">Alergias</TabsTrigger>
-                        <TabsTrigger value="imagenes">Imágenes</TabsTrigger>
-                        <TabsTrigger value="fracturas">Fracturas</TabsTrigger>
-                        <TabsTrigger value="antecedentes">Antecedentes</TabsTrigger>
-                        <TabsTrigger value="diabetes">
-                            <Brain className="w-4 h-4 mr-1" /> Diabetes
+                    <TabsList className="flex flex-wrap h-auto gap-1 p-1 mb-6">
+                        <TabsTrigger value="resumen" className="flex items-center gap-1">
+                            Resumen
+                        </TabsTrigger>
+                        <TabsTrigger value="consultas" className="flex items-center gap-1">
+                            <Stethoscope className="w-3.5 h-3.5" />
+                            Consultas
+                            {historial && historial.consultas.length > 0 && (
+                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
+                                    {historial.consultas.length}
+                                </Badge>
+                            )}
+                        </TabsTrigger>
+                        <TabsTrigger value="vacunas" className="flex items-center gap-1">
+                            <Syringe className="w-3.5 h-3.5" />
+                            Vacunas
+                            {historial && historial.vacunas.length > 0 && (
+                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
+                                    {historial.vacunas.length}
+                                </Badge>
+                            )}
+                        </TabsTrigger>
+                        <TabsTrigger value="patologias" className="flex items-center gap-1">
+                            <Activity className="w-3.5 h-3.5" />
+                            Patologías
+                            {historial && historial.patologias.length > 0 && (
+                                <Badge variant="destructive" className="ml-1 h-5 px-1.5 text-xs">
+                                    {historial.patologias.length}
+                                </Badge>
+                            )}
+                        </TabsTrigger>
+                        <TabsTrigger value="alergias" className="flex items-center gap-1">
+                            <AlertTriangle className="w-3.5 h-3.5" />
+                            Alergias
+                            {historial && historial.alergias.length > 0 && (
+                                <Badge variant="destructive" className="ml-1 h-5 px-1.5 text-xs">
+                                    {historial.alergias.length}
+                                </Badge>
+                            )}
+                        </TabsTrigger>
+                        <TabsTrigger value="imagenes" className="flex items-center gap-1">
+                            <FileImage className="w-3.5 h-3.5" />
+                            Imágenes
+                            {historial && historial.imagenes.length > 0 && (
+                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
+                                    {historial.imagenes.length}
+                                </Badge>
+                            )}
+                        </TabsTrigger>
+                        <TabsTrigger value="fracturas" className="flex items-center gap-1">
+                            <Bone className="w-3.5 h-3.5" />
+                            Fracturas
+                            {historial && historial.fracturas.length > 0 && (
+                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
+                                    {historial.fracturas.length}
+                                </Badge>
+                            )}
+                        </TabsTrigger>
+                        <TabsTrigger value="antecedentes" className="flex items-center gap-1">
+                            <Users className="w-3.5 h-3.5" />
+                            Antecedentes
+                            {historial && historial.antecedentes.length > 0 && (
+                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
+                                    {historial.antecedentes.length}
+                                </Badge>
+                            )}
+                        </TabsTrigger>
+                        <TabsTrigger value="diabetes" className="flex items-center gap-1">
+                            <Brain className="w-3.5 h-3.5 text-purple-600" />
+                            Diabetes
+                            {historial && historial.predicciones.length > 0 && (
+                                <Badge variant="outline" className="ml-1 h-5 px-1.5 text-xs border-purple-400 text-purple-600">
+                                    {historial.predicciones.length}
+                                </Badge>
+                            )}
                         </TabsTrigger>
                     </TabsList>
-
                     {/* Tab Resumen */}
                     <TabsContent value="resumen">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
