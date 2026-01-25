@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: 'PREDIA - Sistema de Predicción de Diabetes',
   description: 'Plataforma de apoyo para diagnóstico temprano de diabetes',
   generator: 'Next.js',
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
 }
 
 export default function RootLayout({

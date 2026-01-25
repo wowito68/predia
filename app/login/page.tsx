@@ -70,6 +70,7 @@ export default function LoginPage() {
                   type="text"
                   placeholder="Ingrese su usuario"
                   className="pl-10"
+                  autoComplete="username"
                   value={credentials.username}
                   onChange={(e) =>
                     setCredentials({ ...credentials, username: e.target.value })
@@ -88,6 +89,7 @@ export default function LoginPage() {
                   type="password"
                   placeholder="Ingrese su contraseña"
                   className="pl-10"
+                  autoComplete="current-password"
                   value={credentials.password}
                   onChange={(e) =>
                     setCredentials({ ...credentials, password: e.target.value })
