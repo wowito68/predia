@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Loader2, Brain, User, AlertCircle } from "lucide-react"
 
 interface PatientData {
@@ -512,18 +513,19 @@ export default function NuevoPacientePage() {
               </div>
               <div>
                 <Label htmlFor="genero">Género *</Label>
-                <select
-                  id="genero"
+                <Select
                   value={patientData.genero}
-                  onChange={(e) => handleInputChange("genero", e.target.value)}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  required
+                  onValueChange={(value) => handleInputChange("genero", value)}
                 >
-                  <option value="">Seleccione...</option>
-                  <option value="M">Masculino</option>
-                  <option value="F">Femenino</option>
-                  <option value="Otro">Otro</option>
-                </select>
+                  <SelectTrigger id="genero">
+                    <SelectValue placeholder="Seleccione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="M">Masculino</SelectItem>
+                    <SelectItem value="F">Femenino</SelectItem>
+                    <SelectItem value="Otro">Otro</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <Label htmlFor="fecha_nacimiento">Fecha Nacimiento (YYYY-MM-DD) *</Label>
