@@ -32,6 +32,12 @@ const putPacienteSchema = z.object({
   fecha_nacimiento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Formato de fecha inválido (YYYY-MM-DD)"),
   telefono: z.string().nullable().optional(),
   email: z.string().email("Email inválido").nullable().optional(),
+  // Campos Fase 2
+  tipo_sangre: z.string().nullable().optional(),
+  seguro_medico: z.string().nullable().optional(),
+  poliza_seguro: z.string().nullable().optional(),
+  contacto_emergencia_nombre: z.string().nullable().optional(),
+  contacto_emergencia_telefono: z.string().nullable().optional(),
 })
 
 // Esquema para PATCH (actualización parcial)
@@ -45,6 +51,12 @@ const patchPacienteSchema = z.object({
   fecha_nacimiento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Formato de fecha inválido (YYYY-MM-DD)").optional(),
   telefono: z.string().nullable().optional(),
   email: z.string().email("Email inválido").nullable().optional(),
+  // Campos Fase 2
+  tipo_sangre: z.string().nullable().optional(),
+  seguro_medico: z.string().nullable().optional(),
+  poliza_seguro: z.string().nullable().optional(),
+  contacto_emergencia_nombre: z.string().nullable().optional(),
+  contacto_emergencia_telefono: z.string().nullable().optional(),
 })
 
 // Normalizar string vacío a null
@@ -149,6 +161,12 @@ export const PUT = requireAuth(async (request: NextRequest, { params, user }: Dy
       fecha_nacimiento: data.fecha_nacimiento,
       telefono: normalizeEmptyString(data.telefono),
       email: normalizeEmptyString(data.email),
+      // Fase 2
+      tipo_sangre: normalizeEmptyString(data.tipo_sangre),
+      seguro_medico: normalizeEmptyString(data.seguro_medico),
+      poliza_seguro: normalizeEmptyString(data.poliza_seguro),
+      contacto_emergencia_nombre: normalizeEmptyString(data.contacto_emergencia_nombre),
+      contacto_emergencia_telefono: normalizeEmptyString(data.contacto_emergencia_telefono),
     }
 
     const { sql, params: queryParams } = QueryBuilder.update(
@@ -236,6 +254,12 @@ export const PATCH = requireAuth(async (request: NextRequest, { params, user }: 
     if (data.fecha_nacimiento !== undefined) updateData.fecha_nacimiento = data.fecha_nacimiento
     if (data.telefono !== undefined) updateData.telefono = normalizeEmptyString(data.telefono)
     if (data.email !== undefined) updateData.email = normalizeEmptyString(data.email)
+    // Fase 2
+    if (data.tipo_sangre !== undefined) updateData.tipo_sangre = normalizeEmptyString(data.tipo_sangre)
+    if (data.seguro_medico !== undefined) updateData.seguro_medico = normalizeEmptyString(data.seguro_medico)
+    if (data.poliza_seguro !== undefined) updateData.poliza_seguro = normalizeEmptyString(data.poliza_seguro)
+    if (data.contacto_emergencia_nombre !== undefined) updateData.contacto_emergencia_nombre = normalizeEmptyString(data.contacto_emergencia_nombre)
+    if (data.contacto_emergencia_telefono !== undefined) updateData.contacto_emergencia_telefono = normalizeEmptyString(data.contacto_emergencia_telefono)
 
     if (Object.keys(updateData).length === 0) {
       return NextResponse.json(

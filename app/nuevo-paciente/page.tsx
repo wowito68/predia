@@ -22,6 +22,12 @@ interface PatientData {
   fecha_nacimiento: string
   email?: string
   telefono?: string
+  // Fase 2
+  tipo_sangre?: string
+  seguro_medico?: string
+  poliza_seguro?: string
+  contacto_emergencia_nombre?: string
+  contacto_emergencia_telefono?: string
   // Datos para predicción
   age: string // Requerido para validación
   urea: string
@@ -181,6 +187,11 @@ export default function NuevoPacientePage() {
     fecha_nacimiento: "",
     email: "",
     telefono: "",
+    tipo_sangre: "",
+    seguro_medico: "",
+    poliza_seguro: "",
+    contacto_emergencia_nombre: "",
+    contacto_emergencia_telefono: "",
     age: "",
     urea: "",
     cr: "",
@@ -274,6 +285,11 @@ export default function NuevoPacientePage() {
           fecha_nacimiento: patientData.fecha_nacimiento,
           email: patientData.email?.trim() || null,
           telefono: patientData.telefono?.trim() || null,
+          tipo_sangre: patientData.tipo_sangre || null,
+          seguro_medico: patientData.seguro_medico?.trim() || null,
+          poliza_seguro: patientData.poliza_seguro?.trim() || null,
+          contacto_emergencia_nombre: patientData.contacto_emergencia_nombre?.trim() || null,
+          contacto_emergencia_telefono: patientData.contacto_emergencia_telefono?.trim() || null,
         }),
       })
 
@@ -569,6 +585,58 @@ export default function NuevoPacientePage() {
                   value={patientData.telefono}
                   onChange={(e) => handleInputChange("telefono", e.target.value)}
                   placeholder="Ej: +34 600 123 456"
+                />
+              </div>
+              <div>
+                <Label htmlFor="tipo_sangre">Tipo de Sangre</Label>
+                <Select
+                  value={patientData.tipo_sangre}
+                  onValueChange={(value) => handleInputChange("tipo_sangre", value)}
+                >
+                  <SelectTrigger id="tipo_sangre">
+                    <SelectValue placeholder="Seleccione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((t) => (
+                      <SelectItem key={t} value={t}>{t}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="seguro_medico">Seguro Médico</Label>
+                <Input
+                  id="seguro_medico"
+                  value={patientData.seguro_medico}
+                  onChange={(e) => handleInputChange("seguro_medico", e.target.value)}
+                  placeholder="Ej: AXA, GNP..."
+                />
+              </div>
+              <div>
+                <Label htmlFor="poliza_seguro">Póliza de Seguro</Label>
+                <Input
+                  id="poliza_seguro"
+                  value={patientData.poliza_seguro}
+                  onChange={(e) => handleInputChange("poliza_seguro", e.target.value)}
+                  placeholder="Número de póliza"
+                />
+              </div>
+              <div>
+                <Label htmlFor="contacto_emergencia_nombre">Contacto Emergencia (Nombre)</Label>
+                <Input
+                  id="contacto_emergencia_nombre"
+                  value={patientData.contacto_emergencia_nombre}
+                  onChange={(e) => handleInputChange("contacto_emergencia_nombre", e.target.value)}
+                  placeholder="Nombre completo"
+                />
+              </div>
+              <div>
+                <Label htmlFor="contacto_emergencia_telefono">Contacto Emergencia (Teléfono)</Label>
+                <Input
+                  id="contacto_emergencia_telefono"
+                  value={patientData.contacto_emergencia_telefono}
+                  onChange={(e) => handleInputChange("contacto_emergencia_telefono", e.target.value)}
+                  placeholder="Teléfono"
                 />
               </div>
             </CardContent>

@@ -17,6 +17,12 @@ const createPacienteSchema = z.object({
   fecha_nacimiento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Formato de fecha inválido (YYYY-MM-DD)"),
   telefono: z.string().optional().or(z.literal("")).or(z.null()),
   email: z.string().email("Email inválido").optional().or(z.literal("")).or(z.null()),
+  // Campos Fase 2
+  tipo_sangre: z.string().optional().or(z.literal("")).or(z.null()),
+  seguro_medico: z.string().optional().or(z.literal("")).or(z.null()),
+  poliza_seguro: z.string().optional().or(z.literal("")).or(z.null()),
+  contacto_emergencia_nombre: z.string().optional().or(z.literal("")).or(z.null()),
+  contacto_emergencia_telefono: z.string().optional().or(z.literal("")).or(z.null()),
 })
 
 // GET - Obtener todos los pacientes
@@ -65,8 +71,8 @@ export const GET = requireAuth(async (request: NextRequest, { user }) => {
     }
 
     // Paginación
-   sql += ` LIMIT ${limit} OFFSET ${offset}`
-// NO agregues limit ni offset a params
+    sql += ` LIMIT ${limit} OFFSET ${offset}`
+    // NO agregues limit ni offset a params
 
     const pacientes = await query<PacienteConUltimaPredicion>(sql, params)
 
@@ -148,6 +154,12 @@ export const POST = requireAuth(async (request: NextRequest, { user }) => {
       fecha_nacimiento: data.fecha_nacimiento,
       telefono: data.telefono ? data.telefono.toString().trim() : null,
       email: data.email ? data.email.toString().trim() : null,
+      // Fase 2
+      tipo_sangre: data.tipo_sangre || null,
+      seguro_medico: data.seguro_medico || null,
+      poliza_seguro: data.poliza_seguro || null,
+      contacto_emergencia_nombre: data.contacto_emergencia_nombre || null,
+      contacto_emergencia_telefono: data.contacto_emergencia_telefono || null,
     })
 
     const result = await query<any>(sql, params)

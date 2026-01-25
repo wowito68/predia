@@ -48,6 +48,10 @@ model Usuario {
   fracturasRegistradas   Fractura[]
   alergiasRegistradas    Alergia[]
   antecedentesRegistrados AntecedenteFamiliar[]
+  // Relaciones EHR Avanzado
+  plantillasCreadas      Plantilla[]
+  recetasGeneradas       Receta[]
+  documentosSubidos      DocumentoAdjunto[]
 
   @@index([id_rol], map: "usuario_id_rol_fkey")
   @@map("usuario")
@@ -80,6 +84,13 @@ model Paciente {
   email                  String?                  @db.VarChar(100)
   id_direccion           Int?
   foto_perfil            String?                  @db.Text
+  // Datos Adicionales Fase 2
+  tipo_sangre            String?                  @db.VarChar(5)
+  seguro_medico          String?                  @db.VarChar(100)
+  poliza_seguro          String?                  @db.VarChar(50)
+  contacto_emergencia_nombre String?              @db.VarChar(150)
+  contacto_emergencia_telefono String?            @db.VarChar(20)
+  
   activo                 Boolean                  @default(true)
   fecha_registro         DateTime                 @default(now())
   fecha_modificacion     DateTime?                @default(now()) @updatedAt
@@ -97,6 +108,9 @@ model Paciente {
   fracturas              Fractura[]
   alergias               Alergia[]
   antecedentesFamiliares AntecedenteFamiliar[]
+  // EHR Avanzado
+  recetas                Receta[]
+  documentos             DocumentoAdjunto[]
 
   @@index([id_direccion], map: "paciente_id_direccion_fkey")
   @@map("paciente")
@@ -329,6 +343,9 @@ model ConsultaMedica {
   fecha_registro     DateTime  @default(now())
   paciente           Paciente  @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
   usuario            Usuario   @relation(fields: [id_usuario], references: [id_usuario])
+  
+  // Relación con Receta estructurada
+  recetasEstructuradas Receta[]
 
   @@index([id_paciente])
   @@index([id_usuario])
@@ -418,3 +435,62 @@ model AntecedenteFamiliar {
   @@map("antecedente_familiar")
 }
 
+// ========================================
+// MÓDULOS EHR AVANZADOS
+// ========================================
+
+// Plantillas de documentos/consultas
+model Plantilla {
+  id_plantilla   Int      @id @default(autoincrement())
+  id_usuario     Int
+  nombre         String   @db.VarChar(100)
+  tipo           String   @db.VarChar(50) // Consulta, Receta, Nota
+  especialidad   String?  @db.VarChar(100)
+  contenido      String   @db.Text // JSON o Texto plano
+  activo         Boolean  @default(true)
+  fecha_registro DateTime @default(now())
+  usuario        Usuario  @relation(fields: [id_usuario], references: [id_usuario])
+
+  @@index([id_usuario])
+  @@map("plantilla")
+}
+
+// Recetas Medicas Digitales
+model Receta {
+  id_receta       Int             @id @default(autoincrement())
+  id_paciente     Int
+  id_usuario      Int
+  id_consulta     Int?
+  fecha_emicion   DateTime        @default(now())
+  medicamentos    String          @db.Text // JSON: {nombre, dosis, frecuencia, duracion}[]
+  instrucciones   String?         @db.Text
+  estado          String          @default("Activa") @db.VarChar(20) // Activa, Surtida, Cancelada
+  fecha_registro  DateTime        @default(now())
+  paciente        Paciente        @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario         Usuario         @relation(fields: [id_usuario], references: [id_usuario])
+  consulta        ConsultaMedica? @relation(fields: [id_consulta], references: [id_consulta])
+
+  @@index([id_paciente])
+  @@index([id_usuario])
+  @@index([id_consulta])
+  @@map("receta")
+}
+
+// Documentos Adjuntos (General)
+model DocumentoAdjunto {
+  id_documento   Int      @id @default(autoincrement())
+  id_paciente    Int
+  id_usuario     Int
+  tipo_documento String   @db.VarChar(50) // Resultado Lab, Historia Externa, Consentimiento
+  nombre_archivo String   @db.VarChar(255)
+  tipo_archivo   String   @db.VarChar(100) // MIME type
+  datos_archivo  Bytes?   @db.LongBlob // O usar URL si fuera S3
+  descripcion    String?  @db.Text
+  fecha_subida   DateTime @default(now())
+  paciente       Paciente @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario        Usuario  @relation(fields: [id_usuario], references: [id_usuario])
+
+  @@index([id_paciente])
+  @@index([id_usuario])
+  @@map("documento_adjunto")
+}
