@@ -81,11 +81,11 @@ export const POST = requireAuth(async (request: NextRequest, { user }) => {
     }
 
     // Calcular IMC si se proporcionan peso y altura
-    let data = { ...validation.data, id_usuario: user.id_usuario }
+    let data: any = { ...validation.data, id_usuario: user.id_usuario }
     if (data.peso && data.altura) {
       data.imc = Math.round((data.peso / (data.altura * data.altura)) * 100) / 100
     }
-    
+
     // Filtrar valores undefined
     const cleanData = Object.fromEntries(
       Object.entries(data).filter(([, v]) => v !== undefined)

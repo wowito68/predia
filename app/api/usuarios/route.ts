@@ -179,7 +179,7 @@ export async function POST(req: NextRequest) {
       LEFT JOIN rol r ON u.id_rol = r.id_rol
       WHERE u.id_usuario = ?
     `,
-      [result.insertId],
+      [(result as any).insertId],
     )
 
     return NextResponse.json(

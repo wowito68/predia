@@ -16,6 +16,8 @@ import {
 } from "lucide-react"
 
 import { VitalSignsChart } from "@/components/vital-signs-chart"
+import { PatientCriticalSummary } from "@/components/patient-critical-summary"
+import { VoiceInput } from "@/components/ui/voice-input"
 import { QRCodeCanvas } from "qrcode.react"
 import {
     Dialog, DialogContent, DialogDescription, DialogFooter,
@@ -738,6 +740,14 @@ export default function HistorialPacientePage() {
                         )}
                     </div>
                 </div>
+
+                {/* Vista "Un Solo Vistazo" - Resumen Crítico */}
+                <PatientCriticalSummary
+                    alergias={historial?.alergias || []}
+                    tipoSangre={paciente.tipo_sangre}
+                    ultimaConsulta={historial?.consultas?.[0]}
+                    ultimosSignos={historial?.mediciones?.[0]}
+                />
 
                 {/* Tabs del historial */}
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
