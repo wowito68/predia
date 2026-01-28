@@ -1,25 +1,30 @@
-#  Diabetes AI - Sistema de Predicción de Diabetes
+# Diabetes AI - Sistema de Predicción de Diabetes
 
 Plataforma completa de predicción de diabetes basada en Machine Learning, con backend REST, frontend completo y base de datos MySQL.
 
-##  Características
+## Características
 
-- **24+ Endpoints REST** - API completa y documentada
--  **Modelo ML** - 97.89% accuracy (757 muestras entrenamiento)
--  **Frontend Completo** - Login, dashboard, gestión de pacientes
--  **Autenticación JWT** - Tokens de 7 días
--  **Control de Acceso** - Roles: Admin, Médico, Enfermero
--  **Base de Datos** - 11 modelos relacionados
--  **Auditoría** - Registro completo de acciones
--  **Validación** - Validación de datos clínicos
+- **Gestión Clínica Completa**:
+  - **Agenda Médica**: Gestión de citas y disponibilidad.
+  - **Historial Clínico**: Antecedentes, alergias, vacunas, patologías y fracturas.
+  - **Consultas y Recetas**: Registro detallado de consultas y generación de recetas médicas.
+  - **Documentos**: Gestión de archivos y estudios adjuntos.
+- **Tecnología Avanzada**:
+  - **Dictado por Voz**: Transcripción automática para notas clínicas y campos de texto.
+  - **PWA (Progressive Web App)**: Soporte para instalación y funcionamiento offline.
+  - **Sincronización Offline**: Capacidad de trabajo sin conexión con sincronización automática.
+- **Dashboard Interactivo**: Widgets de signos vitales, acciones rápidas, alertas recientes y resumen crítico del paciente.
+- **24+ Endpoints REST**: API completa y documentada.
+- **Modelo ML**: 97.89% accuracy (757 muestras entrenamiento).
+- **Seguridad**: Autenticación JWT, control de acceso basado en roles (Admin, Médico, Enfermero) y auditoría completa.
 
-##  Inicio Rápido
+## Inicio Rápido
 
 ```bash
 # 1. Instalar dependencias
 pnpm install
 
-# 2. Configurar y configurar entorno (Script unificado)
+# 2. Configurar entorno (Script unificado)
 ./setup.sh
 
 # 3. Iniciar servidor
@@ -31,7 +36,7 @@ pnpm dev
 # Contraseña: password123
 ```
 
-##  Documentación
+## Documentación
 
 **Empieza aquí:** [`INDEX.md`](./INDEX.md)
 
@@ -42,47 +47,40 @@ pnpm dev
 | **GUÍA_TESTING.md** | Testing y ejemplos | 30 min |
 | **DEPLOYMENT.md** | Producción | 30 min |
 | **TROUBLESHOOTING.md** | Problemas | 5 min |
-| **FIX_FECHA_MODIFICACION.md** | Fix de BD | 5 min |
 
-##  Stack Tecnológico
+## Stack Tecnológico
 
-- **Frontend**: Next.js 15.2.4, React 19.0.0, TypeScript 5.9.3, Tailwind CSS
-- **Backend**: Next.js API Routes, Node.js
-- **Base de Datos**: MySQL 10.11.13
-- **ORM**: Prisma 5.20.0
-- **Autenticación**: JWT, bcryptjs
-- **Validación**: Zod
-- **ML**: Modelo Python (97.89% accuracy)
+- **Frontend**: Next.js 15.2.4, React 19.0.0, TypeScript 5.9.3, Tailwind CSS.
+- **Características**: PWA, Web Speech API (Dictado).
+- **Backend**: Next.js API Routes, Node.js.
+- **Base de Datos**: MySQL 10.11.13, Prisma 5.20.0.
+- **Seguridad**: JWT, bcryptjs, Zod (validación).
+- **ML**: Modelo Python (97.89% accuracy).
 
-##  Endpoints Principales
+## Endpoints Principales
 
 ```
 POST   /api/auth/login              - Autenticación
-GET    /api/usuarios                - Listar usuarios
-POST   /api/usuarios                - Crear usuario
-GET    /api/pacientes               - Listar pacientes
-POST   /api/pacientes               - Crear paciente
-POST   /api/predicciones/nueva      - Hacer predicción
-GET    /api/predicciones/[id]       - Obtener predicción
+GET    /api/agenda                  - Gestión de citas
+GET    /api/pacientes/[id]/historial - Historial completo
+POST   /api/consultas               - Registrar consulta
+POST   /api/recetas                 - Generar receta
+POST   /api/voice/transcribe        - Transmisión de voz a texto
+POST   /api/predicciones/nueva      - Hacer predicción de riesgos
 ```
 
 Ver todos en [`REFERENCIA_TÉCNICA.md`](./REFERENCIA_TÉCNICA.md)
 
-##  Modelos de Base de Datos
+## Modelos de Base de Datos
 
-- Rol
-- Usuario
-- Paciente
-- Dirección
-- EstudioLaboratorio
-- MedicionAntropometrica
-- Prediccion
-- HistorialClinico
-- Auditoria
-- ModeloIA
-- RelacionMedicaPaciente
+- **Usuarios y Roles**: Autenticación y permisos.
+- **Pacientes**: Información demográfica y clínica base.
+- **Historial**: Antecedentes, Alergias, Vacunas, Patologías, Fracturas.
+- **Atención**: Consultas, Recetas, Signos Vitales.
+- **Archivos**: Documentos e Imágenes.
+- **IA**: Predicciones y Modelos.
 
-##  Credenciales de Prueba
+## Credenciales de Prueba
 
 | Usuario | Rol | Contraseña |
 |---------|-----|-----------|
@@ -90,7 +88,7 @@ Ver todos en [`REFERENCIA_TÉCNICA.md`](./REFERENCIA_TÉCNICA.md)
 | dr_juan | Médico | password123 |
 | enf_pedro | Enfermero | password123 |
 
-##  Casos de Uso
+## Casos de Uso
 
 ### Crear Paciente y Predicción
 1. Login en http://localhost:3000
@@ -98,40 +96,13 @@ Ver todos en [`REFERENCIA_TÉCNICA.md`](./REFERENCIA_TÉCNICA.md)
 3. Llenar formulario
 4. Ver predicción con factores de riesgo
 
-### Usar API con cURL
-```bash
-# Login
-TOKEN=$(curl -s -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"admin_luis","password":"password123"}' | \
-  jq -r '.token')
+### Usar Dictado por Voz
+1. En cualquier campo de texto grande (ej. "Motivo de Consulta").
+2. Click en el icono de micrófono.
+3. Hablar para transcribir automáticamente.
 
-# Crear paciente
-curl -X POST http://localhost:3000/api/pacientes \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{"cedula":"123","nombre":"Juan","apellido_paterno":"Pérez","genero":"M","fecha_nacimiento":"1990-01-01"}'
-```
-
-##  Si Algo No Funciona
+## Si Algo No Funciona
 
 1. Revisa [`TROUBLESHOOTING.md`](./TROUBLESHOOTING.md)
-2. Verifica MySQL está corriendo
-3. Revisa logs en terminal (pnpm dev)
-4. Abre consola del navegador (F12 → Console)
-
-##  Documentación Completa
-
-- [`INDEX.md`](./INDEX.md) - Índice de documentación
-- [`INICIO_RÁPIDO.md`](./INICIO_RÁPIDO.md) - Setup rápido
-- [`REFERENCIA_TÉCNICA.md`](./REFERENCIA_TÉCNICA.md) - Endpoints y arquitectura
-- [`GUÍA_TESTING.md`](./GUÍA_TESTING.md) - Testing
-- [`DEPLOYMENT.md`](./DEPLOYMENT.md) - Producción
-- [`TROUBLESHOOTING.md`](./TROUBLESHOOTING.md) - Solución de problemas
-
-
-
-```bash
-pnpm dev
-# Visita http://localhost:3000
-```
+2. Verifica que MySQL esté corriendo.
+3. Revisa logs en terminal (`pnpm dev`).
