@@ -11,13 +11,19 @@ export const GET = requireAuth(async (request: NextRequest) => {
     )
     const totalPacientes = totalPacientesResult[0]?.total || 0
 
-    // Predicciones de hoy
-    const prediccionesHoyResult = await query<{ total: number }>(
-      "SELECT COUNT(*) as total FROM prediccion WHERE DATE(fecha_prediccion) = CURDATE()"
+    // Consultas médicas de hoy
+    const consultasHoyResult = await query<{ total: number }>(
+      "SELECT COUNT(*) as total FROM consulta_medica WHERE DATE(fecha_consulta) = CURDATE()"
     )
-    const prediccionesHoy = prediccionesHoyResult[0]?.total || 0
+    const consultasHoy = consultasHoyResult[0]?.total || 0
 
-    // Pacientes con riesgo alto/muy alto
+    // Citas pendientes (próximas citas desde hoy)
+    const citasPendientesResult = await query<{ total: number }>(
+      "SELECT COUNT(*) as total FROM consulta_medica WHERE proxima_cita IS NOT NULL AND DATE(proxima_cita) >= CURDATE()"
+    )
+    const citasPendientes = citasPendientesResult[0]?.total || 0
+
+    // Pacientes con riesgo alto/muy alto (alertas activas)
     const riesgoAltoResult = await query<{ total: number }>(
       `SELECT COUNT(DISTINCT id_paciente) as total 
        FROM prediccion 
@@ -28,13 +34,21 @@ export const GET = requireAuth(async (request: NextRequest) => {
          GROUP BY id_paciente
        )`
     )
-    const riesgoAlto = riesgoAltoResult[0]?.total || 0
+    const alertasActivas = riesgoAltoResult[0]?.total || 0
+
+    // --- Datos de IA (secundarios) ---
+
+    // Predicciones de hoy
+    const prediccionesHoyResult = await query<{ total: number }>(
+      "SELECT COUNT(*) as total FROM prediccion WHERE DATE(fecha_prediccion) = CURDATE()"
+    )
+    const prediccionesHoy = prediccionesHoyResult[0]?.total || 0
 
     // Obtener accuracy del modelo desde la tabla modelo_ia
     const modeloResult = await query<{ accuracy: number }>(
       "SELECT accuracy FROM modelo_ia WHERE activo = TRUE LIMIT 1"
     )
-   const precision = modeloResult[0]?.accuracy || 97.89
+    const precision = modeloResult[0]?.accuracy || 97.89
 
     // Alertas recientes (últimas 5 predicciones de alto riesgo)
     const alertasResult = await query<any>(
@@ -67,10 +81,14 @@ export const GET = requireAuth(async (request: NextRequest) => {
       success: true,
       data: {
         totalPacientes,
+        consultasHoy,
+        alertasActivas,
+        citasPendientes,
+        alertas,
+        // Backwards compatibility
         prediccionesHoy,
-        riesgoAlto,
+        riesgoAlto: alertasActivas,
         precision: Math.round(precision * 10) / 10,
-        alertas
       }
     })
   } catch (error) {

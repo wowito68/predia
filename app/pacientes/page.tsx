@@ -46,6 +46,7 @@ interface Paciente {
   telefono?: string
   activo: boolean
   fecha_registro: string
+  ultima_consulta?: string
   resultado?: string
   probabilidad_diabetes?: number
   fecha_prediccion?: string
@@ -64,23 +65,7 @@ interface PaginatedResponse {
 
 // ✅ Funciones helper para lógica de componente
 
-// ✅ Obtener clases de riesgo (Tailwind estático)
-const getRiesgoClasses = (probabilidad?: number): string => {
-  if (!probabilidad) return "bg-gray-100 text-gray-800"
-  if (probabilidad >= 0.7) return "bg-red-100 text-red-800"
-  if (probabilidad >= 0.5) return "bg-orange-100 text-orange-800"
-  if (probabilidad >= 0.25) return "bg-yellow-100 text-yellow-800"
-  return "bg-green-100 text-green-800"
-}
 
-// ✅ Obtener texto de riesgo
-const getRiesgoTexto = (probabilidad?: number): string => {
-  if (!probabilidad) return "Sin predicción"
-  if (probabilidad >= 0.7) return "Muy Alto"
-  if (probabilidad >= 0.5) return "Alto"
-  if (probabilidad >= 0.25) return "Moderado"
-  return "Bajo"
-}
 
 // ✅ Calcular edad correctamente (mes y día)
 const calcularEdad = (fechaNacimiento: string): number => {
@@ -266,8 +251,7 @@ export default function PacientesPage() {
       "Edad",
       "Email",
       "Teléfono",
-      "Última Predicción",
-      "Riesgo",
+      "Estado",
       "Fecha Registro"
     ]
 
@@ -278,8 +262,7 @@ export default function PacientesPage() {
       calcularEdad(p.fecha_nacimiento),
       p.email || "N/A",
       p.telefono || "N/A",
-      p.resultado || "Sin predicción",
-      getRiesgoTexto(p.probabilidad_diabetes),
+      p.activo ? "Activo" : "Inactivo",
       new Date(p.fecha_registro).toLocaleDateString()
     ])
 
@@ -342,7 +325,7 @@ export default function PacientesPage() {
           <CardContent className="pt-6">
             <div className="flex gap-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Buscar por nombre, cédula..."
                   value={search}
@@ -381,8 +364,8 @@ export default function PacientesPage() {
                         <th className="text-left py-3 px-4 font-semibold">Paciente</th>
                         <th className="text-left py-3 px-4 font-semibold">Cédula</th>
                         <th className="text-left py-3 px-4 font-semibold">Edad</th>
-                        <th className="text-left py-3 px-4 font-semibold">Riesgo</th>
-                        <th className="text-left py-3 px-4 font-semibold">Último Resultado</th>
+                        <th className="text-left py-3 px-4 font-semibold">Estado</th>
+                        <th className="text-left py-3 px-4 font-semibold">Última Consulta</th>
                         <th className="text-center py-3 px-4 font-semibold">Acciones</th>
                       </tr>
                     </thead>
@@ -397,27 +380,22 @@ export default function PacientesPage() {
                             <td className="py-4 px-4">{paciente.cedula}</td>
                             <td className="py-4 px-4">{edad} años</td>
                             <td className="py-4 px-4">
-                              {/* ✅ Clases estáticas de Tailwind */}
                               <span
-                                className={`px-3 py-1 rounded-full text-xs font-semibold ${getRiesgoClasses(
-                                  paciente.probabilidad_diabetes
-                                )}`}
+                                className={`px-3 py-1 rounded-full text-xs font-semibold ${paciente.activo
+                                  ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                                  : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400"
+                                  }`}
                               >
-                                {getRiesgoTexto(paciente.probabilidad_diabetes)}
+                                {paciente.activo ? "Activo" : "Inactivo"}
                               </span>
                             </td>
                             <td className="py-4 px-4">
-                              {paciente.resultado ? (
-                                <div>
-                                  <p className="font-medium">{paciente.resultado}</p>
-                                  <p className="text-xs text-muted-foreground">
-                                    {paciente.probabilidad_diabetes
-                                      ? `${(paciente.probabilidad_diabetes * 100).toFixed(1)}% riesgo`
-                                      : ""}
-                                  </p>
-                                </div>
+                              {paciente.ultima_consulta ? (
+                                <span className="text-sm">
+                                  {new Date(paciente.ultima_consulta).toLocaleDateString()}
+                                </span>
                               ) : (
-                                <span className="text-muted-foreground">Sin predicción</span>
+                                <span className="text-muted-foreground text-sm">Sin consultas</span>
                               )}
                             </td>
                             <td className="py-4 px-4 text-center">

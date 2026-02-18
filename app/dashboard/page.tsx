@@ -116,8 +116,8 @@ export default function DashboardPage() {
 
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Panel de Control</h1>
-          <p className="mt-2 text-muted-foreground">Sistema de apoyo para diagnóstico temprano de diabetes ("Single Glance View")</p>
+          <h1 className="text-3xl font-bold text-foreground">Panel de Control Clínico</h1>
+          <p className="mt-2 text-muted-foreground">Gestión integral de tu actividad clínica</p>
         </div>
 
         <WidgetGrid stats={stats} />

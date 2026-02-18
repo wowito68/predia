@@ -6,8 +6,8 @@ import { Providers } from './providers'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'PREDIA - Sistema de Predicción de Diabetes',
-  description: 'Plataforma de apoyo para diagnóstico temprano de diabetes',
+  title: 'Predia – Plataforma Clínica Integral',
+  description: 'Sistema integral de gestión de historiales clínicos con módulos de inteligencia artificial para apoyo en la decisión médica',
   generator: 'Next.js',
   icons: {
     icon: '/favicon.png',

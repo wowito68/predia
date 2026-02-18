@@ -143,11 +143,11 @@ ${new Date().toLocaleString()}
       <div className="min-h-screen bg-background">
         <MedicalHeader />
         <main className="max-w-6xl mx-auto py-6 px-4">
-          <Alert className="border-red-200 bg-red-50">
-            <AlertDescription className="text-red-800">{error}</AlertDescription>
+          <Alert className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20">
+            <AlertDescription className="text-red-800 dark:text-red-300">{error}</AlertDescription>
           </Alert>
-          <Button onClick={() => router.push("/nuevo-paciente")} className="mt-4">
-            Volver a Crear Predicción
+          <Button onClick={() => router.push("/pacientes")} className="mt-4">
+            Volver a Pacientes
           </Button>
         </main>
       </div>
@@ -159,8 +159,8 @@ ${new Date().toLocaleString()}
       <div className="min-h-screen bg-background">
         <MedicalHeader />
         <main className="max-w-6xl mx-auto py-6 px-4">
-          <Alert className="border-yellow-200 bg-yellow-50">
-            <AlertDescription className="text-yellow-800">No se encontró predicción</AlertDescription>
+          <Alert className="border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/20">
+            <AlertDescription className="text-yellow-800 dark:text-yellow-300">No se encontró predicción</AlertDescription>
           </Alert>
         </main>
       </div>
@@ -182,7 +182,7 @@ ${new Date().toLocaleString()}
               <p className="mt-2 text-muted-foreground">
                 Paciente: {paciente.nombre} {paciente.apellido_paterno}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-muted-foreground">
                 Fecha: {new Date(prediccion.fecha_prediccion).toLocaleDateString()} -{" "}
                 {new Date(prediccion.fecha_prediccion).toLocaleTimeString()}
               </p>
@@ -212,8 +212,8 @@ ${new Date().toLocaleString()}
 
         {/* Botones de acción */}
         <div className="mt-8 flex gap-4 flex-wrap">
-          <Button onClick={() => router.push("/nuevo-paciente")} variant="default">
-            Analizar Otro Paciente
+          <Button onClick={() => router.push("/pacientes")} variant="default">
+            Evaluar Otro Paciente
           </Button>
           <Button onClick={() => router.push("/pacientes")} variant="outline">
             Ver Todos los Pacientes

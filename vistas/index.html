@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predia - Vistas Exportadas</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.5;
+            color: #1f2937;
+        }
+
+        h1 {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .view-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .view-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: all 0.2s;
+        }
+
+        .view-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .view-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .view-path {
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Predia - Vistas Exportadas</h1>
+    <p>Esta carpeta contiene vistas estáticas generadas a partir del código fuente de la aplicación, optimizadas para
+        importar a Figma mediante <code>html.to.design</code>.</p>
+
+    <div class="view-list">
+        <a href="login.html" class="view-card">
+            <div class="view-title">Login</div>
+            <div class="view-path">login.html</div>
+        </a>
+
+        <a href="dashboard.html" class="view-card">
+            <div class="view-title">Dashboard (Inicio)</div>
+            <div class="view-path">dashboard.html</div>
+        </a>
+
+        <a href="pacientes.html" class="view-card">
+            <div class="view-title">Lista de Pacientes</div>
+            <div class="view-path">pacientes.html</div>
+        </a>
+
+        <a href="nuevo-paciente.html" class="view-card">
+            <div class="view-title">Nuevo Paciente</div>
+            <div class="view-path">nuevo-paciente.html</div>
+        </a>
+
+        <a href="historial.html" class="view-card">
+            <div class="view-title">Historial de Predicciones</div>
+            <div class="view-path">historial.html</div>
+        </a>
+
+        <a href="resultado.html" class="view-card">
+            <div class="view-title">Resultado de Análisis</div>
+            <div class="view-path">resultado.html</div>
+        </a>
+
+        <a href="paciente-historial.html" class="view-card">
+            <div class="view-title">Detalle de Paciente (Historial Completo)</div>
+            <div class="view-path">paciente-historial.html</div>
+        </a>
+
+        <a href="configuracion-plantillas.html" class="view-card">
+            <div class="view-title">Configuración: Plantillas</div>
+            <div class="view-path">configuracion-plantillas.html</div>
+        </a>
+
+        <a href="ayuda.html" class="view-card">
+            <div class="view-title">Ayuda</div>
+            <div class="view-path">ayuda.html</div>
+        </a>
+    </div>
+</body>
+
+</html>

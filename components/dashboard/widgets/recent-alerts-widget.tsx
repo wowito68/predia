@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Bell } from "lucide-react";
 
 interface Alert {
     id: number;
@@ -23,12 +23,12 @@ export function RecentAlertsWidget({ alertas }: RecentAlertsWidgetProps) {
             <Card className="h-full">
                 <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
-                        <AlertTriangle className="w-5 h-5 text-gray-400" />
-                        <span>Alertas Recientes</span>
+                        <Bell className="w-5 h-5 text-gray-400" />
+                        <span>Alertas Clínicas</span>
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground text-sm">No hay alertas recientes.</p>
+                    <p className="text-muted-foreground text-sm">No hay alertas clínicas recientes.</p>
                 </CardContent>
             </Card>
         );
@@ -39,7 +39,10 @@ export function RecentAlertsWidget({ alertas }: RecentAlertsWidgetProps) {
             <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                     <AlertTriangle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
-                    <span>Alertas Recientes</span>
+                    <span>Alertas Clínicas</span>
+                    <span className="ml-auto inline-flex px-2 py-0.5 rounded text-[10px] font-semibold bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300">
+                        IA · Diabetes
+                    </span>
                 </CardTitle>
             </CardHeader>
             <CardContent>
@@ -67,12 +70,12 @@ export function RecentAlertsWidget({ alertas }: RecentAlertsWidgetProps) {
                                         : "text-orange-700 dark:text-orange-400"
                                         }`}
                                 >
-                                    Riesgo {alerta.nivel_riesgo.toLowerCase()} detectado - Probabilidad:{" "}
+                                    Alerta de riesgo {alerta.nivel_riesgo.toLowerCase()} detectada — Índice:{" "}
                                     {(alerta.probabilidad * 100).toFixed(1)}%
                                 </p>
                             </div>
                             <span
-                                className={`text-xs ${alerta.nivel_riesgo === "Muy Alto"
+                                className={`text-xs flex-shrink-0 ml-4 ${alerta.nivel_riesgo === "Muy Alto"
                                     ? "text-red-600 dark:text-red-400"
                                     : "text-orange-600 dark:text-orange-400"
                                     }`}

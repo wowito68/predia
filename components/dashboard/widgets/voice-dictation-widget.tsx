@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Mic, MicOff, Loader2, FileText, Upload } from "lucide-react";
+import { Mic, MicOff, Loader2, ClipboardCopy } from "lucide-react";
+import { toast } from "sonner";
 import { useDictation } from "@/hooks/use-dictation";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -73,9 +74,21 @@ export function VoiceDictationWidget() {
                     <Button variant="outline" size="sm" className="flex-1" onClick={() => setNote("")}>
                         Limpiar
                     </Button>
-                    <Button variant="secondary" size="sm" className="flex-1">
-                        <FileText className="w-4 h-4 mr-2" />
-                        Guardar
+                    <Button
+                        variant="secondary"
+                        size="sm"
+                        className="flex-1"
+                        disabled={!note.trim()}
+                        onClick={() => {
+                            navigator.clipboard.writeText(note).then(() => {
+                                toast.success("Notas copiadas al portapapeles");
+                            }).catch(() => {
+                                toast.error("Error al copiar");
+                            });
+                        }}
+                    >
+                        <ClipboardCopy className="w-4 h-4 mr-2" />
+                        Copiar
                     </Button>
                 </div>
             </CardContent>

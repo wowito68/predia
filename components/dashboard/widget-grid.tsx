@@ -24,25 +24,27 @@ import { StatsWidget } from "./widgets/stats-widget";
 import { QuickActionsWidget } from "./widgets/quick-actions-widget";
 import { RecentAlertsWidget } from "./widgets/recent-alerts-widget";
 import { VoiceDictationWidget } from "./widgets/voice-dictation-widget";
+import { UpcomingAppointmentsWidget } from "./widgets/upcoming-appointments-widget";
 
 interface WidgetGridProps {
     stats: any;
 }
 
 export function WidgetGrid({ stats }: WidgetGridProps) {
-    const [items, setItems] = useState(["stats", "voice", "actions", "alerts"]);
+    const [items, setItems] = useState(["stats", "actions", "appointments", "alerts", "voice"]);
 
     useEffect(() => {
         const savedOrder = localStorage.getItem("dashboard-widget-order");
         if (savedOrder) {
             try {
                 const saved = JSON.parse(savedOrder) as string[];
-                // Merge new default items if missing
-                if (!saved.includes("voice")) {
-                    setItems(["stats", "voice", ...saved.filter(i => i !== "voice")]);
-                } else {
-                    setItems(saved);
-                }
+                // Merge new items if missing
+                const defaults = ["stats", "actions", "appointments", "alerts", "voice"];
+                const merged = [...saved];
+                defaults.forEach(d => {
+                    if (!merged.includes(d)) merged.push(d);
+                });
+                setItems(merged);
             } catch (e) {
                 console.error("Error parsing widget order", e);
             }
@@ -81,11 +83,12 @@ export function WidgetGrid({ stats }: WidgetGridProps) {
                     {items.map((id) => (
                         <SortableWidget key={id} id={id}>
                             {id === "stats" && <StatsWidget stats={stats} />}
-                            {id === "voice" && <VoiceDictationWidget />}
                             {id === "actions" && <QuickActionsWidget />}
+                            {id === "appointments" && <UpcomingAppointmentsWidget />}
                             {id === "alerts" && (
                                 <RecentAlertsWidget alertas={stats?.alertas || []} />
                             )}
+                            {id === "voice" && <VoiceDictationWidget />}
                         </SortableWidget>
                     ))}
                 </div>
@@ -109,7 +112,7 @@ function SortableWidget({ id, children }: { id: string; children: React.ReactNod
         transition,
         opacity: isDragging ? 0.5 : 1,
         zIndex: isDragging ? 50 : "auto",
-        position: "relative" as "relative", // Fix typescript complaint strictly if needed, but string works often
+        position: "relative" as "relative",
     };
 
     return (

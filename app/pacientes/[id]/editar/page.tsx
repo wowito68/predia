@@ -146,9 +146,9 @@ export default function EditarPacientePage() {
       <div className="min-h-screen bg-background">
         <MedicalHeader />
         <main className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <Alert className="border-red-200 bg-red-50">
-            <AlertCircle className="h-4 w-4 text-red-600" />
-            <AlertDescription className="text-red-800">{error || "Paciente no encontrado"}</AlertDescription>
+          <Alert className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20">
+            <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+            <AlertDescription className="text-red-800 dark:text-red-300">{error || "Paciente no encontrado"}</AlertDescription>
           </Alert>
           <Link href="/pacientes">
             <Button className="mt-4">Volver a Pacientes</Button>
@@ -169,16 +169,16 @@ export default function EditarPacientePage() {
         </div>
 
         {error && (
-          <Alert className="mb-6 border-red-200 bg-red-50">
-            <AlertCircle className="h-4 w-4 text-red-600" />
-            <AlertDescription className="text-red-800">{error}</AlertDescription>
+          <Alert className="mb-6 border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20">
+            <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+            <AlertDescription className="text-red-800 dark:text-red-300">{error}</AlertDescription>
           </Alert>
         )}
 
         {success && (
-          <Alert className="mb-6 border-green-200 bg-green-50">
-            <AlertCircle className="h-4 w-4 text-green-600" />
-            <AlertDescription className="text-green-800">{success}</AlertDescription>
+          <Alert className="mb-6 border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/20">
+            <AlertCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+            <AlertDescription className="text-green-800 dark:text-green-300">{success}</AlertDescription>
           </Alert>
         )}
 
@@ -214,7 +214,7 @@ export default function EditarPacientePage() {
               </div>
               <div>
                 <Label htmlFor="cedula">Cédula (no editable)</Label>
-                <Input id="cedula" value={paciente.cedula} disabled className="bg-gray-100" />
+                <Input id="cedula" value={paciente.cedula} disabled className="bg-muted" />
               </div>
               <div>
                 <Label htmlFor="genero">Género</Label>
@@ -222,7 +222,7 @@ export default function EditarPacientePage() {
                   id="genero"
                   value={paciente.genero}
                   onChange={(e) => setPaciente({ ...paciente, genero: e.target.value })}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 >
                   <option value="M">Masculino</option>
                   <option value="F">Femenino</option>
@@ -235,7 +235,7 @@ export default function EditarPacientePage() {
                   id="fecha_nacimiento"
                   value={paciente.fecha_nacimiento}
                   disabled
-                  className="bg-gray-100"
+                  className="bg-muted"
                 />
               </div>
               <div>

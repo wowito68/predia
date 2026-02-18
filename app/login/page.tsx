@@ -57,14 +57,14 @@ export default function LoginPage() {
             <Stethoscope className="w-8 h-8 text-white" />
           </div>
           <CardTitle className="text-2xl font-bold text-foreground">PREDIA</CardTitle>
-          <CardDescription className="text-muted-foreground">Plataforma de apoyo para diagnóstico temprano</CardDescription>
+          <CardDescription className="text-muted-foreground">Plataforma Clínica Integral</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Usuario</Label>
               <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="username"
                   type="text"
@@ -83,7 +83,7 @@ export default function LoginPage() {
             <div className="space-y-2">
               <Label htmlFor="password">Contraseña</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="password"
                   type="password"
@@ -100,8 +100,8 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <Alert className="border-red-200 bg-red-50">
-                <AlertDescription className="text-red-700">
+              <Alert className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20">
+                <AlertDescription className="text-red-700 dark:text-red-300">
                   {error}
                 </AlertDescription>
               </Alert>
@@ -116,7 +116,7 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
+          <div className="mt-6 text-center text-sm text-muted-foreground">
             <p>Acceso exclusivo para personal médico autorizado</p>
           </div>
         </CardContent>

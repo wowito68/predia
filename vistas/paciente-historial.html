@@ -1,0 +1,923 @@
+<html lang="es" class="light" style="color-scheme: light;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"node_modules/geist/dist/sans.js","import":"","arguments":[{"src":"./fonts/geist-sans/Geist-Variable.woff2","variable":"--font-geist-sans","weight":"100 900"}],"variableName":"GeistSans"} ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+        @font-face {
+            font-family: 'GeistSans';
+            src: url(/_next/static/media/028c0d39d2e8f589-s.p.woff2) format('woff2');
+            font-display: swap;
+            font-weight: 100 900;
+        }
+
+        @font-face {
+            font-family: 'GeistSans Fallback';
+            src: local("Arial");
+            ascent-override: 85.83%;
+            descent-override: 20.53%;
+            line-gap-override: 9.33%;
+            size-adjust: 107.19%
+        }
+
+        .__className_fb8f2c {
+            font-family: 'GeistSans', 'GeistSans Fallback'
+        }
+
+        .__variable_fb8f2c {
+            --font-geist-sans: 'GeistSans', 'GeistSans Fallback'
+        }
+
+        /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"node_modules/geist/dist/mono.js","import":"","arguments":[{"src":"./fonts/geist-mono/GeistMono-Variable.woff2","variable":"--font-geist-mono","weight":"100 900"}],"variableName":"GeistMono"} ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+        @font-face {
+            font-family: 'GeistMono';
+            src: url(/_next/static/media/5b01f339abf2f1a5.p.woff2) format('woff2');
+            font-display: swap;
+            font-weight: 100 900;
+        }
+
+        @font-face {
+            font-family: 'GeistMono Fallback';
+            src: local("Arial");
+            ascent-override: 81.67%;
+            descent-override: 19.83%;
+            line-gap-override: 0.00%;
+            size-adjust: 101.40%
+        }
+
+        .__className_f910ec {
+            font-family: 'GeistMono', 'GeistMono Fallback'
+        }
+
+        .__variable_f910ec {
+            --font-geist-mono: 'GeistMono', 'GeistMono Fallback'
+        }
+
+        /*!*************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[1]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./app/globals.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************/
+        @layer base {
+            :root {
+                --background: 0 0% 100%;
+                --foreground: 0 0% 3.9%;
+                --card: 0 0% 100%;
+                --card-foreground: 0 0% 3.9%;
+                --popover: 0 0% 100%;
+                --popover-foreground: 0 0% 3.9%;
+                --primary: 0 0% 9%;
+                --primary-foreground: 0 0% 98%;
+                --secondary: 0 0% 96.1%;
+                --secondary-foreground: 0 0% 9%;
+                --muted: 0 0% 96.1%;
+                --muted-foreground: 0 0% 45.1%;
+                --accent: 0 0% 96.1%;
+                --accent-foreground: 0 0% 9%;
+                --destructive: 0 84.2% 60.2%;
+                --destructive-foreground: 0 0% 98%;
+                --border: 0 0% 89.8%;
+                --input: 0 0% 89.8%;
+                --ring: 0 0% 3.9%;
+                --chart-1: 12 76% 61%;
+                --chart-2: 173 58% 39%;
+                --chart-3: 197 37% 24%;
+                --chart-4: 43 74% 66%;
+                --chart-5: 27 87% 67%;
+                --radius: 0.5rem;
+            }
+
+            .dark {
+                --background: 0 0% 3.9%;
+                --foreground: 0 0% 98%;
+                --card: 0 0% 3.9%;
+                --card-foreground: 0 0% 98%;
+                --popover: 0 0% 3.9%;
+                --popover-foreground: 0 0% 98%;
+                --primary: 0 0% 98%;
+                --primary-foreground: 0 0% 9%;
+                --secondary: 0 0% 14.9%;
+                --secondary-foreground: 0 0% 98%;
+                --muted: 0 0% 14.9%;
+                --muted-foreground: 0 0% 63.9%;
+                --accent: 0 0% 14.9%;
+                --accent-foreground: 0 0% 98%;
+                --destructive: 0 62.8% 30.6%;
+                --destructive-foreground: 0 0% 98%;
+                --border: 0 0% 14.9%;
+                --input: 0 0% 14.9%;
+                --ring: 0 0% 83.1%;
+                --chart-1: 220 70% 50%;
+                --chart-2: 160 60% 45%;
+                --chart-3: 30 80% 55%;
+                --chart-4: 280 65% 60%;
+                --chart-5: 340 75% 55%;
+            }
+        }
+
+        @layer base {
+            * {
+                border-color: var(--border);
+            }
+
+            body {
+                background-color: var(--background);
+                color: var(--foreground);
+            }
+        }
+
+        /* Tailwind CSS Reset & Base Styles */
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb;
+        }
+
+        html {
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+            font-family: ui-sans-serif, system-ui, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            line-height: inherit;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit;
+            margin: 0;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: inherit;
+            font-size: 100%;
+            line-height: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0;
+        }
+
+        button {
+            text-transform: none;
+            background-color: transparent;
+            background-image: none;
+            cursor: pointer;
+        }
+
+        .relative {
+            position: relative;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .inset-0 {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .z-50 {
+            z-index: 50;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mb-1 {
+            margin-bottom: 0.25rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mb-8 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-1 {
+            margin-top: 0.25rem;
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .mr-1 {
+            margin-right: 0.25rem;
+        }
+
+        .mr-2 {
+            margin-right: 0.5rem;
+        }
+
+        .ml-1 {
+            margin-left: 0.25rem;
+        }
+
+        .ml-2 {
+            margin-left: 0.5rem;
+        }
+
+        .ml-4 {
+            margin-left: 1rem;
+        }
+
+        .ml-8 {
+            margin-left: 2rem;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .inline-flex {
+            display: inline-flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .h-3\.5 {
+            height: 0.875rem;
+        }
+
+        .h-4 {
+            height: 1rem;
+        }
+
+        .h-5 {
+            height: 1.25rem;
+        }
+
+        .h-8 {
+            height: 2rem;
+        }
+
+        .h-10 {
+            height: 2.5rem;
+        }
+
+        .h-16 {
+            height: 4rem;
+        }
+
+        .h-auto {
+            height: auto;
+        }
+
+        .h-full {
+            height: 100%;
+        }
+
+        .w-3\.5 {
+            width: 0.875rem;
+        }
+
+        .w-4 {
+            width: 1rem;
+        }
+
+        .w-5 {
+            width: 1.25rem;
+        }
+
+        .w-8 {
+            width: 2rem;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        .max-w-4xl {
+            max-width: 56rem;
+        }
+
+        .max-w-6xl {
+            max-width: 72rem;
+        }
+
+        .max-w-7xl {
+            max-width: 80rem;
+        }
+
+        .max-w-md {
+            max-width: 28rem;
+        }
+
+        .flex-1 {
+            flex: 1 1 0%;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .md\:grid-cols-2 {
+            @media (min-width: 768px) {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .md\:flex-row {
+            @media (min-width: 768px) {
+                flex-direction: row;
+            }
+        }
+
+        .md\:items-center {
+            @media (min-width: 768px) {
+                align-items: center;
+            }
+        }
+
+        .md\:justify-between {
+            @media (min-width: 768px) {
+                justify-content: space-between;
+            }
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-1 {
+            gap: 0.25rem;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .gap-6 {
+            gap: 1.5rem;
+        }
+
+        .space-x-1> :not([hidden])~ :not([hidden]) {
+            margin-left: 0.25rem;
+        }
+
+        .space-x-2> :not([hidden])~ :not([hidden]) {
+            margin-left: 0.5rem;
+        }
+
+        .space-x-4> :not([hidden])~ :not([hidden]) {
+            margin-left: 1rem;
+        }
+
+        .space-y-1\.5> :not([hidden])~ :not([hidden]) {
+            margin-top: 0.375rem;
+        }
+
+        .space-y-4> :not([hidden])~ :not([hidden]) {
+            margin-top: 1rem;
+        }
+
+        .rounded-md {
+            border-radius: 0.375rem;
+        }
+
+        .rounded-lg {
+            border-radius: 0.75rem;
+        }
+
+        .rounded-xl {
+            border-radius: 0.75rem;
+        }
+
+        .rounded-full {
+            border-radius: 9999px;
+        }
+
+        .border {
+            border-width: 1px;
+        }
+
+        .border-b {
+            border-bottom-width: 1px;
+        }
+
+        .border-gray-200 {
+            border-color: rgb(229 231 235);
+        }
+
+        .border-gray-700 {
+            border-color: rgb(55 65 81);
+        }
+
+        .border-input {
+            border-color: var(--input);
+        }
+
+        .bg-background {
+            background-color: var(--background);
+        }
+
+        .bg-card {
+            background-color: var(--card);
+        }
+
+        .bg-white {
+            background-color: rgb(255 255 255);
+        }
+
+        .bg-gray-100 {
+            background-color: rgb(243 244 246);
+        }
+
+        .bg-blue-50 {
+            background-color: rgb(239 246 255);
+        }
+
+        .bg-blue-100 {
+            background-color: rgb(219 234 254);
+        }
+
+        .bg-blue-600 {
+            background-color: rgb(37 99 235);
+        }
+
+        .bg-destructive {
+            background-color: var(--destructive);
+        }
+
+        .bg-green-100 {
+            background-color: rgb(220 252 231);
+        }
+
+        .bg-yellow-100 {
+            background-color: rgb(254 249 195);
+        }
+
+        .bg-purple-100 {
+            background-color: rgb(243 232 255);
+        }
+
+        .p-1 {
+            padding: 0.25rem;
+        }
+
+        .p-2 {
+            padding: 0.5rem;
+        }
+
+        .p-4 {
+            padding: 1rem;
+        }
+
+        .p-6 {
+            padding: 1.5rem;
+        }
+
+        .px-1\.5 {
+            padding-left: 0.375rem;
+            padding-right: 0.375rem;
+        }
+
+        .px-3 {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .py-6 {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+            line-height: 1rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+
+        .text-base {
+            font-size: 1rem;
+            line-height: 1.5rem;
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+            line-height: 2.25rem;
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .text-foreground {
+            color: var(--foreground);
+        }
+
+        .text-muted-foreground {
+            color: var(--muted-foreground);
+        }
+
+        .text-white {
+            color: rgb(255 255 255);
+        }
+
+        .text-gray-300 {
+            color: rgb(209 213 219);
+        }
+
+        .text-gray-600 {
+            color: rgb(75 85 99);
+        }
+
+        .text-gray-900 {
+            color: rgb(17 24 39);
+        }
+
+        .text-blue-600 {
+            color: rgb(37 99 235);
+        }
+
+        .text-blue-700 {
+            color: rgb(29 78 216);
+        }
+
+        .text-destructive-foreground {
+            color: var(--destructive-foreground);
+        }
+
+        .shadow-sm {
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+
+        .transition-colors {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+
+        /* Tabs Component Styles */
+        .data-[state=active]\:bg-background[data-state=active] {
+            background-color: var(--background);
+        }
+
+        .data-[state=active]\:text-foreground[data-state=active] {
+            color: var(--foreground);
+        }
+
+        .data-[state=active]\:shadow-sm[data-state=active] {
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+
+        .min-h-screen {
+            min-height: 100vh;
+        }
+
+        .font-sans {
+            font-family: var(--font-geist-sans);
+        }
+    </style>
+</head>
+
+<body class="font-sans __variable_fb8f2c __variable_f910ec">
+
+    <!-- Header (MedicalHeader) -->
+    <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="/dashboard" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="w-5 h-5 text-white">
+                                <path
+                                    d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" />
+                                <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4" />
+                                <circle cx="20" cy="10" r="2" />
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold text-gray-900 dark:text-white">PREDIA</span>
+                    </a>
+                    <nav class="hidden md:flex space-x-4 ml-8">
+                        <a href="/dashboard"
+                            class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"><span>Inicio</span></a>
+                        <a href="/nuevo-paciente"
+                            class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"><span>Nuevo
+                                Paciente</span></a>
+                        <a href="/pacientes"
+                            class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"><span>Pacientes</span></a>
+                        <a href="/historial"
+                            class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"><span>Historial</span></a>
+                        <a href="/ayuda"
+                            class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"><span>Ayuda</span></a>
+                    </nav>
+                </div>
+                <div className="hidden md:flex items-center space-x-4">
+                    <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
+                        <span>Juan Pérez</span>
+                    </div>
+                    <button
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 px-3 text-xs">Salir</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <div class="min-h-screen bg-background">
+        <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+
+            <!-- Patient Header -->
+            <div class="mb-6">
+                <button
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors hover:bg-gray-100 h-10 px-4 py-2 mb-4 text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="w-4 h-4 mr-2">
+                        <path d="m12 19-7-7 7-7" />
+                        <path d="M19 12H5" />
+                    </svg>
+                    Volver
+                </button>
+
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-foreground">Juan Pérez Pérez</h1>
+                        <p class="text-muted-foreground">
+                            Cédula: 0102030405 • 45 años • Masculino • O+
+                        </p>
+                        <p class="text-sm text-muted-foreground mt-1">
+                            Seguro: IESS (#1234567890)
+                        </p>
+                    </div>
+                    <div
+                        class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80 gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="w-4 h-4">
+                            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                            <path d="M12 9v4" />
+                            <path d="M12 17h.01" />
+                        </svg>
+                        1 Alergia(s) registrada(s)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Critical Summary Mock -->
+            <div class="rounded-xl border bg-card text-card-foreground shadow-sm mb-6">
+                <div class="p-6">
+                    <h3 class="font-semibold mb-4">Resumen Crítico</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-4 bg-red-50 rounded-lg border border-red-100">
+                            <div class="flex items-center gap-2 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="w-4 h-4 text-red-600">
+                                    <path
+                                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                                    <path d="M12 9v4" />
+                                    <path d="M12 17h.01" />
+                                </svg>
+                                <span class="font-medium text-red-900">Alergias</span>
+                            </div>
+                            <ul class="text-sm text-red-800 list-disc list-inside">
+                                <li>Penicilina (Severa)</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                            <div class="flex items-center gap-2 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="w-4 h-4 text-blue-600">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                                </svg>
+                                <span class="font-medium text-blue-900">Últimos Signos</span>
+                            </div>
+                            <div class="text-sm text-blue-800">
+                                <p>PA: 120/80 mmHg</p>
+                                <p>FC: 78 bpm</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-gray-100 rounded-lg border border-gray-200">
+                            <div class="flex items-center gap-2 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="w-4 h-4 text-gray-600">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                <span class="font-medium text-gray-900">Última Consulta</span>
+                            </div>
+                            <p class="text-sm text-gray-700">Hace 2 meses</p>
+                            <p class="text-xs text-gray-500">Dr. Roberto Gómez</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Layout -->
+            <div class="w-full">
+                <!-- Tabs List -->
+                <div class="flex flex-wrap h-auto gap-1 p-1 mb-6 bg-muted rounded-md bg-gray-100">
+                    <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-background text-foreground shadow-sm">
+                        Resumen
+                    </button>
+                    <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-white/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="w-3.5 h-3.5 mr-1">
+                            <path
+                                d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" />
+                            <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4" />
+                            <circle cx="20" cy="10" r="2" />
+                        </svg>
+                        Consultas
+                    </button>
+                    <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-white/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="w-3.5 h-3.5 mr-1">
+                            <path d="m19 7-7 7-7-7" />
+                        </svg>
+                        Vacunas
+                    </button>
+                </div>
+
+                <!-- Tab Content: Resumen -->
+                <div class="space-y-6">
+                    <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
+                        <div class="flex flex-col space-y-1.5 p-6">
+                            <h3 class="text-2xl font-semibold leading-none tracking-tight">Historial de Predicciones
+                            </h3>
+                            <p class="text-sm text-muted-foreground">Análisis de riesgo de diabetes realizados</p>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <div class="rounded-md border">
+                                <table class="w-full text-sm">
+                                    <thead class="border-b bg-gray-50">
+                                        <tr>
+                                            <th
+                                                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                                                Fecha</th>
+                                            <th
+                                                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                                                Resultado</th>
+                                            <th
+                                                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                                                Riesgo</th>
+                                            <th
+                                                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                                                Probabilidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                                            <td class="p-4 align-middle">05/02/2026</td>
+                                            <td class="p-4 align-middle font-medium">Positivo</td>
+                                            <td class="p-4 align-middle">
+                                                <div
+                                                    class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80">
+                                                    Alto</div>
+                                            </td>
+                                            <td class="p-4 align-middle">85%</td>
+                                        </tr>
+                                        <tr
+                                            class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                                            <td class="p-4 align-middle">15/01/2025</td>
+                                            <td class="p-4 align-middle font-medium">Negativo</td>
+                                            <td class="p-4 align-middle">
+                                                <div
+                                                    class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-green-100 text-green-700 hover:bg-green-100/80">
+                                                    Bajo</div>
+                                            </td>
+                                            <td class="p-4 align-middle">12%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
+                        <div class="flex flex-col space-y-1.5 p-6">
+                            <h3 class="text-2xl font-semibold leading-none tracking-tight">Notas Recientes</h3>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <p class="text-sm text-muted-foreground">El paciente muestra mejora en la dieta, pero
+                                mantiene sedentarismo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>

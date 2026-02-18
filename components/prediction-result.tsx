@@ -30,15 +30,15 @@ export function PredictionResult({
 }: PredictionResultProps) {
   // Colores según nivel de riesgo
   const riskColors = {
-    Bajo: { bg: "bg-green-50", border: "border-green-200", text: "text-green-700", badge: "bg-green-100" },
+    Bajo: { bg: "bg-green-50 dark:bg-green-900/20", border: "border-green-200 dark:border-green-800", text: "text-green-700 dark:text-green-300", badge: "bg-green-100 dark:bg-green-900/40" },
     Moderado: {
-      bg: "bg-yellow-50",
-      border: "border-yellow-200",
-      text: "text-yellow-700",
-      badge: "bg-yellow-100",
+      bg: "bg-yellow-50 dark:bg-yellow-900/20",
+      border: "border-yellow-200 dark:border-yellow-800",
+      text: "text-yellow-700 dark:text-yellow-300",
+      badge: "bg-yellow-100 dark:bg-yellow-900/40",
     },
-    Alto: { bg: "bg-orange-50", border: "border-orange-200", text: "text-orange-700", badge: "bg-orange-100" },
-    "Muy Alto": { bg: "bg-red-50", border: "border-red-200", text: "text-red-700", badge: "bg-red-100" },
+    Alto: { bg: "bg-orange-50 dark:bg-orange-900/20", border: "border-orange-200 dark:border-orange-800", text: "text-orange-700 dark:text-orange-300", badge: "bg-orange-100 dark:bg-orange-900/40" },
+    "Muy Alto": { bg: "bg-red-50 dark:bg-red-900/20", border: "border-red-200 dark:border-red-800", text: "text-red-700 dark:text-red-300", badge: "bg-red-100 dark:bg-red-900/40" },
   }
 
   const colors = riskColors[nivel_riesgo]
@@ -80,7 +80,7 @@ export function PredictionResult({
               <span>Probabilidad de Diabetes</span>
               <span className={colors.text}>{Math.round(probabilidad_diabetes * 100)}%</span>
             </div>
-            <div className="h-3 rounded-full bg-gray-200">
+            <div className="h-3 rounded-full bg-muted">
               <div
                 className={`h-3 rounded-full transition-all ${probabilidad_diabetes < 0.3
                   ? "bg-green-500"
@@ -119,17 +119,17 @@ export function PredictionResult({
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{idx + 1}. {factor.nombre}</span>
                   <div className="text-right">
-                    <div className="text-sm font-semibold text-gray-700">{normalizarImportancia(factor.importancia)}%</div>
-                    <div className="text-xs text-gray-500">Importancia: {factor.importancia.toFixed(3)}</div>
+                    <div className="text-sm font-semibold text-foreground">{normalizarImportancia(factor.importancia)}%</div>
+                    <div className="text-xs text-muted-foreground">Importancia: {factor.importancia.toFixed(3)}</div>
                   </div>
                 </div>
-                <div className="h-2 rounded-full bg-gray-200">
+                <div className="h-2 rounded-full bg-muted">
                   <div
                     className="h-2 rounded-full bg-blue-500 transition-all"
                     style={{ width: `${normalizarImportancia(factor.importancia)}%` }}
                   />
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-muted-foreground">
                   Contribución: {factor.contribucion.toFixed(3)} • Riesgo: {factor.riesgo_nivel}
                 </div>
               </div>
@@ -152,7 +152,7 @@ export function PredictionResult({
               {factores_riesgo.map((factor, idx) => (
                 <li key={idx} className="flex items-start gap-3">
                   <span className="text-red-500 font-bold mt-0.5">•</span>
-                  <span className="text-sm text-gray-700">{factor}</span>
+                  <span className="text-sm text-muted-foreground">{factor}</span>
                 </li>
               ))}
             </ul>
@@ -169,7 +169,7 @@ export function PredictionResult({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2 text-sm whitespace-pre-wrap font-mono text-gray-700 bg-gray-50 p-4 rounded">
+          <div className="space-y-2 text-sm whitespace-pre-wrap font-mono text-foreground bg-muted p-4 rounded">
             {recomendaciones}
           </div>
         </CardContent>
@@ -177,9 +177,9 @@ export function PredictionResult({
 
       {/* Alerta si es diabetes */}
       {resultado === "Diabetes" && (
-        <Alert className="border-red-200 bg-red-50">
-          <AlertTriangle className="h-4 w-4 text-red-600" />
-          <AlertDescription className="text-red-800">
+        <Alert className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20">
+          <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
+          <AlertDescription className="text-red-800 dark:text-red-300">
             <strong>Acción Requerida:</strong> El análisis indica un riesgo significativo. Se recomienda consultar con un
             endocrinólogo especialista de inmediato para confirmación diagnóstica y plan de tratamiento.
           </AlertDescription>

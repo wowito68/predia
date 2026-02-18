@@ -3,11 +3,16 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { MedicalHeader } from "@/components/medical-header"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Search, Filter, Download, Eye, AlertTriangle, CheckCircle, Loader2 } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Search, Download, Eye, AlertTriangle, CheckCircle, Loader2,
+  Brain, ClipboardList, Activity, Calendar, User, Pill
+} from "lucide-react"
 
 interface Prediccion {
   id_prediccion: number
@@ -21,10 +26,29 @@ interface Prediccion {
   usuario_nombre: string
 }
 
+interface Consulta {
+  id_consulta: number
+  motivo_consulta: string
+  diagnostico?: string
+  fecha_consulta: string
+  proxima_cita?: string
+  paciente: {
+    id_paciente: number
+    nombre: string
+    apellido_paterno: string
+  }
+  usuario: {
+    nombre: string
+    apellido_paterno: string
+  }
+}
+
 export default function HistorialPage() {
   const router = useRouter()
   const [predicciones, setPredicciones] = useState<Prediccion[]>([])
+  const [consultas, setConsultas] = useState<Consulta[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingConsultas, setLoadingConsultas] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [filterRisk, setFilterRisk] = useState<string>("todos")
   const [token, setToken] = useState<string | null>(null)
@@ -44,8 +68,27 @@ export default function HistorialPage() {
   useEffect(() => {
     if (token) {
       cargarPredicciones()
+      cargarConsultas()
     }
   }, [token, page])
+
+  const cargarConsultas = async () => {
+    if (!token) return
+    setLoadingConsultas(true)
+    try {
+      const response = await fetch("/api/consultas?limit=20", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setConsultas(data.data || [])
+      }
+    } catch (error) {
+      console.error("Error al cargar consultas:", error)
+    } finally {
+      setLoadingConsultas(false)
+    }
+  }
 
   const cargarPredicciones = async () => {
     if (!token) return
@@ -82,10 +125,39 @@ export default function HistorialPage() {
     return matchSearch && matchRisk
   })
 
+  const filteredConsultas = consultas.filter((c) => {
+    if (!searchTerm) return true
+    const name = `${c.paciente?.nombre} ${c.paciente?.apellido_paterno}`.toLowerCase()
+    return name.includes(searchTerm.toLowerCase()) ||
+      c.motivo_consulta?.toLowerCase().includes(searchTerm.toLowerCase())
+  })
+
+  const handleExportar = () => {
+    if (filteredPredicciones.length === 0) return
+    const headers = ["Paciente", "Cédula", "Resultado", "Probabilidad", "Nivel Riesgo", "Fecha", "Médico"]
+    const rows = filteredPredicciones.map(p => [
+      p.paciente_nombre,
+      p.cedula || "",
+      p.resultado_prediccion ? "Positivo" : "Negativo",
+      `${(p.probabilidad_diabetes * 100).toFixed(1)}%`,
+      p.nivel_riesgo,
+      new Date(p.fecha_prediccion).toLocaleDateString(),
+      p.usuario_nombre
+    ])
+    const csv = [headers, ...rows].map(r => r.join(",")).join("\n")
+    const blob = new Blob([csv], { type: "text/csv" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `historial_predicciones_${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   const getRiskBadge = (level: string, outcome: boolean) => {
     if (!outcome) {
       return (
-        <Badge variant="secondary" className="bg-green-100 text-green-700">
+        <Badge variant="secondary" className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
           Negativo
         </Badge>
       )
@@ -96,13 +168,13 @@ export default function HistorialPage() {
         return <Badge variant="destructive">Riesgo Alto</Badge>
       case "moderado":
         return (
-          <Badge variant="secondary" className="bg-yellow-100 text-yellow-700">
+          <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400">
             Riesgo Moderado
           </Badge>
         )
       case "bajo":
         return (
-          <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+          <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
             Riesgo Bajo
           </Badge>
         )
@@ -111,7 +183,9 @@ export default function HistorialPage() {
     }
   }
 
-  if (loading) {
+  const isLoading = loading && loadingConsultas
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
         <MedicalHeader />
@@ -119,7 +193,7 @@ export default function HistorialPage() {
           <Card>
             <CardContent className="pt-6 text-center">
               <Loader2 className="w-8 h-8 animate-spin mx-auto text-blue-600" />
-              <p className="mt-4 text-muted-foreground">Cargando historial...</p>
+              <p className="mt-4 text-muted-foreground">Cargando actividad clínica...</p>
             </CardContent>
           </Card>
         </main>
@@ -133,148 +207,266 @@ export default function HistorialPage() {
 
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Historial de Predicciones</h1>
-          <p className="mt-2 text-muted-foreground">Registro de todas las evaluaciones realizadas</p>
+          <h1 className="text-3xl font-bold text-foreground">Actividad Clínica</h1>
+          <p className="mt-2 text-muted-foreground">Registro unificado de consultas, evaluaciones y actividad del sistema</p>
         </div>
 
-        {/* Controles de filtrado */}
+        {/* Búsqueda global */}
         <Card className="mb-6">
           <CardContent className="pt-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    placeholder="Buscar por nombre o cédula..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <select
-                  value={filterRisk}
-                  onChange={(e) => setFilterRisk(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-md text-sm"
-                >
-                  <option value="todos">Todos los riesgos</option>
-                  <option value="alto">Riesgo Alto</option>
-                  <option value="moderado">Riesgo Moderado</option>
-                  <option value="bajo">Riesgo Bajo</option>
-                </select>
-                <Button variant="outline" size="sm">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filtros
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Download className="w-4 h-4 mr-2" />
-                  Exportar
-                </Button>
-              </div>
+            <div className="relative">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Buscar por nombre de paciente o motivo..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
             </div>
           </CardContent>
         </Card>
 
-        {/* Tabla de historial */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Registros ({filteredPredicciones.length} de {total})</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Paciente</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Fecha</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Resultado</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Confianza</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Estado</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Registrado por</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredPredicciones.map((pred) => (
-                    <tr key={pred.id_prediccion} className="border-b hover:bg-background">
-                      <td className="py-3 px-4">
-                        <div className="font-medium text-foreground">{pred.paciente_nombre}</div>
-                      </td>
-                      <td className="py-3 px-4 text-muted-foreground">
-                        {new Date(pred.fecha_prediccion).toLocaleDateString("es-ES")}
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="flex items-center space-x-2">
-                          {pred.resultado_prediccion ? (
-                            <AlertTriangle className="w-4 h-4 text-red-600" />
-                          ) : (
-                            <CheckCircle className="w-4 h-4 text-green-600" />
-                          )}
-                          <span className={pred.resultado_prediccion ? "text-red-600" : "text-green-600"}>
-                            {pred.resultado_prediccion ? "Positivo" : "Negativo"}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4 text-muted-foreground">
-                        {(pred.probabilidad_diabetes * 100).toFixed(1)}%
-                      </td>
-                      <td className="py-3 px-4">
-                        {getRiskBadge(pred.nivel_riesgo, pred.resultado_prediccion)}
-                      </td>
-                      <td className="py-3 px-4 text-muted-foreground">{pred.usuario_nombre}</td>
-                      <td className="py-3 px-4">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => router.push(`/pacientes/${pred.id_paciente}/predicciones`)}
-                        >
-                          <Eye className="w-4 h-4 mr-1" />
-                          Ver
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* Tabs */}
+        <Tabs defaultValue="consultas" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="consultas" className="flex items-center gap-2">
+              <ClipboardList className="w-4 h-4" />
+              Consultas Médicas
+            </TabsTrigger>
+            <TabsTrigger value="predicciones" className="flex items-center gap-2">
+              <Brain className="w-4 h-4" />
+              Evaluaciones IA
+            </TabsTrigger>
+          </TabsList>
 
-              {filteredPredicciones.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
-                  {predicciones.length === 0
-                    ? "No se encontraron predicciones. Realice una evaluación desde la página de pacientes."
-                    : "No se encontraron registros que coincidan con los filtros aplicados."}
+          {/* Tab: Consultas Médicas */}
+          <TabsContent value="consultas">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center gap-2">
+                      <ClipboardList className="w-5 h-5 text-green-600 dark:text-green-400" />
+                      Consultas Recientes
+                    </CardTitle>
+                    <CardDescription className="mt-1">
+                      {filteredConsultas.length} consultas registradas
+                    </CardDescription>
+                  </div>
                 </div>
-              )}
-            </div>
+              </CardHeader>
+              <CardContent>
+                {loadingConsultas ? (
+                  <div className="text-center py-8">
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto text-blue-600" />
+                  </div>
+                ) : filteredConsultas.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <ClipboardList className="w-12 h-12 mx-auto mb-4 opacity-30" />
+                    No se encontraron consultas registradas.
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Paciente</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Motivo</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Fecha</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Médico</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredConsultas.map((consulta) => (
+                          <tr key={consulta.id_consulta} className="border-b hover:bg-muted/50">
+                            <td className="py-3 px-4">
+                              <div className="flex items-center gap-2">
+                                <User className="w-4 h-4 text-muted-foreground" />
+                                <span className="font-medium text-foreground">
+                                  {consulta.paciente?.nombre} {consulta.paciente?.apellido_paterno}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground max-w-xs truncate">
+                              {consulta.motivo_consulta || "Sin motivo registrado"}
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {new Date(consulta.fecha_consulta).toLocaleDateString("es-ES")}
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              Dr. {consulta.usuario?.nombre} {consulta.usuario?.apellido_paterno}
+                            </td>
+                            <td className="py-3 px-4">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => router.push(`/pacientes/${consulta.paciente?.id_paciente}/historial`)}
+                              >
+                                <Eye className="w-4 h-4 mr-1" />
+                                Ver Historial
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-            {/* Paginación */}
-            {total > limit && (
-              <div className="flex justify-between items-center mt-4 pt-4 border-t">
-                <div className="text-sm text-muted-foreground">
-                  Mostrando {Math.min(limit, filteredPredicciones.length)} de {total} registros
+          {/* Tab: Evaluaciones IA */}
+          <TabsContent value="predicciones">
+            {/* Banner contextual sobre IA */}
+            <Alert className="mb-4 border-violet-200 bg-violet-50/50 dark:border-violet-900 dark:bg-violet-950/30">
+              <Brain className="h-4 w-4 text-violet-600 dark:text-violet-400" />
+              <AlertDescription className="text-violet-800 dark:text-violet-300 text-sm">
+                Las evaluaciones predictivas son un complemento del historial clínico. Cada predicción se basa en los datos
+                de laboratorio del paciente y actúa como apoyo a la decisión médica. No constituyen un diagnóstico.
+              </AlertDescription>
+            </Alert>
+
+            {/* Controles de filtrado de predicciones */}
+            <Card className="mb-4">
+              <CardContent className="pt-6">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex gap-2 ml-auto">
+                    <select
+                      value={filterRisk}
+                      onChange={(e) => setFilterRisk(e.target.value)}
+                      className="px-3 py-2 border border-input rounded-md text-sm bg-background text-foreground ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+                    >
+                      <option value="todos">Todos los niveles</option>
+                      <option value="alto">Riesgo Alto</option>
+                      <option value="moderado">Riesgo Moderado</option>
+                      <option value="bajo">Riesgo Bajo</option>
+                    </select>
+                    <Button variant="outline" size="sm" onClick={handleExportar} disabled={filteredPredicciones.length === 0}>
+                      <Download className="w-4 h-4 mr-2" />
+                      Exportar
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    disabled={page === 1}
-                    onClick={() => setPage(page - 1)}
-                  >
-                    Anterior
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    disabled={page >= Math.ceil(total / limit)}
-                    onClick={() => setPage(page + 1)}
-                  >
-                    Siguiente
-                  </Button>
+              </CardContent>
+            </Card>
+
+            {/* Tabla de predicciones */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center gap-2">
+                      <Activity className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                      Evaluaciones Predictivas
+                    </CardTitle>
+                    <CardDescription className="mt-1">
+                      {filteredPredicciones.length} de {total} registros — Módulo de IA: Predicción de Diabetes
+                    </CardDescription>
+                  </div>
+                  <Badge variant="outline" className="border-violet-200 text-violet-700 dark:border-violet-800 dark:text-violet-300">
+                    <Brain className="w-3 h-3 mr-1" />
+                    IA Clínica
+                  </Badge>
                 </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-3 px-4 font-medium text-foreground">Paciente</th>
+                        <th className="text-left py-3 px-4 font-medium text-foreground">Fecha</th>
+                        <th className="text-left py-3 px-4 font-medium text-foreground">Resultado</th>
+                        <th className="text-left py-3 px-4 font-medium text-foreground">Confianza</th>
+                        <th className="text-left py-3 px-4 font-medium text-foreground">Nivel</th>
+                        <th className="text-left py-3 px-4 font-medium text-foreground">Registrado por</th>
+                        <th className="text-left py-3 px-4 font-medium text-foreground">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredPredicciones.map((pred) => (
+                        <tr key={pred.id_prediccion} className="border-b hover:bg-muted/50">
+                          <td className="py-3 px-4">
+                            <div className="font-medium text-foreground">{pred.paciente_nombre}</div>
+                          </td>
+                          <td className="py-3 px-4 text-muted-foreground">
+                            {new Date(pred.fecha_prediccion).toLocaleDateString("es-ES")}
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex items-center space-x-2">
+                              {pred.resultado_prediccion ? (
+                                <AlertTriangle className="w-4 h-4 text-red-600" />
+                              ) : (
+                                <CheckCircle className="w-4 h-4 text-green-600" />
+                              )}
+                              <span className={pred.resultado_prediccion ? "text-red-600" : "text-green-600"}>
+                                {pred.resultado_prediccion ? "Positivo" : "Negativo"}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-3 px-4 text-muted-foreground">
+                            {(pred.probabilidad_diabetes * 100).toFixed(1)}%
+                          </td>
+                          <td className="py-3 px-4">
+                            {getRiskBadge(pred.nivel_riesgo, pred.resultado_prediccion)}
+                          </td>
+                          <td className="py-3 px-4 text-muted-foreground">{pred.usuario_nombre}</td>
+                          <td className="py-3 px-4">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => router.push(`/pacientes/${pred.id_paciente}/predicciones`)}
+                            >
+                              <Eye className="w-4 h-4 mr-1" />
+                              Ver
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  {filteredPredicciones.length === 0 && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      {predicciones.length === 0
+                        ? "No se han realizado evaluaciones predictivas. Acceda al historial de un paciente con datos clínicos para ejecutar una evaluación."
+                        : "No se encontraron registros que coincidan con los filtros aplicados."}
+                    </div>
+                  )}
+                </div>
+
+                {/* Paginación */}
+                {total > limit && (
+                  <div className="flex justify-between items-center mt-4 pt-4 border-t">
+                    <div className="text-sm text-muted-foreground">
+                      Mostrando {Math.min(limit, filteredPredicciones.length)} de {total} registros
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={page === 1}
+                        onClick={() => setPage(page - 1)}
+                      >
+                        Anterior
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={page >= Math.ceil(total / limit)}
+                        onClick={() => setPage(page + 1)}
+                      >
+                        Siguiente
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   )
