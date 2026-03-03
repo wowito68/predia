@@ -1,0 +1,232 @@
+{
+    "name": "Predia – Alerta de Riesgo Diabético",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "prediccion-riesgo",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "node-webhook",
+            "name": "Webhook: Nueva Predicción",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                240,
+                300
+            ],
+            "webhookId": "predia-prediccion-riesgo"
+        },
+        {
+            "parameters": {
+                "method": "GET",
+                "url": "=http://diabetes-ai:3000/api/pacientes/{{ $json.body.pacienteId }}",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "=Bearer {{ $json.body.token }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-get-paciente",
+            "name": "Obtener Datos del Paciente",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                460,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "strict"
+                    },
+                    "conditions": [
+                        {
+                            "id": "cond-riesgo-alto",
+                            "leftValue": "={{ $('Webhook: Nueva Predicción').item.json.body.score }}",
+                            "rightValue": 0.7,
+                            "operator": {
+                                "type": "number",
+                                "operation": "gte"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "id": "node-if-riesgo",
+            "name": "¿Riesgo Alto?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2,
+            "position": [
+                680,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fromEmail": "alertas@predia.com",
+                "toEmail": "={{ $json.medicoEmail }}",
+                "subject": "⚠️ ALERTA: Riesgo Diabético Alto – {{ $json.nombre }} {{ $json.apellido }}",
+                "emailType": "html",
+                "message": "=<h2>Alerta de Riesgo Diabético Alto</h2>\n<p>Se ha detectado un <strong>riesgo alto de diabetes</strong> para el siguiente paciente:</p>\n<table border=\"1\" cellpadding=\"6\" cellspacing=\"0\" style=\"border-collapse:collapse;\">\n  <tr><td><strong>Paciente</strong></td><td>{{ $json.nombre }} {{ $json.apellido }}</td></tr>\n  <tr><td><strong>ID</strong></td><td>{{ $('Webhook: Nueva Predicción').item.json.body.pacienteId }}</td></tr>\n  <tr><td><strong>Score de Riesgo</strong></td><td>{{ ($('Webhook: Nueva Predicción').item.json.body.score * 100).toFixed(1) }}%</td></tr>\n  <tr><td><strong>Fecha</strong></td><td>{{ $now.toISOString() }}</td></tr>\n</table>\n<p>Por favor revise el historial clínico del paciente y tome las acciones necesarias.</p>\n<p><a href=\"http://localhost:3000/pacientes/{{ $('Webhook: Nueva Predicción').item.json.body.pacienteId }}\">Ver perfil del paciente en Predia →</a></p>",
+                "options": {}
+            },
+            "id": "node-send-email",
+            "name": "Enviar Alerta por Email",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 2.1,
+            "position": [
+                900,
+                180
+            ]
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "assign-status",
+                            "name": "estado",
+                            "value": "riesgo_bajo",
+                            "type": "string"
+                        },
+                        {
+                            "id": "assign-score",
+                            "name": "score",
+                            "value": "={{ $('Webhook: Nueva Predicción').item.json.body.score }}",
+                            "type": "number"
+                        },
+                        {
+                            "id": "assign-paciente",
+                            "name": "pacienteId",
+                            "value": "={{ $('Webhook: Nueva Predicción').item.json.body.pacienteId }}",
+                            "type": "number"
+                        },
+                        {
+                            "id": "assign-msg",
+                            "name": "mensaje",
+                            "value": "Sin acción requerida. Riesgo por debajo del umbral.",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-riesgo-bajo",
+            "name": "Registrar Riesgo Bajo",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                900,
+                420
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ { \"ok\": true, \"mensaje\": \"Predicción procesada por n8n\", \"alerta\": $json.estado === undefined } }}",
+                "options": {}
+            },
+            "id": "node-respond",
+            "name": "Responder al Webhook",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1.1,
+            "position": [
+                1120,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook: Nueva Predicción": {
+            "main": [
+                [
+                    {
+                        "node": "Obtener Datos del Paciente",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Obtener Datos del Paciente": {
+            "main": [
+                [
+                    {
+                        "node": "¿Riesgo Alto?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "¿Riesgo Alto?": {
+            "main": [
+                [
+                    {
+                        "node": "Enviar Alerta por Email",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Registrar Riesgo Bajo",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Enviar Alerta por Email": {
+            "main": [
+                [
+                    {
+                        "node": "Responder al Webhook",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Registrar Riesgo Bajo": {
+            "main": [
+                [
+                    {
+                        "node": "Responder al Webhook",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [
+        {
+            "createdAt": "2026-02-22T00:00:00.000Z",
+            "updatedAt": "2026-02-22T00:00:00.000Z",
+            "id": "tag-predia",
+            "name": "predia"
+        }
+    ],
+    "triggerCount": 0,
+    "updatedAt": "2026-02-22T00:00:00.000Z",
+    "versionId": "v1"
+}

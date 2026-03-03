@@ -1,0 +1,209 @@
+{
+    "name": "Predia – Reporte Diario de Actividad Clínica",
+    "nodes": [
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "field": "cronExpression",
+                            "expression": "0 20 * * 1-6"
+                        }
+                    ]
+                }
+            },
+            "id": "node-cron-reporte",
+            "name": "Cada día a las 8pm (Lun-Sáb)",
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                220,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "http://diabetes-ai:3000/api/auth/login",
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "username",
+                            "value": "={{ $env.PREDIA_BOT_USER || 'admin_luis' }}"
+                        },
+                        {
+                            "name": "password",
+                            "value": "={{ $env.PREDIA_BOT_PASS || 'password123' }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-login-reporte",
+            "name": "Login en Predia",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                440,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "method": "GET",
+                "url": "http://diabetes-ai:3000/api/dashboard/stats",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "=Bearer {{ $json.token }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-get-stats",
+            "name": "Obtener Stats del Dashboard",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                660,
+                200
+            ]
+        },
+        {
+            "parameters": {
+                "method": "GET",
+                "url": "=http://diabetes-ai:3000/api/agenda?fecha={{ $('Cada día a las 8pm (Lun-Sáb)').item.json.timestamp.split('T')[0] }}&limit=100",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "=Bearer {{ $('Login en Predia').item.json.token }}"
+                        }
+                    ]
+                },
+                "options": {
+                    "continueOnFail": true
+                }
+            },
+            "id": "node-get-agenda-reporte",
+            "name": "Obtener Agenda del Día",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                660,
+                400
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "const stats = $('Obtener Stats del Dashboard').item.json;\nconst agenda = $('Obtener Agenda del Día').item.json;\n\nconst citasHoy = Array.isArray(agenda) ? agenda.length : (agenda.citas ? agenda.citas.length : 0);\nconst fecha = new Date().toLocaleDateString('es-MX', { weekday:'long', year:'numeric', month:'long', day:'numeric' });\n\nreturn [{ json: {\n  fecha,\n  totalPacientes: stats.totalPacientes || stats.pacientes || 'N/D',\n  citasHoy,\n  consultas: stats.consultasHoy || stats.consultas || 'N/D',\n  prediccionesAltoRiesgo: stats.prediccionesAltoRiesgo || stats.alertas || 0,\n  nuevasPredHoy: stats.prediccionesHoy || 'N/D',\n  statsRaw: stats\n}}];"
+            },
+            "id": "node-merge-reporte",
+            "name": "Consolidar Datos",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                880,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fromEmail": "reportes@predia.com",
+                "toEmail": "={{ $env.PREDIA_ADMIN_EMAIL || 'admin@predia.com' }}",
+                "subject": "📊 Reporte Diario Predia – {{ $json.fecha }}",
+                "emailType": "html",
+                "message": "=<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;'><div style='background:#1e3a5f;padding:20px;border-radius:8px 8px 0 0;'><h1 style='color:white;margin:0;font-size:20px;'>📊 Reporte Diario Predia</h1><p style='color:#93c5fd;margin:4px 0 0;'>{{ $json.fecha }}</p></div><div style='border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px;'><h3 style='color:#374151;border-bottom:2px solid #e5e7eb;padding-bottom:8px;'>Resumen del Día</h3><table width='100%' cellpadding='12' cellspacing='0' style='border-collapse:collapse;'><tr style='background:#f9fafb;'><td style='border:1px solid #e5e7eb;border-radius:4px;'><div style='color:#6b7280;font-size:12px;'>TOTAL PACIENTES</div><div style='font-size:28px;font-weight:bold;color:#1e3a5f;'>{{ $json.totalPacientes }}</div></td><td style='border:1px solid #e5e7eb;'><div style='color:#6b7280;font-size:12px;'>CITAS HOY</div><div style='font-size:28px;font-weight:bold;color:#2563eb;'>{{ $json.citasHoy }}</div></td></tr><tr><td style='border:1px solid #e5e7eb;'><div style='color:#6b7280;font-size:12px;'>CONSULTAS REALIZADAS</div><div style='font-size:28px;font-weight:bold;color:#059669;'>{{ $json.consultas }}</div></td><td style='border:1px solid #e5e7eb;background:#fff7ed;'><div style='color:#6b7280;font-size:12px;'>ALTO RIESGO ACTIVO</div><div style='font-size:28px;font-weight:bold;color:#dc2626;'>{{ $json.prediccionesAltoRiesgo }}</div></td></tr></table><br/><p style='text-align:center;'><a href='http://localhost:3000/dashboard' style='background:#1e3a5f;color:white;padding:10px 24px;border-radius:6px;text-decoration:none;font-weight:bold;'>Ver Dashboard Completo →</a></p><p style='color:#9ca3af;font-size:11px;text-align:center;'>Reporte generado automáticamente por n8n para Predia</p></div></div>",
+                "options": {}
+            },
+            "id": "node-email-reporte",
+            "name": "Enviar Reporte por Email",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 2.1,
+            "position": [
+                1100,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Cada día a las 8pm (Lun-Sáb)": {
+            "main": [
+                [
+                    {
+                        "node": "Login en Predia",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Login en Predia": {
+            "main": [
+                [
+                    {
+                        "node": "Obtener Stats del Dashboard",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Obtener Agenda del Día",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Obtener Stats del Dashboard": {
+            "main": [
+                [
+                    {
+                        "node": "Consolidar Datos",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Obtener Agenda del Día": {
+            "main": [
+                [
+                    {
+                        "node": "Consolidar Datos",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Consolidar Datos": {
+            "main": [
+                [
+                    {
+                        "node": "Enviar Reporte por Email",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [
+        {
+            "id": "tag-predia",
+            "name": "predia"
+        }
+    ],
+    "triggerCount": 0,
+    "versionId": "v1"
+}

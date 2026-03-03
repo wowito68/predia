@@ -1,0 +1,236 @@
+{
+    "name": "Predia – Revisión de Código con IA (Auto-fix)",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "revisar-codigo",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "node-webhook-code",
+            "name": "Webhook: Revisar Código",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                220,
+                300
+            ],
+            "webhookId": "predia-revisar-codigo"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "assign-prompt",
+                            "name": "prompt",
+                            "value": "=Eres un experto senior en Next.js 15, TypeScript, React 19, Prisma y Tailwind CSS. Analiza el siguiente archivo del proyecto Predia (plataforma clínica EHR):\n\n**Archivo:** {{ $json.body.archivo }}\n**Lenguaje:** {{ $json.body.lenguaje }}\n\n```\n{{ $json.body.codigo }}\n```\n\nProporciona:\n1. **Errores críticos** (bugs, problemas de seguridad, memory leaks)\n2. **Mejoras de rendimiento** (optimizaciones React, queries Prisma, caching)\n3. **Mejoras de diseño/UX** (si aplica: Tailwind, accesibilidad, responsive)\n4. **Código corregido** con los cambios aplicados (solo las secciones modificadas)\n5. **Resumen ejecutivo** en 2-3 líneas\n\nResponde en español. Usa formato Markdown.",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-build-prompt",
+            "name": "Construir Prompt para IA",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                440,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://api.openai.com/v1/chat/completions",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "=Bearer {{ $env.OPENAI_API_KEY }}"
+                        },
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "model",
+                            "value": "gpt-4o"
+                        },
+                        {
+                            "name": "messages",
+                            "value": "=[{\"role\":\"system\",\"content\":\"Eres un experto en desarrollo web clínico con Next.js y TypeScript.\"},{\"role\":\"user\",\"content\":\"{{ $json.prompt }}\"}]"
+                        },
+                        {
+                            "name": "max_tokens",
+                            "value": "4096"
+                        },
+                        {
+                            "name": "temperature",
+                            "value": "0.2"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-openai",
+            "name": "OpenAI: Analizar Código",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                660,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "assign-resultado",
+                            "name": "revision",
+                            "value": "={{ $json.choices[0].message.content }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "assign-archivo",
+                            "name": "archivo",
+                            "value": "={{ $('Webhook: Revisar Código').item.json.body.archivo }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "assign-tokens",
+                            "name": "tokens_usados",
+                            "value": "={{ $json.usage.total_tokens }}",
+                            "type": "number"
+                        },
+                        {
+                            "id": "assign-ts",
+                            "name": "timestamp",
+                            "value": "={{ $now.toISO() }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-extract",
+            "name": "Extraer Revisión",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                880,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fromEmail": "ia@predia.com",
+                "toEmail": "={{ $('Webhook: Revisar Código').item.json.body.email || 'dev@predia.com' }}",
+                "subject": "🤖 Revisión IA completada: {{ $json.archivo }}",
+                "emailType": "html",
+                "message": "=<h2>Revisión de Código Completada por IA</h2><p><strong>Archivo:</strong> {{ $json.archivo }}</p><p><strong>Tokens utilizados:</strong> {{ $json.tokens_usados }}</p><hr/><div style='font-family:monospace;'>{{ $json.revision.replace(/\\n/g, '<br/>') }}</div>",
+                "options": {}
+            },
+            "id": "node-email-revision",
+            "name": "Enviar Revisión por Email",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 2.1,
+            "position": [
+                1100,
+                180
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ { \"ok\": true, \"archivo\": $json.archivo, \"revision\": $json.revision, \"tokens\": $json.tokens_usados } }}",
+                "options": {}
+            },
+            "id": "node-respond-code",
+            "name": "Responder con Revisión",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1.1,
+            "position": [
+                1100,
+                420
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook: Revisar Código": {
+            "main": [
+                [
+                    {
+                        "node": "Construir Prompt para IA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Construir Prompt para IA": {
+            "main": [
+                [
+                    {
+                        "node": "OpenAI: Analizar Código",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI: Analizar Código": {
+            "main": [
+                [
+                    {
+                        "node": "Extraer Revisión",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extraer Revisión": {
+            "main": [
+                [
+                    {
+                        "node": "Enviar Revisión por Email",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Responder con Revisión",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [
+        {
+            "id": "tag-predia",
+            "name": "predia"
+        },
+        {
+            "id": "tag-dev",
+            "name": "devtools"
+        }
+    ],
+    "triggerCount": 0,
+    "versionId": "v1"
+}

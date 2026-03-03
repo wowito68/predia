@@ -1,0 +1,246 @@
+{
+    "name": "Predia – Recordatorio de Citas del Día",
+    "nodes": [
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "field": "cronExpression",
+                            "expression": "0 7 * * 1-6"
+                        }
+                    ]
+                }
+            },
+            "id": "node-cron-citas",
+            "name": "Cada día a las 7am (Lun-Sáb)",
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                220,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "http://diabetes-ai:3000/api/auth/login",
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "username",
+                            "value": "={{ $env.PREDIA_BOT_USER || 'admin_luis' }}"
+                        },
+                        {
+                            "name": "password",
+                            "value": "={{ $env.PREDIA_BOT_PASS || 'password123' }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-login",
+            "name": "Login en Predia",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                440,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "method": "GET",
+                "url": "=http://diabetes-ai:3000/api/agenda?fecha={{ $now.format('yyyy-MM-dd') }}&limit=100",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "=Bearer {{ $json.token }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-get-citas",
+            "name": "Obtener Citas de Hoy",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                660,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": false,
+                        "typeValidation": "strict"
+                    },
+                    "conditions": [
+                        {
+                            "id": "cond-hay-citas",
+                            "leftValue": "={{ Array.isArray($json) ? $json.length : ($json.citas ? $json.citas.length : 0) }}",
+                            "rightValue": 0,
+                            "operator": {
+                                "type": "number",
+                                "operation": "gt"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "id": "node-if-citas",
+            "name": "¿Hay citas hoy?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2,
+            "position": [
+                880,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fieldToSplitOut": "={{ Array.isArray($json) ? 'json' : 'citas' }}",
+                "options": {}
+            },
+            "id": "node-split-citas",
+            "name": "Dividir por Cita",
+            "type": "n8n-nodes-base.splitOut",
+            "typeVersion": 1,
+            "position": [
+                1100,
+                180
+            ]
+        },
+        {
+            "parameters": {
+                "fromEmail": "recordatorios@predia.com",
+                "toEmail": "=={{ $json.pacienteEmail || $json.email }}",
+                "subject": "📅 Recordatorio de Cita Médica – {{ $now.format('dd/MM/yyyy') }}",
+                "emailType": "html",
+                "message": "=<h2>Recordatorio de Cita Médica</h2><p>Estimado/a <strong>{{ $json.pacienteNombre || $json.nombre }}</strong>,</p><p>Le recordamos que tiene una cita médica programada para hoy:</p><table border='1' cellpadding='8' cellspacing='0' style='border-collapse:collapse;font-family:sans-serif;'><tr style='background:#f3f4f6;'><td><strong>Médico</strong></td><td>{{ $json.medicoNombre || $json.medico }}</td></tr><tr><td><strong>Fecha</strong></td><td>{{ $now.format('dd/MM/yyyy') }}</td></tr><tr><td><strong>Hora</strong></td><td>{{ $json.hora || $json.horaInicio }}</td></tr><tr style='background:#f3f4f6;'><td><strong>Motivo</strong></td><td>{{ $json.motivo || $json.descripcion || 'Consulta general' }}</td></tr></table><p>En caso de no poder asistir, por favor cancele la cita a la brevedad.</p><p style='color:#6b7280;font-size:12px;'>Este es un mensaje automático del sistema Predia.</p>",
+                "options": {}
+            },
+            "id": "node-email-recordatorio",
+            "name": "Enviar Recordatorio al Paciente",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 2.1,
+            "position": [
+                1320,
+                180
+            ]
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "assign-no-citas",
+                            "name": "mensaje",
+                            "value": "No hay citas programadas para hoy.",
+                            "type": "string"
+                        },
+                        {
+                            "id": "assign-fecha",
+                            "name": "fecha",
+                            "value": "={{ $now.format('yyyy-MM-dd') }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-no-citas",
+            "name": "Sin citas hoy",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                1100,
+                420
+            ]
+        }
+    ],
+    "connections": {
+        "Cada día a las 7am (Lun-Sáb)": {
+            "main": [
+                [
+                    {
+                        "node": "Login en Predia",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Login en Predia": {
+            "main": [
+                [
+                    {
+                        "node": "Obtener Citas de Hoy",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Obtener Citas de Hoy": {
+            "main": [
+                [
+                    {
+                        "node": "¿Hay citas hoy?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "¿Hay citas hoy?": {
+            "main": [
+                [
+                    {
+                        "node": "Dividir por Cita",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Sin citas hoy",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Dividir por Cita": {
+            "main": [
+                [
+                    {
+                        "node": "Enviar Recordatorio al Paciente",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [
+        {
+            "id": "tag-predia",
+            "name": "predia"
+        }
+    ],
+    "triggerCount": 0,
+    "versionId": "v1"
+}

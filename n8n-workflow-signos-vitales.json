@@ -1,0 +1,165 @@
+{
+    "name": "Predia – Alerta de Signos Vitales Críticos",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "signos-vitales",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "node-webhook-sv",
+            "name": "Webhook: Nuevas Mediciones",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                220,
+                300
+            ],
+            "webhookId": "predia-signos-vitales"
+        },
+        {
+            "parameters": {
+                "jsCode": "// Umbrales clínicos configurables\nconst sv = $input.item.json.body;\nconst alertas = [];\n\n// Glucosa (mg/dL)\nif (sv.glucosa !== undefined) {\n  if (sv.glucosa > 250) alertas.push({ tipo: 'Glucosa', valor: sv.glucosa, umbral: '>250 mg/dL', severidad: 'CRÍTICO' });\n  else if (sv.glucosa > 180) alertas.push({ tipo: 'Glucosa', valor: sv.glucosa, umbral: '>180 mg/dL', severidad: 'ALTO' });\n  else if (sv.glucosa < 70) alertas.push({ tipo: 'Glucosa', valor: sv.glucosa, umbral: '<70 mg/dL (HIPOGLUCEMIA)', severidad: 'CRÍTICO' });\n}\n\n// Presión sistólica (mmHg)\nif (sv.presionSistolica !== undefined) {\n  if (sv.presionSistolica > 180) alertas.push({ tipo: 'Presión Sistólica', valor: sv.presionSistolica, umbral: '>180 mmHg', severidad: 'CRÍTICO' });\n  else if (sv.presionSistolica > 140) alertas.push({ tipo: 'Presión Sistólica', valor: sv.presionSistolica, umbral: '>140 mmHg', severidad: 'ALTO' });\n  else if (sv.presionSistolica < 90) alertas.push({ tipo: 'Presión Sistólica', valor: sv.presionSistolica, umbral: '<90 mmHg', severidad: 'CRÍTICO' });\n}\n\n// Frecuencia cardíaca (bpm)\nif (sv.frecuenciaCardiaca !== undefined) {\n  if (sv.frecuenciaCardiaca > 120) alertas.push({ tipo: 'Frecuencia Cardíaca', valor: sv.frecuenciaCardiaca, umbral: '>120 bpm', severidad: 'CRÍTICO' });\n  else if (sv.frecuenciaCardiaca < 50) alertas.push({ tipo: 'Frecuencia Cardíaca', valor: sv.frecuenciaCardiaca, umbral: '<50 bpm', severidad: 'CRÍTICO' });\n}\n\n// Saturación O2 (%)\nif (sv.saturacionO2 !== undefined) {\n  if (sv.saturacionO2 < 90) alertas.push({ tipo: 'Saturación O2', valor: sv.saturacionO2, umbral: '<90%', severidad: 'CRÍTICO' });\n  else if (sv.saturacionO2 < 95) alertas.push({ tipo: 'Saturación O2', valor: sv.saturacionO2, umbral: '<95%', severidad: 'ALTO' });\n}\n\n// Temperatura (°C)\nif (sv.temperatura !== undefined) {\n  if (sv.temperatura > 39.5) alertas.push({ tipo: 'Temperatura', valor: sv.temperatura, umbral: '>39.5°C', severidad: 'CRÍTICO' });\n  else if (sv.temperatura > 38) alertas.push({ tipo: 'Temperatura', valor: sv.temperatura, umbral: '>38°C (Fiebre)', severidad: 'ALTO' });\n  else if (sv.temperatura < 36) alertas.push({ tipo: 'Temperatura', valor: sv.temperatura, umbral: '<36°C (Hipotermia)', severidad: 'ALTO' });\n}\n\nreturn [{ \n  json: { \n    alertas,\n    hayAlertas: alertas.length > 0,\n    hayAlertasCriticas: alertas.some(a => a.severidad === 'CRÍTICO'),\n    pacienteId: sv.pacienteId,\n    pacienteNombre: sv.pacienteNombre,\n    medicoEmail: sv.medicoEmail,\n    timestamp: new Date().toISOString(),\n    signosVitales: sv\n  } \n}];"
+            },
+            "id": "node-evaluate-sv",
+            "name": "Evaluar Signos Vitales",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                440,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": false,
+                        "typeValidation": "strict"
+                    },
+                    "conditions": [
+                        {
+                            "id": "cond-hay-alertas",
+                            "leftValue": "={{ $json.hayAlertas }}",
+                            "rightValue": true,
+                            "operator": {
+                                "type": "boolean",
+                                "operation": "true"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "id": "node-if-alert",
+            "name": "¿Hay Alertas?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2,
+            "position": [
+                660,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fromEmail": "urgencias@predia.com",
+                "toEmail": "={{ $json.medicoEmail || 'medico@predia.com' }}",
+                "subject": "=🚨 {{ $json.hayAlertasCriticas ? '[CRÍTICO]' : '[ALTO]' }} Signos Vitales Anormales – Pac. {{ $json.pacienteNombre }} (ID: {{ $json.pacienteId }})",
+                "emailType": "html",
+                "message": "=<h2 style='color:{{ $json.hayAlertasCriticas ? '#dc2626' : '#d97706' }};'>⚠️ Alerta de Signos Vitales {{ $json.hayAlertasCriticas ? 'CRÍTICOS' : 'ALTOS' }}</h2><p><strong>Paciente:</strong> {{ $json.pacienteNombre }} (ID: {{ $json.pacienteId }})</p><p><strong>Registrado:</strong> {{ $json.timestamp }}</p><h3>Valores Fuera de Rango:</h3><table border='1' cellpadding='8' cellspacing='0' style='border-collapse:collapse;'><tr style='background:#f3f4f6;'><th>Signo Vital</th><th>Valor</th><th>Umbral</th><th>Severidad</th></tr>{{ $json.alertas.map(a => `<tr><td>${a.tipo}</td><td><strong>${a.valor}</strong></td><td>${a.umbral}</td><td style='color:${a.severidad === 'CRÍTICO' ? '#dc2626' : '#d97706'};'><strong>${a.severidad}</strong></td></tr>`).join('') }}</table><br/><a href='http://localhost:3000/pacientes/{{ $json.pacienteId }}' style='background:#2563eb;color:white;padding:8px 16px;border-radius:4px;text-decoration:none;'>Ver Historial del Paciente →</a>",
+                "options": {}
+            },
+            "id": "node-email-sv",
+            "name": "Alerta Email al Médico",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 2.1,
+            "position": [
+                880,
+                180
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ { \"ok\": true, \"alertas\": $json.alertas, \"hayAlertas\": $json.hayAlertas } }}",
+                "options": {}
+            },
+            "id": "node-respond-sv",
+            "name": "Responder al Webhook",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1.1,
+            "position": [
+                1100,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook: Nuevas Mediciones": {
+            "main": [
+                [
+                    {
+                        "node": "Evaluar Signos Vitales",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Evaluar Signos Vitales": {
+            "main": [
+                [
+                    {
+                        "node": "¿Hay Alertas?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "¿Hay Alertas?": {
+            "main": [
+                [
+                    {
+                        "node": "Alerta Email al Médico",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Responder al Webhook",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Alerta Email al Médico": {
+            "main": [
+                [
+                    {
+                        "node": "Responder al Webhook",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [
+        {
+            "id": "tag-predia",
+            "name": "predia"
+        }
+    ],
+    "triggerCount": 0,
+    "versionId": "v1"
+}

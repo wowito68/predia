@@ -1,0 +1,177 @@
+{
+    "name": "Predia – Monitor de Salud del Servidor",
+    "nodes": [
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "field": "minutes",
+                            "minutesInterval": 5
+                        }
+                    ]
+                }
+            },
+            "id": "node-cron",
+            "name": "Cada 5 Minutos",
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                220,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "method": "GET",
+                "url": "http://diabetes-ai:3000/api/dashboard/stats",
+                "options": {
+                    "timeout": 10000
+                },
+                "continueOnFail": true
+            },
+            "id": "node-check-app",
+            "name": "Verificar App Predia",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                440,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": false,
+                        "leftValue": "",
+                        "typeValidation": "strict"
+                    },
+                    "conditions": [
+                        {
+                            "id": "cond-error",
+                            "leftValue": "={{ $json.error !== undefined || $json.statusCode >= 400 }}",
+                            "rightValue": true,
+                            "operator": {
+                                "type": "boolean",
+                                "operation": "true"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "id": "node-if-down",
+            "name": "¿Servidor Caído?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2,
+            "position": [
+                660,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fromEmail": "monitor@predia.com",
+                "toEmail": "admin@predia.com",
+                "subject": "🚨 CRÍTICO: Servidor Predia NO responde – {{ $now.format('dd/MM/yyyy HH:mm') }}",
+                "emailType": "html",
+                "message": "<h2 style='color:#dc2626;'>⚠️ Alerta de Servidor Caído</h2><p>El servidor <strong>Predia (diabetes-ai)</strong> no responde desde hace 5 minutos.</p><table border='1' cellpadding='6' cellspacing='0' style='border-collapse:collapse;'><tr><td><strong>URL monitoreada</strong></td><td>http://diabetes-ai:3000/api/dashboard/stats</td></tr><tr><td><strong>Hora de detección</strong></td><td>{{ $now.toISO() }}</td></tr><tr><td><strong>Error</strong></td><td>{{ $json.error || 'Sin respuesta (timeout)' }}</td></tr></table><p>Por favor revisar los logs del contenedor Docker:</p><pre>docker logs diabetes-ai --tail 50</pre>",
+                "options": {}
+            },
+            "id": "node-email-down",
+            "name": "Email: Servidor Caído",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 2.1,
+            "position": [
+                880,
+                180
+            ]
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "assign-ok",
+                            "name": "estado",
+                            "value": "ok",
+                            "type": "string"
+                        },
+                        {
+                            "id": "assign-ts",
+                            "name": "timestamp",
+                            "value": "={{ $now.toISO() }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "node-ok",
+            "name": "Servidor OK",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                880,
+                420
+            ]
+        }
+    ],
+    "connections": {
+        "Cada 5 Minutos": {
+            "main": [
+                [
+                    {
+                        "node": "Verificar App Predia",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Verificar App Predia": {
+            "main": [
+                [
+                    {
+                        "node": "¿Servidor Caído?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "¿Servidor Caído?": {
+            "main": [
+                [
+                    {
+                        "node": "Email: Servidor Caído",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Servidor OK",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [
+        {
+            "id": "tag-predia",
+            "name": "predia"
+        }
+    ],
+    "triggerCount": 0,
+    "versionId": "v1"
+}

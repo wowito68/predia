@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { MedicalHeader } from "@/components/medical-header"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -11,7 +11,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Search, Download, Eye, AlertTriangle, CheckCircle, Loader2,
-  Brain, ClipboardList, Activity, Calendar, User, Pill
+  Brain, ClipboardList, Activity, User
 } from "lucide-react"
 
 interface Prediccion {
@@ -43,18 +43,28 @@ interface Consulta {
   }
 }
 
+const CONSULTAS_PER_PAGE = 10
+const PREDICCIONES_PER_PAGE = 10
+
 export default function HistorialPage() {
   const router = useRouter()
   const [predicciones, setPredicciones] = useState<Prediccion[]>([])
   const [consultas, setConsultas] = useState<Consulta[]>([])
   const [loading, setLoading] = useState(true)
   const [loadingConsultas, setLoadingConsultas] = useState(true)
+  const [errorPredicciones, setErrorPredicciones] = useState<string | null>(null)
+  const [errorConsultas, setErrorConsultas] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [filterRisk, setFilterRisk] = useState<string>("todos")
   const [token, setToken] = useState<string | null>(null)
-  const [page, setPage] = useState(1)
-  const [total, setTotal] = useState(0)
-  const limit = 10
+
+  // Paginación: predicciones
+  const [pagePred, setPagePred] = useState(1)
+  const [totalPred, setTotalPred] = useState(0)
+
+  // Paginación: consultas
+  const [pageConsultas, setPageConsultas] = useState(1)
+  const [totalConsultas, setTotalConsultas] = useState(0)
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token")
@@ -65,63 +75,65 @@ export default function HistorialPage() {
     setToken(storedToken)
   }, [router])
 
-  useEffect(() => {
-    if (token) {
-      cargarPredicciones()
-      cargarConsultas()
-    }
-  }, [token, page])
-
-  const cargarConsultas = async () => {
-    if (!token) return
+  const cargarConsultas = useCallback(async (tkn: string, page: number, signal: AbortSignal) => {
     setLoadingConsultas(true)
+    setErrorConsultas(null)
     try {
-      const response = await fetch("/api/consultas?limit=20", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      if (response.ok) {
-        const data = await response.json()
-        setConsultas(data.data || [])
-      }
-    } catch (error) {
+      const offset = (page - 1) * CONSULTAS_PER_PAGE
+      const response = await fetch(
+        `/api/consultas?limit=${CONSULTAS_PER_PAGE}&offset=${offset}`,
+        { headers: { Authorization: `Bearer ${tkn}` }, signal }
+      )
+      if (signal.aborted) return
+      if (!response.ok) throw new Error(`Error ${response.status}`)
+      const data = await response.json()
+      setConsultas(data.data || [])
+      // Si el API devuelve total, úsalo; si no, estimamos con el array recibido
+      setTotalConsultas(data.total ?? (data.data?.length ?? 0) + offset)
+    } catch (error: any) {
+      if (error.name === "AbortError") return
       console.error("Error al cargar consultas:", error)
+      setErrorConsultas("No se pudieron cargar las consultas. Verifica la conexión.")
     } finally {
       setLoadingConsultas(false)
     }
-  }
+  }, [])
 
-  const cargarPredicciones = async () => {
-    if (!token) return
-
+  const cargarPredicciones = useCallback(async (tkn: string, page: number, signal: AbortSignal) => {
     setLoading(true)
+    setErrorPredicciones(null)
     try {
-      const response = await fetch(`/api/predicciones?page=${page}&limit=${limit}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (!response.ok) {
-        throw new Error("Error al cargar predicciones")
-      }
-
+      const response = await fetch(
+        `/api/predicciones?page=${page}&limit=${PREDICCIONES_PER_PAGE}`,
+        { headers: { Authorization: `Bearer ${tkn}` }, signal }
+      )
+      if (signal.aborted) return
+      if (!response.ok) throw new Error(`Error ${response.status}`)
       const data = await response.json()
       setPredicciones(data.data || [])
-      setTotal(data.total || 0)
-    } catch (error) {
+      setTotalPred(data.total || 0)
+    } catch (error: any) {
+      if (error.name === "AbortError") return
       console.error("Error al cargar predicciones:", error)
+      setErrorPredicciones("No se pudieron cargar las evaluaciones predictivas. Verifica la conexión.")
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (!token) return
+    const controller = new AbortController()
+    cargarPredicciones(token, pagePred, controller.signal)
+    cargarConsultas(token, pageConsultas, controller.signal)
+    return () => controller.abort()
+  }, [token, pagePred, pageConsultas, cargarPredicciones, cargarConsultas])
 
   const filteredPredicciones = predicciones.filter((pred) => {
     const matchSearch =
       pred.paciente_nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pred.cedula?.includes(searchTerm)
-
     const matchRisk = filterRisk === "todos" || pred.nivel_riesgo === filterRisk
-
     return matchSearch && matchRisk
   })
 
@@ -162,7 +174,6 @@ export default function HistorialPage() {
         </Badge>
       )
     }
-
     switch (level?.toLowerCase()) {
       case "alto":
         return <Badge variant="destructive">Riesgo Alto</Badge>
@@ -183,9 +194,9 @@ export default function HistorialPage() {
     }
   }
 
-  const isLoading = loading && loadingConsultas
+  const isInitialLoading = loading && loadingConsultas && predicciones.length === 0 && consultas.length === 0
 
-  if (isLoading) {
+  if (isInitialLoading) {
     return (
       <div className="min-h-screen bg-background">
         <MedicalHeader />
@@ -241,6 +252,24 @@ export default function HistorialPage() {
 
           {/* Tab: Consultas Médicas */}
           <TabsContent value="consultas">
+            {/* Error de consultas */}
+            {errorConsultas && (
+              <Alert className="mb-4 border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/50">
+                <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                <AlertDescription className="text-red-800 dark:text-red-300">
+                  {errorConsultas}
+                  <Button
+                    variant="link"
+                    size="sm"
+                    onClick={() => token && cargarConsultas(token, pageConsultas, new AbortController().signal)}
+                    className="ml-2 p-0 h-auto text-red-700 dark:text-red-400 underline"
+                  >
+                    Reintentar
+                  </Button>
+                </AlertDescription>
+              </Alert>
+            )}
+
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
@@ -250,7 +279,7 @@ export default function HistorialPage() {
                       Consultas Recientes
                     </CardTitle>
                     <CardDescription className="mt-1">
-                      {filteredConsultas.length} consultas registradas
+                      {filteredConsultas.length} consultas en esta página
                     </CardDescription>
                   </div>
                 </div>
@@ -284,7 +313,7 @@ export default function HistorialPage() {
                               <div className="flex items-center gap-2">
                                 <User className="w-4 h-4 text-muted-foreground" />
                                 <span className="font-medium text-foreground">
-                                  {consulta.paciente?.nombre} {consulta.paciente?.apellido_paterno}
+                                  {consulta.paciente?.nombre ?? "—"} {consulta.paciente?.apellido_paterno ?? ""}
                                 </span>
                               </div>
                             </td>
@@ -301,7 +330,8 @@ export default function HistorialPage() {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => router.push(`/pacientes/${consulta.paciente?.id_paciente}/historial`)}
+                                onClick={() => consulta.paciente?.id_paciente && router.push(`/pacientes/${consulta.paciente.id_paciente}/historial`)}
+                                disabled={!consulta.paciente?.id_paciente}
                               >
                                 <Eye className="w-4 h-4 mr-1" />
                                 Ver Historial
@@ -311,6 +341,33 @@ export default function HistorialPage() {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                )}
+
+                {/* Paginación de consultas */}
+                {totalConsultas > CONSULTAS_PER_PAGE && (
+                  <div className="flex justify-between items-center mt-4 pt-4 border-t">
+                    <div className="text-sm text-muted-foreground">
+                      Página {pageConsultas} · {Math.min(CONSULTAS_PER_PAGE, filteredConsultas.length)} de ~{totalConsultas} consultas
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={pageConsultas === 1}
+                        onClick={() => setPageConsultas(p => p - 1)}
+                      >
+                        Anterior
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={filteredConsultas.length < CONSULTAS_PER_PAGE}
+                        onClick={() => setPageConsultas(p => p + 1)}
+                      >
+                        Siguiente
+                      </Button>
+                    </div>
                   </div>
                 )}
               </CardContent>
@@ -327,6 +384,24 @@ export default function HistorialPage() {
                 de laboratorio del paciente y actúa como apoyo a la decisión médica. No constituyen un diagnóstico.
               </AlertDescription>
             </Alert>
+
+            {/* Error de predicciones */}
+            {errorPredicciones && (
+              <Alert className="mb-4 border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/50">
+                <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                <AlertDescription className="text-red-800 dark:text-red-300">
+                  {errorPredicciones}
+                  <Button
+                    variant="link"
+                    size="sm"
+                    onClick={() => token && cargarPredicciones(token, pagePred, new AbortController().signal)}
+                    className="ml-2 p-0 h-auto text-red-700 dark:text-red-400 underline"
+                  >
+                    Reintentar
+                  </Button>
+                </AlertDescription>
+              </Alert>
+            )}
 
             {/* Controles de filtrado de predicciones */}
             <Card className="mb-4">
@@ -362,7 +437,7 @@ export default function HistorialPage() {
                       Evaluaciones Predictivas
                     </CardTitle>
                     <CardDescription className="mt-1">
-                      {filteredPredicciones.length} de {total} registros — Módulo de IA: Predicción de Diabetes
+                      {filteredPredicciones.length} de {totalPred} registros — Módulo de IA: Predicción de Diabetes
                     </CardDescription>
                   </div>
                   <Badge variant="outline" className="border-violet-200 text-violet-700 dark:border-violet-800 dark:text-violet-300">
@@ -372,91 +447,97 @@ export default function HistorialPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-3 px-4 font-medium text-foreground">Paciente</th>
-                        <th className="text-left py-3 px-4 font-medium text-foreground">Fecha</th>
-                        <th className="text-left py-3 px-4 font-medium text-foreground">Resultado</th>
-                        <th className="text-left py-3 px-4 font-medium text-foreground">Confianza</th>
-                        <th className="text-left py-3 px-4 font-medium text-foreground">Nivel</th>
-                        <th className="text-left py-3 px-4 font-medium text-foreground">Registrado por</th>
-                        <th className="text-left py-3 px-4 font-medium text-foreground">Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredPredicciones.map((pred) => (
-                        <tr key={pred.id_prediccion} className="border-b hover:bg-muted/50">
-                          <td className="py-3 px-4">
-                            <div className="font-medium text-foreground">{pred.paciente_nombre}</div>
-                          </td>
-                          <td className="py-3 px-4 text-muted-foreground">
-                            {new Date(pred.fecha_prediccion).toLocaleDateString("es-ES")}
-                          </td>
-                          <td className="py-3 px-4">
-                            <div className="flex items-center space-x-2">
-                              {pred.resultado_prediccion ? (
-                                <AlertTriangle className="w-4 h-4 text-red-600" />
-                              ) : (
-                                <CheckCircle className="w-4 h-4 text-green-600" />
-                              )}
-                              <span className={pred.resultado_prediccion ? "text-red-600" : "text-green-600"}>
-                                {pred.resultado_prediccion ? "Positivo" : "Negativo"}
-                              </span>
-                            </div>
-                          </td>
-                          <td className="py-3 px-4 text-muted-foreground">
-                            {(pred.probabilidad_diabetes * 100).toFixed(1)}%
-                          </td>
-                          <td className="py-3 px-4">
-                            {getRiskBadge(pred.nivel_riesgo, pred.resultado_prediccion)}
-                          </td>
-                          <td className="py-3 px-4 text-muted-foreground">{pred.usuario_nombre}</td>
-                          <td className="py-3 px-4">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => router.push(`/pacientes/${pred.id_paciente}/predicciones`)}
-                            >
-                              <Eye className="w-4 h-4 mr-1" />
-                              Ver
-                            </Button>
-                          </td>
+                {loading ? (
+                  <div className="text-center py-8">
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto text-blue-600" />
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Paciente</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Fecha</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Resultado</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Confianza</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Nivel</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Registrado por</th>
+                          <th className="text-left py-3 px-4 font-medium text-foreground">Acciones</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {filteredPredicciones.map((pred) => (
+                          <tr key={pred.id_prediccion} className="border-b hover:bg-muted/50">
+                            <td className="py-3 px-4">
+                              <div className="font-medium text-foreground">{pred.paciente_nombre}</div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {new Date(pred.fecha_prediccion).toLocaleDateString("es-ES")}
+                            </td>
+                            <td className="py-3 px-4">
+                              <div className="flex items-center space-x-2">
+                                {pred.resultado_prediccion ? (
+                                  <AlertTriangle className="w-4 h-4 text-red-600" />
+                                ) : (
+                                  <CheckCircle className="w-4 h-4 text-green-600" />
+                                )}
+                                <span className={pred.resultado_prediccion ? "text-red-600" : "text-green-600"}>
+                                  {pred.resultado_prediccion ? "Positivo" : "Negativo"}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">
+                              {(pred.probabilidad_diabetes * 100).toFixed(1)}%
+                            </td>
+                            <td className="py-3 px-4">
+                              {getRiskBadge(pred.nivel_riesgo, pred.resultado_prediccion)}
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground">{pred.usuario_nombre}</td>
+                            <td className="py-3 px-4">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => router.push(`/pacientes/${pred.id_paciente}/predicciones`)}
+                              >
+                                <Eye className="w-4 h-4 mr-1" />
+                                Ver
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
 
-                  {filteredPredicciones.length === 0 && (
-                    <div className="text-center py-8 text-muted-foreground">
-                      {predicciones.length === 0
-                        ? "No se han realizado evaluaciones predictivas. Acceda al historial de un paciente con datos clínicos para ejecutar una evaluación."
-                        : "No se encontraron registros que coincidan con los filtros aplicados."}
-                    </div>
-                  )}
-                </div>
+                    {filteredPredicciones.length === 0 && (
+                      <div className="text-center py-8 text-muted-foreground">
+                        {predicciones.length === 0
+                          ? "No se han realizado evaluaciones predictivas. Acceda al historial de un paciente con datos clínicos para ejecutar una evaluación."
+                          : "No se encontraron registros que coincidan con los filtros aplicados."}
+                      </div>
+                    )}
+                  </div>
+                )}
 
-                {/* Paginación */}
-                {total > limit && (
+                {/* Paginación de predicciones */}
+                {totalPred > PREDICCIONES_PER_PAGE && (
                   <div className="flex justify-between items-center mt-4 pt-4 border-t">
                     <div className="text-sm text-muted-foreground">
-                      Mostrando {Math.min(limit, filteredPredicciones.length)} de {total} registros
+                      Página {pagePred} · Mostrando {Math.min(PREDICCIONES_PER_PAGE, filteredPredicciones.length)} de {totalPred} registros
                     </div>
                     <div className="flex gap-2">
                       <Button
                         variant="outline"
                         size="sm"
-                        disabled={page === 1}
-                        onClick={() => setPage(page - 1)}
+                        disabled={pagePred === 1}
+                        onClick={() => setPagePred(p => p - 1)}
                       >
                         Anterior
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        disabled={page >= Math.ceil(total / limit)}
-                        onClick={() => setPage(page + 1)}
+                        disabled={pagePred >= Math.ceil(totalPred / PREDICCIONES_PER_PAGE)}
+                        onClick={() => setPagePred(p => p + 1)}
                       >
                         Siguiente
                       </Button>
