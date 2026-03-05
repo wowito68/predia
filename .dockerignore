@@ -1,0 +1,41 @@
+# Dependencias (se instalan dentro del contenedor)
+node_modules
+.pnpm-store
+
+# Build artifacts de Next.js
+.next
+out
+build
+
+# Git
+.git
+.gitignore
+
+# Env (se montan via env_file en compose)
+.env
+.env.*
+
+# Documentación y vistas de diseño
+vistas/
+*.md
+LICENSE
+
+# Logs
+*.log
+server.log
+
+# IDE / OS
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Archivos innecesarios para el build
+n8n-workflow-*.json
+Dataset*.csv
+ecosystem.config.js
+setup-database.sql
+setup.sh
+tsconfig.tsbuildinfo
