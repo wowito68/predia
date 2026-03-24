@@ -14,6 +14,7 @@ Plataforma completa de predicción de diabetes basada en Machine Learning, con b
   - **PWA (Progressive Web App)**: Soporte para instalación y funcionamiento offline.
   - **Sincronización Offline**: Capacidad de trabajo sin conexión con sincronización automática.
 - **Dashboard Interactivo**: Widgets de signos vitales, acciones rápidas, alertas recientes y resumen crítico del paciente.
+- **Automatización con n8n**: Flujo de trabajo automatizado para enviar recordatorios de citas diarias a pacientes por correo electrónico.
 - **24+ Endpoints REST**: API completa y documentada.
 - **Modelo ML**: 97.89% accuracy (757 muestras entrenamiento).
 - **Seguridad**: Autenticación JWT, control de acceso basado en roles (Admin, Médico, Enfermero) y auditoría completa.
@@ -100,6 +101,11 @@ Ver todos en [`REFERENCIA_TÉCNICA.md`](./REFERENCIA_TÉCNICA.md)
 1. En cualquier campo de texto grande (ej. "Motivo de Consulta").
 2. Click en el icono de micrófono.
 3. Hablar para transcribir automáticamente.
+
+### Recordatorios Automáticos con n8n
+1. Importar el archivo `n8n-workflow-recordatorio-citas.json` en n8n.
+2. El sistema iniciará sesión en Predia y obtendrá las citas del día.
+3. Se enviarán correos automáticamente de Lunes a Sábado a las 7 AM a pacientes con cita programada.
 
 ## Si Algo No Funciona
 
