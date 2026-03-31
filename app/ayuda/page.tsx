@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import {
@@ -58,8 +58,7 @@ export default function AyudaPage() {
   const totalSamples = (metrics?.n_samples_train || 0) + (metrics?.n_samples_test || 0)
 
   return (
-    <div className="min-h-screen bg-background">
-      <MedicalHeader />
+    <DashboardLayout>
 
       <main className="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
@@ -295,6 +294,6 @@ export default function AyudaPage() {
           </div>
         </div>
       </main>
-    </div>
+    </DashboardLayout>
   )
 }

@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Link from "next/link"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
+import { EmptyState } from "@/components/empty-state"
 import {
     User, Calendar, Syringe, Stethoscope, FileImage, Bone,
     AlertTriangle, Users, Activity, ArrowLeft, Plus, Brain,
@@ -203,7 +204,13 @@ export default function HistorialPacientePage() {
 
     const fetchData = async (token: string) => {
         try {
-            // Obtener datos del paciente
+            // Inicializar historial vacío para no bloquear la UI
+            setHistorial(prev => prev || {
+                vacunas: [], patologias: [], consultas: [], imagenes: [], fracturas: [],
+                alergias: [], antecedentes: [], predicciones: [], recetas: [], documentos: [], mediciones: []
+            })
+
+            // Obtener paciente (Bloqueante mínimo necesario)
             const pacienteRes = await fetch(`/api/pacientes/${id_paciente}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
@@ -211,44 +218,43 @@ export default function HistorialPacientePage() {
                 const data = await pacienteRes.json()
                 setPaciente(data.data)
             }
+            setLoading(false) // Desbloquear UI Principal instantáneamente!
 
-            // Obtener historial completo
-            const [vacunas, patologias, consultas, imagenes, fracturas, alergias, antecedentes, predicciones, recetas, documentos, plantillasRes, medicionesRes] =
-                await Promise.all([
-                    fetch(`/api/vacunas?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/patologias?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/consultas?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/imagenes?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/fracturas?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/alergias?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/antecedentes?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/predicciones?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/recetas?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/documentos?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/plantillas?tipo=Consulta`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/mediciones?id_paciente=${id_paciente}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json())
-                ])
-
-            if (plantillasRes.success) {
-                setPlantillas(plantillasRes.data)
+            // Cargas en Segundo Plano (Lazy fetch)
+            const fetchModule = async (endpoint: string, key: keyof HistorialData) => {
+                try {
+                    const res = await fetch(`/api/${endpoint}?id_paciente=${id_paciente}`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                        cache: "no-store"
+                    })
+                    if (res.ok) {
+                        const json = await res.json()
+                        setHistorial(prev => prev ? { ...prev, [key]: json.data || [] } : null)
+                    }
+                } catch (e) {
+                    console.error(`Error loading ${key}:`, e)
+                }
             }
 
-            setHistorial({
-                vacunas: vacunas.data || [],
-                patologias: patologias.data || [],
-                consultas: consultas.data || [],
-                imagenes: imagenes.data || [],
-                fracturas: fracturas.data || [],
-                alergias: alergias.data || [],
-                antecedentes: antecedentes.data || [],
-                predicciones: predicciones.data || [],
-                recetas: recetas.data || [],
-                documentos: documentos.data || [],
-                mediciones: medicionesRes.data || []
-            })
+            fetchModule("vacunas", "vacunas")
+            fetchModule("patologias", "patologias")
+            fetchModule("consultas", "consultas")
+            fetchModule("imagenes", "imagenes")
+            fetchModule("fracturas", "fracturas")
+            fetchModule("alergias", "alergias")
+            fetchModule("antecedentes", "antecedentes")
+            fetchModule("predicciones", "predicciones")
+            fetchModule("recetas", "recetas")
+            fetchModule("documentos", "documentos")
+            fetchModule("mediciones", "mediciones")
+
+            fetch(`/api/plantillas?tipo=Consulta`, { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" })
+                .then(r => r.json())
+                .then(r => r.success && setPlantillas(r.data))
+                .catch(console.error)
+
         } catch (error) {
-            console.error("Error al cargar datos:", error)
-        } finally {
+            console.error("Error al cargar paciente:", error)
             setLoading(false)
         }
     }
@@ -682,24 +688,22 @@ export default function HistorialPacientePage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-background">
-                <MedicalHeader />
+            <DashboardLayout>
                 <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <Skeleton className="h-8 w-64 mb-4" />
                     <Skeleton className="h-48 w-full" />
                 </main>
-            </div>
+    </DashboardLayout>
         )
     }
 
     if (!paciente) {
         return (
-            <div className="min-h-screen bg-background">
-                <MedicalHeader />
+            <DashboardLayout>
                 <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <p className="text-muted-foreground">Paciente no encontrado</p>
                 </main>
-            </div>
+    </DashboardLayout>
         )
     }
 
@@ -707,8 +711,7 @@ export default function HistorialPacientePage() {
     const edad = calcularEdad(paciente.fecha_nacimiento)
 
     return (
-        <div className="min-h-screen bg-background">
-            <MedicalHeader />
+        <DashboardLayout>
 
             <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 {/* Header del paciente */}
@@ -970,7 +973,7 @@ export default function HistorialPacientePage() {
                                                     </div>
                                                 </div>
                                             ))}
-                                            <Link href={`/nuevo-paciente?id_paciente=${id_paciente}`}>
+                                            <Link href={`/pacientes/${id_paciente}/predicciones`}>
                                                 <Button size="sm" variant="outline" className="w-full mt-2">
                                                     <Plus className="w-4 h-4 mr-2" /> Nueva Medición
                                                 </Button>
@@ -1080,23 +1083,61 @@ export default function HistorialPacientePage() {
                                     </DialogContent>
                                 </Dialog>
                             </CardHeader>
-                            <CardContent>
-                                {historial?.consultas.map((consulta: any) => (
-                                    <div key={consulta.id_consulta} className="border-b last:border-0 py-4">
-                                        <div className="flex justify-between items-start">
-                                            <div>
-                                                <p className="font-medium">{consulta.motivo_consulta}</p>
-                                                {consulta.diagnostico && <p className="text-sm mt-1"><strong>Diagnóstico:</strong> {consulta.diagnostico}</p>}
-                                                {consulta.tratamiento && <p className="text-sm mt-1"><strong>Tratamiento:</strong> {consulta.tratamiento}</p>}
+                            <CardContent className="pt-6">
+                                {historial?.consultas && historial.consultas.length > 0 ? (
+                                    <div className="relative border-l-2 border-muted ml-3 space-y-8 pb-4">
+                                        {historial.consultas.map((consulta: any) => (
+                                            <div key={consulta.id_consulta} className="relative pl-6">
+                                                {/* Punto del Timeline */}
+                                                <div className="absolute w-4 h-4 rounded-full bg-blue-500 border-4 border-background -left-[9px] top-1" />
+                                                
+                                                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-1 gap-2">
+                                                    <h3 className="font-semibold text-base text-foreground flex items-center gap-2">
+                                                        <Stethoscope className="w-4 h-4 text-blue-500" />
+                                                        {consulta.motivo_consulta}
+                                                    </h3>
+                                                    <Badge variant="secondary" className="shrink-0">
+                                                        {new Date(consulta.fecha_consulta).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                                                    </Badge>
+                                                </div>
+                                                
+                                                <div className="bg-muted/30 p-4 rounded-lg mt-3 space-y-3 border border-border/50 transition-colors hover:border-border">
+                                                    {consulta.sintomas && (
+                                                        <div className="text-sm">
+                                                            <strong className="text-foreground block mb-1">Síntomas Reportados:</strong>
+                                                            <span className="text-muted-foreground">{consulta.sintomas}</span>
+                                                        </div>
+                                                    )}
+                                                    {consulta.diagnostico && (
+                                                        <div className="text-sm">
+                                                            <strong className="text-foreground block mb-1">Diagnóstico Clínico:</strong>
+                                                            <span className="text-muted-foreground">{consulta.diagnostico}</span>
+                                                        </div>
+                                                    )}
+                                                    {consulta.tratamiento && (
+                                                        <div className="text-sm">
+                                                            <strong className="text-foreground block mb-1">Tratamiento & Indicaciones:</strong>
+                                                            <span className="text-muted-foreground">{consulta.tratamiento}</span>
+                                                        </div>
+                                                    )}
+                                                    {consulta.observaciones && (
+                                                        <div className="text-sm border-t border-border/50 pt-2 mt-2">
+                                                            <strong className="text-foreground block mb-1">Observaciones:</strong>
+                                                            <span className="text-muted-foreground italic">{consulta.observaciones}</span>
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </div>
-                                            <span className="text-sm text-muted-foreground">
-                                                {new Date(consulta.fecha_consulta).toLocaleDateString()}
-                                            </span>
-                                        </div>
+                                        ))}
                                     </div>
-                                ))}
-                                {(!historial?.consultas || historial.consultas.length === 0) && (
-                                    <p className="text-muted-foreground text-center py-8">No hay consultas registradas</p>
+                                ) : (
+                                    <div className="py-6">
+                                        <EmptyState
+                                            icon={<Stethoscope className="w-8 h-8" />}
+                                            title="Historial de Consultas Vacío"
+                                            description="Este paciente no tiene consultas médicas registradas en su expediente. Haz clic en 'Nueva Consulta' para crear el primer registro."
+                                        />
+                                    </div>
                                 )}
                             </CardContent>
                         </Card>
@@ -1770,7 +1811,7 @@ export default function HistorialPacientePage() {
                                             Para realizar una predicción se requieren datos de laboratorio (HbA1c, glucosa, colesterol, triglicéridos)
                                             y mediciones antropométricas (IMC).
                                         </p>
-                                        <Link href={`/nuevo-paciente?id_paciente=${id_paciente}`}>
+                                        <Link href={`/pacientes/${id_paciente}/predicciones`}>
                                             <Button>
                                                 <Activity className="w-4 h-4 mr-2" /> Realizar Evaluación
                                             </Button>
@@ -2085,6 +2126,6 @@ export default function HistorialPacientePage() {
                     </TabsContent>
                 </Tabs>
             </main>
-        </div>
+    </DashboardLayout>
     )
 }

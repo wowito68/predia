@@ -4,7 +4,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Link from "next/link"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -349,8 +349,7 @@ export default function PrediccionesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <MedicalHeader />
+    <DashboardLayout>
 
       <main className="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
@@ -639,6 +638,6 @@ export default function PrediccionesPage() {
           </div>
         )}
       </main>
-    </div>
+    </DashboardLayout>
   )
 }

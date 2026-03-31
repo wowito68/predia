@@ -38,10 +38,10 @@ export default function LandingPage() {
             </Link>
 
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-sm text-slate-300 hover:text-white transition-colors">Funcionalidades</a>
-              <a href="#ai" className="text-sm text-slate-300 hover:text-white transition-colors">IA Clínica</a>
-              <a href="#plans" className="text-sm text-slate-300 hover:text-white transition-colors">Planes</a>
-              <a href="#security" className="text-sm text-slate-300 hover:text-white transition-colors">Seguridad</a>
+              <a href="#features" className="text-sm text-slate-300 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded">Funcionalidades</a>
+              <a href="#ai" className="text-sm text-slate-300 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded">IA Clínica</a>
+              <a href="#plans" className="text-sm text-slate-300 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded">Planes</a>
+              <a href="#security" className="text-sm text-slate-300 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded">Seguridad</a>
             </div>
 
             <div className="hidden md:flex items-center space-x-3">
@@ -53,7 +53,7 @@ export default function LandingPage() {
               </Link>
               <Link
                 href="/login"
-                className="px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105"
+                className="px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
               >
                 Crear cuenta
               </Link>
@@ -129,14 +129,14 @@ export default function LandingPage() {
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-300">
               <Link
                 href="/login"
-                className="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 rounded-2xl transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105"
+                className="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 rounded-2xl transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
               >
                 Crear cuenta gratis
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/login"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold border border-white/20 hover:border-white/40 rounded-2xl transition-all duration-300 hover:bg-white/5 backdrop-blur-sm"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold border border-white/20 hover:border-white/40 rounded-2xl transition-all duration-300 hover:bg-white/5 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
               >
                 Iniciar sesión
               </Link>
@@ -621,10 +621,10 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-500">
               © {new Date().getFullYear()} Predia. Todos los derechos reservados.
             </p>
-            <p className="text-xs text-slate-700 mt-2 md:mt-0">
+            <p className="text-xs text-slate-500 mt-2 md:mt-0">
               Plataforma de apoyo clínico — No sustituye el criterio médico profesional
             </p>
           </div>

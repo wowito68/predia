@@ -5,10 +5,10 @@ import { createPool, Pool, PoolConnection } from "mysql2/promise"
 
 // Configuración del pool de conexiones
 const pool: Pool = createPool({
-  host: process.env.DATABASE_HOST || "localhost",
+  host: process.env.DATABASE_HOST || "127.0.0.1",
   port: parseInt(process.env.DATABASE_PORT || "3306"),
   user: process.env.DATABASE_USER || "predia_app",
-  password: process.env.DATABASE_PASSWORD || "",
+  password: process.env.DATABASE_PASSWORD || "SecurePassword123!",
   database: process.env.DATABASE_NAME || "predia",
   waitForConnections: true,
   connectionLimit: 10,

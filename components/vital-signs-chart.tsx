@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from 'react'
 import {
     LineChart,
     Line,
@@ -20,7 +21,7 @@ interface VitalSignsChartProps {
     xAxisKey?: string
 }
 
-export function VitalSignsChart({
+export const VitalSignsChart = memo(function VitalSignsChart({
     data,
     title,
     description,
@@ -85,4 +86,4 @@ export function VitalSignsChart({
             </CardContent>
         </Card>
     )
-}
+})

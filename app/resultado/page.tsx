@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { PredictionResult } from "@/components/prediction-result"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -140,8 +140,7 @@ ${new Date().toLocaleString()}
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background">
-        <MedicalHeader />
+      <DashboardLayout>
         <main className="max-w-6xl mx-auto py-6 px-4">
           <Alert className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20">
             <AlertDescription className="text-red-800 dark:text-red-300">{error}</AlertDescription>
@@ -150,28 +149,26 @@ ${new Date().toLocaleString()}
             Volver a Pacientes
           </Button>
         </main>
-      </div>
+    </DashboardLayout>
     )
   }
 
   if (!prediccion) {
     return (
-      <div className="min-h-screen bg-background">
-        <MedicalHeader />
+      <DashboardLayout>
         <main className="max-w-6xl mx-auto py-6 px-4">
           <Alert className="border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/20">
             <AlertDescription className="text-yellow-800 dark:text-yellow-300">No se encontró predicción</AlertDescription>
           </Alert>
         </main>
-      </div>
+    </DashboardLayout>
     )
   }
 
   const paciente = prediccion.paciente || { nombre: "Paciente", apellido_paterno: "Desconocido", cedula: "N/A", genero: "M" }
 
   return (
-    <div className="min-h-screen bg-background">
-      <MedicalHeader />
+    <DashboardLayout>
 
       <main className="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -220,7 +217,7 @@ ${new Date().toLocaleString()}
           </Button>
         </div>
       </main>
-    </div>
+    </DashboardLayout>
   )
 }
 

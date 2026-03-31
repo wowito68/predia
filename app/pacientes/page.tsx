@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -285,8 +285,7 @@ export default function PacientesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <MedicalHeader />
+    <DashboardLayout>
 
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-start mb-8">
@@ -305,7 +304,7 @@ export default function PacientesPage() {
               Exportar CSV
             </Button>
             <Link href="/nuevo-paciente">
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button>
                 <Plus className="w-4 h-4 mr-2" />
                 Nuevo Paciente
               </Button>
@@ -314,9 +313,9 @@ export default function PacientesPage() {
         </div>
 
         {error && (
-          <Alert className="mb-6 border-red-200 bg-red-50">
-            <AlertCircle className="h-4 w-4 text-red-600" />
-            <AlertDescription className="text-red-800">{error}</AlertDescription>
+          <Alert className="mb-6 border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/50">
+            <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+            <AlertDescription className="text-red-800 dark:text-red-300">{error}</AlertDescription>
           </Alert>
         )}
 
@@ -349,7 +348,7 @@ export default function PacientesPage() {
         ) : pacientes.length === 0 ? (
           <Card>
             <CardContent className="pt-6 text-center">
-              <User className="w-12 h-12 mx-auto text-gray-300" />
+              <User className="w-12 h-12 mx-auto text-muted-foreground/30" />
               <p className="mt-4 text-muted-foreground">No se encontraron pacientes</p>
             </CardContent>
           </Card>
@@ -383,7 +382,7 @@ export default function PacientesPage() {
                               <span
                                 className={`px-3 py-1 rounded-full text-xs font-semibold ${paciente.activo
                                   ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                                  : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400"
+                                  : "bg-muted text-muted-foreground"
                                   }`}
                               >
                                 {paciente.activo ? "Activo" : "Inactivo"}
@@ -403,21 +402,21 @@ export default function PacientesPage() {
                                 <button
                                   onClick={() => router.push(`/pacientes/${paciente.id_paciente}/historial`)}
                                   title="Ver historial clínico"
-                                  className="p-2 hover:bg-purple-100 rounded text-purple-600"
+                                  className="p-2 rounded-md text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                 >
                                   <ClipboardList className="w-4 h-4" />
                                 </button>
                                 <button
                                   onClick={() => handleVerPredicciones(paciente.id_paciente)}
                                   title="Ver predicciones"
-                                  className="p-2 hover:bg-blue-100 rounded text-blue-600"
+                                  className="p-2 rounded-md text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                 >
                                   <Eye className="w-4 h-4" />
                                 </button>
                                 <button
                                   onClick={() => handleEditarPaciente(paciente.id_paciente)}
                                   title="Editar"
-                                  className="p-2 hover:bg-green-100 rounded text-green-600"
+                                  className="p-2 rounded-md text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                 >
                                   <Edit2 className="w-4 h-4" />
                                 </button>
@@ -425,7 +424,7 @@ export default function PacientesPage() {
                                   onClick={() => setPacienteAEliminar(paciente)}
                                   disabled={deletingId === paciente.id_paciente}
                                   title="Eliminar"
-                                  className="p-2 hover:bg-red-100 rounded text-red-600 disabled:opacity-50"
+                                  className="p-2 rounded-md text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                 >
                                   {deletingId === paciente.id_paciente ? (
                                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -497,9 +496,9 @@ export default function PacientesPage() {
                   Está a punto de eliminar a <strong>{getNombreCompleto(pacienteAEliminar)}</strong>{" "}
                   (Cédula: <strong>{pacienteAEliminar.cedula}</strong>).
                 </p>
-                <Alert className="border-yellow-200 bg-yellow-50">
-                  <AlertCircle className="h-4 w-4 text-yellow-600" />
-                  <AlertDescription className="text-sm text-yellow-800">
+                <Alert className="border-yellow-200 bg-yellow-50 dark:border-yellow-900 dark:bg-yellow-950/50">
+                  <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                  <AlertDescription className="text-sm text-yellow-800 dark:text-yellow-300">
                     Esta acción no se puede deshacer. Se eliminarán todos los registros asociados.
                   </AlertDescription>
                 </Alert>
@@ -513,7 +512,7 @@ export default function PacientesPage() {
                   </Button>
                   <Button
                     onClick={() => handleEliminar(pacienteAEliminar)}
-                    className="bg-red-600 hover:bg-red-700"
+                    variant="destructive"
                     disabled={deletingId === pacienteAEliminar.id_paciente}
                   >
                     {deletingId === pacienteAEliminar.id_paciente ? (
@@ -531,6 +530,6 @@ export default function PacientesPage() {
           </div>
         )}
       </main>
-    </div>
+    </DashboardLayout>
   )
 }

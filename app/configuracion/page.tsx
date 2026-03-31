@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -51,8 +51,7 @@ export default function ConfiguracionPage() {
         : "Usuario"
 
     return (
-        <div className="min-h-screen bg-background">
-            <MedicalHeader />
+        <DashboardLayout>
 
             <main className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <div className="mb-8">
@@ -186,6 +185,6 @@ export default function ConfiguracionPage() {
                     </Card>
                 </div>
             </main>
-        </div>
+    </DashboardLayout>
     )
 }

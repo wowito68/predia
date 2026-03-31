@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Link from "next/link"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -127,8 +127,7 @@ export default function EditarPacientePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
-        <MedicalHeader />
+      <DashboardLayout>
         <main className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Card>
             <CardContent className="pt-6 text-center">
@@ -137,14 +136,13 @@ export default function EditarPacientePage() {
             </CardContent>
           </Card>
         </main>
-      </div>
+    </DashboardLayout>
     )
   }
 
   if (!paciente) {
     return (
-      <div className="min-h-screen bg-background">
-        <MedicalHeader />
+      <DashboardLayout>
         <main className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Alert className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20">
             <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -154,13 +152,12 @@ export default function EditarPacientePage() {
             <Button className="mt-4">Volver a Pacientes</Button>
           </Link>
         </main>
-      </div>
+    </DashboardLayout>
     )
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <MedicalHeader />
+    <DashboardLayout>
 
       <main className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
@@ -281,6 +278,6 @@ export default function EditarPacientePage() {
           </CardContent>
         </Card>
       </main>
-    </div>
+    </DashboardLayout>
   )
 }

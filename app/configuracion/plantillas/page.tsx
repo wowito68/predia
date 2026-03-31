@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -97,8 +97,7 @@ export default function PlantillasPage() {
         : plantillas.filter(p => p.tipo === filterType)
 
     return (
-        <div className="min-h-screen bg-background">
-            <MedicalHeader />
+        <DashboardLayout>
             <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <div className="mb-6 flex justify-between items-center">
                     <div>
@@ -230,6 +229,6 @@ export default function PlantillasPage() {
                     )}
                 </div>
             </main>
-        </div>
+    </DashboardLayout>
     )
 }

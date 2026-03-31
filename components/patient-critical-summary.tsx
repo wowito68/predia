@@ -20,7 +20,7 @@ export function PatientCriticalSummary({ alergias, tipoSangre, ultimaConsulta, u
             {/* Alertas Críticas */}
             <Card className={`border-l-4 ${alergiasGraves.length > 0 ? 'border-l-red-500' : 'border-l-green-500'} shadow-sm`}>
                 <CardContent className="p-4 flex items-start gap-3">
-                    <div className={`p-2 rounded-full ${alergiasGraves.length > 0 ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}`}>
+                    <div className={`p-2 rounded-full ${alergiasGraves.length > 0 ? 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' : 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'}`}>
                         <AlertTriangle className="w-5 h-5" />
                     </div>
                     <div>
@@ -43,7 +43,7 @@ export function PatientCriticalSummary({ alergias, tipoSangre, ultimaConsulta, u
             {/* Datos Biométricos */}
             <Card className="border-l-4 border-l-blue-500 shadow-sm">
                 <CardContent className="p-4 flex items-start gap-3">
-                    <div className="p-2 rounded-full bg-blue-100 text-blue-600">
+                    <div className="p-2 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
                         <Droplet className="w-5 h-5" />
                     </div>
                     <div>
@@ -63,7 +63,7 @@ export function PatientCriticalSummary({ alergias, tipoSangre, ultimaConsulta, u
             {/* Última Actividad */}
             <Card className="border-l-4 border-l-purple-500 shadow-sm">
                 <CardContent className="p-4 flex items-start gap-3">
-                    <div className="p-2 rounded-full bg-purple-100 text-purple-600">
+                    <div className="p-2 rounded-full bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
                         <Clock className="w-5 h-5" />
                     </div>
                     <div className="min-w-0">
@@ -83,7 +83,7 @@ export function PatientCriticalSummary({ alergias, tipoSangre, ultimaConsulta, u
             {/* Estado General (Resumen IA placeholder) */}
             <Card className="border-l-4 border-l-orange-500 shadow-sm">
                 <CardContent className="p-4 flex items-start gap-3">
-                    <div className="p-2 rounded-full bg-orange-100 text-orange-600">
+                    <div className="p-2 rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">
                         <Activity className="w-5 h-5" />
                     </div>
                     <div>

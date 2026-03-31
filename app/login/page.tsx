@@ -53,8 +53,8 @@ export default function LoginPage() {
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
-            <Stethoscope className="w-8 h-8 text-white" />
+          <div className="mx-auto mb-4 w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+            <Stethoscope className="w-8 h-8 text-primary-foreground" />
           </div>
           <CardTitle className="text-2xl font-bold text-foreground">PREDIA</CardTitle>
           <CardDescription className="text-muted-foreground">Plataforma Clínica Integral</CardDescription>
@@ -109,7 +109,7 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full"
               disabled={loading}
             >
               {loading ? "Verificando..." : "Iniciar Sesión"}

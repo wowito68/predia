@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -68,9 +68,9 @@ function FlowStepper({ currentStep }: { currentStep: number }) {
     <div className="mb-8">
       <div className="flex items-center justify-between relative">
         {/* Línea de conexión */}
-        <div className="absolute top-6 left-0 right-0 h-0.5 bg-gray-200 dark:bg-gray-700 -z-0" />
+        <div className="absolute top-6 left-0 right-0 h-0.5 bg-border -z-0" />
         <div
-          className="absolute top-6 left-0 h-0.5 bg-blue-600 dark:bg-blue-400 -z-0 transition-all duration-500"
+          className="absolute top-6 left-0 h-0.5 bg-primary -z-0 transition-all duration-500"
           style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
         />
 
@@ -84,10 +84,10 @@ function FlowStepper({ currentStep }: { currentStep: number }) {
             <div key={step.number} className="flex flex-col items-center relative z-10" style={{ width: '33%' }}>
               <div
                 className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isCompleted
-                    ? "bg-blue-600 border-blue-600 text-white"
+                    ? "bg-primary border-primary text-primary-foreground"
                     : isActive
-                      ? "bg-white dark:bg-gray-800 border-blue-600 text-blue-600 dark:text-blue-400 shadow-lg shadow-blue-200 dark:shadow-blue-900/30"
-                      : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500"
+                      ? "bg-card border-primary text-primary shadow-lg shadow-primary/20"
+                      : "bg-muted border-border text-muted-foreground"
                   }`}
               >
                 {isCompleted ? (
@@ -96,11 +96,11 @@ function FlowStepper({ currentStep }: { currentStep: number }) {
                   <Icon className="w-5 h-5" />
                 )}
               </div>
-              <p className={`mt-2 text-sm font-semibold text-center ${isActive ? "text-blue-600 dark:text-blue-400" : isFuture ? "text-gray-400 dark:text-gray-500" : "text-foreground"
+              <p className={`mt-2 text-sm font-semibold text-center ${isActive ? "text-primary" : isFuture ? "text-muted-foreground/50" : "text-foreground"
                 }`}>
                 {step.label}
               </p>
-              <p className={`text-xs text-center mt-0.5 max-w-[140px] ${isFuture ? "text-gray-300 dark:text-gray-600" : "text-muted-foreground"
+              <p className={`text-xs text-center mt-0.5 max-w-[140px] ${isFuture ? "text-muted-foreground/40" : "text-muted-foreground"
                 }`}>
                 {step.description}
               </p>
@@ -243,8 +243,7 @@ export default function NuevoPacientePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <MedicalHeader />
+    <DashboardLayout>
 
       <main className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
@@ -452,7 +451,7 @@ export default function NuevoPacientePage() {
             <Button type="button" variant="outline" onClick={() => router.push("/dashboard")} disabled={loading}>
               Cancelar
             </Button>
-            <Button type="submit" disabled={!isFormValid() || loading} className="bg-blue-600 hover:bg-blue-700">
+            <Button type="submit" disabled={!isFormValid() || loading}>
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -468,6 +467,6 @@ export default function NuevoPacientePage() {
           </div>
         </form>
       </main>
-    </div>
+    </DashboardLayout>
   )
 }

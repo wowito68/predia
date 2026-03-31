@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
-import { MedicalHeader } from "@/components/medical-header"
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,6 +13,7 @@ import {
   Search, Download, Eye, AlertTriangle, CheckCircle, Loader2,
   Brain, ClipboardList, Activity, User
 } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface Prediccion {
   id_prediccion: number
@@ -198,8 +199,7 @@ export default function HistorialPage() {
 
   if (isInitialLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <MedicalHeader />
+      <DashboardLayout>
         <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Card>
             <CardContent className="pt-6 text-center">
@@ -208,13 +208,12 @@ export default function HistorialPage() {
             </CardContent>
           </Card>
         </main>
-      </div>
+    </DashboardLayout>
     )
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <MedicalHeader />
+    <DashboardLayout>
 
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
@@ -408,16 +407,20 @@ export default function HistorialPage() {
               <CardContent className="pt-6">
                 <div className="flex flex-col md:flex-row gap-4">
                   <div className="flex gap-2 ml-auto">
-                    <select
+                    <Select
                       value={filterRisk}
-                      onChange={(e) => setFilterRisk(e.target.value)}
-                      className="px-3 py-2 border border-input rounded-md text-sm bg-background text-foreground ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+                      onValueChange={(value) => setFilterRisk(value)}
                     >
-                      <option value="todos">Todos los niveles</option>
-                      <option value="alto">Riesgo Alto</option>
-                      <option value="moderado">Riesgo Moderado</option>
-                      <option value="bajo">Riesgo Bajo</option>
-                    </select>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Todos los niveles" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="todos">Todos los niveles</SelectItem>
+                        <SelectItem value="alto">Riesgo Alto</SelectItem>
+                        <SelectItem value="moderado">Riesgo Moderado</SelectItem>
+                        <SelectItem value="bajo">Riesgo Bajo</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <Button variant="outline" size="sm" onClick={handleExportar} disabled={filteredPredicciones.length === 0}>
                       <Download className="w-4 h-4 mr-2" />
                       Exportar
@@ -481,7 +484,7 @@ export default function HistorialPage() {
                                 ) : (
                                   <CheckCircle className="w-4 h-4 text-green-600" />
                                 )}
-                                <span className={pred.resultado_prediccion ? "text-red-600" : "text-green-600"}>
+                                <span className={pred.resultado_prediccion ? "text-red-600 dark:text-red-400" : "text-green-600 dark:text-green-400"}>
                                   {pred.resultado_prediccion ? "Positivo" : "Negativo"}
                                 </span>
                               </div>
@@ -549,6 +552,6 @@ export default function HistorialPage() {
           </TabsContent>
         </Tabs>
       </main>
-    </div>
+    </DashboardLayout>
   )
 }

@@ -2,13 +2,14 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { MedicalHeader } from "@/components/medical-header";
+import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WidgetGrid } from "@/components/dashboard/widget-grid";
+import { toast } from "sonner";
 
 interface DashboardStats {
   totalPacientes: number;
@@ -58,7 +59,13 @@ export default function DashboardPage() {
     } catch (err: any) {
       if (err.name === "AbortError") return; // Cancelación intencional
       console.error("Error al cargar estadísticas:", err);
-      setError("No se pudieron cargar las estadísticas. Verifica la conexión con el servidor.");
+      toast.error("Error de conexión", {
+        description: "No se pudieron cargar las estadísticas actualizadas.",
+        action: {
+          label: "Reintentar",
+          onClick: () => handleManualRefresh()
+        }
+      });
     } finally {
       setLoading(false);
     }
@@ -98,8 +105,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
-        <MedicalHeader />
+      <DashboardLayout>
         <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <Skeleton className="h-9 w-48 mb-2" />
@@ -125,13 +131,12 @@ export default function DashboardPage() {
             ))}
           </div>
         </main>
-      </div>
+    </DashboardLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <MedicalHeader />
+    <DashboardLayout>
 
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-start justify-between">
@@ -158,26 +163,10 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        {/* Banner de error visible */}
-        {error && (
-          <Alert className="mb-6 border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/50">
-            <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
-            <AlertDescription className="text-red-800 dark:text-red-300">
-              {error}
-              <Button
-                variant="link"
-                size="sm"
-                onClick={handleManualRefresh}
-                className="ml-2 p-0 h-auto text-red-700 dark:text-red-400 underline"
-              >
-                Reintentar
-              </Button>
-            </AlertDescription>
-          </Alert>
-        )}
+        {/* Toasts handles errors gracefully now */}
 
         <WidgetGrid stats={stats} />
       </main>
-    </div>
+    </DashboardLayout>
   );
 }
