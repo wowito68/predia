@@ -340,6 +340,9 @@ model ConsultaMedica {
   receta             String?   @db.Text
   proxima_cita       DateTime?
   observaciones      String?   @db.Text
+  // Immutabilidad PDF Fase 4
+  datos_medico       String?   @db.Text
+  datos_paciente     String?   @db.Text
   fecha_registro     DateTime  @default(now())
   paciente           Paciente  @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
   usuario            Usuario   @relation(fields: [id_usuario], references: [id_usuario])
@@ -465,6 +468,9 @@ model Receta {
   medicamentos    String          @db.Text // JSON: {nombre, dosis, frecuencia, duracion}[]
   instrucciones   String?         @db.Text
   estado          String          @default("Activa") @db.VarChar(20) // Activa, Surtida, Cancelada
+  // Immutabilidad PDF Fase 4
+  datos_medico    String?         @db.Text
+  datos_paciente  String?         @db.Text
   fecha_registro  DateTime        @default(now())
   paciente        Paciente        @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
   usuario         Usuario         @relation(fields: [id_usuario], references: [id_usuario])
@@ -493,4 +499,24 @@ model DocumentoAdjunto {
   @@index([id_paciente])
   @@index([id_usuario])
   @@map("documento_adjunto")
+}
+
+// ========================================
+// CATÁLOGOS DINÁMICOS (FASE 3)
+// ========================================
+
+model CatalogoMedicamento {
+  id_medicamento Int      @id @default(autoincrement())
+  nombre         String   @unique @db.VarChar(200)
+  fecha_registro DateTime @default(now())
+
+  @@map("catalogo_medicamento")
+}
+
+model CatalogoAlergia {
+  id_alergia     Int      @id @default(autoincrement())
+  nombre         String   @unique @db.VarChar(200)
+  fecha_registro DateTime @default(now())
+
+  @@map("catalogo_alergia")
 }

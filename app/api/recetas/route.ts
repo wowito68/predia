@@ -54,6 +54,19 @@ export async function POST(request: NextRequest) {
             )
         }
 
+        const paciente = await prisma.paciente.findUnique({
+            where: { id_paciente: parseInt(id_paciente) },
+            select: { nombre: true, apellido_paterno: true, fecha_nacimiento: true, genero: true }
+        });
+
+        const datos_paciente = JSON.stringify(paciente || {});
+        const datos_medico = JSON.stringify({
+            nombre: (user as any).nombre,
+            apellido_paterno: (user as any).apellido_paterno,
+            especialidad: (user as any).especialidad,
+            cedula_profesional: (user as any).cedula_profesional
+        });
+
         let consultaId = null;
         if (id_consulta) {
             const consulta = await prisma.consultaMedica.findFirst({
@@ -78,7 +91,9 @@ export async function POST(request: NextRequest) {
                 id_usuario: user.id_usuario,
                 id_consulta: consultaId,
                 medicamentos: typeof medicamentos === 'string' ? medicamentos : JSON.stringify(medicamentos),
-                instrucciones: instrucciones || null
+                instrucciones: instrucciones || null,
+                datos_medico,
+                datos_paciente
             }
         })
 

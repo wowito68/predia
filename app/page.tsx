@@ -286,28 +286,28 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4 opacity-60">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="flex items-start space-x-4">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <HeartPulse className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold mb-1">Riesgo Cardiovascular</h3>
                     <p className="text-sm text-slate-400">Evaluación predictiva de riesgo cardiovascular basada en perfil clínico integral.</p>
-                    <span className="inline-flex items-center mt-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium">
-                      Próximamente
+                    <span className="inline-flex items-center mt-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
+                      <Zap className="w-3 h-3 mr-1" /> Disponible ahora
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4 opacity-60">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="flex items-start space-x-4">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <BarChart3 className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold mb-1">Síndrome Metabólico</h3>
                     <p className="text-sm text-slate-400">Análisis integral de factores metabólicos para detección temprana de riesgos combinados.</p>
-                    <span className="inline-flex items-center mt-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium">
-                      Próximamente
+                    <span className="inline-flex items-center mt-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
+                      <Zap className="w-3 h-3 mr-1" /> Disponible ahora
                     </span>
                   </div>
                 </div>

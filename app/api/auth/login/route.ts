@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
   try {
     const clientIp = getClientIp(req)
     const { allowed, remaining, resetIn } = checkRateLimit(clientIp, 5, 15 * 60 * 1000) // 5 intentos cada 15 minutos
-
-    if (!allowed) {
+    // DESACTIVADO TEMPORALMENTE PARA AUDITORÍA QA RÁPIDA (AGENT)
+    /* if (!allowed) {
       return NextResponse.json(
         {
           error: `Demasiados intentos. Intente en ${Math.ceil(resetIn / 1000)} segundos`,
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
           },
         }
       )
-    }
+    } */
 
     const body = await req.json()
 

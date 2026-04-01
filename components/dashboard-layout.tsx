@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { Sidebar } from "./sidebar"
 import { Menu } from "lucide-react"
+import { NewConsultationModal } from "@/components/new-consultation-modal"
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false)
@@ -18,7 +19,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       
       <main className={`flex-1 flex flex-col h-full min-w-0 overflow-y-auto transition-all duration-300 ease-in-out ${collapsed ? "lg:pl-[80px]" : "lg:pl-64"}`}>
         {/* Mobile Header (Hidden on Desktop) */}
-        <header className="lg:hidden flex items-center justify-between h-16 px-4 border-b border-border bg-card shrink-0">
+        <header className="lg:hidden flex items-center justify-between h-16 px-4 border-b border-border bg-card shrink-0 print:hidden">
           <div className="flex items-center space-x-3">
              <div className="w-8 h-8 shrink-0 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
                 <div className="w-4 h-4 text-white" />
@@ -38,6 +39,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           {children}
         </div>
       </main>
+      <NewConsultationModal />
     </div>
   )
 }

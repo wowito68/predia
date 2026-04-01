@@ -70,11 +70,11 @@ export function StatsWidget({ stats }: StatsWidgetProps) {
             </Card>
 
             <Card className="relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent dark:from-purple-500/10 transition-opacity opacity-0 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent dark:from-primary/10 transition-opacity opacity-0 group-hover:opacity-100" />
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
                     <CardTitle className="text-sm font-medium text-muted-foreground">Citas Pendientes</CardTitle>
-                    <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                        <CalendarDays className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                        <CalendarDays className="h-4 w-4 text-primary" />
                     </div>
                 </CardHeader>
                 <CardContent className="relative z-10">

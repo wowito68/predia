@@ -17,9 +17,12 @@ import {
 } from "lucide-react"
 
 import { VitalSignsChart } from "@/components/vital-signs-chart"
+import { useConsultaStore } from "@/store/useConsultaStore"
 import { PatientCriticalSummary } from "@/components/patient-critical-summary"
-import { VoiceInput } from "@/components/ui/voice-input"
 import { QRCodeCanvas } from "qrcode.react"
+import dynamic from 'next/dynamic'
+const PDFDownloadWrapper = dynamic(() => import('@/components/pdf/PDFDownloadWrapper'), { ssr: false })
+import { CreatableSelectAPI } from "@/components/ui/creatable-select"
 import {
     Dialog, DialogContent, DialogDescription, DialogFooter,
     DialogHeader, DialogTitle, DialogTrigger
@@ -95,8 +98,9 @@ export default function HistorialPacientePage() {
         }
     }
 
-    // Estado para nueva consulta
-    const [isConsultaOpen, setIsConsultaOpen] = useState(false)
+    // Estado global de consulta
+    const { openConsulta, lastUpdate } = useConsultaStore()
+    
     const [consultLoading, setConsultLoading] = useState(false)
     const [nuevaConsulta, setNuevaConsulta] = useState({
         motivo_consulta: "",
@@ -199,8 +203,9 @@ export default function HistorialPacientePage() {
             router.push("/login")
             return
         }
+        
         fetchData(token)
-    }, [id_paciente])
+    }, [id_paciente, lastUpdate])
 
     const fetchData = async (token: string) => {
         try {
@@ -283,7 +288,6 @@ export default function HistorialPacientePage() {
             }
 
             toast.success("Consulta registrada exitosamente")
-            setIsConsultaOpen(false)
             setNuevaConsulta({
                 motivo_consulta: "",
                 sintomas: "",
@@ -689,9 +693,25 @@ export default function HistorialPacientePage() {
     if (loading) {
         return (
             <DashboardLayout>
-                <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <Skeleton className="h-8 w-64 mb-4" />
-                    <Skeleton className="h-48 w-full" />
+                <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 space-y-6">
+                    <div className="flex items-center gap-4">
+                        <Skeleton className="h-16 w-16 rounded-full" />
+                        <div className="space-y-2">
+                           <Skeleton className="h-8 w-64" />
+                           <Skeleton className="h-4 w-48" />
+                        </div>
+                    </div>
+                    <Skeleton className="h-10 w-full mt-4" />
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                        <Skeleton className="h-28 w-full rounded-xl" />
+                        <Skeleton className="h-28 w-full rounded-xl" />
+                        <Skeleton className="h-28 w-full rounded-xl" />
+                        <Skeleton className="h-28 w-full rounded-xl" />
+                    </div>
+                    <div className="flex flex-col md:flex-row gap-6 mt-6">
+                        <Skeleton className="h-[400px] w-full md:w-64 shrink-0 rounded-xl" />
+                        <Skeleton className="h-[400px] w-full rounded-xl" />
+                    </div>
                 </main>
     </DashboardLayout>
         )
@@ -752,109 +772,91 @@ export default function HistorialPacientePage() {
                     ultimosSignos={historial?.mediciones?.[0]}
                 />
 
-                {/* Tabs del historial */}
-                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                    <TabsList className="flex flex-wrap h-auto gap-1 p-1 mb-6">
-                        <TabsTrigger value="resumen" className="flex items-center gap-1">
-                            Resumen
-                        </TabsTrigger>
-                        <TabsTrigger value="consultas" className="flex items-center gap-1">
-                            <Stethoscope className="w-3.5 h-3.5" />
-                            Consultas
-                            {historial && historial.consultas.length > 0 && (
-                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
-                                    {historial.consultas.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="vacunas" className="flex items-center gap-1">
-                            <Syringe className="w-3.5 h-3.5" />
-                            Vacunas
-                            {historial && historial.vacunas.length > 0 && (
-                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
-                                    {historial.vacunas.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="patologias" className="flex items-center gap-1">
-                            <Activity className="w-3.5 h-3.5" />
-                            Patologías
-                            {historial && historial.patologias.length > 0 && (
-                                <Badge variant="destructive" className="ml-1 h-5 px-1.5 text-xs">
-                                    {historial.patologias.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="alergias" className="flex items-center gap-1">
-                            <AlertTriangle className="w-3.5 h-3.5" />
-                            Alergias
-                            {historial && historial.alergias.length > 0 && (
-                                <Badge variant="destructive" className="ml-1 h-5 px-1.5 text-xs">
-                                    {historial.alergias.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="imagenes" className="flex items-center gap-1">
-                            <FileImage className="w-3.5 h-3.5" />
-                            Imágenes
-                            {historial && historial.imagenes.length > 0 && (
-                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
-                                    {historial.imagenes.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="fracturas" className="flex items-center gap-1">
-                            <Bone className="w-3.5 h-3.5" />
-                            Fracturas
-                            {historial && historial.fracturas.length > 0 && (
-                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
-                                    {historial.fracturas.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="antecedentes" className="flex items-center gap-1">
-                            <Users className="w-3.5 h-3.5" />
-                            Antecedentes
-                            {historial && historial.antecedentes.length > 0 && (
-                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
-                                    {historial.antecedentes.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="diabetes" className="flex items-center gap-1">
-                            <Brain className="w-3.5 h-3.5 text-purple-600" />
-                            Diabetes
-                            {historial && historial.predicciones.length > 0 && (
-                                <Badge variant="outline" className="ml-1 h-5 px-1.5 text-xs border-purple-400 text-purple-600">
-                                    {historial.predicciones.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="recetas" className="flex items-center gap-1">
-                            <ScrollText className="w-3.5 h-3.5" />
-                            Recetas
-                            {historial && historial.recetas.length > 0 && (
-                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
-                                    {historial.recetas.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="documentos" className="flex items-center gap-1">
-                            <FileText className="w-3.5 h-3.5" />
-                            Documentos
-                            {historial && historial.documentos.length > 0 && (
-                                <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
-                                    {historial.documentos.length}
-                                </Badge>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger value="signos" className="flex items-center gap-1">
-                            <HeartPulse className="w-3.5 h-3.5 text-red-600" />
-                            Signos Vitales
-                        </TabsTrigger>
-                    </TabsList>
-                    {/* Tab Resumen */}
-                    <TabsContent value="resumen">
+                {/* Hub & Spoke Vertical Tabs */}
+                <Tabs value={activeTab} onValueChange={setActiveTab} orientation="vertical" className="w-full flex flex-col md:flex-row gap-6 items-start mt-6">
+                    {/* Sub-sidebar Izquierdo */}
+                    <div className="w-full md:w-64 shrink-0 md:sticky md:top-6">
+                        <Card className="p-3 bg-card shadow-sm border-border/60">
+                            <TabsList className="flex flex-col h-auto gap-1 bg-transparent p-0 w-full overflow-y-auto max-h-[calc(100vh-120px)] hide-scrollbar">
+                                
+                                {/* 1. Visión General */}
+                                <div className="px-3 py-2 text-xs font-bold text-muted-foreground/80 uppercase tracking-wider w-full text-left mt-1">Visión General</div>
+                                <TabsTrigger value="resumen" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <Activity className="w-4 h-4 shrink-0" />
+                                    Resumen Clínico
+                                </TabsTrigger>
+
+                                {/* 2. Clínica */}
+                                <div className="px-3 py-2 text-xs font-bold text-muted-foreground/80 uppercase tracking-wider w-full text-left mt-2 border-t border-border/50 pt-3">Clínica</div>
+                                <TabsTrigger value="consultas" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <Stethoscope className="w-4 h-4 shrink-0" />
+                                    Consultas
+                                    {historial && historial.consultas.length > 0 && <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-[10px]">{historial.consultas.length}</Badge>}
+                                </TabsTrigger>
+                                <TabsTrigger value="recetas" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <ScrollText className="w-4 h-4 shrink-0" />
+                                    Recetas
+                                    {historial && historial.recetas.length > 0 && <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-[10px]">{historial.recetas.length}</Badge>}
+                                </TabsTrigger>
+                                <TabsTrigger value="documentos" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <FileText className="w-4 h-4 shrink-0" />
+                                    Documentos
+                                    {historial && historial.documentos.length > 0 && <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-[10px]">{historial.documentos.length}</Badge>}
+                                </TabsTrigger>
+
+                                {/* 3. Antecedentes */}
+                                <div className="px-3 py-2 text-xs font-bold text-muted-foreground/80 uppercase tracking-wider w-full text-left mt-2 border-t border-border/50 pt-3">Antecedentes</div>
+                                <TabsTrigger value="patologias" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <Activity className="w-4 h-4 shrink-0" />
+                                    Patologías
+                                    {historial && historial.patologias.length > 0 && <Badge variant="destructive" className="ml-auto h-5 px-1.5 text-[10px]">{historial.patologias.length}</Badge>}
+                                </TabsTrigger>
+                                <TabsTrigger value="alergias" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <AlertTriangle className="w-4 h-4 shrink-0" />
+                                    Alergias
+                                    {historial && historial.alergias.length > 0 && <Badge variant="destructive" className="ml-auto h-5 px-1.5 text-[10px]">{historial.alergias.length}</Badge>}
+                                </TabsTrigger>
+                                <TabsTrigger value="vacunas" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <Syringe className="w-4 h-4 shrink-0" />
+                                    Vacunas
+                                    {historial && historial.vacunas.length > 0 && <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-[10px]">{historial.vacunas.length}</Badge>}
+                                </TabsTrigger>
+                                <TabsTrigger value="fracturas" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <Bone className="w-4 h-4 shrink-0" />
+                                    Fracturas
+                                    {historial && historial.fracturas.length > 0 && <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-[10px]">{historial.fracturas.length}</Badge>}
+                                </TabsTrigger>
+                                <TabsTrigger value="antecedentes" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <Users className="w-4 h-4 shrink-0" />
+                                    Heredofamiliares
+                                    {historial && historial.antecedentes.length > 0 && <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-[10px]">{historial.antecedentes.length}</Badge>}
+                                </TabsTrigger>
+                                <TabsTrigger value="imagenes" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all text-muted-foreground hover:text-foreground">
+                                    <FileImage className="w-4 h-4 shrink-0" />
+                                    Imágenes
+                                    {historial && historial.imagenes.length > 0 && <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-[10px]">{historial.imagenes.length}</Badge>}
+                                </TabsTrigger>
+
+                                {/* 4. Análisis e IA */}
+                                <div className="px-3 py-2 text-xs font-bold text-muted-foreground/80 uppercase tracking-wider w-full text-left mt-2 border-t border-border/50 pt-3">Análisis e IA</div>
+                                <TabsTrigger value="signos" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all data-[state=inactive]:text-red-500/80 hover:text-red-500">
+                                    <HeartPulse className="w-4 h-4 shrink-0" />
+                                    Signos Vitales
+                                </TabsTrigger>
+                                <TabsTrigger value="diabetes" className="w-full justify-start items-center gap-2 px-3 py-2 text-sm rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm transition-all data-[state=inactive]:text-muted-foreground hover:text-foreground">
+                                    <Brain className="w-4 h-4 shrink-0" />
+                                    Riesgo Diabético
+                                    {historial && historial.predicciones.length > 0 && <Badge variant="secondary" className="ml-auto h-5 px-1.5 text-[10px] bg-primary/10 text-primary dark:bg-primary/20">{historial.predicciones.length}</Badge>}
+                                </TabsTrigger>
+
+                            </TabsList>
+                        </Card>
+                    </div>
+
+                    {/* Contenido Principal Derecho */}
+                    <div className="flex-1 min-w-0 w-full pb-10">
+                        {/* Tab Resumen */}
+                        <TabsContent value="resumen" className="mt-0">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                             <Card>
                                 <CardHeader className="pb-2">
@@ -879,7 +881,7 @@ export default function HistorialPacientePage() {
                             <Card>
                                 <CardHeader className="pb-2">
                                     <CardTitle className="text-sm flex items-center gap-2">
-                                        <FileImage className="w-4 h-4 text-purple-600" /> Imágenes
+                                        <FileImage className="w-4 h-4 text-primary" /> Imágenes
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
@@ -990,98 +992,16 @@ export default function HistorialPacientePage() {
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between">
                                 <CardTitle>Consultas Médicas</CardTitle>
-                                <Dialog open={isConsultaOpen} onOpenChange={setIsConsultaOpen}>
-                                    <DialogTrigger asChild>
-                                        <Button size="sm">
-                                            <Plus className="w-4 h-4 mr-1" /> Nueva Consulta
+                                <div className="flex gap-2">
+                                    <Link href={`/pacientes/${id_paciente}/predicciones`}>
+                                        <Button size="sm" variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 dark:border-red-900 dark:hover:bg-red-900/30">
+                                            <Activity className="w-4 h-4 mr-1" /> Triage (Signos)
                                         </Button>
-                                    </DialogTrigger>
-                                    <DialogContent className="max-w-2xl">
-                                        <DialogHeader>
-                                            <DialogTitle>Registrar Nueva Consulta</DialogTitle>
-                                            <DialogDescription>
-                                                Complete los detalles de la consulta médica.
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                        <form onSubmit={handleCreateConsulta} className="space-y-4 py-4">
-                                            {/* Selector de Plantilla */}
-                                            {plantillas.length > 0 && (
-                                                <div className="space-y-2 bg-muted/50 p-3 rounded-md">
-                                                    <Label>Cargar Plantilla</Label>
-                                                    <Select onValueChange={handleApplyPlantilla}>
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Seleccionar plantilla..." />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {plantillas.filter(p => p.tipo === "Consulta").map((p: any) => (
-                                                                <SelectItem key={p.id_plantilla} value={p.id_plantilla.toString()}>
-                                                                    {p.nombre}
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-                                            )}
-
-                                            <div className="grid grid-cols-1 gap-4">
-                                                <div className="space-y-2">
-                                                    <Label htmlFor="motivo">Motivo de Consulta *</Label>
-                                                    <Input
-                                                        id="motivo"
-                                                        value={nuevaConsulta.motivo_consulta}
-                                                        onChange={(e) => setNuevaConsulta({ ...nuevaConsulta, motivo_consulta: e.target.value })}
-                                                        placeholder="Ej. Dolor abdominal, Control rutina..."
-                                                        required
-                                                    />
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <Label htmlFor="sintomas">Síntomas</Label>
-                                                    <Textarea
-                                                        id="sintomas"
-                                                        value={nuevaConsulta.sintomas}
-                                                        onChange={(e) => setNuevaConsulta({ ...nuevaConsulta, sintomas: e.target.value })}
-                                                        placeholder="Descripción detallada de síntomas..."
-                                                    />
-                                                </div>
-                                                <div className="grid grid-cols-2 gap-4">
-                                                    <div className="space-y-2">
-                                                        <Label htmlFor="diagnostico">Diagnóstico</Label>
-                                                        <Textarea
-                                                            id="diagnostico"
-                                                            value={nuevaConsulta.diagnostico}
-                                                            onChange={(e) => setNuevaConsulta({ ...nuevaConsulta, diagnostico: e.target.value })}
-                                                            placeholder="Diagnóstico preliminar o confirmado..."
-                                                        />
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <Label htmlFor="tratamiento">Tratamiento</Label>
-                                                        <Textarea
-                                                            id="tratamiento"
-                                                            value={nuevaConsulta.tratamiento}
-                                                            onChange={(e) => setNuevaConsulta({ ...nuevaConsulta, tratamiento: e.target.value })}
-                                                            placeholder="Medicamentos, indicaciones..."
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <Label htmlFor="obs">Observaciones Adicionales</Label>
-                                                    <Textarea
-                                                        id="obs"
-                                                        value={nuevaConsulta.observaciones}
-                                                        onChange={(e) => setNuevaConsulta({ ...nuevaConsulta, observaciones: e.target.value })}
-                                                        className="h-20"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <DialogFooter>
-                                                <Button type="button" variant="outline" onClick={() => setIsConsultaOpen(false)}>Cancelar</Button>
-                                                <Button type="submit" disabled={consultLoading}>
-                                                    {consultLoading ? "Registrando..." : "Guardar Consulta"}
-                                                </Button>
-                                            </DialogFooter>
-                                        </form>
-                                    </DialogContent>
-                                </Dialog>
+                                    </Link>
+                                    <Button size="sm" className="shadow-sm" onClick={() => openConsulta(id_paciente)}>
+                                        <Stethoscope className="w-4 h-4 mr-1" /> Iniciar Consulta
+                                    </Button>
+                                </div>
                             </CardHeader>
                             <CardContent className="pt-6">
                                 {historial?.consultas && historial.consultas.length > 0 ? (
@@ -1126,6 +1046,20 @@ export default function HistorialPacientePage() {
                                                             <span className="text-muted-foreground italic">{consulta.observaciones}</span>
                                                         </div>
                                                     )}
+
+                                                    <div className="pt-2 flex justify-end">
+                                                        <PDFDownloadWrapper 
+                                                            type="consultation"
+                                                            data={{
+                                                                paciente: paciente,
+                                                                consulta: consulta,
+                                                                medicion: null,
+                                                                doctor: { nombre: "Médico", apellido_paterno: "Asignado", cedula: "Pendiente" },
+                                                                fecha: new Date(consulta.fecha_consulta).toLocaleDateString()
+                                                            }}
+                                                            fileName={`Consulta_${paciente?.nombre}_${consulta.id_consulta}.pdf`}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}
@@ -1263,21 +1197,14 @@ export default function HistorialPacientePage() {
                                         <form onSubmit={handleCreatePatologia} className="space-y-4 py-2">
                                             <div className="space-y-2">
                                                 <Label htmlFor="patologia">Patología (CIE-10) *</Label>
-                                                <Select
+                                                <CreatableSelectAPI
+                                                    endpoint="/api/catalogos/patologias"
                                                     value={nuevaPatologia.id_patologia}
-                                                    onValueChange={(val) => setNuevaPatologia({ ...nuevaPatologia, id_patologia: val })}
-                                                >
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Buscar patología..." />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        {catalogoPatologias.map((p) => (
-                                                            <SelectItem key={p.id_patologia} value={p.id_patologia.toString()}>
-                                                                {p.codigo_cie10 ? `[${p.codigo_cie10}] ` : ""}{p.nombre}
-                                                            </SelectItem>
-                                                        ))}
-                                                    </SelectContent>
-                                                </Select>
+                                                    onChange={(val) => setNuevaPatologia({ ...nuevaPatologia, id_patologia: val })}
+                                                    idKey="id_patologia"
+                                                    nameKey="nombre"
+                                                    placeholder="Buscar o crear patología..."
+                                                />
                                             </div>
                                             <div className="space-y-2">
                                                 <Label htmlFor="fecha_diag">Fecha Diagnóstico *</Label>
@@ -1386,12 +1313,11 @@ export default function HistorialPacientePage() {
                                         <form onSubmit={handleCreateAlergia} className="space-y-4 py-2">
                                             <div className="space-y-2">
                                                 <Label htmlFor="alergeno">Alérgeno *</Label>
-                                                <Input
-                                                    id="alergeno"
+                                                <CreatableSelectAPI
+                                                    endpoint="/api/catalogos/alergias"
                                                     value={nuevaAlergia.alergeno}
-                                                    onChange={(e) => setNuevaAlergia({ ...nuevaAlergia, alergeno: e.target.value })}
+                                                    onChange={(val) => setNuevaAlergia({ ...nuevaAlergia, alergeno: val })}
                                                     placeholder="Ej. Penicilina, Nueces..."
-                                                    required
                                                 />
                                             </div>
                                             <div className="grid grid-cols-2 gap-4">
@@ -1777,7 +1703,7 @@ export default function HistorialPacientePage() {
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
-                                    <Brain className="w-5 h-5 text-purple-600" /> Predicción de Diabetes (IA)
+                                    <Brain className="w-5 h-5 text-primary" /> Predicción de Diabetes (IA)
                                 </CardTitle>
                                 <CardDescription>
                                     Análisis predictivo basado en datos clínicos del paciente
@@ -1846,15 +1772,15 @@ export default function HistorialPacientePage() {
                                                     <div key={index} className="grid grid-cols-12 gap-2 items-end border p-2 rounded">
                                                         <div className="col-span-4 space-y-1">
                                                             <Label className="text-xs">Nombre Comercial/Genérico</Label>
-                                                            <Input
+                                                            <CreatableSelectAPI
+                                                                endpoint="/api/catalogos/medicamentos"
                                                                 value={med.nombre}
-                                                                onChange={(e) => {
+                                                                onChange={(val) => {
                                                                     const newMeds = [...nuevaReceta.medicamentos]
-                                                                    newMeds[index].nombre = e.target.value
+                                                                    newMeds[index].nombre = val
                                                                     setNuevaReceta({ ...nuevaReceta, medicamentos: newMeds })
                                                                 }}
                                                                 placeholder="Ej. Paracetamol 500mg"
-                                                                required
                                                             />
                                                         </div>
                                                         <div className="col-span-3 space-y-1">
@@ -1975,9 +1901,19 @@ export default function HistorialPacientePage() {
                                             </div>
 
                                             <div className="flex items-center gap-2 p-3 bg-muted/10 border-t mt-auto">
-                                                <Button variant="ghost" size="sm" className="flex-1 h-8">
-                                                    <Download className="w-3.5 h-3.5 mr-2" /> Descargar PDF
-                                                </Button>
+                                                <PDFDownloadWrapper 
+                                                    type="prescription"
+                                                    data={{
+                                                        paciente: paciente,
+                                                        receta: r,
+                                                        doctor: r.usuario || { nombre: "Médico", apellido_paterno: "Asignado" },
+                                                        fecha: new Date(r.fecha_emicion).toLocaleDateString()
+                                                    }}
+                                                    fileName={`Receta_${paciente?.nombre || 'Paciente'}_${r.id_receta}.pdf`}
+                                                    variant="ghost" 
+                                                    size="sm" 
+                                                    className="flex-1 h-8"
+                                                />
                                                 <div className="w-px h-4 bg-border" />
                                                 <Button variant="ghost" size="sm" className="flex-1 h-8" onClick={() => setQrReceta(r)}>
                                                     <QrCode className="w-3.5 h-3.5 mr-2" /> Ver QR
@@ -2124,6 +2060,7 @@ export default function HistorialPacientePage() {
                             </CardContent>
                         </Card>
                     </TabsContent>
+                    </div>
                 </Tabs>
             </main>
     </DashboardLayout>

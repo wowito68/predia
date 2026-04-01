@@ -40,7 +40,7 @@ export function RecentAlertsWidget({ alertas }: RecentAlertsWidgetProps) {
                 <CardTitle className="flex items-center space-x-2">
                     <AlertTriangle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                     <span>Alertas Clínicas</span>
-                    <span className="ml-auto inline-flex px-2 py-0.5 rounded text-[10px] font-semibold bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300">
+                    <span className="ml-auto inline-flex px-2 py-0.5 rounded text-[10px] font-semibold bg-primary/10 text-primary dark:bg-primary/20">
                         IA · Diabetes
                     </span>
                 </CardTitle>

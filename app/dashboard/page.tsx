@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -34,76 +35,41 @@ const REFRESH_INTERVAL_MS = 60_000; // 60 segundos
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-
-  const fetchStats = useCallback(async (token: string, signal?: AbortSignal) => {
-    try {
-      const response = await fetch("/api/dashboard/stats", {
-        headers: { Authorization: `Bearer ${token}` },
-        signal,
-      });
-
-      if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-
-      const data = await response.json();
-      if (data.success) {
-        setStats(data.data);
-        setError(null);
-        setLastUpdated(new Date());
-      } else {
-        throw new Error(data.error || "Error al cargar estadísticas");
-      }
-    } catch (err: any) {
-      if (err.name === "AbortError") return; // Cancelación intencional
-      console.error("Error al cargar estadísticas:", err);
-      toast.error("Error de conexión", {
-        description: "No se pudieron cargar las estadísticas actualizadas.",
-        action: {
-          label: "Reintentar",
-          onClick: () => handleManualRefresh()
-        }
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const queryClient = useQueryClient();
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const t = localStorage.getItem("token");
     const authenticated = localStorage.getItem("authenticated");
-
-    if (!token || !authenticated) {
+    if (!t || !authenticated) {
       router.push("/login");
-      return;
+    } else {
+      setToken(t);
     }
+  }, [router]);
 
-    const controller = new AbortController();
+  const { data: stats, isLoading, error, refetch, dataUpdatedAt } = useQuery<DashboardStats>({
+    queryKey: ['dashboardStats'],
+    queryFn: async () => {
+      const response = await fetch("/api/dashboard/stats", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+      const data = await response.json();
+      if (data.success) return data.data;
+      throw new Error(data.error || "Error al cargar estadísticas");
+    },
+    enabled: !!token,
+    staleTime: 60 * 1000 // Cache by 1 minute natively
+  });
 
-    // Carga inicial
-    fetchStats(token, controller.signal);
-
-    // Auto-refresh cada 60 segundos
-    const interval = setInterval(() => {
-      fetchStats(token, controller.signal);
-    }, REFRESH_INTERVAL_MS);
-
-    return () => {
-      controller.abort();
-      clearInterval(interval);
-    };
-  }, [router, fetchStats]);
+  const lastUpdated = dataUpdatedAt ? new Date(dataUpdatedAt) : null;
 
   const handleManualRefresh = () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    setLoading(true);
-    fetchStats(token);
+    refetch();
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <DashboardLayout>
         <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">

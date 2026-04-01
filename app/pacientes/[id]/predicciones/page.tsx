@@ -15,6 +15,10 @@ import {
   FileSpreadsheet, Brain, Plus, ChevronDown, ChevronUp, FlaskConical, Ruler
 } from "lucide-react"
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CardiovascularTab } from "@/components/predictions/CardiovascularTab";
+import { MetabolicTab } from "@/components/predictions/MetabolicTab";
+
 interface Prediccion {
   id_prediccion: number
   resultado: "Diabetes" | "No Diabetes"
@@ -369,33 +373,44 @@ export default function PrediccionesPage() {
               </p>
             </div>
           </div>
-          <div className="flex gap-2">
-            <Button
-              onClick={() => setShowForm(!showForm)}
-              className={showForm ? "bg-gray-600 hover:bg-gray-700" : "bg-violet-600 hover:bg-violet-700"}
-            >
-              {showForm ? (
-                <>
-                  <ChevronUp className="w-4 h-4 mr-2" />
-                  Cerrar
-                </>
-              ) : (
-                <>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Nueva Evaluación
-                </>
-              )}
-            </Button>
-            <Button
-              onClick={exportarCSV}
-              variant="outline"
-              disabled={predicciones.length === 0}
-            >
-              <FileSpreadsheet className="w-4 h-4 mr-2" />
-              CSV
-            </Button>
-          </div>
         </div>
+
+        <Tabs defaultValue="diabetes" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-3 max-w-2xl">
+            <TabsTrigger value="diabetes">Predicción Diabetes</TabsTrigger>
+            <TabsTrigger value="cardiovascular">Riesgo Cardiovascular</TabsTrigger>
+            <TabsTrigger value="metabolico">Síndrome Metabólico</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="diabetes">
+            <div className="flex justify-end pb-4">
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => setShowForm(!showForm)}
+                  className={showForm ? "bg-gray-600 hover:bg-gray-700 text-white" : "bg-violet-600 hover:bg-violet-700 text-white"}
+                >
+                  {showForm ? (
+                    <>
+                      <ChevronUp className="w-4 h-4 mr-2" />
+                      Cerrar
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4 mr-2" />
+                      Nueva Evaluación
+                    </>
+                  )}
+                </Button>
+                <Button
+                  onClick={exportarCSV}
+                  variant="outline"
+                  disabled={predicciones.length === 0}
+                >
+                  <FileSpreadsheet className="w-4 h-4 mr-2" />
+                  CSV
+                </Button>
+              </div>
+            </div>
 
         {/* Banner informativo */}
         <Alert className="mb-6 border-violet-200 bg-violet-50/50 dark:border-violet-900 dark:bg-violet-950/30">
@@ -431,7 +446,7 @@ export default function PrediccionesPage() {
                 {/* Función Renal */}
                 <div>
                   <h4 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2">
-                    <FlaskConical className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    <FlaskConical className="w-4 h-4 text-primary" />
                     Función Renal
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -580,9 +595,9 @@ export default function PrediccionesPage() {
                       <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold mb-1">RESULTADO</p>
                       <p className="text-lg font-bold text-blue-900 dark:text-blue-200">{pred.resultado}</p>
                     </div>
-                    <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
-                      <p className="text-xs text-purple-600 dark:text-purple-400 font-semibold mb-1">NIVEL DE RIESGO</p>
-                      <p className="text-lg font-bold text-purple-900 dark:text-purple-200">{pred.nivel_riesgo}</p>
+                    <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-lg border border-primary/20 dark:border-primary/20">
+                      <p className="text-xs text-primary font-semibold mb-1">NIVEL DE RIESGO</p>
+                      <p className="text-lg font-bold text-foreground">{pred.nivel_riesgo}</p>
                     </div>
                     <div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-200 dark:border-indigo-800">
                       <p className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold mb-1">CONFIANZA</p>
@@ -637,6 +652,16 @@ export default function PrediccionesPage() {
             ))}
           </div>
         )}
+          </TabsContent>
+
+          <TabsContent value="cardiovascular">
+            <CardiovascularTab paciente={paciente} id={id} />
+          </TabsContent>
+
+          <TabsContent value="metabolico">
+            <MetabolicTab paciente={paciente} id={id} />
+          </TabsContent>
+        </Tabs>
       </main>
     </DashboardLayout>
   )

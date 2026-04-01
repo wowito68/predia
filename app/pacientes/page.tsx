@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Loader2,
   Search,
@@ -20,6 +22,7 @@ import {
   Eye,
   FileSpreadsheet,
   ClipboardList,
+  MoreHorizontal,
 } from "lucide-react"
 
 // ✅ Hook de debounce para búsqueda
@@ -339,12 +342,13 @@ export default function PacientesPage() {
 
         {/* Tabla de pacientes */}
         {loading ? (
-          <Card>
-            <CardContent className="pt-6 text-center">
-              <Loader2 className="w-8 h-8 animate-spin mx-auto text-blue-600" />
-              <p className="mt-4 text-muted-foreground">Cargando pacientes...</p>
-            </CardContent>
-          </Card>
+          <div className="space-y-3 mt-6">
+            <Skeleton className="h-12 w-full rounded-lg" />
+            <Skeleton className="h-16 w-full rounded-lg" />
+            <Skeleton className="h-16 w-full rounded-lg" />
+            <Skeleton className="h-16 w-full rounded-lg" />
+            <Skeleton className="h-16 w-full rounded-lg" />
+          </div>
         ) : pacientes.length === 0 ? (
           <Card>
             <CardContent className="pt-6 text-center">
@@ -365,7 +369,7 @@ export default function PacientesPage() {
                         <th className="text-left py-3 px-4 font-semibold">Edad</th>
                         <th className="text-left py-3 px-4 font-semibold">Estado</th>
                         <th className="text-left py-3 px-4 font-semibold">Última Consulta</th>
-                        <th className="text-center py-3 px-4 font-semibold">Acciones</th>
+                        <th className="text-right py-3 pr-6 font-semibold">Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -381,7 +385,7 @@ export default function PacientesPage() {
                             <td className="py-4 px-4">
                               <span
                                 className={`px-3 py-1 rounded-full text-xs font-semibold ${paciente.activo
-                                  ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                                  ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400"
                                   : "bg-muted text-muted-foreground"
                                   }`}
                               >
@@ -397,41 +401,48 @@ export default function PacientesPage() {
                                 <span className="text-muted-foreground text-sm">Sin consultas</span>
                               )}
                             </td>
-                            <td className="py-4 px-4 text-center">
-                              <div className="flex justify-center gap-2">
-                                <button
+                            <td className="py-4 px-4 pr-6 text-right">
+                              <div className="flex justify-end items-center gap-2">
+                                <Button
+                                  size="sm"
                                   onClick={() => router.push(`/pacientes/${paciente.id_paciente}/historial`)}
-                                  title="Ver historial clínico"
-                                  className="p-2 rounded-md text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                  className="h-8 shadow-none font-medium"
+                                  title="Abrir Expediente Clínico"
                                 >
-                                  <ClipboardList className="w-4 h-4" />
-                                </button>
-                                <button
-                                  onClick={() => handleVerPredicciones(paciente.id_paciente)}
-                                  title="Ver predicciones"
-                                  className="p-2 rounded-md text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                >
-                                  <Eye className="w-4 h-4" />
-                                </button>
-                                <button
-                                  onClick={() => handleEditarPaciente(paciente.id_paciente)}
-                                  title="Editar"
-                                  className="p-2 rounded-md text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                >
-                                  <Edit2 className="w-4 h-4" />
-                                </button>
-                                <button
-                                  onClick={() => setPacienteAEliminar(paciente)}
-                                  disabled={deletingId === paciente.id_paciente}
-                                  title="Eliminar"
-                                  className="p-2 rounded-md text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                >
-                                  {deletingId === paciente.id_paciente ? (
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                  ) : (
-                                    <Trash2 className="w-4 h-4" />
-                                  )}
-                                </button>
+                                  <ClipboardList className="w-3.5 h-3.5 mr-1.5" />
+                                  Expediente
+                                </Button>
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:bg-muted data-[state=open]:bg-muted">
+                                      <MoreHorizontal className="w-4 h-4" />
+                                      <span className="sr-only">Abrir menú</span>
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent align="end" className="w-[180px]">
+                                    <DropdownMenuItem onClick={() => handleVerPredicciones(paciente.id_paciente)}>
+                                      <Eye className="mr-2 h-4 w-4 text-blue-500 dark:text-blue-400" />
+                                      Predicciones IA
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleEditarPaciente(paciente.id_paciente)}>
+                                      <Edit2 className="mr-2 h-4 w-4 text-green-500 dark:text-green-400" />
+                                      Editar paciente
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem
+                                      onClick={() => setPacienteAEliminar(paciente)}
+                                      disabled={deletingId === paciente.id_paciente}
+                                      className="text-destructive focus:bg-destructive/10 focus:text-destructive dark:focus:bg-destructive/20"
+                                    >
+                                      {deletingId === paciente.id_paciente ? (
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                      ) : (
+                                        <Trash2 className="mr-2 h-4 w-4" />
+                                      )}
+                                      Eliminar paciente
+                                    </DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
                               </div>
                             </td>
                           </tr>

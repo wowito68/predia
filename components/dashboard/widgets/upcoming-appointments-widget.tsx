@@ -55,7 +55,7 @@ export function UpcomingAppointmentsWidget() {
         <Card className="h-full">
             <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                    <CalendarDays className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                    <CalendarDays className="w-5 h-5 text-primary" />
                     <span>Próximas Citas</span>
                 </CardTitle>
             </CardHeader>
@@ -76,7 +76,7 @@ export function UpcomingAppointmentsWidget() {
                             return (
                                 <div
                                     key={cita.id_consulta}
-                                    className="flex items-center justify-between p-3 rounded-lg border border-purple-100 bg-purple-50/50 dark:border-purple-900 dark:bg-purple-900/10"
+                                    className="flex items-center justify-between p-3 rounded-lg border border-primary/20 bg-primary/5 dark:bg-primary/10"
                                 >
                                     <div>
                                         <p className="font-medium text-foreground text-sm">
@@ -86,7 +86,7 @@ export function UpcomingAppointmentsWidget() {
                                             {dia} · Dr. {cita.usuario.nombre} {cita.usuario.apellido_paterno}
                                         </p>
                                     </div>
-                                    <div className="flex items-center space-x-1 text-purple-600 dark:text-purple-400">
+                                    <div className="flex items-center space-x-1 text-primary">
                                         <Clock className="w-3.5 h-3.5" />
                                         <span className="text-sm font-medium">{hora}</span>
                                     </div>

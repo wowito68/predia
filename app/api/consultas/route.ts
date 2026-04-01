@@ -73,6 +73,19 @@ export async function POST(request: NextRequest) {
             }, { status: 400 })
         }
 
+        const paciente = await prisma.paciente.findUnique({
+            where: { id_paciente: parseInt(id_paciente) },
+            select: { nombre: true, apellido_paterno: true, cedula: true, fecha_nacimiento: true, genero: true }
+        });
+
+        const datos_paciente = JSON.stringify(paciente || {});
+        const datos_medico = JSON.stringify({
+            nombre: (user as any).nombre,
+            apellido_paterno: (user as any).apellido_paterno,
+            especialidad: (user as any).especialidad,
+            cedula_profesional: (user as any).cedula_profesional
+        });
+
         const consulta = await prisma.consultaMedica.create({
             data: {
                 id_paciente: parseInt(id_paciente),
@@ -84,7 +97,9 @@ export async function POST(request: NextRequest) {
                 tratamiento: tratamiento || null,
                 receta: receta || null,
                 proxima_cita: proxima_cita ? new Date(proxima_cita) : null,
-                observaciones: observaciones || null
+                observaciones: observaciones || null,
+                datos_medico,
+                datos_paciente
             },
             include: {
                 paciente: { select: { nombre: true, apellido_paterno: true } },

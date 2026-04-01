@@ -10,6 +10,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Excluir @react-pdf/renderer del bundle del servidor (es ESM puro)
+  serverExternalPackages: ['@react-pdf/renderer'],
   // Optimizaciones de rendimiento
   experimental: {
     // Optimizar imports de paquetes grandes

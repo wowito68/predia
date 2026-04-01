@@ -12,10 +12,8 @@ import { Badge } from "@/components/ui/badge"
 
 const NAV_ITEMS_ALL = [
   { href: "/dashboard", label: "Inicio", icon: Home, roles: ["Administrador", "Médico", "Enfermero"] },
-  { href: "/pacientes", label: "Pacientes", icon: Users, roles: ["Administrador", "Médico", "Enfermero"] },
-  { href: "/nuevo-paciente", label: "Nuevo Paciente", icon: UserPlus, roles: ["Administrador", "Médico"] },
-  { href: "/historial", label: "Historial", icon: History, roles: ["Administrador", "Médico", "Enfermero"] },
   { href: "/agenda", label: "Agenda", icon: CalendarDays, roles: ["Administrador", "Médico", "Enfermero"] },
+  { href: "/pacientes", label: "Pacientes", icon: Users, roles: ["Administrador", "Médico", "Enfermero"] },
   { href: "/configuracion", label: "Configuración", icon: Settings, roles: ["Administrador", "Médico"] },
   { href: "/ayuda", label: "Ayuda", icon: HelpCircle, roles: ["Administrador", "Médico", "Enfermero"] },
 ]
@@ -36,6 +34,11 @@ export function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: 
       try {
         const user = JSON.parse(storedUser)
         setUserName(user.nombre ? `${user.nombre} ${user.apellido_paterno || ''}`.trim() : user.username || "Usuario")
+        if (user.rol_nombre && !storedRole) {
+          setUserRole(user.rol_nombre)
+          // also set it to prevent future misses
+          localStorage.setItem("userRole", user.rol_nombre)
+        }
       } catch (err) {}
     }
     if (storedRole) setUserRole(storedRole)
@@ -58,7 +61,7 @@ export function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: 
         onClick={() => setMobileOpen(false)}
       />
       
-      <aside className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-card border-r border-border transition-all duration-300 ease-in-out lg:translate-x-0 ${mobileOpen ? "translate-x-0 w-64" : "-translate-x-full lg:w-fit"} ${collapsed ? "lg:w-[80px]" : "lg:w-64"}`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-card border-r border-border transition-all duration-300 ease-in-out lg:translate-x-0 ${mobileOpen ? "translate-x-0 w-64" : "-translate-x-full lg:w-fit"} ${collapsed ? "lg:w-[80px]" : "lg:w-64"} print:hidden`}>
         {/* Header Logo */}
         <div className={`flex items-center justify-between h-16 shrink-0 border-b border-border px-4 ${collapsed ? "lg:justify-center lg:px-0" : ""}`}>
           <Link href="/dashboard" className="flex items-center space-x-3 overflow-hidden">

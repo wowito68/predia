@@ -261,7 +261,7 @@ export default function EditarPacientePage() {
                   Cancelar
                 </Button>
               </Link>
-              <Button onClick={handleGuardar} disabled={saving} className="bg-blue-600 hover:bg-blue-700">
+              <Button onClick={handleGuardar} disabled={saving}>
                 {saving ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />

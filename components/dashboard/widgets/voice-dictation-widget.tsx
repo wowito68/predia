@@ -23,7 +23,7 @@ export function VoiceDictationWidget() {
         <Card className="h-full">
             <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                    <Mic className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                    <Mic className="w-5 h-5 text-primary" />
                     <span>Dictado Clínico IA</span>
                 </CardTitle>
                 <CardDescription>
@@ -45,7 +45,7 @@ export function VoiceDictationWidget() {
                             variant="default"
                             onClick={startRecording}
                             disabled={isProcessing}
-                            className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600 text-white"
+                            className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
                         >
                             {isProcessing ? (
                                 <>
@@ -66,7 +66,7 @@ export function VoiceDictationWidget() {
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                         placeholder="Las notas aparecerán aquí..."
-                        className="min-h-[100px] resize-none focus-visible:ring-purple-600"
+                        className="min-h-[100px] resize-none focus-visible:ring-primary"
                     />
                 </div>
 
