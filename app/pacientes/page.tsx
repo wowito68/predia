@@ -240,45 +240,76 @@ export default function PacientesPage() {
     router.push(`/pacientes/${id}/predicciones`)
   }
 
-  // Exportar a CSV
-  const exportarCSV = () => {
-    if (pacientes.length === 0) {
-      setError("No hay datos para exportar")
+  // Exportar a CSV — descarga TODOS los pacientes (no solo la página actual)
+  const [exporting, setExporting] = useState(false)
+
+  const exportarCSV = async () => {
+    const token = getToken()
+    if (!token) {
+      setError("Sesión expirada")
       return
     }
 
-    const headers = [
-      "Cédula",
-      "Nombre Completo",
-      "Género",
-      "Edad",
-      "Email",
-      "Teléfono",
-      "Estado",
-      "Fecha Registro"
-    ]
+    setExporting(true)
+    try {
+      // Obtener TODOS los pacientes del servidor
+      const res = await fetch(`/api/pacientes?limit=10000&search=${debouncedSearch}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
 
-    const rows = pacientes.map(p => [
-      p.cedula,
-      getNombreCompleto(p),
-      p.genero,
-      calcularEdad(p.fecha_nacimiento),
-      p.email || "N/A",
-      p.telefono || "N/A",
-      p.activo ? "Activo" : "Inactivo",
-      new Date(p.fecha_registro).toLocaleDateString()
-    ])
+      if (!res.ok) throw new Error("Error al obtener pacientes para exportar")
 
-    const csvContent = [
-      headers.join(","),
-      ...rows.map(row => row.map(cell => `"${cell}"`).join(","))
-    ].join("\n")
+      const data = await res.json() as PaginatedResponse
 
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
-    const link = document.createElement("a")
-    link.href = URL.createObjectURL(blob)
-    link.download = `pacientes_${new Date().toISOString().split("T")[0]}.csv`
-    link.click()
+      if (!data.data || data.data.length === 0) {
+        setError("No hay datos para exportar")
+        return
+      }
+
+      const allPacientes = data.data
+
+      const headers = [
+        "Cédula",
+        "Nombre Completo",
+        "Género",
+        "Edad",
+        "Email",
+        "Teléfono",
+        "Estado",
+        "Última Consulta",
+        "Fecha Registro"
+      ]
+
+      const rows = allPacientes.map(p => [
+        p.cedula,
+        getNombreCompleto(p),
+        p.genero,
+        calcularEdad(p.fecha_nacimiento),
+        p.email || "N/A",
+        p.telefono || "N/A",
+        p.activo ? "Activo" : "Inactivo",
+        p.ultima_consulta ? new Date(p.ultima_consulta).toLocaleDateString("es-MX") : "Sin consultas",
+        new Date(p.fecha_registro).toLocaleDateString("es-MX")
+      ])
+
+      const csvContent = [
+        headers.join(","),
+        ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+      ].join("\n")
+
+      // BOM prefix for Excel to detect UTF-8 correctly (ñ, accents)
+      const BOM = "\uFEFF"
+      const blob = new Blob([BOM + csvContent], { type: "text/csv;charset=utf-8;" })
+      const link = document.createElement("a")
+      link.href = URL.createObjectURL(blob)
+      link.download = `pacientes_predia_${new Date().toISOString().split("T")[0]}.csv`
+      link.click()
+      URL.revokeObjectURL(link.href)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al exportar")
+    } finally {
+      setExporting(false)
+    }
   }
 
   const getNombreCompleto = (paciente: Paciente) => {
@@ -301,10 +332,14 @@ export default function PacientesPage() {
               onClick={exportarCSV}
               variant="outline"
               className="flex items-center gap-2"
-              disabled={pacientes.length === 0}
+              disabled={exporting}
             >
-              <FileSpreadsheet className="w-4 h-4" />
-              Exportar CSV
+              {exporting ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <FileSpreadsheet className="w-4 h-4" />
+              )}
+              {exporting ? "Exportando..." : "Exportar CSV"}
             </Button>
             <Link href="/nuevo-paciente">
               <Button>

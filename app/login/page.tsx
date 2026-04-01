@@ -38,7 +38,10 @@ export default function LoginPage() {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("authenticated", "true"); // Agregar esta línea
+      localStorage.setItem("authenticated", "true");
+      if (data.user?.rol) {
+        localStorage.setItem("userRole", data.user.rol);
+      }
       router.push("/dashboard");
     } catch (err) {
       setError("Error de conexión con el servidor");

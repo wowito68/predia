@@ -21,12 +21,13 @@ const updateUserSchema = z.object({
 })
 
 interface RouteParams {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 // GET - Obtener un usuario específico
 export async function GET(req: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params
     // Verificar autenticación
     const authHeader = req.headers.get("authorization")
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -39,7 +40,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Token inválido" }, { status: 401 })
     }
 
-    const userId = parseInt(params.id)
+    const userId = parseInt(id)
     if (isNaN(userId)) {
       return NextResponse.json({ error: "ID de usuario inválido" }, { status: 400 })
     }
@@ -74,6 +75,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 // PATCH - Actualizar usuario
 export async function PATCH(req: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params
     // Verificar autenticación
     const authHeader = req.headers.get("authorization")
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -86,7 +88,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Token inválido" }, { status: 401 })
     }
 
-    const userId = parseInt(params.id)
+    const userId = parseInt(id)
     if (isNaN(userId)) {
       return NextResponse.json({ error: "ID de usuario inválido" }, { status: 400 })
     }
@@ -224,6 +226,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 // DELETE - Eliminar usuario
 export async function DELETE(req: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params
     // Verificar autenticación
     const authHeader = req.headers.get("authorization")
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -236,7 +239,7 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Token inválido" }, { status: 401 })
     }
 
-    const userId = parseInt(params.id)
+    const userId = parseInt(id)
     if (isNaN(userId)) {
       return NextResponse.json({ error: "ID de usuario inválido" }, { status: 400 })
     }

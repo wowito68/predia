@@ -34,10 +34,10 @@ export function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: 
       try {
         const user = JSON.parse(storedUser)
         setUserName(user.nombre ? `${user.nombre} ${user.apellido_paterno || ''}`.trim() : user.username || "Usuario")
-        if (user.rol_nombre && !storedRole) {
-          setUserRole(user.rol_nombre)
-          // also set it to prevent future misses
-          localStorage.setItem("userRole", user.rol_nombre)
+        const parsedRole = user.rol || user.rol_nombre
+        if (parsedRole && !storedRole) {
+          setUserRole(parsedRole)
+          localStorage.setItem("userRole", parsedRole)
         }
       } catch (err) {}
     }

@@ -40,15 +40,22 @@ export function CreatableSelectAPI({ endpoint, value, onChange, placeholder = "B
     }
   }, [value, options]);
 
+  const getAuthHeaders = (): HeadersInit => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    const headers: HeadersInit = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    return headers;
+  };
+
   const fetchOptions = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(endpoint);
+      const res = await fetch(endpoint, { headers: getAuthHeaders() });
       const data = await res.json();
       if (data.success) {
         const mapped = data.data.map((item: any) => ({
           label: item[nameKey],
-          value: String(item[idKey] || item[nameKey]) // Fallback to name if ID is missing or if we just want to save the name
+          value: String(item[idKey] || item[nameKey])
         }));
         setOptions(mapped);
       }
@@ -62,14 +69,13 @@ export function CreatableSelectAPI({ endpoint, value, onChange, placeholder = "B
   const handleCreate = async (inputValue: string) => {
     setIsCreating(true);
     try {
-      // Validate empty
       if (!inputValue.trim()) return;
 
       const normalized = inputValue.trim();
 
       const res = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ [nameKey]: normalized })
       });
       const data = await res.json();

@@ -48,8 +48,8 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Proteger: todas excepto static assets
-    "/((?!_next/static|_next/image|favicon.ico|public/).*)",
+    // Proteger: todas excepto static assets, PWA files y favicon
+    "/((?!_next/static|_next/image|favicon\\.ico|favicon\\.png|sw\\.js|workbox-.*|manifest\\.json|public/).*)",
   ],
 }
 

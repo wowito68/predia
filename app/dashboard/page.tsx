@@ -129,9 +129,16 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        {/* Toasts handles errors gracefully now */}
+        {error && (
+          <Alert className="mb-6 border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20">
+            <AlertTriangle className="h-4 w-4 text-red-600" />
+            <AlertDescription className="text-red-700 dark:text-red-300">
+              Error al cargar estadísticas: {(error as Error).message}
+            </AlertDescription>
+          </Alert>
+        )}
 
-        <WidgetGrid stats={stats} />
+        {stats && <WidgetGrid stats={stats} />}
       </main>
     </DashboardLayout>
   );
