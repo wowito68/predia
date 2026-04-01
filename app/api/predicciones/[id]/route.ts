@@ -1,59 +1,49 @@
 // app/api/predicciones/[id]/route.ts
-// ✅ CORREGIDO para Next.js 15: async params, tipos unificados, respuestas consistentes
 import { NextRequest, NextResponse } from "next/server"
-import { query, QueryBuilder } from "@/lib/db"
-import { requireAuth } from "@/lib/auth"
-import type { Prediccion } from "@/types/database"
+import { prisma } from "@/lib/prisma"
+import { verifyToken } from "@/lib/auth"
 
-// ✅ GET - Obtener predicción por ID
-export const GET = requireAuth(async (request: NextRequest, context: { params?: any; user: any }) => {
+// GET - Obtener predicción por ID
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    // ✅ CORRECCIÓN: params es Promise en Next.js 15
+    const token = request.headers.get("authorization")?.replace("Bearer ", "")
+    if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+    const user = verifyToken(token)
+    if (!user) return NextResponse.json({ error: "Token inválido" }, { status: 401 })
+
     const params = await context.params
     const id = parseInt(params.id, 10)
-
     if (isNaN(id) || id <= 0) {
-      return NextResponse.json(
-        { success: false, error: "ID inválido" },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, error: "ID inválido" }, { status: 400 })
     }
 
-    const prediccion = await query<any>(
-      `SELECT p.*, 
-              pa.cedula,
-              pa.genero,
-              CONCAT(pa.nombre, ' ', pa.apellido_paterno) as paciente_nombre,
-              pa.nombre,
-              pa.apellido_paterno,
-              u.username as usuario_nombre
-       FROM prediccion p
-       INNER JOIN paciente pa ON p.id_paciente = pa.id_paciente
-       INNER JOIN usuario u ON p.id_usuario = u.id_usuario
-       WHERE p.id_prediccion = ?`,
-      [id],
-    )
+    const prediccion = await prisma.prediccion.findUnique({
+      where: { id_prediccion: id },
+      include: {
+        paciente: { select: { nombre: true, apellido_paterno: true, cedula: true, genero: true } },
+        usuario: { select: { username: true } },
+      },
+    })
 
-    if (prediccion.length === 0) {
+    if (!prediccion) {
       return NextResponse.json(
         { success: false, error: "Predicción no encontrada", code: "NOT_FOUND" },
-        { status: 404 }
+        { status: 404 },
       )
     }
 
-    const pred = prediccion[0]
-
-    // Parse JSON fields
     const result = {
-      ...pred,
-      datos_entrada: typeof pred.datos_entrada === 'string' ? JSON.parse(pred.datos_entrada) : pred.datos_entrada,
-      factores_riesgo: typeof pred.factores_riesgo === 'string' ? JSON.parse(pred.factores_riesgo) : pred.factores_riesgo,
+      ...prediccion,
+      datos_entrada: typeof prediccion.datos_entrada === "string" ? JSON.parse(prediccion.datos_entrada) : prediccion.datos_entrada,
+      factores_riesgo: typeof prediccion.factores_riesgo === "string" ? JSON.parse(prediccion.factores_riesgo) : prediccion.factores_riesgo,
+      paciente_nombre: `${prediccion.paciente.nombre} ${prediccion.paciente.apellido_paterno}`,
+      usuario_nombre: prediccion.usuario.username,
       paciente: {
-        nombre: pred.nombre,
-        apellido_paterno: pred.apellido_paterno,
-        cedula: pred.cedula,
-        genero: pred.genero,
-      }
+        nombre: prediccion.paciente.nombre,
+        apellido_paterno: prediccion.paciente.apellido_paterno,
+        cedula: prediccion.paciente.cedula,
+        genero: prediccion.paciente.genero,
+      },
     }
 
     return NextResponse.json({ success: true, data: result })
@@ -62,29 +52,28 @@ export const GET = requireAuth(async (request: NextRequest, context: { params?: 
     console.error("❌ Error en GET predicción:", errorMessage)
     return NextResponse.json(
       { success: false, error: "Error al obtener predicción", details: errorMessage },
-      { status: 500 }
+      { status: 500 },
     )
   }
-})
+}
 
-// ✅ PUT - Actualizar predicción (validar resultado)
-export const PUT = requireAuth(async (request: NextRequest, context: { params?: any; user: any }) => {
+// PUT - Actualizar predicción (validar resultado)
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    // ✅ CORRECCIÓN: params es Promise en Next.js 15
+    const token = request.headers.get("authorization")?.replace("Bearer ", "")
+    if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+    const user = verifyToken(token)
+    if (!user) return NextResponse.json({ error: "Token inválido" }, { status: 401 })
+
     const params = await context.params
     const id = parseInt(params.id, 10)
-
     if (isNaN(id) || id <= 0) {
-      return NextResponse.json(
-        { success: false, error: "ID inválido" },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, error: "ID inválido" }, { status: 400 })
     }
 
     const body = await request.json()
 
-    // Solo permitir actualizar ciertos campos
-    const allowedFields = ["diagnostico_confirmado", "notas_medicas", "validado"]
+    const allowedFields = ["diagnostico_confirmado", "notas_medicas", "validado"] as const
     const updateData: Record<string, any> = {}
 
     for (const field of allowedFields) {
@@ -94,97 +83,71 @@ export const PUT = requireAuth(async (request: NextRequest, context: { params?: 
     }
 
     if (Object.keys(updateData).length === 0) {
-      return NextResponse.json(
-        { success: false, error: "No hay campos para actualizar" },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, error: "No hay campos para actualizar" }, { status: 400 })
     }
 
-    // Si se valida, agregar fecha de validación
     if ("diagnostico_confirmado" in updateData) {
       updateData.fecha_validacion = new Date()
       updateData.validado = true
     }
 
-    const { sql, params: queryParams } = QueryBuilder.update(
-      "prediccion",
-      updateData,
-      "id_prediccion = ?",
-      [id],
-    )
-
-    await query(sql, queryParams)
-
-    const updated = await query<any>(
-      `SELECT p.*, 
-              CONCAT(pa.nombre, ' ', pa.apellido_paterno) as paciente_nombre
-       FROM prediccion p
-       INNER JOIN paciente pa ON p.id_paciente = pa.id_paciente
-       WHERE p.id_prediccion = ?`,
-      [id],
-    )
-
-    if (updated.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Predicción no encontrada después de actualizar" },
-        { status: 404 }
-      )
-    }
+    const updated = await prisma.prediccion.update({
+      where: { id_prediccion: id },
+      data: updateData,
+      include: {
+        paciente: { select: { nombre: true, apellido_paterno: true } },
+      },
+    })
 
     return NextResponse.json({
       success: true,
       message: "Predicción actualizada",
-      data: updated[0],
+      data: {
+        ...updated,
+        paciente_nombre: `${updated.paciente.nombre} ${updated.paciente.apellido_paterno}`,
+      },
     })
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Error desconocido"
     console.error("❌ Error en PUT predicción:", errorMessage)
     return NextResponse.json(
       { success: false, error: "Error al actualizar predicción" },
-      { status: 500 }
+      { status: 500 },
     )
   }
-})
+}
 
-// ✅ DELETE - Eliminar predicción (soft delete)
-export const DELETE = requireAuth(async (request: NextRequest, context: { params?: any; user: any }) => {
+// DELETE - Eliminar predicción (soft delete)
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    // ✅ CORRECCIÓN: params es Promise en Next.js 15
+    const token = request.headers.get("authorization")?.replace("Bearer ", "")
+    if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+    const user = verifyToken(token)
+    if (!user) return NextResponse.json({ error: "Token inválido" }, { status: 401 })
+
     const params = await context.params
     const id = parseInt(params.id, 10)
-
     if (isNaN(id) || id <= 0) {
-      return NextResponse.json(
-        { success: false, error: "ID inválido" },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, error: "ID inválido" }, { status: 400 })
     }
 
-    // Verificar existencia
-    const existing = await query<Prediccion>(
-      "SELECT id_prediccion FROM prediccion WHERE id_prediccion = ?",
-      [id]
-    )
-
-    if (existing.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Predicción no encontrada" },
-        { status: 404 }
-      )
+    const existing = await prisma.prediccion.findUnique({ where: { id_prediccion: id } })
+    if (!existing) {
+      return NextResponse.json({ success: false, error: "Predicción no encontrada" }, { status: 404 })
     }
 
-    await query("UPDATE prediccion SET validado = FALSE WHERE id_prediccion = ?", [id])
-
-    return NextResponse.json({
-      success: true,
-      message: "Predicción eliminada",
+    await prisma.prediccion.update({
+      where: { id_prediccion: id },
+      data: { validado: false },
     })
+
+    return NextResponse.json({ success: true, message: "Predicción eliminada" })
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Error desconocido"
     console.error("❌ Error en DELETE predicción:", errorMessage)
     return NextResponse.json(
       { success: false, error: "Error al eliminar predicción" },
-      { status: 500 }
+      { status: 500 },
     )
   }
-})
+}

@@ -1,60 +1,57 @@
 // app/api/predicciones/route.ts
 import { NextRequest, NextResponse } from "next/server"
-import { query, queryOne } from "@/lib/db"
-import { requireAuth } from "@/lib/auth"
-import type { Prediccion } from "@/types/database"
+import { prisma } from "@/lib/prisma"
+import { verifyToken } from "@/lib/auth"
 
 // GET - Obtener predicciones
-export const GET = requireAuth(async (request: NextRequest, { user }) => {
+export async function GET(request: NextRequest) {
   try {
+    const token = request.headers.get("authorization")?.replace("Bearer ", "")
+    if (!token) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+    const user = verifyToken(token)
+    if (!user) return NextResponse.json({ error: "Token inválido" }, { status: 401 })
+
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get("page") || "1")
     const limit = parseInt(searchParams.get("limit") || "10")
     const id_paciente = searchParams.get("id_paciente")
-    const offset = (page - 1) * limit
+    const skip = (page - 1) * limit
 
-    let sql = `
-      SELECT p.*, 
-             CONCAT(pa.nombre, ' ', pa.apellido_paterno) as paciente_nombre,
-             u.username as usuario_nombre
-      FROM prediccion p
-      INNER JOIN paciente pa ON p.id_paciente = pa.id_paciente
-      INNER JOIN usuario u ON p.id_usuario = u.id_usuario
-      WHERE 1=1
-    `
-    const params: any[] = []
+    const where = id_paciente ? { id_paciente: parseInt(id_paciente) } : {}
 
-    if (id_paciente) {
-      sql += ` AND p.id_paciente = ?`
-      params.push(parseInt(id_paciente))
-    }
+    const [predicciones, total] = await Promise.all([
+      prisma.prediccion.findMany({
+        where,
+        include: {
+          paciente: { select: { nombre: true, apellido_paterno: true } },
+          usuario: { select: { username: true } },
+        },
+        orderBy: { fecha_prediccion: "desc" },
+        take: limit,
+        skip,
+      }),
+      prisma.prediccion.count({ where }),
+    ])
 
-    sql += ` ORDER BY p.fecha_prediccion DESC LIMIT ? OFFSET ?`
-    params.push(limit, offset)
-
-    const predicciones = await query<any>(sql, params)
-
-    // Total para paginación
-    let countSql = `SELECT COUNT(*) as total FROM prediccion WHERE 1=1`
-    const countParams: any[] = []
-    if (id_paciente) {
-      countSql += ` AND id_paciente = ?`
-      countParams.push(parseInt(id_paciente))
-    }
-
-    const [total] = await query<{ total: number }>(countSql, countParams)
+    // Format response for backward compatibility
+    const data = predicciones.map((p) => ({
+      ...p,
+      paciente_nombre: `${p.paciente.nombre} ${p.paciente.apellido_paterno}`,
+      usuario_nombre: p.usuario.username,
+      datos_entrada: typeof p.datos_entrada === "string" ? JSON.parse(p.datos_entrada) : p.datos_entrada,
+      factores_riesgo: typeof p.factores_riesgo === "string" ? JSON.parse(p.factores_riesgo) : p.factores_riesgo,
+    }))
 
     return NextResponse.json({
       success: true,
-      data: predicciones,
+      data,
       page,
       limit,
-      total: total.total,
-      pages: Math.ceil(total.total / limit),
+      total,
+      pages: Math.ceil(total / limit),
     })
   } catch (error) {
     console.error("Error al obtener predicciones:", error)
     return NextResponse.json({ error: "Error al obtener predicciones" }, { status: 500 })
   }
-})
-
+}

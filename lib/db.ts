@@ -3,13 +3,35 @@
 
 import { createPool, Pool, PoolConnection } from "mysql2/promise"
 
+// Parse DATABASE_URL (same format Prisma uses) for maximum compatibility
+function parseConnectionConfig() {
+  const dbUrl = process.env.DATABASE_URL
+  if (dbUrl) {
+    try {
+      const url = new URL(dbUrl)
+      return {
+        host: url.hostname || "127.0.0.1",
+        port: parseInt(url.port || "3306"),
+        user: decodeURIComponent(url.username || "root"),
+        password: decodeURIComponent(url.password || ""),
+        database: url.pathname.replace("/", "") || "predia",
+      }
+    } catch (e) {
+      console.warn("⚠️ Could not parse DATABASE_URL, falling back to individual env vars")
+    }
+  }
+  return {
+    host: process.env.DATABASE_HOST || "127.0.0.1",
+    port: parseInt(process.env.DATABASE_PORT || "3306"),
+    user: process.env.DATABASE_USER || "root",
+    password: process.env.DATABASE_PASSWORD || "",
+    database: process.env.DATABASE_NAME || "predia",
+  }
+}
+
 // Configuración del pool de conexiones
 const pool: Pool = createPool({
-  host: process.env.DATABASE_HOST || "127.0.0.1",
-  port: parseInt(process.env.DATABASE_PORT || "3306"),
-  user: process.env.DATABASE_USER || "predia_app",
-  password: process.env.DATABASE_PASSWORD || "SecurePassword123!",
-  database: process.env.DATABASE_NAME || "predia",
+  ...parseConnectionConfig(),
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
