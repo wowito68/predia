@@ -17,6 +17,31 @@ services:
       start_period: 40s
     networks:
       - predia-net
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    container_name: predia-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: predia_db
+      MYSQL_USER: predia_user
+      MYSQL_PASSWORD: secure_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - predia_db_data:/var/lib/mysql
+    networks:
+      - predia-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   n8n:
     image: n8nio/n8n:latest
@@ -42,4 +67,6 @@ networks:
 
 volumes:
   n8n_data:
+    driver: local
+  predia_db_data:
     driver: local
