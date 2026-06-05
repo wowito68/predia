@@ -1,0 +1,19 @@
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.2}
+\caption{Leakage demonstration: 5-fold cross-validated logistic regression
+trained on isolated feature subsets of \texttt{diabetes\_dataset.csv}}
+\label{tab:leakage}
+\centering
+\begin{tabular}{l c c}
+\toprule
+\textbf{Feature subset} & \textbf{Accuracy} & \textbf{ROC-AUC} \\
+\midrule
+\texttt{hba1c} only & 0.8520 & 0.9325 \\
+\texttt{glucose\_fasting} only & 0.7307 & 0.8082 \\
+Diagnostic labs (HbA1c+glucose+insulin) & 0.8567 & 0.9337 \\
+\texttt{diabetes\_stage}+\texttt{risk\_score} & \textbf{0.9979} & \textbf{0.9974} \\
+\midrule
+Screening (non-diagnostic numeric) & 0.6163 & 0.6121 \\
+\bottomrule
+\end{tabular}
+\end{table}

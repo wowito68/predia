@@ -1,0 +1,409 @@
+{
+  "model": "logistic_regression",
+  "framing": "screening",
+  "intercept": -0.071241141540877,
+  "threshold": 0.5,
+  "categorical_cols": [
+    "gender",
+    "ethnicity",
+    "education_level",
+    "income_level",
+    "employment_status",
+    "smoking_status"
+  ],
+  "binary_cols": [
+    "family_history_diabetes",
+    "hypertension_history",
+    "cardiovascular_history"
+  ],
+  "numeric_cols": [
+    "age",
+    "alcohol_consumption_per_week",
+    "physical_activity_minutes_per_week",
+    "diet_score",
+    "sleep_hours_per_day",
+    "screen_time_hours_per_day",
+    "bmi",
+    "waist_to_hip_ratio",
+    "systolic_bp",
+    "diastolic_bp",
+    "heart_rate",
+    "cholesterol_total",
+    "hdl_cholesterol",
+    "ldl_cholesterol",
+    "triglycerides"
+  ],
+  "categories": {
+    "gender": [
+      "Female",
+      "Male",
+      "Other"
+    ],
+    "ethnicity": [
+      "Asian",
+      "Black",
+      "Hispanic",
+      "Other",
+      "White"
+    ],
+    "education_level": [
+      "Graduate",
+      "Highschool",
+      "No formal",
+      "Postgraduate"
+    ],
+    "income_level": [
+      "High",
+      "Low",
+      "Lower-Middle",
+      "Middle",
+      "Upper-Middle"
+    ],
+    "employment_status": [
+      "Employed",
+      "Retired",
+      "Student",
+      "Unemployed"
+    ],
+    "smoking_status": [
+      "Current",
+      "Former",
+      "Never"
+    ]
+  },
+  "input_features": [
+    "gender",
+    "ethnicity",
+    "education_level",
+    "income_level",
+    "employment_status",
+    "smoking_status",
+    "family_history_diabetes",
+    "hypertension_history",
+    "cardiovascular_history",
+    "age",
+    "alcohol_consumption_per_week",
+    "physical_activity_minutes_per_week",
+    "diet_score",
+    "sleep_hours_per_day",
+    "screen_time_hours_per_day",
+    "bmi",
+    "waist_to_hip_ratio",
+    "systolic_bp",
+    "diastolic_bp",
+    "heart_rate",
+    "cholesterol_total",
+    "hdl_cholesterol",
+    "ldl_cholesterol",
+    "triglycerides"
+  ],
+  "specs": [
+    {
+      "feature": "gender_Female",
+      "type": "onehot",
+      "source": "gender",
+      "category": "Female",
+      "coef": -0.042612476734354046
+    },
+    {
+      "feature": "gender_Male",
+      "type": "onehot",
+      "source": "gender",
+      "category": "Male",
+      "coef": -0.04223620847473677
+    },
+    {
+      "feature": "gender_Other",
+      "type": "onehot",
+      "source": "gender",
+      "category": "Other",
+      "coef": 0.024808958912285836
+    },
+    {
+      "feature": "ethnicity_Asian",
+      "type": "onehot",
+      "source": "ethnicity",
+      "category": "Asian",
+      "coef": -0.009975249320929622
+    },
+    {
+      "feature": "ethnicity_Black",
+      "type": "onehot",
+      "source": "ethnicity",
+      "category": "Black",
+      "coef": -0.030555382251772477
+    },
+    {
+      "feature": "ethnicity_Hispanic",
+      "type": "onehot",
+      "source": "ethnicity",
+      "category": "Hispanic",
+      "coef": -0.0278222755411004
+    },
+    {
+      "feature": "ethnicity_Other",
+      "type": "onehot",
+      "source": "ethnicity",
+      "category": "Other",
+      "coef": 0.0294039590132794
+    },
+    {
+      "feature": "ethnicity_White",
+      "type": "onehot",
+      "source": "ethnicity",
+      "category": "White",
+      "coef": -0.021090778196282415
+    },
+    {
+      "feature": "education_level_Graduate",
+      "type": "onehot",
+      "source": "education_level",
+      "category": "Graduate",
+      "coef": -0.012930392242254724
+    },
+    {
+      "feature": "education_level_Highschool",
+      "type": "onehot",
+      "source": "education_level",
+      "category": "Highschool",
+      "coef": -0.013851785505945171
+    },
+    {
+      "feature": "education_level_No formal",
+      "type": "onehot",
+      "source": "education_level",
+      "category": "No formal",
+      "coef": -0.0005044065727928223
+    },
+    {
+      "feature": "education_level_Postgraduate",
+      "type": "onehot",
+      "source": "education_level",
+      "category": "Postgraduate",
+      "coef": -0.032753141975812555
+    },
+    {
+      "feature": "income_level_High",
+      "type": "onehot",
+      "source": "income_level",
+      "category": "High",
+      "coef": 0.03479249255879963
+    },
+    {
+      "feature": "income_level_Low",
+      "type": "onehot",
+      "source": "income_level",
+      "category": "Low",
+      "coef": -0.015633615416098146
+    },
+    {
+      "feature": "income_level_Lower-Middle",
+      "type": "onehot",
+      "source": "income_level",
+      "category": "Lower-Middle",
+      "coef": -0.009235716669249478
+    },
+    {
+      "feature": "income_level_Middle",
+      "type": "onehot",
+      "source": "income_level",
+      "category": "Middle",
+      "coef": -0.027533746923180683
+    },
+    {
+      "feature": "income_level_Upper-Middle",
+      "type": "onehot",
+      "source": "income_level",
+      "category": "Upper-Middle",
+      "coef": -0.042429139847076115
+    },
+    {
+      "feature": "employment_status_Employed",
+      "type": "onehot",
+      "source": "employment_status",
+      "category": "Employed",
+      "coef": 0.0018250627012893024
+    },
+    {
+      "feature": "employment_status_Retired",
+      "type": "onehot",
+      "source": "employment_status",
+      "category": "Retired",
+      "coef": -0.03956550796775936
+    },
+    {
+      "feature": "employment_status_Student",
+      "type": "onehot",
+      "source": "employment_status",
+      "category": "Student",
+      "coef": -0.017395716067735167
+    },
+    {
+      "feature": "employment_status_Unemployed",
+      "type": "onehot",
+      "source": "employment_status",
+      "category": "Unemployed",
+      "coef": -0.004903564962599631
+    },
+    {
+      "feature": "smoking_status_Current",
+      "type": "onehot",
+      "source": "smoking_status",
+      "category": "Current",
+      "coef": -0.018473026999868265
+    },
+    {
+      "feature": "smoking_status_Former",
+      "type": "onehot",
+      "source": "smoking_status",
+      "category": "Former",
+      "coef": -0.01994923381185862
+    },
+    {
+      "feature": "smoking_status_Never",
+      "type": "onehot",
+      "source": "smoking_status",
+      "category": "Never",
+      "coef": -0.021617465485078976
+    },
+    {
+      "feature": "age",
+      "type": "scale",
+      "source": "age",
+      "mean": 50.0965,
+      "scale": 15.593211271255193,
+      "coef": 0.28208287945107635
+    },
+    {
+      "feature": "alcohol_consumption_per_week",
+      "type": "scale",
+      "source": "alcohol_consumption_per_week",
+      "mean": 2.0030375,
+      "scale": 1.4188651358017612,
+      "coef": -0.00500267450539632
+    },
+    {
+      "feature": "physical_activity_minutes_per_week",
+      "type": "scale",
+      "source": "physical_activity_minutes_per_week",
+      "mean": 119.08965,
+      "scale": 84.7641403417595,
+      "coef": -0.20658823123640688
+    },
+    {
+      "feature": "diet_score",
+      "type": "scale",
+      "source": "diet_score",
+      "mean": 5.993850000000001,
+      "scale": 1.7819310950482905,
+      "coef": -0.06521630231196361
+    },
+    {
+      "feature": "sleep_hours_per_day",
+      "type": "scale",
+      "source": "sleep_hours_per_day",
+      "mean": 6.999060000000001,
+      "scale": 1.094711659022594,
+      "coef": -0.0034830816714956103
+    },
+    {
+      "feature": "screen_time_hours_per_day",
+      "type": "scale",
+      "source": "screen_time_hours_per_day",
+      "mean": 5.994364999999999,
+      "scale": 2.4693281974607992,
+      "coef": 0.03970983471774139
+    },
+    {
+      "feature": "bmi",
+      "type": "scale",
+      "source": "bmi",
+      "mean": 25.6069875,
+      "scale": 3.5894743591288893,
+      "coef": 0.1148691576726926
+    },
+    {
+      "feature": "waist_to_hip_ratio",
+      "type": "scale",
+      "source": "waist_to_hip_ratio",
+      "mean": 0.856033625,
+      "scale": 0.046930923913336454,
+      "coef": 0.01988468254029857
+    },
+    {
+      "feature": "systolic_bp",
+      "type": "scale",
+      "source": "systolic_bp",
+      "mean": 115.792675,
+      "scale": 14.270880888872103,
+      "coef": 0.015106527881843324
+    },
+    {
+      "feature": "diastolic_bp",
+      "type": "scale",
+      "source": "diastolic_bp",
+      "mean": 75.2262,
+      "scale": 8.20236603426109,
+      "coef": -0.008086416972943865
+    },
+    {
+      "feature": "heart_rate",
+      "type": "scale",
+      "source": "heart_rate",
+      "mean": 69.6195625,
+      "scale": 8.402990825211804,
+      "coef": -0.009066851551177132
+    },
+    {
+      "feature": "cholesterol_total",
+      "type": "scale",
+      "source": "cholesterol_total",
+      "mean": 185.971125,
+      "scale": 32.0090517078275,
+      "coef": -0.01986821531658315
+    },
+    {
+      "feature": "hdl_cholesterol",
+      "type": "scale",
+      "source": "hdl_cholesterol",
+      "mean": 54.0492,
+      "scale": 10.260671486798513,
+      "coef": -0.06352996977638249
+    },
+    {
+      "feature": "ldl_cholesterol",
+      "type": "scale",
+      "source": "ldl_cholesterol",
+      "mean": 102.9729,
+      "scale": 33.37575453214504,
+      "coef": 0.028799897986524423
+    },
+    {
+      "feature": "triglycerides",
+      "type": "scale",
+      "source": "triglycerides",
+      "mean": 121.4198875,
+      "scale": 43.40514378489425,
+      "coef": 0.043427813881830514
+    },
+    {
+      "feature": "family_history_diabetes",
+      "type": "passthrough",
+      "source": "family_history_diabetes",
+      "coef": 1.0660945680074114
+    },
+    {
+      "feature": "hypertension_history",
+      "type": "passthrough",
+      "source": "hypertension_history",
+      "coef": 0.00767386095290378
+    },
+    {
+      "feature": "cardiovascular_history",
+      "type": "passthrough",
+      "source": "cardiovascular_history",
+      "coef": 0.07965947926995359
+    }
+  ],
+  "seed": 42
+}

@@ -1,0 +1,77 @@
+{
+  "model": "screening_logistic_regression",
+  "thresholds": {
+    "t_bajo": 0.36,
+    "t_mid": 0.51,
+    "t_alto": 0.63
+  },
+  "operating_points": {
+    "t_bajo (sens>=0.90, regla de exclusión)": {
+      "threshold": 0.36,
+      "sensibilidad": 0.9014,
+      "especificidad": 0.2084,
+      "ppv": 0.6307
+    },
+    "t_mid (Youden J)": {
+      "threshold": 0.51,
+      "sensibilidad": 0.5409,
+      "especificidad": 0.6864,
+      "ppv": 0.7212
+    },
+    "t_alto (espec>=0.90, regla de inclusión)": {
+      "threshold": 0.63,
+      "sensibilidad": 0.2816,
+      "especificidad": 0.8982,
+      "ppv": 0.8059
+    }
+  },
+  "bands": [
+    {
+      "nivel": "Bajo",
+      "rango": [
+        0.0,
+        0.36
+      ],
+      "n": 2850,
+      "pct_poblacion": 14.2,
+      "prevalencia_observada": 0.4151
+    },
+    {
+      "nivel": "Moderado",
+      "rango": [
+        0.36,
+        0.51
+      ],
+      "n": 8150,
+      "pct_poblacion": 40.8,
+      "prevalencia_observada": 0.5308
+    },
+    {
+      "nivel": "Alto",
+      "rango": [
+        0.51,
+        0.63
+      ],
+      "n": 4807,
+      "pct_poblacion": 24.0,
+      "prevalencia_observada": 0.6474
+    },
+    {
+      "nivel": "Muy Alto",
+      "rango": [
+        0.63,
+        1.0
+      ],
+      "n": 4193,
+      "pct_poblacion": 21.0,
+      "prevalencia_observada": 0.8059
+    }
+  ],
+  "proba_summary": {
+    "min": 0.1152,
+    "max": 0.9089,
+    "mean": 0.5094,
+    "median": 0.4917
+  },
+  "base_rate_test": 0.6
+}
