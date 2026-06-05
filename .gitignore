@@ -31,3 +31,6 @@ next-env.d.ts
 **/.next/
 **/__pycache__/
 *.pyc
+
+# secretos / llaves (NUNCA commitear)
+*.pem
