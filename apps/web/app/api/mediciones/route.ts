@@ -41,8 +41,11 @@ export const GET = requireAuth(async (request: NextRequest, { user }) => {
       params.push(parseInt(id_paciente))
     }
 
-    sql += ` ORDER BY m.fecha_medicion DESC LIMIT ? OFFSET ?`
-    params.push(limit, offset)
+    // mysql2 rechaza placeholders en LIMIT/OFFSET con execute(); como ya son
+    // enteros validados, se interpolan de forma segura.
+    const safeLimit = Number.isFinite(limit) ? limit : 10
+    const safeOffset = Number.isFinite(offset) ? offset : 0
+    sql += ` ORDER BY m.fecha_medicion DESC LIMIT ${safeLimit} OFFSET ${safeOffset}`
 
     const mediciones = await query<any>(sql, params)
 

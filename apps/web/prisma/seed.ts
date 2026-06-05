@@ -45,6 +45,8 @@ interface UserData {
 
 interface PatientData {
   cedula: string
+  curp?: string
+  pin?: string
   nombre: string
   apellido_paterno: string
   apellido_materno?: string
@@ -156,6 +158,8 @@ const USERS: UserData[] = [
 const PATIENTS: PatientData[] = [
   {
     cedula: "12345678",
+    curp: "ROGJ850515HMCRRN08",
+    pin: "123456",
     nombre: "Juan",
     apellido_paterno: "Rodríguez",
     apellido_materno: "García",
@@ -174,6 +178,8 @@ const PATIENTS: PatientData[] = [
   },
   {
     cedula: "87654321",
+    curp: "LOHM781223MDFPRR03",
+    pin: "123456",
     nombre: "María",
     apellido_paterno: "López",
     apellido_materno: "Hernández",
@@ -333,6 +339,8 @@ async function seedPatients() {
       const paciente = await prisma.paciente.create({
         data: {
           cedula: patientData.cedula,
+          curp: patientData.curp || null,
+          pin_hash: patientData.pin ? await hashPassword(patientData.pin) : null,
           nombre: patientData.nombre,
           apellido_paterno: patientData.apellido_paterno,
           apellido_materno: patientData.apellido_materno || null,
@@ -507,11 +515,13 @@ async function seedModel() {
     if (!modelExists) {
       await prisma.modeloIA.create({
         data: {
-          version: "1.0.0",
-          fecha_entrenamiento: new Date("2024-01-15"),
-          accuracy: 97.89,
-          n_samples_train: 5000,
-          n_samples_test: 1000,
+          version: "v2.0-screening-logreg",
+          fecha_entrenamiento: new Date(),
+          // Métrica HONESTA de cribado (sin laboratorios diagnósticos). El 97.89%
+          // anterior estaba inflado por fuga de HbA1c — ver ml-research/reports/.
+          accuracy: 0.6044,
+          n_samples_train: 80000,
+          n_samples_test: 20000,
           features: JSON.stringify([
             "Gender",
             "AGE",
@@ -533,7 +543,7 @@ async function seedModel() {
             TG: 0.1,
             others: 0.18,
           }),
-          descripcion: "Modelo de predicción de diabetes (Random Forest)",
+          descripcion: "Regresión Logística de cribado (diabetes_dataset.csv, 100k) sin laboratorios diagnósticos — evita data leakage",
           activo: true,
         },
       })
@@ -593,6 +603,108 @@ async function seedHistory(patients: any[], usersMap: any) {
   }
 }
 
+/**
+ * Crear datos para la app móvil: automonitoreo (glucosa/peso/presión),
+ * predicción IA, próxima cita y receta activa por paciente.
+ */
+async function seedMobileData(patients: any[], usersMap: any) {
+  console.log("📱 Creando datos para app móvil (automonitoreo, predicción, citas, recetas)...")
+
+  try {
+    const medico = usersMap["dr_juan"]
+    const modelo = await prisma.modeloIA.findFirst({ where: { version: "1.0.0" } })
+    if (!medico || !modelo) throw new Error("Faltan médico o modelo IA para datos móviles")
+
+    const now = Date.now()
+    const day = 24 * 60 * 60 * 1000
+
+    for (let pi = 0; pi < patients.length; pi++) {
+      const p = patients[pi]
+      const auto: any[] = []
+
+      // Glucosa diaria (14 días)
+      for (let d = 13; d >= 0; d--) {
+        auto.push({
+          id_paciente: p.id_paciente,
+          tipo: "glucosa",
+          valor: 95 + Math.round(Math.random() * 55),
+          unidad: "mg/dL",
+          fecha_registro: new Date(now - d * day),
+        })
+      }
+      // Peso y presión (cada 5 días)
+      for (let d = 25; d >= 0; d -= 5) {
+        auto.push({
+          id_paciente: p.id_paciente,
+          tipo: "peso",
+          valor: 80 - pi * 12 + Math.round(Math.random() * 3),
+          unidad: "kg",
+          fecha_registro: new Date(now - d * day),
+        })
+        auto.push({
+          id_paciente: p.id_paciente,
+          tipo: "presion",
+          valor: 120 + Math.round(Math.random() * 15),
+          valor_secundario: 75 + Math.round(Math.random() * 10),
+          unidad: "mmHg",
+          fecha_registro: new Date(now - d * day),
+        })
+      }
+      await prisma.automonitoreo.createMany({ data: auto })
+
+      // Predicción IA
+      await prisma.prediccion.create({
+        data: {
+          id_paciente: p.id_paciente,
+          id_usuario: medico.id_usuario,
+          id_modelo: modelo.id_modelo,
+          datos_entrada: JSON.stringify({ BMI: 31.2, HbA1c: 6.8, AGE: 40 + pi * 5 }),
+          resultado: pi === 0 ? "Diabetes" : "No Diabetes",
+          probabilidad_diabetes: pi === 0 ? 0.82 : 0.21,
+          probabilidad_no_diabetes: pi === 0 ? 0.18 : 0.79,
+          nivel_riesgo: pi === 0 ? "ALTO" : "BAJO",
+          factores_riesgo: JSON.stringify(["IMC elevado", "HbA1c > 6.5", "Antecedentes familiares"]),
+          recomendaciones: JSON.stringify([
+            "Mantén una dieta baja en azúcares",
+            "Camina al menos 30 minutos al día",
+            "Controla tu glucosa cada mañana",
+          ]),
+        },
+      })
+
+      // Consulta con próxima cita
+      await prisma.consultaMedica.create({
+        data: {
+          id_paciente: p.id_paciente,
+          id_usuario: medico.id_usuario,
+          motivo_consulta: "Control de diabetes",
+          diagnostico: pi === 0 ? "Diabetes Tipo 2" : "Prediabetes",
+          proxima_cita: new Date(now + (pi + 3) * day),
+        },
+      })
+
+      // Receta activa
+      await prisma.receta.create({
+        data: {
+          id_paciente: p.id_paciente,
+          id_usuario: medico.id_usuario,
+          medicamentos: JSON.stringify([
+            { nombre: "Metformina", dosis: "850 mg", frecuencia: "Cada 12 h", duracion: "30 días" },
+            { nombre: "Glibenclamida", dosis: "5 mg", frecuencia: "1 vez al día", duracion: "30 días" },
+          ]),
+          instrucciones: "Tomar con alimentos. No suspender sin indicación médica.",
+          estado: "Activa",
+        },
+      })
+    }
+
+    console.log("✅ Datos de app móvil creados\n")
+  } catch (error) {
+    console.error("❌ Error creando datos móviles:", error)
+    throw error
+  }
+}
+
 // ============================================
 // FUNCIÓN PRINCIPAL
 // ============================================
@@ -614,6 +726,7 @@ async function main() {
     await seedStudies(patients, users)
     await seedMeasurements(patients, users)
     await seedHistory(patients, users)
+    await seedMobileData(patients, users)
 
     // Resumen
     console.log("=".repeat(60))
@@ -628,10 +741,16 @@ async function main() {
     console.log(`   • Registros de historial: 2`)
     console.log(`   • Modelo IA: 1\n`)
 
-    console.log("🔐 Credenciales de prueba:")
+    console.log("🔐 Credenciales de prueba (web — usuario / contraseña):")
     console.log(`   Admin: admin_luis / ${DEFAULT_PASSWORD}`)
     console.log(`   Médico: dr_juan / ${DEFAULT_PASSWORD}`)
     console.log(`   Enfermero: enf_pedro / ${DEFAULT_PASSWORD}\n`)
+
+    console.log("📱 Credenciales de prueba (app móvil paciente — CURP / PIN):")
+    for (const p of PATIENTS) {
+      if (p.curp) console.log(`   ${p.nombre} ${p.apellido_paterno}: ${p.curp} / ${p.pin}`)
+    }
+    console.log("")
 
     console.log("💾 Base de datos actualizada en: " + process.env.DATABASE_URL)
     console.log("")

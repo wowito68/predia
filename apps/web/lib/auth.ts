@@ -342,3 +342,148 @@ export async function registrarAuditoria(
     }
   }
 }
+
+// ============================================
+// AUTENTICACIÓN DE PACIENTE (app móvil — login CURP + PIN)
+// ============================================
+// Los pacientes NO son filas en la tabla `usuario`; se autentican contra
+// la tabla `paciente` usando su CURP y un PIN (hash bcrypt en `pin_hash`).
+// El token resultante lleva `tipo: "paciente"` para distinguirlo del de usuario.
+
+export interface PacienteJWTPayload {
+  tipo: "paciente"
+  id_paciente: number
+  curp: string
+  nombre_completo: string
+  rol: "PACIENTE"
+}
+
+export interface PacienteAuthResult {
+  success: boolean
+  token?: string
+  user?: {
+    id: number
+    id_paciente: number
+    nombre: string
+    email: string
+    rol: "PACIENTE"
+    curp: string
+  }
+  message?: string
+}
+
+// Generar JWT para un paciente
+export function generatePacienteToken(payload: PacienteJWTPayload): string {
+  return jwt.sign(payload, JWT_SECRET as string, {
+    expiresIn: JWT_EXPIRES_IN as string,
+  } as any)
+}
+
+// Autenticar paciente por CURP + PIN
+export async function authenticatePaciente(curp: string, pin: string): Promise<PacienteAuthResult> {
+  try {
+    const paciente = await queryOne<{
+      id_paciente: number
+      curp: string | null
+      pin_hash: string | null
+      nombre: string
+      apellido_paterno: string
+      apellido_materno: string | null
+    }>(
+      `SELECT id_paciente, curp, pin_hash, nombre, apellido_paterno, apellido_materno
+       FROM paciente
+       WHERE curp = ? AND activo = TRUE`,
+      [curp],
+    )
+
+    if (!paciente || !paciente.pin_hash) {
+      return { success: false, message: "CURP o PIN incorrectos" }
+    }
+
+    const isValid = await verifyPassword(pin, paciente.pin_hash)
+    if (!isValid) {
+      return { success: false, message: "CURP o PIN incorrectos" }
+    }
+
+    const nombre_completo = [paciente.nombre, paciente.apellido_paterno, paciente.apellido_materno]
+      .filter(Boolean)
+      .join(" ")
+
+    const payload: PacienteJWTPayload = {
+      tipo: "paciente",
+      id_paciente: paciente.id_paciente,
+      curp: paciente.curp as string,
+      nombre_completo,
+      rol: "PACIENTE",
+    }
+
+    return {
+      success: true,
+      token: generatePacienteToken(payload),
+      user: {
+        id: paciente.id_paciente,
+        id_paciente: paciente.id_paciente,
+        nombre: nombre_completo,
+        email: "",
+        rol: "PACIENTE",
+        curp: paciente.curp as string,
+      },
+    }
+  } catch (error) {
+    console.error("Patient authentication error:", error)
+    return { success: false, message: "Error al autenticar paciente" }
+  }
+}
+
+// Decodifica un token que puede ser de usuario o de paciente
+export function getAnyTokenFromRequest(
+  request: NextRequest,
+): JWTPayload | PacienteJWTPayload | null {
+  const authHeader = request.headers.get("authorization")
+  if (!authHeader || !authHeader.startsWith("Bearer ")) return null
+  try {
+    return jwt.verify(authHeader.substring(7), JWT_SECRET as string) as
+      | JWTPayload
+      | PacienteJWTPayload
+  } catch {
+    return null
+  }
+}
+
+export function isPacienteToken(
+  token: JWTPayload | PacienteJWTPayload,
+): token is PacienteJWTPayload {
+  return (token as PacienteJWTPayload).tipo === "paciente"
+}
+
+// Middleware para rutas /pacientes/[id]/* accesibles por:
+//  - el propio paciente (token de paciente cuyo id_paciente === [id])
+//  - cualquier usuario del personal (médico/admin/enfermero)
+export function requirePacienteSelf(
+  handler: (
+    request: NextRequest,
+    context: { params: any; auth: JWTPayload | PacienteJWTPayload },
+  ) => Promise<Response>,
+) {
+  return async (request: NextRequest, context: any): Promise<Response> => {
+    const decoded = getAnyTokenFromRequest(request)
+    if (!decoded) {
+      return new Response(JSON.stringify({ success: false, error: "No autorizado" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      })
+    }
+
+    const resolvedParams = context?.params ? await Promise.resolve(context.params) : undefined
+    const routeId = parseInt(resolvedParams?.id, 10)
+
+    if (isPacienteToken(decoded) && decoded.id_paciente !== routeId) {
+      return new Response(JSON.stringify({ success: false, error: "Acceso denegado" }), {
+        status: 403,
+        headers: { "Content-Type": "application/json" },
+      })
+    }
+
+    return handler(request, { params: resolvedParams, auth: decoded })
+  }
+}

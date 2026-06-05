@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
   // Rutas públicas (sin protección)
-  const publicRoutes = ["/login", "/", "/api/auth/login", "/api/auth/logout"]
+  const publicRoutes = ["/login", "/", "/api/auth/login", "/api/auth/login-paciente", "/api/auth/logout"]
 
   if (publicRoutes.some(route => pathname === route)) {
     return NextResponse.next()
@@ -30,7 +30,7 @@ export function middleware(request: NextRequest) {
     const authHeader = request.headers.get("authorization")
 
     // Excepciones: auth públicas
-    if (["/api/auth/login", "/api/auth/logout"].includes(pathname)) {
+    if (["/api/auth/login", "/api/auth/login-paciente", "/api/auth/logout"].includes(pathname)) {
       return NextResponse.next()
     }
 

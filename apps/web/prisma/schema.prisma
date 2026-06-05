@@ -75,6 +75,9 @@ model Direccion {
 model Paciente {
   id_paciente            Int                      @id @default(autoincrement())
   cedula                 String                   @unique @db.VarChar(50)
+  // Credenciales de acceso a la app móvil del paciente (login CURP + PIN)
+  curp                   String?                  @unique @db.VarChar(18)
+  pin_hash               String?                  @db.VarChar(255)
   nombre                 String                   @db.VarChar(100)
   apellido_paterno       String                   @db.VarChar(100)
   apellido_materno       String?                  @db.VarChar(100)
@@ -112,9 +115,27 @@ model Paciente {
   // EHR Avanzado
   recetas                Receta[]
   documentos             DocumentoAdjunto[]
+  automonitoreos         Automonitoreo[]
 
   @@index([id_direccion], map: "paciente_id_direccion_fkey")
   @@map("paciente")
+}
+
+// Automonitoreo del paciente (app móvil, RF07/RF08): glucosa, peso, presión.
+// Datos capturados por el propio paciente (sin id_usuario clínico).
+model Automonitoreo {
+  id_automonitoreo Int      @id @default(autoincrement())
+  id_paciente      Int
+  tipo             String   @db.VarChar(20) // 'glucosa' | 'peso' | 'presion'
+  valor            Float
+  valor_secundario Float? // presión diastólica
+  unidad           String?  @db.VarChar(20)
+  notas            String?  @db.Text
+  fecha_registro   DateTime @default(now())
+  paciente         Paciente @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+
+  @@index([id_paciente])
+  @@map("automonitoreo")
 }
 
 model EstudioLaboratorio {
@@ -203,6 +224,9 @@ model Prediccion {
   nivel_riesgo             String                  @db.VarChar(50)
   factores_riesgo          String?                 @db.Text
   recomendaciones          String?                 @db.Text
+  // Estratificación de riesgo clínico (aditivo, compatible con histórico)
+  score_riesgo             Float?
+  recomendaciones_generadas String?                @db.Text
   validado                 Boolean                 @default(false)
   diagnostico_confirmado   String                  @default("Pendiente") @db.VarChar(50)
   notas_medicas            String?                 @db.Text
