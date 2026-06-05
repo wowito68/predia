@@ -25,3 +25,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# monorepo: dependencias y builds anidados
+**/node_modules/
+**/.next/
+**/__pycache__/
+*.pyc
