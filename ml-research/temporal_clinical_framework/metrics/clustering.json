@@ -1,0 +1,139 @@
+{
+ "best_method": "DBSCAN",
+ "feature_cols": [
+  "glucosa_slope_m",
+  "glucosa_mean",
+  "glucosa_cv",
+  "imc_slope_m",
+  "imc_mean",
+  "imc_cv",
+  "pas_slope_m",
+  "pas_mean",
+  "pas_cv",
+  "pad_slope_m",
+  "pad_mean",
+  "pad_cv",
+  "riesgo_slope_m",
+  "riesgo_mean",
+  "riesgo_cv",
+  "ces",
+  "E_evolution",
+  "G_state"
+ ],
+ "comparison": [
+  {
+   "method": "KMeans",
+   "silhouette": 0.4319277970604575,
+   "davies_bouldin": 0.983233392780732,
+   "n_clusters": 4,
+   "n_noise": 0,
+   "ari_vs_arquetipo": 0.757
+  },
+  {
+   "method": "GMM",
+   "silhouette": 0.42009127602373186,
+   "davies_bouldin": 1.0972183671795985,
+   "n_clusters": 4,
+   "n_noise": 0,
+   "ari_vs_arquetipo": 0.793
+  },
+  {
+   "method": "Agglomerative",
+   "silhouette": 0.42722045754130566,
+   "davies_bouldin": 0.9850043850299728,
+   "n_clusters": 4,
+   "n_noise": 0,
+   "ari_vs_arquetipo": 0.753
+  },
+  {
+   "method": "DBSCAN",
+   "silhouette": 0.4958376472213617,
+   "davies_bouldin": 0.8610526692483587,
+   "n_clusters": 7,
+   "n_noise": 40,
+   "ari_vs_arquetipo": 0.924
+  }
+ ],
+ "profiles": [
+  {
+   "cluster": 3,
+   "n": 66,
+   "ces_mean": 78.4,
+   "glucosa_slope_m": -6.53,
+   "imc_slope_m": -0.343,
+   "riesgo_slope_m": -0.0588,
+   "arquetipo_dominante": "Mejora rápida",
+   "pureza": 1.0
+  },
+  {
+   "cluster": 1,
+   "n": 103,
+   "ces_mean": 63.2,
+   "glucosa_slope_m": 0.34,
+   "imc_slope_m": 0.001,
+   "riesgo_slope_m": 0.0026,
+   "arquetipo_dominante": "Estable",
+   "pureza": 1.0
+  },
+  {
+   "cluster": 2,
+   "n": 43,
+   "ces_mean": 37.0,
+   "glucosa_slope_m": 0.42,
+   "imc_slope_m": -0.003,
+   "riesgo_slope_m": 0.0023,
+   "arquetipo_dominante": "Oscilante",
+   "pureza": 1.0
+  },
+  {
+   "cluster": 6,
+   "n": 6,
+   "ces_mean": 34.2,
+   "glucosa_slope_m": 7.58,
+   "imc_slope_m": 0.009,
+   "riesgo_slope_m": 0.0505,
+   "arquetipo_dominante": "Estable",
+   "pureza": 1.0
+  },
+  {
+   "cluster": -1,
+   "n": 40,
+   "ces_mean": 29.8,
+   "glucosa_slope_m": 5.35,
+   "imc_slope_m": -0.023,
+   "riesgo_slope_m": 0.0324,
+   "arquetipo_dominante": "Oscilante",
+   "pureza": 0.33
+  },
+  {
+   "cluster": 0,
+   "n": 62,
+   "ces_mean": 19.6,
+   "glucosa_slope_m": 2.98,
+   "imc_slope_m": 0.051,
+   "riesgo_slope_m": 0.0027,
+   "arquetipo_dominante": "Alto riesgo persistente",
+   "pureza": 1.0
+  },
+  {
+   "cluster": 4,
+   "n": 65,
+   "ces_mean": 17.0,
+   "glucosa_slope_m": 5.03,
+   "imc_slope_m": 0.203,
+   "riesgo_slope_m": 0.0591,
+   "arquetipo_dominante": "Deterioro lento",
+   "pureza": 1.0
+  },
+  {
+   "cluster": 5,
+   "n": 15,
+   "ces_mean": 11.4,
+   "glucosa_slope_m": 14.11,
+   "imc_slope_m": 0.191,
+   "riesgo_slope_m": 0.0812,
+   "arquetipo_dominante": "Deterioro lento",
+   "pureza": 1.0
+  }
+ ]
+}
