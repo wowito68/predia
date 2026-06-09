@@ -36,6 +36,38 @@ export const GET = requireAuth(async (request: NextRequest) => {
     )
     const alertasActivas = riesgoAltoResult[0]?.total || 0
 
+    // Distribución de pacientes por nivel de riesgo (última evaluación de cada paciente)
+    const distRows = await query<{ nivel_riesgo: string; total: number }>(
+      `SELECT nivel_riesgo, COUNT(*) AS total
+       FROM prediccion
+       WHERE id_prediccion IN (SELECT MAX(id_prediccion) FROM prediccion GROUP BY id_paciente)
+       GROUP BY nivel_riesgo`
+    )
+    const distribucionRiesgo: Record<string, number> = { "Bajo": 0, "Moderado": 0, "Alto": 0, "Muy Alto": 0 }
+    for (const r of distRows) {
+      if (r.nivel_riesgo in distribucionRiesgo) distribucionRiesgo[r.nivel_riesgo] = Number(r.total)
+    }
+
+    // Tendencia: pacientes que aumentaron / disminuyeron riesgo (últimas 2 evaluaciones)
+    const tendRows = await query<{ aumentaron: number; disminuyeron: number; estables: number }>(
+      `WITH ranked AS (
+         SELECT id_paciente, COALESCE(score_riesgo, probabilidad_diabetes) AS sc,
+                ROW_NUMBER() OVER (PARTITION BY id_paciente ORDER BY id_prediccion DESC) rn
+         FROM prediccion
+       )
+       SELECT
+         CAST(SUM(cur.sc > prev.sc) AS UNSIGNED) AS aumentaron,
+         CAST(SUM(cur.sc < prev.sc) AS UNSIGNED) AS disminuyeron,
+         CAST(SUM(cur.sc = prev.sc) AS UNSIGNED) AS estables
+       FROM (SELECT id_paciente, sc FROM ranked WHERE rn = 1) cur
+       JOIN (SELECT id_paciente, sc FROM ranked WHERE rn = 2) prev USING (id_paciente)`
+    )
+    const tendenciaRiesgo = {
+      aumentaron: Number(tendRows[0]?.aumentaron || 0),
+      disminuyeron: Number(tendRows[0]?.disminuyeron || 0),
+      estables: Number(tendRows[0]?.estables || 0),
+    }
+
     // --- Datos de IA (secundarios) ---
 
     // Predicciones de hoy
@@ -84,6 +116,8 @@ export const GET = requireAuth(async (request: NextRequest) => {
         consultasHoy,
         alertasActivas,
         citasPendientes,
+        distribucionRiesgo,
+        tendenciaRiesgo,
         alertas,
         // Backwards compatibility
         prediccionesHoy,

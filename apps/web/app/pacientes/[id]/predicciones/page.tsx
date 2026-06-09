@@ -19,6 +19,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CardiovascularTab } from "@/components/predictions/CardiovascularTab";
 import { MetabolicTab } from "@/components/predictions/MetabolicTab";
 import { RiskCard } from "@/components/risk/RiskCard"
+import { RiskTimeline } from "@/components/risk/RiskTimeline"
+import { PDFDownloadButton } from "@/components/pdf/PDFDownloadButton"
+import { RiskReportPDF } from "@/components/pdf/RiskReportPDF"
 import type { RiskLevel } from "@/lib/risk"
 import modelParams from "@/lib/ml-model-params.json"
 
@@ -270,6 +273,9 @@ export default function PrediccionesPage() {
                 <Button onClick={exportarCSV} variant="outline" disabled={predicciones.length === 0}>
                   <FileSpreadsheet className="w-4 h-4 mr-2" />CSV
                 </Button>
+                <Link href={`/pacientes/${id}/evolucion`}>
+                  <Button variant="outline"><Activity className="w-4 h-4 mr-2" />Evolución Clínica</Button>
+                </Link>
               </div>
             </div>
 
@@ -341,6 +347,13 @@ export default function PrediccionesPage() {
               </CardContent></Card>
             ) : (
               <div className="space-y-6">
+                <RiskTimeline
+                  points={[...predicciones].reverse().map((p) => ({
+                    fecha: p.fecha_prediccion,
+                    score: p.score_riesgo ?? p.probabilidad_diabetes,
+                    nivel: p.nivel_riesgo,
+                  }))}
+                />
                 {predicciones.map((pred) => {
                   const rg = parseRG(pred.recomendaciones_generadas)
                   return (
@@ -353,6 +366,29 @@ export default function PrediccionesPage() {
                         recomendaciones={rg?.recomendaciones}
                         fecha={pred.fecha_prediccion}
                       />
+                      <div className="flex justify-end">
+                        <PDFDownloadButton
+                          fileName={`reporte_riesgo_${id}_${pred.id_prediccion}.pdf`}
+                          document={
+                            <RiskReportPDF
+                              paciente={{
+                                nombre: paciente?.nombre,
+                                apellido_paterno: paciente?.apellido_paterno,
+                                genero: paciente?.genero,
+                                edad: paciente?.fecha_nacimiento ? calcularEdad(paciente.fecha_nacimiento) : undefined,
+                              }}
+                              nivel={pred.nivel_riesgo}
+                              score={pred.score_riesgo ?? pred.probabilidad_diabetes}
+                              descripcion={rg?.descripcion}
+                              accionClinica={rg?.accion_clinica}
+                              contribuyen={rg?.contribuyen ?? []}
+                              protegen={rg?.protegen ?? []}
+                              recomendaciones={rg?.recomendaciones}
+                              fecha={new Date(pred.fecha_prediccion).toLocaleDateString("es-MX")}
+                            />
+                          }
+                        />
+                      </div>
                       <details className="rounded-lg border border-border bg-card px-4 py-2">
                         <summary className="cursor-pointer text-sm font-medium text-muted-foreground">Datos utilizados</summary>
                         <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3">

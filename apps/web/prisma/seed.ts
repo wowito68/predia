@@ -659,10 +659,11 @@ async function seedMobileData(patients: any[], usersMap: any) {
           id_usuario: medico.id_usuario,
           id_modelo: modelo.id_modelo,
           datos_entrada: JSON.stringify({ BMI: 31.2, HbA1c: 6.8, AGE: 40 + pi * 5 }),
-          resultado: pi === 0 ? "Diabetes" : "No Diabetes",
+          resultado: pi === 0 ? "Muy Alto" : "Bajo",
           probabilidad_diabetes: pi === 0 ? 0.82 : 0.21,
           probabilidad_no_diabetes: pi === 0 ? 0.18 : 0.79,
-          nivel_riesgo: pi === 0 ? "ALTO" : "BAJO",
+          nivel_riesgo: pi === 0 ? "Muy Alto" : "Bajo",
+          score_riesgo: pi === 0 ? 0.82 : 0.21,
           factores_riesgo: JSON.stringify(["IMC elevado", "HbA1c > 6.5", "Antecedentes familiares"]),
           recomendaciones: JSON.stringify([
             "Mantén una dieta baja en azúcares",

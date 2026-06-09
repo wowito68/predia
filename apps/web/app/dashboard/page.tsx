@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WidgetGrid } from "@/components/dashboard/widget-grid";
+import { RiskDistributionWidget } from "@/components/risk/RiskDistributionWidget";
 import { toast } from "sonner";
 
 interface DashboardStats {
@@ -20,6 +21,8 @@ interface DashboardStats {
   consultasHoy?: number;
   alertasActivas?: number;
   citasPendientes?: number;
+  distribucionRiesgo?: Record<string, number>;
+  tendenciaRiesgo?: { aumentaron: number; disminuyeron: number; estables: number };
   alertas: Array<{
     id: number;
     paciente: string;
@@ -139,6 +142,7 @@ export default function DashboardPage() {
         )}
 
         {stats && <WidgetGrid stats={stats} />}
+        {stats && <RiskDistributionWidget distribucion={stats.distribucionRiesgo} tendencia={stats.tendenciaRiesgo} />}
       </main>
     </DashboardLayout>
   );
