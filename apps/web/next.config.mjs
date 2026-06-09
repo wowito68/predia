@@ -10,8 +10,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Excluir @react-pdf/renderer del bundle del servidor (es ESM puro)
-  serverExternalPackages: ['@react-pdf/renderer'],
+  // @react-pdf/renderer es ESM puro; transpilarlo permite que webpack (incl. next-pwa)
+  // lo empaquete sin el error "import-esm-externals".
+  transpilePackages: ['@react-pdf/renderer'],
   // Optimizaciones de rendimiento
   experimental: {
     // Optimizar imports de paquetes grandes
