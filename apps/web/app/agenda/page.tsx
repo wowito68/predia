@@ -21,9 +21,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useConsultaStore } from "@/store/useConsultaStore"
 
 interface Cita {
-    id_consulta: number
+    id_cita: number
+    id_consulta: number | null
     proxima_cita: string
+    fecha_cita: string
     motivo_consulta: string
+    motivo: string
+    estado: string
     paciente: {
         id_paciente: number
         nombre: string
@@ -47,6 +51,7 @@ export default function AgendaPage() {
     const [pacientes, setPacientes] = useState<any[]>([])
     const [newCita, setNewCita] = useState({ id_paciente: "", fecha: "", motivo: "" })
     const [savingCita, setSavingCita] = useState(false)
+    const [startingCita, setStartingCita] = useState<number | null>(null)
 
     useEffect(() => {
         const token = localStorage.getItem("token")
@@ -148,6 +153,31 @@ export default function AgendaPage() {
         window.open(url, '_blank')
     }
 
+    const handleStartCita = async (cita: Cita) => {
+        if (cita.estado === "EN_CURSO" && cita.id_consulta) {
+            openConsulta(cita.paciente.id_paciente, cita.id_consulta)
+            return
+        }
+        const token = localStorage.getItem("token")
+        setStartingCita(cita.id_cita)
+        try {
+            const res = await fetch(`/api/agenda/${cita.id_cita}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+                body: JSON.stringify({ action: "INICIAR" }),
+            })
+            const data = await res.json()
+            if (!res.ok || !data.success) throw new Error(data.error || "No se pudo iniciar la consulta")
+            toast.success("Consulta iniciada")
+            openConsulta(cita.paciente.id_paciente, data.data.id_consulta)
+            fetchAgenda()
+        } catch (error: any) {
+            toast.error(error?.message || "No se pudo iniciar la consulta")
+        } finally {
+            setStartingCita(null)
+        }
+    }
+
     // Agrupar por fecha
     const groupedCitas = citas.reduce((acc, cita) => {
         const fecha = new Date(cita.proxima_cita).toLocaleDateString()
@@ -197,7 +227,7 @@ export default function AgendaPage() {
                                 </h2>
                                 <div className="space-y-4">
                                     {listaCitas.map((cita) => (
-                                        <Card key={cita.id_consulta} className="hover:shadow-md transition-shadow bg-background">
+                                        <Card key={cita.id_cita} className="hover:shadow-md transition-shadow bg-background">
                                             <CardHeader className="pb-2">
                                                 <CardTitle className="text-base flex justify-between">
                                                     <span className="truncate pr-2">{cita.paciente.nombre} {cita.paciente.apellido_paterno}</span>
@@ -206,6 +236,9 @@ export default function AgendaPage() {
                                                 <CardDescription className="text-xs">
                                                     Dr. {cita.usuario.nombre} {cita.usuario.apellido_paterno}
                                                 </CardDescription>
+                                                <Badge variant={cita.estado === "EN_CURSO" ? "destructive" : "secondary"} className="mt-2 w-fit text-[10px]">
+                                                    {cita.estado === "EN_CURSO" ? "En curso" : "Programada"}
+                                                </Badge>
                                             </CardHeader>
                                             <CardContent>
                                                 <div className="space-y-2 text-sm">
@@ -222,10 +255,11 @@ export default function AgendaPage() {
                                                     <div className="flex gap-2 mt-4 items-center">
                                                         <Button
                                                             className="flex-1 text-xs h-9 font-medium transition-all"
-                                                            onClick={() => openConsulta(cita.paciente.id_paciente, cita.id_consulta)}
+                                                            onClick={() => handleStartCita(cita)}
+                                                            disabled={startingCita === cita.id_cita}
                                                         >
                                                             <Stethoscope className="w-3.5 h-3.5 mr-2" />
-                                                            Iniciar Consulta
+                                                            {startingCita === cita.id_cita ? "Iniciando..." : cita.estado === "EN_CURSO" ? "Continuar consulta" : "Iniciar consulta"}
                                                         </Button>
                                                         
                                                         <DropdownMenu>
@@ -236,11 +270,11 @@ export default function AgendaPage() {
                                                             </DropdownMenuTrigger>
                                                             <DropdownMenuContent align="end" className="w-48 p-1">
                                                                 <DropdownMenuItem 
-                                                                    onClick={() => router.push(`/pacientes/${cita.paciente.id_paciente}/historial`)}
+                                                                    onClick={() => router.push(`/pacientes/${cita.paciente.id_paciente}`)}
                                                                     className="cursor-pointer font-medium text-xs mb-1"
                                                                 >
                                                                     <FileText className="w-3.5 h-3.5 mr-2 text-muted-foreground" />
-                                                                    Ver Expediente
+                                                                    Ver Resumen
                                                                 </DropdownMenuItem>
                                                                 <DropdownMenuItem 
                                                                     onClick={() => handleWhatsApp(cita)}

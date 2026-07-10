@@ -440,12 +440,12 @@ export default function PacientesPage() {
                               <div className="flex justify-end items-center gap-2">
                                 <Button
                                   size="sm"
-                                  onClick={() => router.push(`/pacientes/${paciente.id_paciente}/historial`)}
+                                  onClick={() => router.push(`/pacientes/${paciente.id_paciente}`)}
                                   className="h-8 shadow-none font-medium"
-                                  title="Abrir Expediente Clínico"
+                                  title="Abrir resumen clínico"
                                 >
                                   <ClipboardList className="w-3.5 h-3.5 mr-1.5" />
-                                  Expediente
+                                  Resumen
                                 </Button>
                                 <DropdownMenu>
                                   <DropdownMenuTrigger asChild>

@@ -44,8 +44,10 @@ export const GET = requireAuth(async (request: NextRequest, { user }) => {
       params.push(parseInt(id_paciente))
     }
 
-    sql += ` ORDER BY e.fecha_estudio DESC LIMIT ? OFFSET ?`
-    params.push(limit, offset)
+    // mysql2.execute() falla con LIMIT/OFFSET enlazados; se interpolan enteros saneados
+    const safeLimit = Number.isFinite(limit) && limit > 0 ? Math.min(limit, 100) : 10
+    const safeOffset = Number.isFinite(offset) && offset >= 0 ? offset : 0
+    sql += ` ORDER BY e.fecha_estudio DESC LIMIT ${safeLimit} OFFSET ${safeOffset}`
 
     const estudios = await query<any>(sql, params)
 

@@ -24,6 +24,22 @@ export interface LoginResult {
   user: AuthUser
 }
 
+// Paciente tal como lo devuelve la lista del médico (/api/pacientes)
+export interface PacienteListItem {
+  id_paciente: number
+  cedula: string
+  nombre: string
+  apellido_paterno: string
+  apellido_materno: string | null
+  genero: string
+  edad: number | null
+  telefono: string | null
+  tipo_sangre: string | null
+  nivel_riesgo: string | null
+  probabilidad_diabetes: number | null
+  ultima_consulta: string | null
+}
+
 // Predicción tal como la devuelve la lista del médico (/api/predicciones)
 export interface PrediccionListItem {
   id_prediccion: number
@@ -65,6 +81,65 @@ export interface RecetaInput {
   id_paciente: number
   medicamentos: { nombre: string; dosis?: string; frecuencia?: string; duracion?: string }[]
   instrucciones?: string
+}
+
+export interface ConsultaInput {
+  id_paciente: number
+  motivo_consulta: string
+  sintomas?: string
+  exploracion_fisica?: string
+  diagnostico?: string
+  tratamiento?: string
+  receta?: string
+  proxima_cita?: string
+  observaciones?: string
+}
+
+export interface ClinicalAlert {
+  id: string
+  type: 'risk' | 'allergy' | 'blood_pressure' | 'glucose' | 'overdue_appointment' | 'follow_up' | 'prescription'
+  priority: 'Crítica' | 'Alta' | 'Media'
+  patientId: number
+  patientName: string
+  title: string
+  reason: string
+  suggestedAction: string
+  date: string | null
+}
+
+export interface ClinicalTimelineItem {
+  id: string
+  kind: string
+  title: string
+  detail: string
+  date: string
+}
+
+export interface ClinicalSnapshot {
+  paciente: PacienteDetalle & { nombre_completo: string }
+  risk: null | {
+    nivel: string
+    titulo: string
+    descripcion: string
+    accionClinica: string
+    fecha: string
+    validado: boolean
+    recomendaciones?: { seguimiento: string; acciones: string[] }
+    explanation?: { contribuyen: { factor: string }[]; protegen: { factor: string }[] }
+  }
+  alerts: { type: string; severity: 'critical' | 'warning' | 'info'; title: string; detail: string }[]
+  summary: {
+    proximaCita: { proxima_cita: string; motivo_consulta: string } | null
+    ultimaConsulta: any | null
+    ultimaMedicion: MedicionClinica | null
+    ultimaGlucosa: { valor: number; unidad?: string; fecha_registro: string } | null
+    recetasActivas: RecetaResumen[]
+    documentosRecientes: any[]
+    alergias: { id_alergia: number; alergeno: string; severidad?: string; reaccion?: string }[]
+    alergiasCriticas: { id_alergia: number; alergeno: string; severidad?: string; reaccion?: string }[]
+    patologias: any[]
+  }
+  timeline: ClinicalTimelineItem[]
 }
 
 interface RequestOpts {
@@ -164,7 +239,32 @@ export const api = {
 
   medico: {
     agenda: () => request<AgendaItem[]>('/agenda'),
+    crearCita: (input: { id_paciente: number; fecha: string; motivo: string }) =>
+      request<AgendaItem>('/agenda', {
+        method: 'POST',
+        body: JSON.stringify(input),
+      }),
+    actualizarCita: (
+      idCita: number,
+      input: {
+        action: 'INICIAR' | 'FINALIZAR'
+        observaciones?: string
+        diagnostico?: string
+        tratamiento?: string
+      },
+    ) =>
+      request<AgendaItem>(`/agenda/${idCita}`, {
+        method: 'PATCH',
+        body: JSON.stringify(input),
+      }),
+    alertasClinicas: () => request<ClinicalAlert[]>('/mobile/clinical-alerts'),
+    // Lista de pacientes (con riesgo y última consulta). `q` filtra por nombre/cédula.
+    pacientes: (q?: string, page = 1, limit = 20) =>
+      request<PacienteListItem[]>(`/pacientes?page=${page}&limit=${limit}${q ? `&search=${encodeURIComponent(q)}` : ''}`),
     paciente: (id: number) => request<PacienteDetalle>(`/pacientes/${id}`),
+    snapshot: (id: number) => request<ClinicalSnapshot>(`/pacientes/${id}/clinical-snapshot`),
+    expediente: (id: number) => request<ExpedienteResumen>(`/pacientes/${id}/expediente`),
+    recetas: (id: number) => request<RecetaResumen[]>(`/pacientes/${id}/recetas`),
     mediciones: (idPaciente: number) =>
       request<MedicionClinica[]>(`/mediciones?id_paciente=${idPaciente}&limit=10`),
 
@@ -189,6 +289,12 @@ export const api = {
       request<{ id_receta: number }>('/recetas', {
         method: 'POST',
         body: JSON.stringify({ ...datos, medicamentos: JSON.stringify(datos.medicamentos) }),
+      }),
+
+    crearConsulta: (datos: ConsultaInput) =>
+      request<{ id_consulta: number }>('/consultas', {
+        method: 'POST',
+        body: JSON.stringify(datos),
       }),
 
     // multipart/form-data → el caller construye el FormData (archivo: {uri,name,type})

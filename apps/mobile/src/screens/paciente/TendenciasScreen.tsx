@@ -1,126 +1,218 @@
-import { useState } from 'react'
-import { ScrollView, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { useMemo, useState } from 'react'
+import { View, Text, Pressable, StyleSheet } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import { useAuthStore } from '@/store/authStore'
 import { api } from '@/services/api'
-import type { AutomonitoreoRegistro } from '@predia/shared'
-import { Header } from '@/components/Header'
-import { Card } from '@/components/Card'
-import { QueryState } from '@/components/QueryState'
-import { colors, spacing, radius, fontSize } from '@/theme'
+import type { AutomonitoreoRegistro, TipoAutomonitoreo } from '@predia/shared'
+import { Screen, ScreenHeader } from '@/components/Screen'
+import { CardSkeleton, EmptyState, Ionicons, type IconName } from '@/components/ui'
+import { TrendChart, type TrendPoint } from '@/components/charts'
+import { spacing, radius, typography, type AppColors } from '@/theme'
+import { useTheme, useThemedStyles } from '@/theme/context'
 
-const PERIODS: { label: string; dias: number }[] = [
-  { label: '7 días', dias: 7 },
-  { label: '30 días', dias: 30 },
-  { label: '90 días', dias: 90 },
-]
+const PERIODS = [
+  { label: '7 días', days: 7 },
+  { label: '30 días', days: 30 },
+  { label: '90 días', days: 90 },
+] as const
 
-function BarChart({ data, max, refLine, color }: { data: number[]; max: number; refLine?: number; color: string }) {
-  return (
-    <View style={{ height: 80, flexDirection: 'row', alignItems: 'flex-end', gap: 3 }}>
-      {data.map((v, i) => (
-        <View key={i} style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-          <View style={{ height: Math.max(4, (v / max) * 80), width: '70%', backgroundColor: color, borderRadius: 3 }} />
-        </View>
-      ))}
-      {refLine !== undefined && (
-        <View style={{ position: 'absolute', bottom: (refLine / max) * 80, left: 0, right: 0, height: 1, backgroundColor: colors.error }} />
-      )}
-    </View>
-  )
+function stats(values: number[]) {
+  if (!values.length) return { min: 0, max: 0, average: 0 }
+  return {
+    min: Math.min(...values),
+    max: Math.max(...values),
+    average: Math.round((values.reduce((sum, value) => sum + value, 0) / values.length) * 10) / 10,
+  }
 }
 
-const stats = (arr: number[]) =>
-  arr.length === 0
-    ? { min: 0, max: 0, prom: 0 }
-    : { min: Math.min(...arr), max: Math.max(...arr), prom: Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) }
+function series(rows: AutomonitoreoRegistro[], type: TipoAutomonitoreo): TrendPoint[] {
+  return rows
+    .filter((item) => item.tipo === type)
+    .sort((a, b) => new Date(a.fecha_registro).getTime() - new Date(b.fecha_registro).getTime())
+    .map((item) => ({
+      value: item.valor,
+      secondary: item.valor_secundario,
+      label: new Date(item.fecha_registro).toLocaleDateString('es-MX', { day: 'numeric', month: 'short' }),
+    }))
+}
 
 export function TendenciasScreen() {
-  const id = useAuthStore((s) => s.user?.id_paciente)
-  const [period, setPeriod] = useState(PERIODS[0])
+  const navigation = useNavigation<any>()
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
+  const id = useAuthStore((state) => state.user?.id_paciente)
+  const [period, setPeriod] = useState<(typeof PERIODS)[number]>(PERIODS[1])
 
-  const q = useQuery({
-    queryKey: ['automonitoreo', id, period.dias],
-    queryFn: () => api.paciente.automonitoreo(id!, undefined, period.dias),
+  const query = useQuery({
+    queryKey: ['automonitoreo', id, period.days],
+    queryFn: () => api.paciente.automonitoreo(id!, undefined, period.days),
     enabled: !!id,
+    staleTime: 45_000,
   })
 
-  const data: AutomonitoreoRegistro[] = q.data ?? []
-  const glucosa = data.filter((d) => d.tipo === 'glucosa').map((d) => d.valor)
-  const peso = data.filter((d) => d.tipo === 'peso').map((d) => d.valor)
-  const presion = data.filter((d) => d.tipo === 'presion')
-  const gStats = stats(glucosa)
-  const maxG = Math.max(180, ...glucosa)
-  const maxPeso = Math.max(100, ...peso)
+  const rows = query.data ?? []
+  const charts = useMemo(() => ({
+    glucose: series(rows, 'glucosa'),
+    weight: series(rows, 'peso'),
+    pressure: series(rows, 'presion'),
+  }), [rows])
+  const glucoseStats = stats(charts.glucose.map((point) => point.value))
+  const weightStats = stats(charts.weight.map((point) => point.value))
+  const pressureStats = stats(charts.pressure.map((point) => point.value))
 
   return (
     <View style={s.root}>
-      <Header title="Tendencias de Salud" showBack />
-      <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
-        <View style={s.periodRow}>
-          {PERIODS.map((p) => (
-            <TouchableOpacity key={p.label} onPress={() => setPeriod(p)} style={[s.periodBtn, period.label === p.label && s.periodBtnActive]}>
-              <Text style={[s.periodText, period.label === p.label && s.periodTextActive]}>{p.label}</Text>
-            </TouchableOpacity>
-          ))}
+      <ScreenHeader title="Tendencias" subtitle="Evolución de tus indicadores" onBack={() => navigation.goBack()} />
+      <Screen scroll padded refreshing={query.isFetching} onRefresh={query.refetch}>
+        <View style={s.periodControl}>
+          {PERIODS.map((item) => {
+            const active = period.days === item.days
+            return (
+              <Pressable key={item.days} style={[s.periodButton, active && s.periodButtonActive]} onPress={() => setPeriod(item)}>
+                <Text style={[s.periodText, active && s.periodTextActive]}>{item.label}</Text>
+              </Pressable>
+            )
+          })}
         </View>
 
-        <QueryState
-          isLoading={q.isLoading}
-          isError={q.isError}
-          error={q.error}
-          isEmpty={!q.isLoading && data.length === 0}
-          emptyText="Sin registros de automonitoreo en este periodo."
-          onRetry={q.refetch}
-        >
-          <Text style={s.chartTitle}>Glucosa capilar (mg/dL)</Text>
-          <Card>
-            {glucosa.length ? (
-              <>
-                <BarChart data={glucosa} max={maxG} refLine={125} color={colors.primary} />
-                <View style={s.chartStats}>
-                  <Text style={s.stat}>Min: {gStats.min}</Text>
-                  <Text style={s.stat}>Max: {gStats.max}</Text>
-                  <Text style={s.stat}>Prom: {gStats.prom}</Text>
-                </View>
-              </>
-            ) : <Text style={s.noData}>Sin datos</Text>}
-          </Card>
-
-          <Text style={s.chartTitle}>Peso corporal (kg)</Text>
-          <Card>
-            {peso.length ? <BarChart data={peso} max={maxPeso} color={colors.primaryLight} /> : <Text style={s.noData}>Sin datos</Text>}
-          </Card>
-
-          <Text style={s.chartTitle}>Presión arterial (mmHg)</Text>
-          <Card>
-            {presion.length ? (
-              <View style={{ height: 80, flexDirection: 'row', alignItems: 'flex-end', gap: 3 }}>
-                {presion.map((p, i) => (
-                  <View key={i} style={{ flex: 1, gap: 2, alignItems: 'center', justifyContent: 'flex-end' }}>
-                    <View style={{ height: Math.max(4, (p.valor / 200) * 80), width: '40%', backgroundColor: colors.primary, borderRadius: 2 }} />
-                    <View style={{ height: Math.max(4, ((p.valor_secundario ?? 0) / 200) * 80), width: '40%', backgroundColor: '#93C5FD', borderRadius: 2 }} />
-                  </View>
-                ))}
-              </View>
-            ) : <Text style={s.noData}>Sin datos</Text>}
-          </Card>
-        </QueryState>
-      </ScrollView>
+        {query.isLoading ? (
+          <><CardSkeleton /><CardSkeleton /><CardSkeleton /></>
+        ) : query.isError ? (
+          <EmptyState icon="cloud-offline-outline" title="No se pudieron cargar las tendencias" subtitle={(query.error as Error)?.message} actionLabel="Reintentar" onAction={query.refetch} />
+        ) : rows.length === 0 ? (
+          <EmptyState icon="bar-chart-2" title="Sin datos en este periodo" subtitle="Cambia el intervalo o registra una nueva medición." />
+        ) : (
+          <>
+            <MetricChart
+              title="Glucosa capilar"
+              unit="mg/dL"
+              icon="droplet"
+              color={colors.accent}
+              latest={charts.glucose.at(-1)?.value}
+              data={charts.glucose}
+              reference={125}
+              stats={glucoseStats}
+            />
+            <MetricChart
+              title="Peso corporal"
+              unit="kg"
+              icon="activity"
+              color={colors.indigo}
+              latest={charts.weight.at(-1)?.value}
+              data={charts.weight}
+              stats={weightStats}
+            />
+            <MetricChart
+              title="Presión arterial"
+              unit="mmHg"
+              icon="heart"
+              color={colors.coral}
+              secondaryColor={colors.info}
+              latest={charts.pressure.at(-1)?.value}
+              secondaryLatest={charts.pressure.at(-1)?.secondary ?? undefined}
+              data={charts.pressure}
+              stats={pressureStats}
+            />
+            <View style={s.disclaimer}>
+              <Ionicons name="info" size={17} color={colors.infoText} />
+              <Text style={s.disclaimerText}>Las tendencias apoyan tu seguimiento; cualquier cambio de tratamiento debe revisarlo tu equipo médico.</Text>
+            </View>
+          </>
+        )}
+      </Screen>
     </View>
   )
 }
 
-const s = StyleSheet.create({
+function MetricChart({
+  title,
+  unit,
+  icon,
+  color,
+  secondaryColor,
+  latest,
+  secondaryLatest,
+  data,
+  reference,
+  stats: summary,
+}: {
+  title: string
+  unit: string
+  icon: IconName
+  color: string
+  secondaryColor?: string
+  latest?: number
+  secondaryLatest?: number
+  data: TrendPoint[]
+  reference?: number
+  stats: { min: number; max: number; average: number }
+}) {
+  const s = useThemedStyles(makeStyles)
+  return (
+    <View style={s.chartCard}>
+      <View style={s.chartHeader}>
+        <View style={[s.chartIcon, { backgroundColor: `${color}15` }]}><Ionicons name={icon} size={19} color={color} /></View>
+        <View style={{ flex: 1 }}>
+          <Text style={s.chartTitle}>{title}</Text>
+          <Text style={s.chartRecords}>{data.length} mediciones</Text>
+        </View>
+        <View style={s.latestWrap}>
+          <Text style={s.latestValue}>{latest == null ? '—' : secondaryLatest == null ? latest : `${latest}/${secondaryLatest}`}</Text>
+          <Text style={s.latestUnit}>{unit}</Text>
+        </View>
+      </View>
+
+      {data.length > 1 ? (
+        <TrendChart data={data} color={color} secondaryColor={secondaryColor} reference={reference} />
+      ) : (
+        <View style={s.singlePoint}><Text style={s.singlePointText}>Registra otra medición para generar una tendencia.</Text></View>
+      )}
+
+      <View style={s.statsRow}>
+        <Stat label="Mínimo" value={summary.min} />
+        <View style={s.statDivider} />
+        <Stat label="Promedio" value={summary.average} emphasis />
+        <View style={s.statDivider} />
+        <Stat label="Máximo" value={summary.max} />
+      </View>
+    </View>
+  )
+}
+
+function Stat({ label, value, emphasis }: { label: string; value: number; emphasis?: boolean }) {
+  const s = useThemedStyles(makeStyles)
+  return (
+    <View style={s.stat}>
+      <Text style={s.statLabel}>{label}</Text>
+      <Text style={[s.statValue, emphasis && s.statValueStrong]}>{value}</Text>
+    </View>
+  )
+}
+
+const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  content: { padding: spacing.lg, paddingBottom: 32 },
-  periodRow: { flexDirection: 'row', gap: 8, marginBottom: spacing.lg },
-  periodBtn: { paddingHorizontal: 16, paddingVertical: 6, borderRadius: radius.full, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
-  periodBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  periodText: { fontSize: fontSize.sm, color: colors.textSecondary, fontWeight: '500' },
-  periodTextActive: { color: '#fff', fontWeight: '700' },
-  chartTitle: { fontSize: fontSize.md, fontWeight: '600', color: colors.textPrimary, marginBottom: spacing.sm },
-  chartStats: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 },
-  stat: { fontSize: fontSize.xs, color: colors.textMuted },
-  noData: { fontSize: fontSize.sm, color: colors.textMuted, textAlign: 'center', paddingVertical: 24 },
+  periodControl: { flexDirection: 'row', backgroundColor: colors.surfaceMuted, borderRadius: radius.sm, padding: 4, marginBottom: spacing.sm },
+  periodButton: { flex: 1, minHeight: 38, alignItems: 'center', justifyContent: 'center', borderRadius: radius.xs },
+  periodButtonActive: { backgroundColor: colors.surface, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong },
+  periodText: { ...typography.caption, color: colors.textSecondary },
+  periodTextActive: { color: colors.textPrimary, fontFamily: typography.family.semibold },
+  chartCard: { backgroundColor: colors.surface, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, padding: spacing.md, marginBottom: spacing.sm },
+  chartHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.xs },
+  chartIcon: { width: 40, height: 40, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
+  chartTitle: { ...typography.bodyMedium, color: colors.textPrimary },
+  chartRecords: { ...typography.overline, color: colors.textMuted, marginTop: 2 },
+  latestWrap: { alignItems: 'flex-end' },
+  latestValue: { ...typography.title, color: colors.textPrimary },
+  latestUnit: { ...typography.overline, color: colors.textMuted, marginTop: -2 },
+  singlePoint: { height: 130, alignItems: 'center', justifyContent: 'center', borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth, borderColor: colors.border },
+  singlePointText: { ...typography.caption, color: colors.textMuted, textAlign: 'center', maxWidth: 230 },
+  statsRow: { flexDirection: 'row', alignItems: 'stretch', borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border, paddingTop: spacing.sm },
+  stat: { flex: 1, alignItems: 'center' },
+  statDivider: { width: StyleSheet.hairlineWidth, backgroundColor: colors.border },
+  statLabel: { ...typography.overline, color: colors.textMuted },
+  statValue: { ...typography.bodyMedium, color: colors.textSecondary, marginTop: 2 },
+  statValueStrong: { color: colors.textPrimary, fontFamily: typography.family.bold },
+  disclaimer: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm, backgroundColor: colors.infoBg, borderRadius: radius.sm, padding: spacing.md, marginTop: spacing.xs },
+  disclaimerText: { flex: 1, ...typography.caption, color: colors.infoText },
 })

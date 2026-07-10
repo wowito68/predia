@@ -1,11 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import { useAudioRecorder, RecordingPresets, AudioModule, setAudioModeAsync } from 'expo-audio'
 import { useRoute, useNavigation } from '@react-navigation/native'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/services/api'
-import { colors, spacing, radius, fontSize } from '@/theme'
+import { Screen, ScreenHeader } from '@/components/Screen'
+import { PremiumCard, PrimaryButton } from '@/components/ui'
+import { spacing, radius, typography, type AppColors } from '@/theme'
+import { useTheme, useThemedStyles } from '@/theme/context'
 
 function Waveform({ active }: { active: boolean }) {
+  const wS = useThemedStyles(makeWaveStyles)
   const heights = [20, 35, 28, 45, 18, 40, 32, 48, 25, 38, 30, 50, 22, 42, 35, 28, 45, 18, 40, 32]
   return (
     <View style={wS.root}>
@@ -15,7 +20,7 @@ function Waveform({ active }: { active: boolean }) {
     </View>
   )
 }
-const wS = StyleSheet.create({
+const makeWaveStyles = (colors: AppColors) => StyleSheet.create({
   root: { flexDirection: 'row', alignItems: 'center', gap: 3, height: 60 },
   bar: { width: 8, backgroundColor: colors.primary, borderRadius: 4 },
 })
@@ -23,6 +28,10 @@ const wS = StyleSheet.create({
 export function DictadoNotasScreen() {
   const route = useRoute<any>()
   const nav = useNavigation<any>()
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
+  const qc = useQueryClient()
+  const idPaciente: number | undefined = route.params?.idPaciente
   const nombre: string = route.params?.nombre ?? ''
   const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY)
 
@@ -31,6 +40,23 @@ export function DictadoNotasScreen() {
   const [texto, setTexto] = useState('')
   const [procesando, setProcesando] = useState(false)
   const timer = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const guardarNota = useMutation({
+    mutationFn: () => {
+      if (!idPaciente) throw new Error('Abre el dictado desde un expediente para adjuntar la nota.')
+      return api.medico.crearConsulta({
+        id_paciente: idPaciente,
+        motivo_consulta: 'Nota clínica por dictado móvil',
+        observaciones: texto.trim(),
+      })
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['expediente', idPaciente] })
+      qc.invalidateQueries({ queryKey: ['paciente', idPaciente] })
+      Alert.alert('Nota guardada', 'La transcripción se agregó al expediente clínico.', [{ text: 'OK', onPress: () => nav.goBack() }])
+    },
+    onError: (e: any) => Alert.alert('Error', e?.message ?? 'No se pudo guardar la nota'),
+  })
 
   useEffect(() => {
     if (grabando) {
@@ -76,14 +102,8 @@ export function DictadoNotasScreen() {
 
   return (
     <View style={s.root}>
-      <View style={s.headerBar}>
-        <TouchableOpacity onPress={() => nav.goBack()}><Text style={s.back}>←</Text></TouchableOpacity>
-        <View>
-          <Text style={s.headerTitle}>Dictado de Notas</Text>
-          {nombre ? <Text style={s.headerSub}>{nombre}</Text> : null}
-        </View>
-      </View>
-      <ScrollView contentContainerStyle={s.content}>
+      <ScreenHeader title="Dictado de notas" subtitle={nombre || undefined} onBack={() => nav.goBack()} />
+      <Screen scroll padded>
         <View style={s.recWrap}>
           <TouchableOpacity onPress={grabando ? detener : iniciar} style={[s.recCircle, grabando && s.recCircleActive]} disabled={procesando}>
             <Text style={s.recIcon}>{grabando ? '■' : '●'}</Text>
@@ -99,7 +119,7 @@ export function DictadoNotasScreen() {
         <Waveform active={grabando} />
 
         <Text style={s.sectionTitle}>Transcripción</Text>
-        <View style={s.transcripcionBox}>
+        <PremiumCard style={s.transcripcionBox}>
           {procesando ? (
             <ActivityIndicator color={colors.primary} />
           ) : (
@@ -107,38 +127,30 @@ export function DictadoNotasScreen() {
               {texto || (grabando ? 'Escuchando... pulsa ■ para detener y transcribir.' : 'Pulsa ● para comenzar a dictar.')}
             </Text>
           )}
-        </View>
+        </PremiumCard>
 
-        <TouchableOpacity
-          style={[s.adjuntarBtn, !texto && s.btnDisabled]}
-          disabled={!texto}
-          onPress={() => { Alert.alert('Nota lista', 'Transcripción lista para adjuntar al expediente.'); }}
-        >
-          <Text style={s.adjuntarText}>Usar transcripción</Text>
-        </TouchableOpacity>
-      </ScrollView>
+        <PrimaryButton
+          label="Guardar en expediente"
+          disabled={!texto || guardarNota.isPending}
+          onPress={() => guardarNota.mutate()}
+          style={{ marginTop: spacing.lg }}
+        />
+        {guardarNota.isPending ? <ActivityIndicator color={colors.primary} style={{ marginTop: spacing.sm }} /> : null}
+      </Screen>
     </View>
   )
 }
 
-const s = StyleSheet.create({
+const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  headerBar: { backgroundColor: colors.primary, paddingTop: 48, paddingBottom: spacing.xl, paddingHorizontal: spacing.xl, flexDirection: 'row', alignItems: 'center', gap: 12 },
-  back: { color: '#fff', fontSize: fontSize.xl, fontWeight: '300' },
-  headerTitle: { color: '#fff', fontSize: fontSize.xl, fontWeight: '700' },
-  headerSub: { color: 'rgba(255,255,255,0.75)', fontSize: fontSize.sm },
-  content: { padding: spacing.xl, alignItems: 'center', paddingBottom: 32 },
   recWrap: { alignItems: 'center', marginBottom: 24, marginTop: 16 },
-  recCircle: { width: 120, height: 120, borderRadius: 60, backgroundColor: '#FEE2E2', alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: '#FCA5A5' },
-  recCircleActive: { borderColor: colors.error, backgroundColor: '#FECACA' },
+  recCircle: { width: 120, height: 120, borderRadius: 60, backgroundColor: colors.errorBg, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: colors.errorBg },
+  recCircleActive: { borderColor: colors.error, backgroundColor: colors.errorBg },
   recIcon: { fontSize: 40, color: colors.error },
   recStatus: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12 },
   redDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.error },
-  recStatusText: { fontSize: fontSize.sm, color: colors.error, fontWeight: '600' },
-  sectionTitle: { fontSize: fontSize.md, fontWeight: '700', color: colors.textPrimary, marginBottom: 12, marginTop: 20, alignSelf: 'flex-start' },
-  transcripcionBox: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.lg, minHeight: 140, width: '100%', borderWidth: 1, borderColor: colors.border, justifyContent: 'center' },
-  transcripcionText: { fontSize: fontSize.sm, color: colors.textSecondary, lineHeight: 22 },
-  adjuntarBtn: { backgroundColor: colors.primary, borderRadius: radius.sm, padding: 16, alignItems: 'center', marginTop: 24, width: '100%' },
-  adjuntarText: { color: '#fff', fontWeight: '700', fontSize: fontSize.md },
-  btnDisabled: { opacity: 0.5 },
+  recStatusText: { ...typography.caption, color: colors.error },
+  sectionTitle: { ...typography.bodyMedium, color: colors.textPrimary, marginBottom: 12, marginTop: 20 },
+  transcripcionBox: { minHeight: 150, justifyContent: 'center' },
+  transcripcionText: { ...typography.body, color: colors.textSecondary },
 })

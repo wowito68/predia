@@ -19,26 +19,27 @@ export const GET = requirePacienteSelf(async (_request: NextRequest, { params })
       return NextResponse.json({ success: false, error: "Paciente no encontrado" }, { status: 404 })
     }
 
-    const alergias = await query<any>(
-      `SELECT id_alergia, tipo_alergia, alergeno, severidad, reaccion
-       FROM alergia WHERE id_paciente = ? AND activa = TRUE`,
-      [id],
-    )
-
-    const patologias = await query<any>(
-      `SELECT pp.id_diagnostico, cp.nombre AS patologia, cp.codigo_cie10,
-              pp.estado, pp.severidad, pp.fecha_diagnostico
-       FROM patologia_paciente pp
-       INNER JOIN catalogo_patologia cp ON pp.id_patologia = cp.id_patologia
-       WHERE pp.id_paciente = ? ORDER BY pp.fecha_diagnostico DESC`,
-      [id],
-    )
-
-    const consultas = await query<any>(
-      `SELECT id_consulta, fecha_consulta, motivo_consulta, diagnostico
-       FROM consulta_medica WHERE id_paciente = ? ORDER BY fecha_consulta DESC LIMIT 5`,
-      [id],
-    )
+    // Consultas independientes en paralelo (antes eran 3 round-trips secuenciales).
+    const [alergias, patologias, consultas] = await Promise.all([
+      query<any>(
+        `SELECT id_alergia, tipo_alergia, alergeno, severidad, reaccion
+         FROM alergia WHERE id_paciente = ? AND activa = TRUE`,
+        [id],
+      ),
+      query<any>(
+        `SELECT pp.id_diagnostico, cp.nombre AS patologia, cp.codigo_cie10,
+                pp.estado, pp.severidad, pp.fecha_diagnostico
+         FROM patologia_paciente pp
+         INNER JOIN catalogo_patologia cp ON pp.id_patologia = cp.id_patologia
+         WHERE pp.id_paciente = ? ORDER BY pp.fecha_diagnostico DESC`,
+        [id],
+      ),
+      query<any>(
+        `SELECT id_consulta, fecha_consulta, motivo_consulta, diagnostico
+         FROM consulta_medica WHERE id_paciente = ? ORDER BY fecha_consulta DESC LIMIT 5`,
+        [id],
+      ),
+    ])
 
     return NextResponse.json({
       success: true,

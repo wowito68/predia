@@ -35,6 +35,10 @@ const DRIVER_LABEL: Record<string, string> = {
   comorbilidades: "Comorbilidades",
 }
 
+function clinicalText(text: string) {
+  return text.replace(/\b\d+(?:\.\d+)?%\b/g, "riesgo elevado")
+}
+
 export function AsistenteClinico({ id }: { id: string }) {
   const [data, setData] = useState<Assessment | null>(null)
   const [loading, setLoading] = useState(true)
@@ -68,7 +72,6 @@ export function AsistenteClinico({ id }: { id: string }) {
   }
 
   const { priority, alerts, why, recommendations, riesgo, evolucion } = data
-  const pct = (v: number | null) => (v == null ? "—" : `${Math.round(v * 100)}%`)
 
   return (
     <section className="rounded-xl border bg-card shadow-sm" aria-labelledby="asistente-titulo">
@@ -80,8 +83,7 @@ export function AsistenteClinico({ id }: { id: string }) {
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <span className="rounded-md bg-muted px-2 py-1 text-muted-foreground">
-            Riesgo: <strong className="text-foreground">{pct(riesgo.prob)}</strong>
-            {riesgo.nivel ? ` · ${riesgo.nivel}` : ""}
+            Riesgo: <strong className="text-foreground">{riesgo.nivel || "Sin evaluar"}</strong>
           </span>
           <span className="rounded-md bg-muted px-2 py-1 text-muted-foreground">
             Evolución: <strong className="text-foreground">{evolucion.ces ?? "—"}</strong>
@@ -106,7 +108,7 @@ export function AsistenteClinico({ id }: { id: string }) {
               {alerts.map((a) => (
                 <li key={a.ruleId} className={`flex items-start gap-2 text-sm ${SEV_STYLE[a.severity].cls}`}>
                   {SEV_STYLE[a.severity].icon}
-                  <span><span className="font-medium">{a.name}.</span> {a.message}</span>
+                  <span><span className="font-medium">{a.name}.</span> {clinicalText(a.message)}</span>
                 </li>
               ))}
             </ul>
@@ -122,7 +124,7 @@ export function AsistenteClinico({ id }: { id: string }) {
             {recommendations.map((r) => (
               <li key={r.rank} className="text-sm">
                 <span className="font-medium text-foreground">{r.rank}. {r.label}</span>
-                <span className="block text-xs text-muted-foreground">{r.reason}</span>
+                <span className="block text-xs text-muted-foreground">{clinicalText(r.reason)}</span>
               </li>
             ))}
           </ol>

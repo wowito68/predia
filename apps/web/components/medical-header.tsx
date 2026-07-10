@@ -6,17 +6,16 @@ import { useRouter, usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Stethoscope, Home, UserPlus, Users, History, HelpCircle, LogOut, User, Menu, X, CalendarDays, Settings } from "lucide-react"
+import { Stethoscope, Home, Users, AlertTriangle, BarChart3, LogOut, User, Menu, X, CalendarDays, Settings } from "lucide-react"
 
 // Items de navegación según rol
 const NAV_ITEMS_ALL = [
   { href: "/dashboard", label: "Inicio", icon: Home, roles: ["Administrador", "Médico", "Enfermero"] },
-  { href: "/pacientes", label: "Pacientes", icon: Users, roles: ["Administrador", "Médico", "Enfermero"] },
-  { href: "/nuevo-paciente", label: "Nuevo Paciente", icon: UserPlus, roles: ["Administrador", "Médico"] },
-  { href: "/historial", label: "Historial", icon: History, roles: ["Administrador", "Médico", "Enfermero"] },
   { href: "/agenda", label: "Agenda", icon: CalendarDays, roles: ["Administrador", "Médico", "Enfermero"] },
+  { href: "/pacientes", label: "Pacientes", icon: Users, roles: ["Administrador", "Médico", "Enfermero"] },
+  { href: "/alertas", label: "Alertas Clínicas", icon: AlertTriangle, roles: ["Administrador", "Médico", "Enfermero"] },
+  { href: "/analitica", label: "Analítica", icon: BarChart3, roles: ["Administrador", "Médico"] },
   { href: "/configuracion", label: "Configuración", icon: Settings, roles: ["Administrador", "Médico"] },
-  { href: "/ayuda", label: "Ayuda", icon: HelpCircle, roles: ["Administrador", "Médico", "Enfermero"] },
 ]
 
 const ROL_BADGE_STYLES: Record<string, string> = {
@@ -80,7 +79,7 @@ export function MedicalHeader() {
           {/* Logo y nombre */}
           <div className="flex items-center space-x-4">
             <Link href="/dashboard" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
                 <Stethoscope className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-foreground">Predia</span>

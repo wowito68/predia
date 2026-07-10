@@ -6,10 +6,13 @@ import type { ValidarPrediccionInput } from '@predia/shared'
 import { Header } from '@/components/Header'
 import { Badge } from '@/components/Badge'
 import { QueryState } from '@/components/QueryState'
-import { colors, spacing, radius, fontSize, riskColor } from '@/theme'
+import { spacing, radius, typography, riskColor, type AppColors } from '@/theme'
+import { useTheme, useThemedStyles } from '@/theme/context'
 
 export function ValidacionIAScreen() {
   const qc = useQueryClient()
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
   const [notas, setNotas] = useState<Record<number, string>>({})
 
   const q = useQuery({ queryKey: ['predicciones'], queryFn: () => api.medico.predicciones() })
@@ -44,7 +47,7 @@ export function ValidacionIAScreen() {
           </View>
 
           {pendientes.map((p) => {
-            const risk = riskColor(p.nivel_riesgo)
+            const risk = riskColor(p.nivel_riesgo, colors)
             const pct = Math.round(p.probabilidad_diabetes * 100)
             return (
               <View key={p.id_prediccion} style={s.card}>
@@ -68,7 +71,7 @@ export function ValidacionIAScreen() {
                 />
                 <View style={s.btnRow}>
                   <TouchableOpacity style={s.btnConfirmar} disabled={mut.isPending} onPress={() => decidir(p.id_prediccion, p.paciente_nombre, true)}>
-                    {mut.isPending ? <ActivityIndicator color="#fff" /> : <Text style={s.btnConfirmarText}>Confirmar diagnóstico</Text>}
+                    {mut.isPending ? <ActivityIndicator color={colors.surface} /> : <Text style={s.btnConfirmarText}>Confirmar diagnóstico</Text>}
                   </TouchableOpacity>
                   <TouchableOpacity style={s.btnRechazar} disabled={mut.isPending} onPress={() => decidir(p.id_prediccion, p.paciente_nombre, false)}>
                     <Text style={s.btnRechazarText}>Descartar</Text>
@@ -87,30 +90,27 @@ export function ValidacionIAScreen() {
   )
 }
 
-const s = StyleSheet.create({
+const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  content: { padding: spacing.lg, paddingBottom: 32 },
+  content: { padding: spacing.md, paddingBottom: 32 },
   statsRow: { flexDirection: 'row', gap: 10, marginBottom: spacing.md },
-  card: {
-    backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.lg, marginBottom: spacing.md,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
+  card: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, marginBottom: spacing.xs, borderWidth: 1, borderColor: colors.border },
   cardHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
-  nombre: { fontSize: fontSize.md, fontWeight: '700', color: colors.textPrimary },
+  nombre: { ...typography.bodyMedium, color: colors.textPrimary },
   riskBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.full },
-  riskBadgeText: { fontSize: fontSize.xs, fontWeight: '700' },
+  riskBadgeText: { ...typography.overline },
   barBg: { height: 4, backgroundColor: colors.border, borderRadius: 2, marginBottom: 10 },
   barFill: { height: 4, borderRadius: 2 },
-  factores: { fontSize: fontSize.sm, color: colors.textPrimary, marginBottom: 10 },
+  factores: { ...typography.caption, color: colors.textPrimary, marginBottom: 10 },
   notaInput: {
     borderWidth: 1, borderColor: colors.border, borderRadius: radius.sm, padding: 10,
-    fontSize: fontSize.sm, color: colors.textPrimary, backgroundColor: colors.background, marginBottom: 12, minHeight: 40,
+    ...typography.caption, color: colors.textPrimary, backgroundColor: colors.background, marginBottom: 12, minHeight: 44,
   },
   btnRow: { flexDirection: 'row', gap: 10 },
-  btnConfirmar: { flex: 1, backgroundColor: colors.primary, borderRadius: radius.sm, padding: 12, alignItems: 'center' },
-  btnConfirmarText: { color: '#fff', fontWeight: '700', fontSize: fontSize.xs },
-  btnRechazar: { flex: 1, backgroundColor: colors.errorBg, borderRadius: radius.sm, padding: 12, alignItems: 'center', borderWidth: 1, borderColor: '#FECACA' },
-  btnRechazarText: { color: colors.error, fontWeight: '700', fontSize: fontSize.xs },
+  btnConfirmar: { flex: 1, backgroundColor: colors.primary, borderRadius: radius.md, padding: 12, alignItems: 'center' },
+  btnConfirmarText: { ...typography.overline, color: colors.surface },
+  btnRechazar: { flex: 1, backgroundColor: colors.errorBg, borderRadius: radius.md, padding: 12, alignItems: 'center', borderWidth: 1, borderColor: colors.errorBg },
+  btnRechazarText: { ...typography.overline, color: colors.error },
   empty: { alignItems: 'center', paddingVertical: 40 },
-  emptyText: { fontSize: fontSize.lg, color: colors.success, fontWeight: '700' },
+  emptyText: { ...typography.bodyMedium, color: colors.success },
 })

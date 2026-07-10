@@ -9,11 +9,24 @@ interface CriticalSummaryProps {
     tipoSangre?: string
     ultimaConsulta?: any
     ultimosSignos?: any
+    prediccion?: any
 }
 
-export function PatientCriticalSummary({ alergias, tipoSangre, ultimaConsulta, ultimosSignos }: CriticalSummaryProps) {
-    // Filtrar alergias graves
-    const alergiasGraves = alergias.filter(a => a.severidad === 'Grave' || a.severidad === 'Moderada')
+// Mapea el nivel de riesgo a una etiqueta de estado y estilos coherentes.
+function riesgoVisual(nivel?: string) {
+    const n = (nivel || "").toLowerCase()
+    if (n.includes("muy alto")) return { estado: "Requiere atención", riesgo: "Muy Alto", text: "text-red-600 dark:text-red-400", bg: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400", border: "border-l-red-500" }
+    if (n.includes("alto")) return { estado: "Vigilancia", riesgo: "Alto", text: "text-orange-600 dark:text-orange-400", bg: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400", border: "border-l-orange-500" }
+    if (n.includes("moderado") || n.includes("medio")) return { estado: "Seguimiento", riesgo: "Moderado", text: "text-amber-600 dark:text-amber-400", bg: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", border: "border-l-amber-500" }
+    if (n.includes("bajo")) return { estado: "Estable", riesgo: "Bajo", text: "text-green-600 dark:text-green-400", bg: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400", border: "border-l-green-500" }
+    return { estado: "Sin evaluar", riesgo: "—", text: "text-muted-foreground", bg: "bg-muted text-muted-foreground", border: "border-l-slate-400" }
+}
+
+export function PatientCriticalSummary({ alergias, tipoSangre, ultimaConsulta, ultimosSignos, prediccion }: CriticalSummaryProps) {
+    // Filtrar alergias graves (acepta las distintas etiquetas de severidad usadas en el sistema)
+    const graves = new Set(["grave", "moderada", "severa", "alta"])
+    const alergiasGraves = alergias.filter(a => graves.has(String(a.severidad || "").toLowerCase()))
+    const rv = riesgoVisual(prediccion?.nivel_riesgo)
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -80,16 +93,16 @@ export function PatientCriticalSummary({ alergias, tipoSangre, ultimaConsulta, u
                 </CardContent>
             </Card>
 
-            {/* Estado General (Resumen IA placeholder) */}
-            <Card className="border-l-4 border-l-orange-500 shadow-sm">
+            {/* Estado General — derivado de la última predicción de IA */}
+            <Card className={`border-l-4 ${rv.border} shadow-sm`}>
                 <CardContent className="p-4 flex items-start gap-3">
-                    <div className="p-2 rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">
+                    <div className={`p-2 rounded-full ${rv.bg}`}>
                         <Activity className="w-5 h-5" />
                     </div>
                     <div>
                         <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Estado Actual</p>
-                        <p className="font-semibold text-sm mt-1">Estable</p>
-                        <p className="text-xs text-muted-foreground">Riesgo Predicho: Bajo</p>
+                        <p className={`font-semibold text-sm mt-1 ${rv.text}`}>{rv.estado}</p>
+                        <p className="text-xs text-muted-foreground">Riesgo Predicho: {rv.riesgo}</p>
                     </div>
                 </CardContent>
             </Card>

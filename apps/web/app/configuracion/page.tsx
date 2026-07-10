@@ -16,6 +16,7 @@ interface UserData {
     id_usuario?: number
     username?: string
     nombre?: string
+    nombre_completo?: string
     apellido_paterno?: string
     apellido_materno?: string
     email?: string
@@ -47,7 +48,10 @@ export default function ConfiguracionPage() {
     }, [router])
 
     const displayName = user
-        ? `${user.nombre || ""} ${user.apellido_paterno || ""} ${user.apellido_materno || ""}`.trim()
+        ? (user.nombre_completo
+            || `${user.nombre || ""} ${user.apellido_paterno || ""} ${user.apellido_materno || ""}`.trim()
+            || user.username
+            || "Usuario")
         : "Usuario"
 
     return (

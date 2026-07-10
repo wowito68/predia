@@ -70,8 +70,7 @@ export function RecentAlertsWidget({ alertas }: RecentAlertsWidgetProps) {
                                         : "text-orange-700 dark:text-orange-400"
                                         }`}
                                 >
-                                    Alerta de riesgo {alerta.nivel_riesgo.toLowerCase()} detectada — Índice:{" "}
-                                    {(alerta.probabilidad * 100).toFixed(1)}%
+                                    Riesgo {alerta.nivel_riesgo.toLowerCase()} detectado. Requiere revisión clínica.
                                 </p>
                             </div>
                             <span

@@ -9,33 +9,33 @@ export const GET = requirePacienteSelf(async (_request: NextRequest, { params })
   if (!id || isNaN(id)) return NextResponse.json({ success: false, error: "ID inválido" }, { status: 400 })
 
   try {
-    const ultimaPred = await queryOne<{
-      nivel_riesgo: string
-      probabilidad_diabetes: number
-      fecha_prediccion: string
-    }>(
-      `SELECT nivel_riesgo, probabilidad_diabetes, fecha_prediccion
-       FROM prediccion WHERE id_paciente = ? ORDER BY fecha_prediccion DESC LIMIT 1`,
-      [id],
-    )
-
-    const proximaCita = await queryOne<{ proxima_cita: string; motivo_consulta: string }>(
-      `SELECT proxima_cita, motivo_consulta FROM consulta_medica
-       WHERE id_paciente = ? AND proxima_cita IS NOT NULL AND proxima_cita >= NOW()
-       ORDER BY proxima_cita ASC LIMIT 1`,
-      [id],
-    )
-
-    const recetas = await queryOne<{ total: number }>(
-      `SELECT COUNT(*) as total FROM receta WHERE id_paciente = ? AND estado = 'Activa'`,
-      [id],
-    )
-
-    const glucosa = await query<{ valor: number; fecha_registro: string }>(
-      `SELECT valor, fecha_registro FROM automonitoreo
-       WHERE id_paciente = ? AND tipo = 'glucosa' ORDER BY fecha_registro DESC LIMIT 7`,
-      [id],
-    )
+    // Consultas independientes en paralelo (antes 4 round-trips secuenciales).
+    const [ultimaPred, proximaCita, recetas, glucosa] = await Promise.all([
+      queryOne<{ nivel_riesgo: string; probabilidad_diabetes: number; fecha_prediccion: string }>(
+        `SELECT nivel_riesgo, probabilidad_diabetes, fecha_prediccion
+         FROM prediccion WHERE id_paciente = ? ORDER BY fecha_prediccion DESC LIMIT 1`,
+        [id],
+      ),
+      queryOne<{ proxima_cita: string; motivo_consulta: string }>(
+        `SELECT fecha_cita AS proxima_cita, motivo AS motivo_consulta
+         FROM cita
+         WHERE id_paciente = ?
+           AND estado IN ('PROGRAMADA', 'EN_CURSO')
+           AND (estado = 'EN_CURSO' OR fecha_cita >= CURDATE())
+         ORDER BY CASE WHEN estado = 'EN_CURSO' THEN 0 ELSE 1 END, fecha_cita ASC
+         LIMIT 1`,
+        [id],
+      ),
+      queryOne<{ total: number }>(
+        `SELECT COUNT(*) as total FROM receta WHERE id_paciente = ? AND estado = 'Activa'`,
+        [id],
+      ),
+      query<{ valor: number; fecha_registro: string }>(
+        `SELECT valor, fecha_registro FROM automonitoreo
+         WHERE id_paciente = ? AND tipo = 'glucosa' ORDER BY fecha_registro DESC LIMIT 7`,
+        [id],
+      ),
+    ])
 
     return NextResponse.json({
       success: true,

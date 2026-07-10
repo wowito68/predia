@@ -15,6 +15,9 @@ export const GET = requireAuth(async (request: NextRequest, { params, user }: Hi
     const page = parseInt(searchParams.get("page") || "1")
     const limit = parseInt(searchParams.get("limit") || "10")
     const offset = (page - 1) * limit
+    // mysql2.execute() falla con LIMIT/OFFSET enlazados; se interpolan enteros saneados
+    const safeLimit = Number.isFinite(limit) && limit > 0 ? Math.min(limit, 100) : 10
+    const safeOffset = Number.isFinite(offset) && offset >= 0 ? offset : 0
 
     const historial = await query<any>(
       `
@@ -23,9 +26,9 @@ export const GET = requireAuth(async (request: NextRequest, { params, user }: Hi
       INNER JOIN usuario u ON h.id_usuario = u.id_usuario
       WHERE h.id_paciente = ?
       ORDER BY h.fecha_registro DESC
-      LIMIT ? OFFSET ?
+      LIMIT ${safeLimit} OFFSET ${safeOffset}
     `,
-      [id_paciente, limit, offset],
+      [id_paciente],
     )
 
     const [total] = await query<{ total: number }>(

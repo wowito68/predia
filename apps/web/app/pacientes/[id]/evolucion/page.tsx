@@ -3,13 +3,23 @@
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Loader2, LineChart } from "lucide-react"
-import { ClinicalEvolution, type EvolutionData } from "@/components/evolution/ClinicalEvolution"
+import type { EvolutionData } from "@/components/evolution/ClinicalEvolution"
 import { AsistenteClinico } from "@/components/cdss/AsistenteClinico"
-import { PDFDownloadButton } from "@/components/pdf/PDFDownloadButton"
-import { EvolutionReportPDF } from "@/components/pdf/EvolutionReportPDF"
+
+// Carga diferida: recharts (gráficas) y @react-pdf/renderer (PDF) salen del
+// bundle inicial de la ruta y se cargan en el cliente bajo demanda.
+const ClinicalEvolution = dynamic(
+  () => import("@/components/evolution/ClinicalEvolution").then((m) => m.ClinicalEvolution),
+  { ssr: false, loading: () => <div className="flex items-center gap-2 p-6 text-muted-foreground"><Loader2 className="h-5 w-5 animate-spin" />Cargando gráficas…</div> }
+)
+const EvolutionPDFButton = dynamic(() => import("@/components/pdf/EvolutionPDFButton"), {
+  ssr: false,
+  loading: () => <Button variant="outline" size="sm" disabled><Loader2 className="w-4 h-4 mr-2 animate-spin" />PDF…</Button>,
+})
 
 export default function EvolucionPage() {
   const { id } = useParams() as { id: string }
@@ -39,7 +49,7 @@ export default function EvolucionPage() {
       <main className="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <Link href={`/pacientes/${id}/predicciones`}>
+            <Link href={`/pacientes/${id}`}>
               <Button variant="outline"><ArrowLeft className="w-4 h-4 mr-2" />Volver</Button>
             </Link>
             <div>
@@ -50,18 +60,7 @@ export default function EvolucionPage() {
             </div>
           </div>
           {data && (
-            <PDFDownloadButton
-              fileName={`evolucion_${id}.pdf`}
-              document={
-                <EvolutionReportPDF
-                  paciente={{ nombre: paciente?.nombre, apellido_paterno: paciente?.apellido_paterno, edad: paciente?.edad }}
-                  ces={data.ces}
-                  eventos={data.eventos}
-                  variables={data.variables}
-                  fecha={new Date().toLocaleDateString("es-MX")}
-                />
-              }
-            />
+            <EvolutionPDFButton id={id} paciente={paciente} data={data} />
           )}
         </div>
 

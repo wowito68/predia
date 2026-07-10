@@ -5,7 +5,8 @@ import { useRoute, useNavigation } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/services/api'
 import { Header } from '@/components/Header'
-import { colors, spacing, radius, fontSize } from '@/theme'
+import { spacing, radius, fontSize, type AppColors } from '@/theme'
+import { useThemedStyles } from '@/theme/context'
 
 export function CamaraClinicaScreen() {
   const route = useRoute<any>()
@@ -15,6 +16,7 @@ export function CamaraClinicaScreen() {
   const nombre: string = route.params?.nombre ?? ''
   const cameraRef = useRef<CameraView>(null)
   const [permission, requestPermission] = useCameraPermissions()
+  const s = useThemedStyles(makeStyles)
 
   const mut = useMutation({
     mutationFn: (uri: string) => {
@@ -74,7 +76,7 @@ export function CamaraClinicaScreen() {
   )
 }
 
-const s = StyleSheet.create({
+const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
   cameraRoot: { flex: 1, backgroundColor: '#000' },
   camera: { flex: 1 },
@@ -86,5 +88,5 @@ const s = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: spacing.xl, backgroundColor: colors.background },
   permText: { fontSize: fontSize.md, color: colors.textSecondary, textAlign: 'center', marginBottom: 20 },
   permBtn: { backgroundColor: colors.primary, borderRadius: radius.sm, paddingHorizontal: 24, paddingVertical: 12 },
-  permBtnText: { color: '#fff', fontWeight: '700', fontSize: fontSize.md },
+  permBtnText: { color: colors.surface, fontWeight: '700', fontSize: fontSize.md },
 })

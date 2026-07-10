@@ -16,12 +16,16 @@ import {
     Pill, FileText, ScrollText, Download, HeartPulse, QrCode
 } from "lucide-react"
 
-import { VitalSignsChart } from "@/components/vital-signs-chart"
 import { useConsultaStore } from "@/store/useConsultaStore"
 import { PatientCriticalSummary } from "@/components/patient-critical-summary"
 import { QRCodeCanvas } from "qrcode.react"
 import dynamic from 'next/dynamic'
 const PDFDownloadWrapper = dynamic(() => import('@/components/pdf/PDFDownloadWrapper'), { ssr: false })
+// Carga diferida de recharts (gráficas de signos vitales) fuera del bundle inicial.
+const VitalSignsChart = dynamic(() => import('@/components/vital-signs-chart').then((m) => m.VitalSignsChart), {
+  ssr: false,
+  loading: () => <div className="h-[200px] flex items-center justify-center text-sm text-muted-foreground">Cargando gráfica…</div>,
+})
 import { CreatableSelectAPI } from "@/components/ui/creatable-select"
 import {
     Dialog, DialogContent, DialogDescription, DialogFooter,
@@ -770,6 +774,7 @@ export default function HistorialPacientePage() {
                     tipoSangre={paciente.tipo_sangre}
                     ultimaConsulta={historial?.consultas?.[0]}
                     ultimosSignos={historial?.mediciones?.[0]}
+                    prediccion={historial?.predicciones?.[0]}
                 />
 
                 {/* Hub & Spoke Vertical Tabs */}

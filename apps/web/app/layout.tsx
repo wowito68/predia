@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   description: 'Sistema integral de gestión de historiales clínicos con módulos de inteligencia artificial para apoyo en la decisión médica',
   generator: 'Next.js',
   icons: {
-    icon: '/favicon.png',
-    apple: '/favicon.png',
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
   },
   manifest: '/manifest.json',
 }

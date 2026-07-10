@@ -5,7 +5,8 @@ import { useAuthStore } from '@/store/authStore'
 import { api } from '@/services/api'
 import { Header } from '@/components/Header'
 import { QueryState } from '@/components/QueryState'
-import { colors, spacing, radius, fontSize } from '@/theme'
+import { spacing, radius, typography, type AppColors } from '@/theme'
+import { useTheme, useThemedStyles } from '@/theme/context'
 
 type Categoria = 'Todo' | 'Alergias' | 'Patologías' | 'Consultas'
 const TABS: Categoria[] = ['Todo', 'Alergias', 'Patologías', 'Consultas']
@@ -14,7 +15,9 @@ interface Item { tipo: Categoria; label: string; fecha: string; bg: string }
 const fmt = (iso?: string) => (iso ? new Date(iso).toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' }) : '')
 
 export function ExpedienteScreen() {
-  const user = useAuthStore((s) => s.user)
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
+  const user = useAuthStore((st) => st.user)
   const id = user?.id_paciente
   const [tab, setTab] = useState<Categoria>('Todo')
 
@@ -32,22 +35,22 @@ export function ExpedienteScreen() {
         tipo: 'Alergias' as const,
         label: `${a.alergeno}${a.severidad ? ` — ${a.severidad}` : ''}${a.reaccion ? ` (${a.reaccion})` : ''}`,
         fecha: '',
-        bg: '#FEF2F2',
+        bg: colors.errorBg,
       })),
       ...d.patologias.map((p) => ({
         tipo: 'Patologías' as const,
         label: `${p.patologia} · ${p.estado}`,
         fecha: fmt(p.fecha_diagnostico),
-        bg: '#F0F9FF',
+        bg: colors.infoBg,
       })),
       ...d.consultas.map((c) => ({
         tipo: 'Consultas' as const,
         label: `${c.motivo_consulta}${c.diagnostico ? ` — ${c.diagnostico}` : ''}`,
         fecha: fmt(c.fecha_consulta),
-        bg: '#FAFAFA',
+        bg: colors.surfaceMuted,
       })),
     ]
-  }, [q.data])
+  }, [q.data, colors])
 
   const filtered = tab === 'Todo' ? items : items.filter((i) => i.tipo === tab)
   const paciente = q.data?.paciente
@@ -94,25 +97,24 @@ export function ExpedienteScreen() {
   )
 }
 
-const s = StyleSheet.create({
+const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  tabsWrap: { backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.border },
-  tabs: { paddingHorizontal: spacing.lg, paddingVertical: 10, gap: 8 },
-  tab: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: radius.full, backgroundColor: colors.background },
+  tabsWrap: { backgroundColor: colors.background },
+  tabs: { paddingHorizontal: spacing.md, paddingVertical: 10, gap: 8 },
+  tab: { paddingHorizontal: 14, paddingVertical: 8, borderRadius: radius.full, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
   tabActive: { backgroundColor: colors.primary },
-  tabText: { fontSize: fontSize.sm, color: colors.textSecondary, fontWeight: '500' },
-  tabTextActive: { color: '#fff', fontWeight: '700' },
-  content: { padding: spacing.lg, paddingBottom: 32 },
+  tabText: { ...typography.caption, color: colors.textSecondary },
+  tabTextActive: { color: colors.surface },
+  content: { padding: spacing.md, paddingBottom: 32 },
   patientCard: {
     backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.lg, marginBottom: spacing.md,
-    flexDirection: 'row', alignItems: 'center',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+    flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: colors.border,
   },
-  patientName: { fontSize: fontSize.md, fontWeight: '700', color: colors.textPrimary },
-  patientCurp: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 2 },
-  empty: { fontSize: fontSize.sm, color: colors.textMuted, textAlign: 'center', paddingVertical: 24 },
-  item: { borderRadius: radius.md, padding: spacing.lg, marginBottom: spacing.sm, flexDirection: 'row', alignItems: 'center' },
-  itemTipo: { fontSize: fontSize.xs, color: colors.textSecondary, fontWeight: '600', marginBottom: 4 },
-  itemLabel: { fontSize: fontSize.sm, color: colors.textPrimary, fontWeight: '500' },
-  itemFecha: { fontSize: fontSize.xs, color: colors.textSecondary },
+  patientName: { ...typography.bodyMedium, color: colors.textPrimary },
+  patientCurp: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
+  empty: { ...typography.caption, color: colors.textMuted, textAlign: 'center', paddingVertical: 24 },
+  item: { borderRadius: radius.md, padding: spacing.md, marginBottom: spacing.xs, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: colors.border },
+  itemTipo: { ...typography.overline, color: colors.textSecondary, marginBottom: 4 },
+  itemLabel: { ...typography.caption, color: colors.textPrimary },
+  itemFecha: { ...typography.overline, color: colors.textSecondary },
 })

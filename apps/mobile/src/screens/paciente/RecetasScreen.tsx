@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { ScrollView, View, Text, Switch, StyleSheet } from 'react-native'
+import { ScrollView, View, Text, StyleSheet } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { useAuthStore } from '@/store/authStore'
 import { api } from '@/services/api'
@@ -8,7 +7,8 @@ import { Header } from '@/components/Header'
 import { Card } from '@/components/Card'
 import { Badge } from '@/components/Badge'
 import { QueryState } from '@/components/QueryState'
-import { colors, spacing, fontSize } from '@/theme'
+import { spacing, typography, type AppColors } from '@/theme'
+import { useThemedStyles } from '@/theme/context'
 
 const parseMeds = (m: RecetaResumen['medicamentos']): Medicamento[] => {
   if (!m) return []
@@ -25,8 +25,8 @@ const estadoVariant = (e: string) =>
   e === 'Activa' ? 'success' : e === 'Cancelada' ? 'error' : 'info'
 
 export function RecetasScreen() {
-  const id = useAuthStore((s) => s.user?.id_paciente)
-  const [reminders, setReminders] = useState<Record<number, boolean>>({})
+  const s = useThemedStyles(makeStyles)
+  const id = useAuthStore((st) => st.user?.id_paciente)
 
   const q = useQuery({
     queryKey: ['recetas', id],
@@ -38,7 +38,7 @@ export function RecetasScreen() {
 
   return (
     <View style={s.root}>
-      <Header title="Mis Recetas y Medicamentos" showBack />
+      <Header title="Mis recetas" subtitle="Medicamentos e indicaciones activas" />
       <QueryState
         isLoading={q.isLoading}
         isError={q.isError}
@@ -49,7 +49,6 @@ export function RecetasScreen() {
       >
         <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
           {recetas.map((r) => {
-            const on = reminders[r.id_receta] ?? r.estado === 'Activa'
             const meds = parseMeds(r.medicamentos)
             return (
               <Card key={r.id_receta}>
@@ -75,23 +74,10 @@ export function RecetasScreen() {
                   </View>
                 ))}
 
-                {r.instrucciones ? <Text style={s.instr}>📝 {r.instrucciones}</Text> : null}
+                {r.instrucciones ? <Text style={s.instr}>Indicaciones: {r.instrucciones}</Text> : null}
 
                 <View style={s.divider} />
-                <View style={s.medFooter}>
-                  <Text style={s.footerLabel}>Recordatorio</Text>
-                  <View style={s.footerRight}>
-                    <Text style={[s.estadoText, { color: on ? colors.primary : colors.textMuted }]}>
-                      {on ? 'Activo' : 'Inactivo'}
-                    </Text>
-                    <Switch
-                      value={on}
-                      onValueChange={(v) => setReminders((prev) => ({ ...prev, [r.id_receta]: v }))}
-                      trackColor={{ false: colors.border, true: colors.primaryLight }}
-                      thumbColor={on ? colors.primary : '#f4f3f4'}
-                    />
-                  </View>
-                </View>
+                <Text style={s.footerLabel}>{r.estado === 'Activa' ? 'Tratamiento activo' : `Estado: ${r.estado}`}</Text>
               </Card>
             )
           })}
@@ -101,21 +87,18 @@ export function RecetasScreen() {
   )
 }
 
-const s = StyleSheet.create({
+const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  content: { padding: spacing.lg, paddingBottom: 32 },
+  content: { padding: spacing.md, paddingBottom: 32 },
   medHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 12 },
-  rxBadge: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#DBEAFE', alignItems: 'center', justifyContent: 'center' },
-  rxText: { color: colors.primary, fontWeight: '700', fontSize: fontSize.sm },
-  medName: { fontSize: fontSize.md, fontWeight: '700', color: colors.textPrimary },
-  medInst: { fontSize: fontSize.sm, color: colors.textSecondary, marginTop: 2 },
+  rxBadge: { width: 40, height: 40, borderRadius: 20, backgroundColor: colors.infoBg, alignItems: 'center', justifyContent: 'center' },
+  rxText: { ...typography.caption, color: colors.primary },
+  medName: { ...typography.bodyMedium, color: colors.textPrimary },
+  medInst: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
   medItem: { paddingVertical: 6, borderTopWidth: 1, borderTopColor: colors.background },
-  medItemName: { fontSize: fontSize.sm, fontWeight: '600', color: colors.textPrimary },
-  medItemDetail: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 1 },
-  instr: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 8, lineHeight: 18 },
+  medItemName: { ...typography.caption, color: colors.textPrimary },
+  medItemDetail: { ...typography.overline, color: colors.textSecondary, marginTop: 1 },
+  instr: { ...typography.caption, color: colors.textSecondary, marginTop: 8 },
   divider: { height: 1, backgroundColor: colors.border, marginVertical: 12 },
-  medFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  footerLabel: { fontSize: fontSize.sm, color: colors.textSecondary },
-  footerRight: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  estadoText: { fontSize: fontSize.sm, fontWeight: '600' },
+  footerLabel: { ...typography.caption, color: colors.textSecondary },
 })

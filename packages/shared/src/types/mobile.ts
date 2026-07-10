@@ -135,9 +135,15 @@ export interface ExpedienteResumen {
 
 // ---- MÉDICO: Agenda (RF10) — forma del endpoint /api/agenda (Prisma) ----
 export interface AgendaItem {
-  id_consulta: number
+  id_cita: number
+  id_consulta: number | null
   proxima_cita: string
+  fecha_cita: string
   motivo_consulta: string
+  motivo: string
+  estado: "PROGRAMADA" | "EN_CURSO" | "FINALIZADA" | string
+  inicio_cita: string | null
+  fin_cita: string | null
   paciente: {
     id_paciente: number
     nombre: string

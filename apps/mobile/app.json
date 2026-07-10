@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundColor": "#1565C0"
       },
       "package": "mx.edu.upq.predia",
@@ -54,7 +54,8 @@
         {
           "microphonePermission": "PREDIA usa el micrófono para el dictado de notas clínicas."
         }
-      ]
+      ],
+      "expo-font"
     ]
   }
 }

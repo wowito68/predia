@@ -5,19 +5,25 @@ import { useAuthStore } from '@/store/authStore'
 import { api } from '@/services/api'
 import type { AutomonitoreoInput, AutomonitoreoRegistro, TipoAutomonitoreo } from '@predia/shared'
 import { Header } from '@/components/Header'
-import { colors, spacing, radius, fontSize } from '@/theme'
+import { spacing, radius, typography, type AppColors } from '@/theme'
+import { useTheme, useThemedStyles } from '@/theme/context'
 
-const TIPOS: { tipo: TipoAutomonitoreo; label: string; unidad: string; color: string; placeholder: string }[] = [
-  { tipo: 'glucosa', label: 'Glucosa capilar', unidad: 'mg/dL', color: '#FEE2E2', placeholder: 'Ej. 110' },
-  { tipo: 'presion', label: 'Presión arterial', unidad: 'mmHg', color: '#FEF3C7', placeholder: 'Ej. 120/80' },
-  { tipo: 'peso', label: 'Peso corporal', unidad: 'kg', color: '#DCFCE7', placeholder: 'Ej. 74.5' },
+const TIPOS: { tipo: TipoAutomonitoreo; label: string; unidad: string; placeholder: string }[] = [
+  { tipo: 'glucosa', label: 'Glucosa capilar', unidad: 'mg/dL', placeholder: 'Ej. 110' },
+  { tipo: 'presion', label: 'Presión arterial', unidad: 'mmHg', placeholder: 'Ej. 120/80' },
+  { tipo: 'peso', label: 'Peso corporal', unidad: 'kg', placeholder: 'Ej. 74.5' },
 ]
+
+const circleTone = (tipo: TipoAutomonitoreo, colors: AppColors) =>
+  tipo === 'glucosa' ? colors.errorBg : tipo === 'presion' ? colors.warningBg : colors.successBg
 
 const lastOf = (rows: AutomonitoreoRegistro[], tipo: TipoAutomonitoreo) =>
   [...rows].reverse().find((r) => r.tipo === tipo)
 
 export function AutomonitoreoScreen() {
-  const id = useAuthStore((s) => s.user?.id_paciente)
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
+  const id = useAuthStore((st) => st.user?.id_paciente)
   const qc = useQueryClient()
   const [values, setValues] = useState<Record<string, string>>({})
   const today = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
@@ -83,7 +89,7 @@ export function AutomonitoreoScreen() {
           return (
             <View key={m.tipo} style={s.card}>
               <View style={s.cardHeader}>
-                <View style={[s.circle, { backgroundColor: m.color }]} />
+                <View style={[s.circle, { backgroundColor: circleTone(m.tipo, colors) }]} />
                 <View style={{ flex: 1 }}>
                   <Text style={s.medLabel}>{m.label}</Text>
                   <Text style={s.medUltimo}>Último: {lastTxt}</Text>
@@ -93,13 +99,13 @@ export function AutomonitoreoScreen() {
                 <TextInput
                   style={s.input}
                   placeholder={`${m.placeholder} (${m.unidad})`}
-                  placeholderTextColor="rgba(255,255,255,0.7)"
+                  placeholderTextColor={colors.textMuted}
                   keyboardType={m.tipo === 'presion' ? 'default' : 'numeric'}
                   value={values[m.tipo] ?? ''}
                   onChangeText={(v) => setValues((prev) => ({ ...prev, [m.tipo]: v }))}
                 />
                 <TouchableOpacity style={s.regBtn} onPress={() => registrar(m.tipo, m.unidad)} disabled={mut.isPending}>
-                  {mut.isPending ? <ActivityIndicator color="#fff" /> : <Text style={s.regBtnText}>+ Registrar</Text>}
+                  {mut.isPending ? <ActivityIndicator color={colors.surface} /> : <Text style={s.regBtnText}>+ Registrar</Text>}
                 </TouchableOpacity>
               </View>
             </View>
@@ -110,26 +116,26 @@ export function AutomonitoreoScreen() {
   )
 }
 
-const s = StyleSheet.create({
+const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  content: { padding: spacing.lg, paddingBottom: 32 },
+  content: { padding: spacing.md, paddingBottom: 32 },
   dayCard: {
     backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.lg,
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.md,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+    borderWidth: 1, borderColor: colors.border,
   },
-  dayTitle: { fontSize: fontSize.sm, color: colors.textSecondary },
-  dayDate: { fontSize: fontSize.md, fontWeight: '700', color: colors.textPrimary, textTransform: 'capitalize' },
+  dayTitle: { ...typography.caption, color: colors.textSecondary },
+  dayDate: { ...typography.bodyMedium, color: colors.textPrimary, textTransform: 'capitalize' },
   card: {
     backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.lg, marginBottom: spacing.md,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
+    borderWidth: 1, borderColor: colors.border,
   },
   cardHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14 },
   circle: { width: 44, height: 44, borderRadius: 22 },
-  medLabel: { fontSize: fontSize.md, fontWeight: '600', color: colors.textPrimary },
-  medUltimo: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 2 },
+  medLabel: { ...typography.bodyMedium, color: colors.textPrimary },
+  medUltimo: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
   inputRow: { flexDirection: 'row', gap: 8 },
-  input: { flex: 1, borderRadius: radius.sm, backgroundColor: colors.primary, color: '#fff', paddingHorizontal: 14, paddingVertical: 10, fontSize: fontSize.sm },
-  regBtn: { backgroundColor: colors.primaryDark, borderRadius: radius.sm, paddingHorizontal: 14, paddingVertical: 10, justifyContent: 'center', minWidth: 110, alignItems: 'center' },
-  regBtnText: { color: '#fff', fontWeight: '700', fontSize: fontSize.sm },
+  input: { flex: 1, borderRadius: radius.md, backgroundColor: colors.background, color: colors.textPrimary, paddingHorizontal: 14, paddingVertical: 10, ...typography.caption, borderWidth: 1, borderColor: colors.border },
+  regBtn: { backgroundColor: colors.primary, borderRadius: radius.md, paddingHorizontal: 14, paddingVertical: 10, justifyContent: 'center', minWidth: 110, alignItems: 'center' },
+  regBtnText: { ...typography.caption, color: '#fff' },
 })

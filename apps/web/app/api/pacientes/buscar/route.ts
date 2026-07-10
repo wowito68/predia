@@ -25,6 +25,9 @@ export const GET = requireAuth(async (request: NextRequest, { user }) => {
     }
 
     const searchTerm = `%${q}%`
+    // mysql2.execute() falla con LIMIT/OFFSET enlazados; se interpolan enteros saneados
+    const safeLimit = Number.isFinite(limit) && limit > 0 ? Math.min(limit, 100) : 10
+    const safeOffset = Number.isFinite(offset) && offset >= 0 ? offset : 0
 
     const pacientes = await query<any>(
       `
@@ -54,9 +57,9 @@ export const GET = requireAuth(async (request: NextRequest, { user }) => {
         p.email LIKE ?
       )
       ORDER BY p.fecha_registro DESC
-      LIMIT ? OFFSET ?
+      LIMIT ${safeLimit} OFFSET ${safeOffset}
     `,
-      [searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, limit, offset],
+      [searchTerm, searchTerm, searchTerm, searchTerm, searchTerm],
     )
 
     const [totalResult] = await query<{ total: number }>(

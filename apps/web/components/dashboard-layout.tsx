@@ -21,7 +21,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* Mobile Header (Hidden on Desktop) */}
         <header className="lg:hidden flex items-center justify-between h-16 px-4 border-b border-border bg-card shrink-0 print:hidden">
           <div className="flex items-center space-x-3">
-             <div className="w-8 h-8 shrink-0 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
+             <div className="w-8 h-8 shrink-0 bg-primary rounded-md flex items-center justify-center">
                 <div className="w-4 h-4 text-white" />
              </div>
              <span className="font-bold text-foreground">Predia</span>

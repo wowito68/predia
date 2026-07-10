@@ -1,9 +1,12 @@
 import { useState } from 'react'
-import { ScrollView, View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator, StyleSheet } from 'react-native'
+import { View, Text, TextInput, Alert, ActivityIndicator, StyleSheet } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api, SignosVitalesInput } from '@/services/api'
-import { colors, spacing, radius, fontSize } from '@/theme'
+import { Screen, ScreenHeader } from '@/components/Screen'
+import { PremiumCard, PrimaryButton } from '@/components/ui'
+import { spacing, radius, typography, type AppColors } from '@/theme'
+import { useTheme, useThemedStyles } from '@/theme/context'
 
 const CAMPOS: { key: keyof Omit<SignosVitalesInput, 'id_paciente' | 'observaciones'>; label: string; unidad: string; placeholder: string }[] = [
   { key: 'peso', label: 'Peso', unidad: 'kg', placeholder: '82.0' },
@@ -17,6 +20,8 @@ const CAMPOS: { key: keyof Omit<SignosVitalesInput, 'id_paciente' | 'observacion
 export function SignosVitalesScreen() {
   const nav = useNavigation<any>()
   const route = useRoute<any>()
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
   const qc = useQueryClient()
   const idPaciente: number | undefined = route.params?.idPaciente
   const nombre: string = route.params?.nombre ?? 'Paciente'
@@ -50,16 +55,10 @@ export function SignosVitalesScreen() {
 
   return (
     <View style={s.root}>
-      <View style={s.headerBar}>
-        <TouchableOpacity onPress={() => nav.goBack()}><Text style={s.back}>←</Text></TouchableOpacity>
-        <View>
-          <Text style={s.headerTitle}>Signos Vitales</Text>
-          <Text style={s.headerSub}>{nombre}</Text>
-        </View>
-      </View>
-      <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+      <ScreenHeader title="Signos vitales" subtitle={nombre} onBack={() => nav.goBack()} />
+      <Screen scroll padded>
         {CAMPOS.map((c) => (
-          <View key={c.key as string} style={s.card}>
+          <PremiumCard key={c.key as string} style={s.card}>
             <Text style={s.fieldLabel}>{c.label} <Text style={s.unidad}>({c.unidad})</Text></Text>
             <TextInput
               style={s.input}
@@ -69,9 +68,9 @@ export function SignosVitalesScreen() {
               placeholder={c.placeholder}
               placeholderTextColor={colors.textMuted}
             />
-          </View>
+          </PremiumCard>
         ))}
-        <View style={s.card}>
+        <PremiumCard style={s.card}>
           <Text style={s.fieldLabel}>Observaciones</Text>
           <TextInput
             style={[s.input, { minHeight: 60 }]}
@@ -81,30 +80,19 @@ export function SignosVitalesScreen() {
             placeholderTextColor={colors.textMuted}
             multiline
           />
-        </View>
+        </PremiumCard>
 
-        <TouchableOpacity style={s.guardarBtn} onPress={guardar} disabled={mut.isPending}>
-          {mut.isPending ? <ActivityIndicator color="#fff" /> : <Text style={s.guardarBtnText}>Guardar signos vitales</Text>}
-        </TouchableOpacity>
-      </ScrollView>
+        <PrimaryButton label="Guardar signos vitales" onPress={guardar} disabled={mut.isPending} />
+        {mut.isPending ? <ActivityIndicator color={colors.primary} style={{ marginTop: spacing.sm }} /> : null}
+      </Screen>
     </View>
   )
 }
 
-const s = StyleSheet.create({
+const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  headerBar: { backgroundColor: colors.primary, paddingTop: 48, paddingBottom: spacing.xl, paddingHorizontal: spacing.xl, flexDirection: 'row', alignItems: 'center', gap: 12 },
-  back: { color: '#fff', fontSize: fontSize.xl, fontWeight: '300' },
-  headerTitle: { color: '#fff', fontSize: fontSize.xl, fontWeight: '700' },
-  headerSub: { color: 'rgba(255,255,255,0.75)', fontSize: fontSize.sm },
-  content: { padding: spacing.lg, paddingBottom: 32 },
-  card: {
-    backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.lg, marginBottom: spacing.sm,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
-  fieldLabel: { fontSize: fontSize.md, fontWeight: '700', color: colors.textPrimary, marginBottom: 8 },
-  unidad: { fontSize: fontSize.xs, color: colors.textSecondary, fontWeight: '400' },
-  input: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.sm, padding: 12, fontSize: fontSize.lg, fontWeight: '600', color: colors.textPrimary, backgroundColor: '#FAFAFA' },
-  guardarBtn: { backgroundColor: colors.primary, borderRadius: radius.sm, padding: 16, alignItems: 'center', marginTop: 8 },
-  guardarBtnText: { color: '#fff', fontWeight: '700', fontSize: fontSize.md },
+  card: { marginBottom: spacing.xs },
+  fieldLabel: { ...typography.bodyMedium, color: colors.textPrimary, marginBottom: 8 },
+  unidad: { ...typography.caption, color: colors.textSecondary },
+  input: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, padding: 12, ...typography.title, color: colors.textPrimary, backgroundColor: colors.background },
 })

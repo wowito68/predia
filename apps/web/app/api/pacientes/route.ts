@@ -35,16 +35,17 @@ export const GET = requireAuth(async (request: NextRequest, { user }) => {
     const offset = (page - 1) * limit
 
     let sql = `
-      SELECT 
+      SELECT
         p.*,
         pred.fecha_prediccion,
         pred.resultado,
         pred.probabilidad_diabetes,
         pred.nivel_riesgo,
-        pred.diagnostico_confirmado
+        pred.diagnostico_confirmado,
+        cons.ultima_consulta
       FROM paciente p
       LEFT JOIN (
-        SELECT 
+        SELECT
           id_paciente,
           fecha_prediccion,
           resultado,
@@ -54,6 +55,11 @@ export const GET = requireAuth(async (request: NextRequest, { user }) => {
           ROW_NUMBER() OVER (PARTITION BY id_paciente ORDER BY fecha_prediccion DESC) as rn
         FROM prediccion
       ) pred ON p.id_paciente = pred.id_paciente AND pred.rn = 1
+      LEFT JOIN (
+        SELECT id_paciente, MAX(fecha_consulta) AS ultima_consulta
+        FROM consulta_medica
+        GROUP BY id_paciente
+      ) cons ON p.id_paciente = cons.id_paciente
       WHERE p.activo = TRUE
     `
 

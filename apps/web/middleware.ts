@@ -8,12 +8,25 @@ import type { NextRequest } from "next/server"
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
+  const origin = request.headers.get("origin")
+  const corsHeaders = getCorsHeaders(origin)
+
+  if (pathname.startsWith("/api") && request.method === "OPTIONS") {
+    return new NextResponse(null, { status: 204, headers: corsHeaders })
+  }
+
+  const withCors = (response: NextResponse) => {
+    if (pathname.startsWith("/api")) {
+      Object.entries(corsHeaders).forEach(([key, value]) => response.headers.set(key, value))
+    }
+    return response
+  }
 
   // Rutas públicas (sin protección)
   const publicRoutes = ["/login", "/", "/api/auth/login", "/api/auth/login-paciente", "/api/auth/logout"]
 
   if (publicRoutes.some(route => pathname === route)) {
-    return NextResponse.next()
+    return withCors(NextResponse.next())
   }
 
   // Para rutas protegidas de frontend
@@ -36,14 +49,29 @@ export function middleware(request: NextRequest) {
 
     // Verificar que hay token
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return NextResponse.json(
+      return withCors(NextResponse.json(
         { error: "No autorizado - token faltante" },
         { status: 401 }
-      )
+      ))
     }
   }
 
-  return NextResponse.next()
+  return withCors(NextResponse.next())
+}
+
+function getCorsHeaders(origin: string | null) {
+  const allowedOrigin =
+    origin && /^(http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?)$/.test(origin)
+      ? origin
+      : "http://localhost:8082"
+
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Max-Age": "86400",
+    "Vary": "Origin",
+  }
 }
 
 export const config = {
@@ -52,4 +80,3 @@ export const config = {
     "/((?!_next/static|_next/image|favicon\\.ico|favicon\\.png|sw\\.js|workbox-.*|manifest\\.json|public/).*)",
   ],
 }
-

@@ -45,6 +45,7 @@ model Usuario {
   vacunasAplicadas       VacunaAplicada[]
   patologiasDiagnosticadas PatologiaPaciente[]
   consultasRealizadas    ConsultaMedica[]
+  citasProgramadas       Cita[]
   imagenesRegistradas    ImagenDiagnostica[]
   fracturasRegistradas   Fractura[]
   alergiasRegistradas    Alergia[]
@@ -108,6 +109,7 @@ model Paciente {
   vacunas                VacunaAplicada[]
   patologias             PatologiaPaciente[]
   consultas              ConsultaMedica[]
+  citas                  Cita[]
   imagenes               ImagenDiagnostica[]
   fracturas              Fractura[]
   alergias               Alergia[]
@@ -374,10 +376,36 @@ model ConsultaMedica {
   
   // Relación con Receta estructurada
   recetasEstructuradas Receta[]
+  cita                 Cita?
 
   @@index([id_paciente])
   @@index([id_usuario])
   @@map("consulta_medica")
+}
+
+// Agenda clínica con ciclo de vida independiente de la consulta médica.
+model Cita {
+  id_cita              Int              @id @default(autoincrement())
+  id_paciente          Int
+  id_usuario           Int
+  id_consulta          Int?             @unique
+  fecha_cita           DateTime
+  motivo               String           @db.Text
+  estado               String           @default("PROGRAMADA") @db.VarChar(20)
+  inicio_cita          DateTime?
+  fin_cita             DateTime?
+  observaciones_cierre String?          @db.Text
+  fecha_registro       DateTime         @default(now())
+  fecha_modificacion   DateTime?        @default(now()) @updatedAt
+  paciente             Paciente         @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario              Usuario          @relation(fields: [id_usuario], references: [id_usuario])
+  consulta             ConsultaMedica?  @relation(fields: [id_consulta], references: [id_consulta], onDelete: SetNull)
+
+  @@index([id_paciente])
+  @@index([id_usuario])
+  @@index([fecha_cita])
+  @@index([estado])
+  @@map("cita")
 }
 
 // Imágenes diagnósticas (radiografías, ultrasonidos, etc.)

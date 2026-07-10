@@ -40,6 +40,9 @@ export async function GET(req: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1")
     const limit = parseInt(searchParams.get("limit") || "10")
     const offset = (page - 1) * limit
+    // mysql2.execute() falla con LIMIT/OFFSET enlazados; se interpolan enteros saneados
+    const safeLimit = Number.isFinite(limit) && limit > 0 ? Math.min(limit, 100) : 10
+    const safeOffset = Number.isFinite(offset) && offset >= 0 ? offset : 0
 
     // Obtener usuarios con rol
     const usuarios = await query<Usuario & { nombre_rol: string }>(
@@ -48,9 +51,9 @@ export async function GET(req: NextRequest) {
       FROM usuario u
       LEFT JOIN rol r ON u.id_rol = r.id_rol
       ORDER BY u.fecha_registro DESC
-      LIMIT ? OFFSET ?
+      LIMIT ${safeLimit} OFFSET ${safeOffset}
     `,
-      [limit, offset],
+      [],
     )
 
     // Contar total de usuarios

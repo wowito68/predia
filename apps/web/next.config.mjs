@@ -13,16 +13,12 @@ const nextConfig = {
   // @react-pdf/renderer es ESM puro; transpilarlo permite que webpack (incl. next-pwa)
   // lo empaquete sin el error "import-esm-externals".
   transpilePackages: ['@react-pdf/renderer'],
-  // Optimizaciones de rendimiento
+  // Optimizaciones de rendimiento.
+  // optimizePackageImports ya hace tree-shaking de lucide-react de forma segura.
+  // NOTA: no añadir aquí un modularizeImports para 'lucide-react': combinar ambos
+  // rompía el prerender de producción ("Cannot read properties of undefined (reading 'call')").
   experimental: {
-    // Optimizar imports de paquetes grandes
     optimizePackageImports: ['lucide-react', '@radix-ui/react-tabs', '@radix-ui/react-select'],
-  },
-  // Reducir tiempo de compilación
-  modularizeImports: {
-    'lucide-react': {
-      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
-    },
   },
 }
 

@@ -4,8 +4,8 @@ import { usePathname, useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
 import {
-  Stethoscope, Home, UserPlus, Users, History, HelpCircle,
-  LogOut, User, CalendarDays, Settings, ChevronLeft, ChevronRight, Moon, Sun, Menu
+  Stethoscope, Home, Users, AlertTriangle, BarChart3,
+  LogOut, User, CalendarDays, Settings, ChevronLeft, ChevronRight, Moon, Sun
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -14,8 +14,9 @@ const NAV_ITEMS_ALL = [
   { href: "/dashboard", label: "Inicio", icon: Home, roles: ["Administrador", "Médico", "Enfermero"] },
   { href: "/agenda", label: "Agenda", icon: CalendarDays, roles: ["Administrador", "Médico", "Enfermero"] },
   { href: "/pacientes", label: "Pacientes", icon: Users, roles: ["Administrador", "Médico", "Enfermero"] },
+  { href: "/alertas", label: "Alertas Clínicas", icon: AlertTriangle, roles: ["Administrador", "Médico", "Enfermero"] },
+  { href: "/analitica", label: "Analítica", icon: BarChart3, roles: ["Administrador", "Médico"] },
   { href: "/configuracion", label: "Configuración", icon: Settings, roles: ["Administrador", "Médico"] },
-  { href: "/ayuda", label: "Ayuda", icon: HelpCircle, roles: ["Administrador", "Médico", "Enfermero"] },
 ]
 
 export function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: any) {
@@ -65,7 +66,7 @@ export function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: 
         {/* Header Logo */}
         <div className={`flex items-center justify-between h-16 shrink-0 border-b border-border px-4 ${collapsed ? "lg:justify-center lg:px-0" : ""}`}>
           <Link href="/dashboard" className="flex items-center space-x-3 overflow-hidden">
-            <div className="w-8 h-8 shrink-0 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 shrink-0 bg-primary rounded-md flex items-center justify-center">
               <Stethoscope className="w-5 h-5 text-white" />
             </div>
             {(!collapsed || mobileOpen) && <span className="text-xl font-bold tracking-tight text-foreground whitespace-nowrap">Predia</span>}

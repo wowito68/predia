@@ -18,11 +18,19 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CardiovascularTab } from "@/components/predictions/CardiovascularTab";
 import { MetabolicTab } from "@/components/predictions/MetabolicTab";
+import dynamic from "next/dynamic"
 import { RiskCard } from "@/components/risk/RiskCard"
-import { RiskTimeline } from "@/components/risk/RiskTimeline"
-import { PDFDownloadButton } from "@/components/pdf/PDFDownloadButton"
-import { RiskReportPDF } from "@/components/pdf/RiskReportPDF"
 import type { RiskLevel } from "@/lib/risk"
+
+// Carga diferida: recharts (RiskTimeline) y @react-pdf/renderer (PDF) fuera del bundle inicial.
+const RiskTimeline = dynamic(() => import("@/components/risk/RiskTimeline").then((m) => m.RiskTimeline), {
+  ssr: false,
+  loading: () => <div className="flex items-center gap-2 p-4 text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" />Cargando línea de tiempo…</div>,
+})
+const RiskPDFButton = dynamic(() => import("@/components/pdf/RiskPDFButton"), {
+  ssr: false,
+  loading: () => <Button variant="outline" size="sm" disabled><Loader2 className="w-4 h-4 mr-2 animate-spin" />PDF…</Button>,
+})
 import modelParams from "@/lib/ml-model-params.json"
 
 interface Prediccion {
@@ -245,7 +253,7 @@ export default function PrediccionesPage() {
       <main className="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
-            <Link href="/pacientes"><Button variant="outline"><ArrowLeft className="w-4 h-4 mr-2" />Volver</Button></Link>
+            <Link href={`/pacientes/${id}`}><Button variant="outline"><ArrowLeft className="w-4 h-4 mr-2" />Volver</Button></Link>
             <div>
               <h1 className="text-3xl font-bold text-foreground">Predicciones de Diabetes</h1>
               <p className="mt-1 text-muted-foreground">
@@ -367,26 +375,22 @@ export default function PrediccionesPage() {
                         fecha={pred.fecha_prediccion}
                       />
                       <div className="flex justify-end">
-                        <PDFDownloadButton
+                        <RiskPDFButton
                           fileName={`reporte_riesgo_${id}_${pred.id_prediccion}.pdf`}
-                          document={
-                            <RiskReportPDF
-                              paciente={{
-                                nombre: paciente?.nombre,
-                                apellido_paterno: paciente?.apellido_paterno,
-                                genero: paciente?.genero,
-                                edad: paciente?.fecha_nacimiento ? calcularEdad(paciente.fecha_nacimiento) : undefined,
-                              }}
-                              nivel={pred.nivel_riesgo}
-                              score={pred.score_riesgo ?? pred.probabilidad_diabetes}
-                              descripcion={rg?.descripcion}
-                              accionClinica={rg?.accion_clinica}
-                              contribuyen={rg?.contribuyen ?? []}
-                              protegen={rg?.protegen ?? []}
-                              recomendaciones={rg?.recomendaciones}
-                              fecha={new Date(pred.fecha_prediccion).toLocaleDateString("es-MX")}
-                            />
-                          }
+                          paciente={{
+                            nombre: paciente?.nombre,
+                            apellido_paterno: paciente?.apellido_paterno,
+                            genero: paciente?.genero,
+                            edad: paciente?.fecha_nacimiento ? calcularEdad(paciente.fecha_nacimiento) : undefined,
+                          }}
+                          nivel={pred.nivel_riesgo}
+                          score={pred.score_riesgo ?? pred.probabilidad_diabetes}
+                          descripcion={rg?.descripcion}
+                          accionClinica={rg?.accion_clinica}
+                          contribuyen={rg?.contribuyen ?? []}
+                          protegen={rg?.protegen ?? []}
+                          recomendaciones={rg?.recomendaciones}
+                          fecha={new Date(pred.fecha_prediccion).toLocaleDateString("es-MX")}
                         />
                       </div>
                       <details className="rounded-lg border border-border bg-card px-4 py-2">

@@ -5,7 +5,8 @@ import { api } from '@/services/api'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/Card'
 import { QueryState } from '@/components/QueryState'
-import { colors, spacing, radius, fontSize } from '@/theme'
+import { spacing, radius, typography, type AppColors } from '@/theme'
+import { useThemedStyles } from '@/theme/context'
 
 const fmtLong = (iso: string) =>
   new Date(iso).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
@@ -13,7 +14,8 @@ const fmtTime = (iso: string) =>
   new Date(iso).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })
 
 export function CitasScreen() {
-  const id = useAuthStore((s) => s.user?.id_paciente)
+  const s = useThemedStyles(makeStyles)
+  const id = useAuthStore((st) => st.user?.id_paciente)
   const q = useQuery({
     queryKey: ['citas', id],
     queryFn: () => api.paciente.citas(id!),
@@ -79,26 +81,26 @@ export function CitasScreen() {
   )
 }
 
-const s = StyleSheet.create({
+const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  content: { padding: spacing.lg, paddingBottom: 32 },
-  proximaCard: { backgroundColor: '#EFF6FF', borderRadius: radius.md, padding: spacing.lg, marginBottom: spacing.md, borderWidth: 1, borderColor: '#BFDBFE' },
-  proximaTag: { fontSize: fontSize.xs, color: colors.primary, fontWeight: '600', marginBottom: 4 },
-  proximaFecha: { fontSize: fontSize.xl, fontWeight: '700', color: colors.textPrimary, textTransform: 'capitalize' },
-  proximaInfo: { fontSize: fontSize.sm, color: colors.textSecondary, marginTop: 4, marginBottom: 16 },
+  content: { padding: spacing.md, paddingBottom: 32 },
+  proximaCard: { backgroundColor: colors.infoBg, borderRadius: radius.md, padding: spacing.lg, marginBottom: spacing.md, borderWidth: 1, borderColor: colors.border },
+  proximaTag: { ...typography.overline, color: colors.primary, marginBottom: 4 },
+  proximaFecha: { ...typography.title, color: colors.textPrimary, textTransform: 'capitalize' },
+  proximaInfo: { ...typography.caption, color: colors.textSecondary, marginTop: 4, marginBottom: 16 },
   btnRow: { flexDirection: 'row', gap: 12 },
-  btnConfirmar: { backgroundColor: colors.primary, borderRadius: radius.sm, paddingHorizontal: 16, paddingVertical: 10 },
-  btnConfirmarText: { color: '#fff', fontWeight: '700', fontSize: fontSize.sm },
-  btnCancelar: { borderRadius: radius.sm, paddingHorizontal: 16, paddingVertical: 10 },
-  btnCancelarText: { color: colors.error, fontWeight: '700', fontSize: fontSize.sm },
-  sectionTitle: { fontSize: fontSize.md, fontWeight: '700', color: colors.textPrimary, marginBottom: spacing.sm },
+  btnConfirmar: { backgroundColor: colors.primary, borderRadius: radius.md, paddingHorizontal: 16, paddingVertical: 10 },
+  btnConfirmarText: { ...typography.caption, color: colors.surface },
+  btnCancelar: { borderRadius: radius.md, paddingHorizontal: 16, paddingVertical: 10 },
+  btnCancelarText: { ...typography.caption, color: colors.error },
+  sectionTitle: { ...typography.bodyMedium, color: colors.textPrimary, marginBottom: spacing.sm },
   histItem: { flexDirection: 'row', alignItems: 'center' },
-  histFecha: { fontSize: fontSize.sm, fontWeight: '600', color: colors.textPrimary, textTransform: 'capitalize' },
-  histDoc: { fontSize: fontSize.sm, color: colors.textSecondary, marginTop: 2 },
-  histHora: { fontSize: fontSize.sm, fontWeight: '700', color: colors.primary },
+  histFecha: { ...typography.caption, color: colors.textPrimary, textTransform: 'capitalize' },
+  histDoc: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
+  histHora: { ...typography.caption, color: colors.primary },
   recordatorioCard: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.lg, flexDirection: 'row', alignItems: 'flex-start', gap: 12, borderWidth: 1, borderColor: colors.border, marginTop: spacing.md },
   rBadge: { width: 36, height: 36, borderRadius: 18, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
-  rBadgeText: { color: '#fff', fontWeight: '700', fontSize: fontSize.md },
-  rTitle: { fontSize: fontSize.sm, fontWeight: '700', color: colors.textPrimary },
-  rSub: { fontSize: fontSize.xs, color: colors.textSecondary, marginTop: 2 },
+  rBadgeText: { ...typography.bodyMedium, color: colors.surface },
+  rTitle: { ...typography.caption, color: colors.textPrimary },
+  rSub: { ...typography.overline, color: colors.textSecondary, marginTop: 2 },
 })
