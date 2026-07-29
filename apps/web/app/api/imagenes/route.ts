@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { verifyToken } from "@/lib/auth"
 
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024
+const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"])
+
 // GET - Listar imágenes diagnósticas
 export async function GET(request: NextRequest) {
     try {
@@ -75,12 +78,25 @@ export async function POST(request: NextRequest) {
                 error: "Faltan campos requeridos: id_paciente, tipo_imagen, region_anatomica"
             }, { status: 400 })
         }
+        const pacienteId = Number(id_paciente)
+        if (!Number.isInteger(pacienteId) || pacienteId <= 0) {
+            return NextResponse.json({ success: false, error: "Paciente inválido" }, { status: 400 })
+        }
+        if (tipo_imagen.length > 50 || region_anatomica.length > 100) {
+            return NextResponse.json({ success: false, error: "Tipo o región exceden la longitud permitida" }, { status: 400 })
+        }
 
         let archivo_data: Buffer | null = null
         let archivo_nombre: string | null = null
         let archivo_tipo: string | null = null
 
         if (archivo) {
+            if (!ALLOWED_IMAGE_TYPES.has(archivo.type)) {
+                return NextResponse.json({ success: false, error: "Tipo de archivo no permitido" }, { status: 415 })
+            }
+            if (archivo.size > MAX_IMAGE_BYTES) {
+                return NextResponse.json({ success: false, error: "Archivo demasiado grande; máximo 5 MB" }, { status: 413 })
+            }
             const arrayBuffer = await archivo.arrayBuffer()
             archivo_data = Buffer.from(arrayBuffer)
             archivo_nombre = archivo.name
@@ -89,7 +105,7 @@ export async function POST(request: NextRequest) {
 
         const imagen = await prisma.imagenDiagnostica.create({
             data: {
-                id_paciente: parseInt(id_paciente),
+                id_paciente: pacienteId,
                 id_usuario: user.id_usuario,
                 tipo_imagen,
                 region_anatomica,

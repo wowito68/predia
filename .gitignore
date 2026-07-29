@@ -9,6 +9,11 @@
 
 # production
 /build
+**/dist-web/
+
+# runtime/local evidence helpers
+.tmp/
+backups/
 
 # debug
 npm-debug.log*

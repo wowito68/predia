@@ -1,7 +1,29 @@
 import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
 import { prisma } from "@/lib/prisma"
 import { verifyToken } from "@/lib/auth"
 import { logAudit } from "@/lib/audit"
+
+const medicamentoSchema = z.object({
+    nombre: z.string().trim().min(2).max(120),
+    dosis: z.string().trim().max(80).optional().or(z.literal("")),
+    frecuencia: z.string().trim().max(80).optional().or(z.literal("")),
+    duracion: z.string().trim().max(80).optional().or(z.literal("")),
+}).strict()
+
+const recetaSchema = z.object({
+    id_paciente: z.coerce.number().int().positive(),
+    id_consulta: z.coerce.number().int().positive().optional().nullable(),
+    medicamentos: z.preprocess((value) => {
+        if (typeof value !== "string") return value
+        try {
+            return JSON.parse(value)
+        } catch {
+            return value
+        }
+    }, z.array(medicamentoSchema).min(1).max(20)),
+    instrucciones: z.string().trim().max(2000).optional().nullable(),
+}).strict()
 
 // GET - Listar recetas
 export async function GET(request: NextRequest) {
@@ -43,21 +65,22 @@ export async function POST(request: NextRequest) {
         const user = await verifyToken(token)
         if (!user) return NextResponse.json({ success: false, error: "Token inválido" }, { status: 401 })
 
-        const body = await request.json()
-        const { id_paciente, id_consulta, medicamentos, instrucciones } = body
-
-        // Validar campos requeridos
-        if (!id_paciente || !medicamentos) {
+        const validation = recetaSchema.safeParse(await request.json())
+        if (!validation.success) {
             return NextResponse.json(
-                { success: false, error: "Faltan campos requeridos: id_paciente y medicamentos son obligatorios" },
-                { status: 400 }
+                { success: false, error: "Datos inválidos", details: validation.error.errors },
+                { status: 400 },
             )
         }
+        const { id_paciente, id_consulta, medicamentos, instrucciones } = validation.data
 
         const paciente = await prisma.paciente.findUnique({
-            where: { id_paciente: parseInt(id_paciente) },
+            where: { id_paciente },
             select: { nombre: true, apellido_paterno: true, fecha_nacimiento: true, genero: true }
         });
+        if (!paciente) {
+            return NextResponse.json({ success: false, error: "Paciente no encontrado" }, { status: 404 })
+        }
 
         const datos_paciente = JSON.stringify(paciente || {});
         const datos_medico = JSON.stringify({
@@ -71,8 +94,8 @@ export async function POST(request: NextRequest) {
         if (id_consulta) {
             const consulta = await prisma.consultaMedica.findFirst({
                 where: {
-                    id_consulta: parseInt(id_consulta),
-                    id_paciente: parseInt(id_paciente),
+                    id_consulta,
+                    id_paciente,
                 },
                 select: { id_consulta: true },
             });
@@ -87,10 +110,10 @@ export async function POST(request: NextRequest) {
 
         const receta = await prisma.receta.create({
             data: {
-                id_paciente: parseInt(id_paciente),
+                id_paciente,
                 id_usuario: user.id_usuario,
                 id_consulta: consultaId,
-                medicamentos: typeof medicamentos === 'string' ? medicamentos : JSON.stringify(medicamentos),
+                medicamentos: JSON.stringify(medicamentos),
                 instrucciones: instrucciones || null,
                 datos_medico,
                 datos_paciente

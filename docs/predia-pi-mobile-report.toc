@@ -1,36 +1,48 @@
 \babel@toc {spanish}{}\relax 
-\contentsline {chapter}{Resumen}{i}{chapter*.1}%
-\contentsline {chapter}{\numberline {1}Antecedentes}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Tema del proyecto}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Contexto clínico y tecnológico}{2}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Situación previa de PREDIA}{2}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Antecedente de requisitos móviles}{3}{section.1.4}%
-\contentsline {chapter}{\numberline {2}Definición del proyecto}{4}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Planteamiento del problema}{4}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Justificación}{5}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Valor para el paciente}{5}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Valor para el personal médico}{5}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Aprovechamiento de capacidades nativas}{5}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Reutilización de la inversión tecnológica}{5}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}Continuidad clínica y prevención}{6}{subsection.2.2.5}%
-\contentsline {section}{\numberline {2.3}Alcances y restricciones}{6}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Alcances}{6}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Restricciones}{7}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}Objetivo general}{8}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Objetivos específicos}{8}{section.2.5}%
-\contentsline {chapter}{\numberline {3}Desarrollo de las etapas}{10}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Primera etapa del proyecto}{10}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Análisis de la solución existente}{10}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Definición de roles y requisitos}{10}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Arquitectura tecnológica}{11}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Diseño de interfaces y navegación}{11}{subsection.3.1.4}%
-\contentsline {subsection}{\numberline {3.1.5}Entregables de la primera etapa}{11}{subsection.3.1.5}%
-\contentsline {section}{\numberline {3.2}Segunda etapa del proyecto}{12}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Construcción del proyecto móvil}{12}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Integración de autenticación}{12}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Flujo del médico}{13}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Flujo del paciente}{13}{subsection.3.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Pruebas realizadas}{13}{subsection.3.2.5}%
-\contentsline {subsection}{\numberline {3.2.6}Estado de cumplimiento al cierre de la segunda etapa}{14}{subsection.3.2.6}%
-\contentsline {section}{\numberline {3.3}Resultado de las dos primeras etapas}{15}{section.3.3}%
-\contentsline {chapter}{Referencias}{16}{chapter*.5}%
+\contentsline {chapter}{Resumen}{2}{chapter*.1}%
+\contentsline {chapter}{ABSTRACT}{3}{chapter*.2}%
+\contentsline {chapter}{Tabla de ilustraciones}{6}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}Antecedentes}{7}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Tema del proyecto}{7}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Contexto clínico y tecnológico}{8}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Situación previa de PREDIA}{8}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Antecedente de requisitos móviles}{9}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Marco teórico}{10}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Salud móvil}{10}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Expediente clínico y continuidad de atención}{10}{section.2.2}%
+\contentsline {section}{\numberline {2.3}React Native, Expo y arquitectura móvil}{11}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Usabilidad en sistemas clínicos}{11}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Inteligencia Artificial como apoyo clínico}{11}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Definición del proyecto}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Planteamiento del problema}{12}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Justificación}{13}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Valor para el paciente}{13}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Valor para el personal médico}{13}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Aprovechamiento de capacidades nativas}{13}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Reutilización de la inversión tecnológica}{13}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Continuidad clínica y prevención}{13}{subsection.3.2.5}%
+\contentsline {section}{\numberline {3.3}Alcances y restricciones}{14}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Alcances}{14}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Restricciones}{15}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Objetivo general}{16}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Objetivos específicos}{16}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Desarrollo del proyecto}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Desarrollo de las etapas}{18}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Primera etapa del proyecto}{18}{subsection.4.1.1}%
+\contentsline {subsubsection}{Análisis de la solución existente}{18}{subsubsection*.6}%
+\contentsline {subsubsection}{Definición de roles y requisitos}{18}{subsubsection*.7}%
+\contentsline {subsubsection}{Arquitectura tecnológica}{19}{subsubsection*.9}%
+\contentsline {subsubsection}{Diseño de interfaces y navegación}{19}{subsubsection*.10}%
+\contentsline {subsubsection}{Entregables de la primera etapa}{20}{subsubsection*.12}%
+\contentsline {subsection}{\numberline {4.1.2}Segunda etapa del proyecto}{21}{subsection.4.1.2}%
+\contentsline {subsubsection}{Construcción del proyecto móvil}{21}{subsubsection*.13}%
+\contentsline {subsubsection}{Integración de autenticación}{21}{subsubsection*.14}%
+\contentsline {subsubsection}{Flujo del médico}{21}{subsubsection*.15}%
+\contentsline {subsubsection}{Flujo del paciente}{22}{subsubsection*.16}%
+\contentsline {subsubsection}{Pruebas realizadas}{22}{subsubsection*.17}%
+\contentsline {subsubsection}{Evidencias visuales de la aplicación móvil}{23}{subsubsection*.19}%
+\contentsline {subsubsection}{Estado de cumplimiento al cierre de la segunda etapa}{23}{subsubsection*.25}%
+\contentsline {section}{\numberline {4.2}Análisis de los resultados}{24}{section.4.2}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{31}{chapter.5}%
+\contentsline {chapter}{REFERENCIAS Y BIBLIOGRAFÍA}{32}{chapter*.26}%
+\contentsline {chapter}{ANEXOS}{33}{chapter*.27}%

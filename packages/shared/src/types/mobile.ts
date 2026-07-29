@@ -141,7 +141,7 @@ export interface AgendaItem {
   fecha_cita: string
   motivo_consulta: string
   motivo: string
-  estado: "PROGRAMADA" | "EN_CURSO" | "FINALIZADA" | string
+  estado: "PROGRAMADA" | "EN_CURSO" | "FINALIZADA" | "CANCELADA" | string
   inicio_cita: string | null
   fin_cita: string | null
   paciente: {

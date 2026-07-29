@@ -1,32 +1,29 @@
-import { ScrollView, View, Text, StyleSheet } from 'react-native'
+import { useState } from 'react'
+import { ActivityIndicator, Pressable, ScrollView, View, Text, StyleSheet } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { useAuthStore } from '@/store/authStore'
 import { api } from '@/services/api'
-import type { Medicamento, RecetaResumen } from '@predia/shared'
+import type { RecetaResumen } from '@predia/shared'
+import { parseMedicamentos, printHtml, recetaHtml, sharePdf, showPdfError } from '@/services/pdf'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/Card'
 import { Badge } from '@/components/Badge'
 import { QueryState } from '@/components/QueryState'
-import { spacing, typography, type AppColors } from '@/theme'
-import { useThemedStyles } from '@/theme/context'
-
-const parseMeds = (m: RecetaResumen['medicamentos']): Medicamento[] => {
-  if (!m) return []
-  if (Array.isArray(m)) return m
-  try {
-    const p = JSON.parse(m as string)
-    return Array.isArray(p) ? p : [{ nombre: String(m) }]
-  } catch {
-    return [{ nombre: String(m) }]
-  }
-}
+import { Ionicons } from '@/components/ui'
+import { spacing, radius, typography, type AppColors } from '@/theme'
+import { useTheme, useThemedStyles } from '@/theme/context'
 
 const estadoVariant = (e: string) =>
   e === 'Activa' ? 'success' : e === 'Cancelada' ? 'error' : 'info'
 
+type PdfBusy = { id: number; action: 'print' | 'share' } | null
+
 export function RecetasScreen() {
+  const { colors } = useTheme()
   const s = useThemedStyles(makeStyles)
-  const id = useAuthStore((st) => st.user?.id_paciente)
+  const user = useAuthStore((st) => st.user)
+  const id = user?.id_paciente
+  const [pdfBusy, setPdfBusy] = useState<PdfBusy>(null)
 
   const q = useQuery({
     queryKey: ['recetas', id],
@@ -35,6 +32,19 @@ export function RecetasScreen() {
   })
 
   const recetas = q.data ?? []
+
+  const runPdf = async (receta: RecetaResumen, action: 'print' | 'share') => {
+    setPdfBusy({ id: receta.id_receta, action })
+    try {
+      const html = recetaHtml(receta, user?.nombre)
+      if (action === 'print') await printHtml(html)
+      else await sharePdf(`Receta PREDIA ${receta.id_receta}`, html)
+    } catch (error) {
+      showPdfError(error)
+    } finally {
+      setPdfBusy(null)
+    }
+  }
 
   return (
     <View style={s.root}>
@@ -49,7 +59,9 @@ export function RecetasScreen() {
       >
         <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
           {recetas.map((r) => {
-            const meds = parseMeds(r.medicamentos)
+            const meds = parseMedicamentos(r.medicamentos)
+            const printing = pdfBusy?.id === r.id_receta && pdfBusy.action === 'print'
+            const sharing = pdfBusy?.id === r.id_receta && pdfBusy.action === 'share'
             return (
               <Card key={r.id_receta}>
                 <View style={s.medHeader}>
@@ -77,7 +89,19 @@ export function RecetasScreen() {
                 {r.instrucciones ? <Text style={s.instr}>Indicaciones: {r.instrucciones}</Text> : null}
 
                 <View style={s.divider} />
-                <Text style={s.footerLabel}>{r.estado === 'Activa' ? 'Tratamiento activo' : `Estado: ${r.estado}`}</Text>
+                <View style={s.footerRow}>
+                  <Text style={s.footerLabel}>{r.estado === 'Activa' ? 'Tratamiento activo' : `Estado: ${r.estado}`}</Text>
+                  <View style={s.pdfActions}>
+                    <Pressable style={({ pressed }) => [s.pdfButton, pressed && s.pressed]} onPress={() => runPdf(r, 'print')} disabled={!!pdfBusy}>
+                      {printing ? <ActivityIndicator size="small" color={colors.textSecondary} /> : <Ionicons name="printer" size={15} color={colors.textSecondary} />}
+                      <Text style={s.pdfButtonText}>Imprimir</Text>
+                    </Pressable>
+                    <Pressable style={({ pressed }) => [s.pdfButton, s.pdfPrimary, pressed && s.pressed]} onPress={() => runPdf(r, 'share')} disabled={!!pdfBusy}>
+                      {sharing ? <ActivityIndicator size="small" color="#FFFFFF" /> : <Ionicons name="share-2" size={15} color="#FFFFFF" />}
+                      <Text style={s.pdfPrimaryText}>PDF</Text>
+                    </Pressable>
+                  </View>
+                </View>
               </Card>
             )
           })}
@@ -101,4 +125,11 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   instr: { ...typography.caption, color: colors.textSecondary, marginTop: 8 },
   divider: { height: 1, backgroundColor: colors.border, marginVertical: 12 },
   footerLabel: { ...typography.caption, color: colors.textSecondary },
+  footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
+  pdfActions: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
+  pdfButton: { minHeight: 34, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong, paddingHorizontal: spacing.sm, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  pdfPrimary: { backgroundColor: colors.primary, borderColor: colors.primary },
+  pdfButtonText: { ...typography.caption, color: colors.textSecondary },
+  pdfPrimaryText: { ...typography.caption, color: '#FFFFFF' },
+  pressed: { opacity: 0.72 },
 })

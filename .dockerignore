@@ -1,11 +1,20 @@
 # Dependencias (se instalan dentro del contenedor)
 node_modules
+**/node_modules
 .pnpm-store
 
 # Build artifacts de Next.js
 .next
+**/.next
 out
 build
+**/dist
+**/dist-web
+**/.expo
+**/.turbo
+.tmp
+reports
+evidence
 
 # Git
 .git
@@ -17,7 +26,15 @@ build
 
 # Documentación y vistas de diseño
 vistas/
+docs/
+paper/
+Formato Proyecto/
+_archive_unused/
+ml-research/
 *.md
+*.pdf
+*.docx
+*.csv
 LICENSE
 
 # Logs
@@ -33,9 +50,12 @@ server.log
 Thumbs.db
 
 # Archivos innecesarios para el build
+apps/mobile/
 n8n-workflow-*.json
 Dataset*.csv
+diabetes_dataset.csv
 ecosystem.config.js
 setup-database.sql
 setup.sh
 tsconfig.tsbuildinfo
+*.pem

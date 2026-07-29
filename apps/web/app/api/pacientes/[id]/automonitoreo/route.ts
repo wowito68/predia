@@ -36,10 +36,25 @@ export const GET = requirePacienteSelf(async (request: NextRequest, { params }) 
 
 const createSchema = z.object({
   tipo: z.enum(["glucosa", "peso", "presion"]),
-  valor: z.number().positive(),
-  valor_secundario: z.number().positive().optional(),
-  unidad: z.string().max(20).optional(),
-  notas: z.string().optional(),
+  valor: z.coerce.number().positive(),
+  valor_secundario: z.coerce.number().positive().optional(),
+  unidad: z.string().trim().max(20).optional(),
+  notas: z.string().trim().max(1000).optional(),
+}).strict().superRefine((data, ctx) => {
+  if (data.tipo === "glucosa" && (data.valor < 20 || data.valor > 600)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["valor"], message: "Glucosa fuera de rango clínico esperado (20-600)" })
+  }
+  if (data.tipo === "peso" && (data.valor < 1 || data.valor > 500)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["valor"], message: "Peso fuera de rango esperado (1-500 kg)" })
+  }
+  if (data.tipo === "presion") {
+    if (data.valor < 50 || data.valor > 260) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["valor"], message: "Presión sistólica fuera de rango (50-260)" })
+    }
+    if (data.valor_secundario == null || data.valor_secundario < 30 || data.valor_secundario > 180) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["valor_secundario"], message: "Presión diastólica fuera de rango (30-180)" })
+    }
+  }
 })
 
 // POST — el paciente registra una medición propia

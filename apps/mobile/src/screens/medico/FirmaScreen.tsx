@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import * as LocalAuthentication from 'expo-local-authentication'
 import { useRoute, useNavigation } from '@react-navigation/native'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api, RecetaInput } from '@/services/api'
 import { Badge } from '@/components/Badge'
 import { Screen, ScreenHeader } from '@/components/Screen'
-import { PremiumCard, PrimaryButton } from '@/components/ui'
+import { EmptyState, FeedbackBanner, PremiumCard, PrimaryButton } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
@@ -17,14 +17,21 @@ export function FirmaScreen() {
   const nav = useNavigation<any>()
   const { colors } = useTheme()
   const s = useThemedStyles(makeStyles)
+  const qc = useQueryClient()
   const idPaciente: number | undefined = route.params?.idPaciente
   const nombre: string = route.params?.nombre ?? 'Paciente'
 
   const [meds, setMeds] = useState<MedRow[]>([])
   const [draft, setDraft] = useState<MedRow>({ nombre: '', dosis: '', frecuencia: '' })
   const [instrucciones, setInstrucciones] = useState('')
+  const [saved, setSaved] = useState(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const mut = useMutation({ mutationFn: (input: RecetaInput) => api.medico.crearReceta(input) })
+
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+  }, [])
 
   const addMed = () => {
     if (!draft.nombre.trim()) { Alert.alert('Falta nombre', 'Indica el medicamento.'); return }
@@ -37,7 +44,15 @@ export function FirmaScreen() {
     mut.mutate(
       { id_paciente: idPaciente, medicamentos: meds, instrucciones: instrucciones.trim() || undefined },
       {
-        onSuccess: () => Alert.alert('Receta firmada', `Receta de ${nombre} firmada y registrada.`, [{ text: 'OK', onPress: () => nav.goBack() }]),
+        onSuccess: async () => {
+          await Promise.all([
+            qc.invalidateQueries({ queryKey: ['recetas', idPaciente] }),
+            qc.invalidateQueries({ queryKey: ['expediente', idPaciente] }),
+            qc.invalidateQueries({ queryKey: ['clinical-snapshot', idPaciente] }),
+          ])
+          setSaved(true)
+          closeTimer.current = setTimeout(() => nav.goBack(), 900)
+        },
         onError: (e: any) => Alert.alert('Error', e?.message ?? 'No se pudo emitir la receta'),
       },
     )
@@ -67,18 +82,23 @@ export function FirmaScreen() {
     <View style={s.root}>
       <ScreenHeader title="Firma de receta" subtitle={nombre} onBack={() => nav.goBack()} />
       <Screen scroll padded>
+        {saved ? <FeedbackBanner title="Receta emitida" subtitle={`Receta de ${nombre} firmada y registrada.`} tone="success" /> : null}
         <Text style={s.sectionTitle}>Medicamentos</Text>
-        {meds.map((m, i) => (
-          <PremiumCard key={i} style={s.medCard}>
-            <View style={{ flex: 1 }}>
-              <Text style={s.medName}>{m.nombre}</Text>
-              <Text style={s.medMeta}>{[m.dosis, m.frecuencia].filter(Boolean).join(' · ')}</Text>
-            </View>
-            <TouchableOpacity onPress={() => setMeds((arr) => arr.filter((_, j) => j !== i))}>
-              <Text style={s.remove}>✕</Text>
-            </TouchableOpacity>
-          </PremiumCard>
-        ))}
+        {meds.length === 0 ? (
+          <EmptyState icon="medkit-outline" title="Sin medicamentos agregados" subtitle="Agrega al menos un medicamento antes de firmar la receta." />
+        ) : (
+          meds.map((m, i) => (
+            <PremiumCard key={i} style={s.medCard}>
+              <View style={{ flex: 1 }}>
+                <Text style={s.medName}>{m.nombre}</Text>
+                <Text style={s.medMeta}>{[m.dosis, m.frecuencia].filter(Boolean).join(' · ')}</Text>
+              </View>
+              <TouchableOpacity onPress={() => setMeds((arr) => arr.filter((_, j) => j !== i))}>
+                <Text style={s.remove}>x</Text>
+              </TouchableOpacity>
+            </PremiumCard>
+          ))
+        )}
 
         <PremiumCard style={s.draftCard}>
           <TextInput style={s.input} placeholder="Medicamento (ej. Metformina)" placeholderTextColor={colors.textMuted} value={draft.nombre} onChangeText={(v) => setDraft((d) => ({ ...d, nombre: v }))} />
@@ -96,7 +116,7 @@ export function FirmaScreen() {
           <Text style={s.firmaRequerida}>Firma requerida</Text>
           <Badge label={`${meds.length} medicamento(s)`} variant="info" />
         </View>
-        <PrimaryButton label="Firmar con biometría y emitir" icon="finger-print" onPress={firmar} disabled={mut.isPending} />
+        <PrimaryButton label={saved ? 'Receta emitida' : 'Firmar con biometría y emitir'} icon="finger-print" onPress={firmar} disabled={mut.isPending || saved} />
         {mut.isPending ? <ActivityIndicator color={colors.primary} style={{ marginTop: spacing.sm }} /> : <Text style={s.firmaBtnSub}>Huella / Face ID o confirmacion manual de demo</Text>}
       </Screen>
     </View>

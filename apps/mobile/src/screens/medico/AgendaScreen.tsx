@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   ActivityIndicator,
   Alert,
@@ -17,7 +17,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { AgendaItem } from '@predia/shared'
 import { api, type PacienteListItem } from '@/services/api'
 import { ScreenHeader } from '@/components/Screen'
-import { Avatar, CardSkeleton, EmptyState, Ionicons, StatusBadge } from '@/components/ui'
+import { Avatar, CardSkeleton, EmptyState, FeedbackBanner, Ionicons, StatusBadge } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
@@ -38,6 +38,37 @@ function inputDate(daysAhead = 1) {
   return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-')
 }
 
+function dateInputFromDate(date: Date) {
+  return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-')
+}
+
+function timeInputFromDate(date: Date) {
+  return [String(date.getHours()).padStart(2, '0'), String(date.getMinutes()).padStart(2, '0')].join(':')
+}
+
+function buildDateTime(date: string, time: string) {
+  const parsed = new Date(`${date}T${time}:00`)
+  return Number.isNaN(parsed.getTime()) ? null : parsed
+}
+
+function appointmentPerson(appointment: AgendaItem) {
+  return `${appointment.paciente.nombre} ${appointment.paciente.apellido_paterno}`
+}
+
+function findPatientConflict(appointments: AgendaItem[], patientId: number, date: Date, excludeId?: number) {
+  const target = date.getTime()
+  return appointments.find((item) => (
+    item.id_cita !== excludeId
+    && ['PROGRAMADA', 'EN_CURSO'].includes(item.estado)
+    && item.paciente.id_paciente === patientId
+    && Math.abs(new Date(item.fecha_cita).getTime() - target) < 60_000
+  ))
+}
+
+type AgendaAction = 'INICIAR' | 'FINALIZAR' | 'EDITAR' | 'REAGENDAR' | 'CANCELAR'
+type EditState = { appointment: AgendaItem; mode: 'EDITAR' | 'REAGENDAR' }
+type AgendaFeedback = { title: string; subtitle?: string; tone?: 'success' | 'info' | 'warning' | 'danger' }
+
 export function AgendaScreen() {
   const navigation = useNavigation<any>()
   const queryClient = useQueryClient()
@@ -45,14 +76,34 @@ export function AgendaScreen() {
   const s = useThemedStyles(makeStyles)
   const [createOpen, setCreateOpen] = useState(false)
   const [finishing, setFinishing] = useState<AgendaItem | null>(null)
+  const [managing, setManaging] = useState<AgendaItem | null>(null)
+  const [editing, setEditing] = useState<EditState | null>(null)
+  const [cancelling, setCancelling] = useState<AgendaItem | null>(null)
+  const [feedback, setFeedback] = useState<AgendaFeedback | null>(null)
   const agendaQuery = useQuery({ queryKey: ['agenda'], queryFn: () => api.medico.agenda(), staleTime: 20_000 })
   const appointments = agendaQuery.data ?? []
 
   const lifecycle = useMutation({
-    mutationFn: ({ id, action, observations }: { id: number; action: 'INICIAR' | 'FINALIZAR'; observations?: FinishValues }) =>
+    mutationFn: ({
+      id,
+      action,
+      observations,
+      observaciones,
+      fecha,
+      motivo,
+    }: {
+      id: number
+      action: AgendaAction
+      observations?: FinishValues
+      observaciones?: string
+      fecha?: string
+      motivo?: string
+    }) =>
       api.medico.actualizarCita(id, {
         action,
-        observaciones: observations?.observaciones,
+        fecha,
+        motivo,
+        observaciones: observations?.observaciones ?? observaciones,
         diagnostico: observations?.diagnostico,
         tratamiento: observations?.tratamiento,
       }),
@@ -61,10 +112,17 @@ export function AgendaScreen() {
         queryClient.invalidateQueries({ queryKey: ['agenda'] }),
         queryClient.invalidateQueries({ queryKey: ['clinical-alerts'] }),
       ])
-      if (variables.action === 'INICIAR') Alert.alert('Consulta iniciada', 'La cita quedó marcada como en curso.')
-      else {
+      if (variables.action === 'INICIAR') {
+        setFeedback({ title: 'Consulta iniciada', subtitle: 'La cita quedó marcada como en curso.', tone: 'info' })
+      } else if (variables.action === 'FINALIZAR') {
         setFinishing(null)
-        Alert.alert('Consulta finalizada', 'La atención y su nota de cierre quedaron registradas.')
+        setFeedback({ title: 'Consulta finalizada', subtitle: 'La atención y su nota de cierre quedaron registradas.', tone: 'success' })
+      } else if (variables.action === 'CANCELAR') {
+        setCancelling(null)
+        setFeedback({ title: 'Cita cancelada', subtitle: 'La agenda se actualizó y el horario quedó liberado.', tone: 'warning' })
+      } else {
+        setEditing(null)
+        setFeedback({ title: variables.action === 'REAGENDAR' ? 'Cita reagendada' : 'Cita actualizada', subtitle: 'Los cambios quedaron sincronizados con la agenda.', tone: 'success' })
       }
     },
     onError: (error: any) => Alert.alert('No se pudo actualizar', error?.message ?? 'Intenta nuevamente.'),
@@ -115,12 +173,15 @@ export function AgendaScreen() {
           onRefresh={agendaQuery.refetch}
           stickySectionHeadersEnabled={false}
           ListHeaderComponent={
-            <View style={s.summary}>
-              <SummaryMetric label="Hoy" value={today} color={colors.info} />
-              <View style={s.summaryDivider} />
-              <SummaryMetric label="En curso" value={inProgress} color={colors.coral} />
-              <View style={s.summaryDivider} />
-              <SummaryMetric label="Programadas" value={appointments.length - inProgress} color={colors.accent} />
+            <View>
+              {feedback ? <FeedbackBanner title={feedback.title} subtitle={feedback.subtitle} tone={feedback.tone} style={s.feedbackBanner} /> : null}
+              <View style={s.summary}>
+                <SummaryMetric label="Hoy" value={today} color={colors.info} />
+                <View style={s.summaryDivider} />
+                <SummaryMetric label="En curso" value={inProgress} color={colors.coral} />
+                <View style={s.summaryDivider} />
+                <SummaryMetric label="Programadas" value={appointments.length - inProgress} color={colors.accent} />
+              </View>
             </View>
           }
           renderSectionHeader={({ section }) => (
@@ -141,6 +202,7 @@ export function AgendaScreen() {
               })}
               onStart={() => startAppointment(item)}
               onFinish={() => setFinishing(item)}
+              onManage={() => setManaging(item)}
             />
           )}
           ListEmptyComponent={
@@ -153,7 +215,41 @@ export function AgendaScreen() {
         />
       )}
 
-      <CreateAppointmentModal open={createOpen} onClose={() => setCreateOpen(false)} />
+      <CreateAppointmentModal
+        open={createOpen}
+        appointments={appointments}
+        onClose={() => setCreateOpen(false)}
+        onCreated={() => setFeedback({ title: 'Cita programada', subtitle: 'El registro quedó disponible en la agenda móvil.', tone: 'success' })}
+      />
+      <ManageAppointmentModal
+        appointment={managing}
+        onClose={() => setManaging(null)}
+        onEdit={() => {
+          if (managing) setEditing({ appointment: managing, mode: 'EDITAR' })
+          setManaging(null)
+        }}
+        onReschedule={() => {
+          if (managing) setEditing({ appointment: managing, mode: 'REAGENDAR' })
+          setManaging(null)
+        }}
+        onCancel={() => {
+          if (managing) setCancelling(managing)
+          setManaging(null)
+        }}
+      />
+      <EditAppointmentModal
+        state={editing}
+        appointments={appointments}
+        pending={lifecycle.isPending}
+        onClose={() => setEditing(null)}
+        onSubmit={(values) => editing && lifecycle.mutate({ id: editing.appointment.id_cita, action: editing.mode, ...values })}
+      />
+      <CancelAppointmentModal
+        appointment={cancelling}
+        pending={lifecycle.isPending}
+        onClose={() => setCancelling(null)}
+        onSubmit={(observaciones) => cancelling && lifecycle.mutate({ id: cancelling.id_cita, action: 'CANCELAR', observaciones })}
+      />
       <FinishAppointmentModal
         appointment={finishing}
         pending={lifecycle.isPending}
@@ -182,6 +278,7 @@ function AppointmentRow({
   onPatient,
   onStart,
   onFinish,
+  onManage,
 }: {
   appointment: AgendaItem
   first: boolean
@@ -190,11 +287,13 @@ function AppointmentRow({
   onPatient: () => void
   onStart: () => void
   onFinish: () => void
+  onManage: () => void
 }) {
   const { colors } = useTheme()
   const s = useThemedStyles(makeStyles)
   const time = new Date(appointment.fecha_cita).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: false })
   const inProgress = appointment.estado === 'EN_CURSO'
+  const canManage = appointment.estado === 'PROGRAMADA'
   return (
     <View style={[s.row, first && s.rowFirst, last && s.rowLast, !first && s.rowDivider]}>
       <View style={s.rowMain}>
@@ -217,6 +316,12 @@ function AppointmentRow({
           <Ionicons name="file-text" size={16} color={colors.textSecondary} />
           <Text style={s.secondaryActionText}>Expediente</Text>
         </Pressable>
+        {canManage ? (
+          <Pressable style={({ pressed }) => [s.secondaryAction, pressed && s.pressed]} onPress={onManage}>
+            <Ionicons name="more-horizontal" size={16} color={colors.textSecondary} />
+            <Text style={s.secondaryActionText}>Gestionar</Text>
+          </Pressable>
+        ) : null}
         <Pressable
           style={({ pressed }) => [s.primaryAction, inProgress && s.finishAction, pressed && s.pressed]}
           onPress={inProgress ? onFinish : onStart}
@@ -230,7 +335,17 @@ function AppointmentRow({
   )
 }
 
-function CreateAppointmentModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+function CreateAppointmentModal({
+  open,
+  appointments,
+  onClose,
+  onCreated,
+}: {
+  open: boolean
+  appointments: AgendaItem[]
+  onClose: () => void
+  onCreated?: (appointment: AgendaItem) => void
+}) {
   const queryClient = useQueryClient()
   const { colors } = useTheme()
   const s = useThemedStyles(makeStyles)
@@ -248,13 +363,15 @@ function CreateAppointmentModal({ open, onClose }: { open: boolean; onClose: () 
   const createAppointment = useMutation({
     mutationFn: () => {
       if (!patient) throw new Error('Selecciona un paciente.')
-      const parsed = new Date(`${date}T${time}:00`)
-      if (Number.isNaN(parsed.getTime())) throw new Error('Usa una fecha y hora válidas.')
+      const parsed = buildDateTime(date, time)
+      if (!parsed) throw new Error('Usa una fecha y hora válidas.')
       if (parsed.getTime() <= Date.now()) throw new Error('La cita debe programarse en el futuro.')
       if (!reason.trim()) throw new Error('Escribe el motivo de la cita.')
+      const conflict = findPatientConflict(appointments, patient.id_paciente, parsed)
+      if (conflict) throw new Error('El paciente ya tiene una cita en ese horario.')
       return api.medico.crearCita({ id_paciente: patient.id_paciente, fecha: parsed.toISOString(), motivo: reason.trim() })
     },
-    onSuccess: async () => {
+    onSuccess: async (appointment) => {
       await queryClient.invalidateQueries({ queryKey: ['agenda'] })
       setPatient(null)
       setSearch('')
@@ -262,7 +379,7 @@ function CreateAppointmentModal({ open, onClose }: { open: boolean; onClose: () 
       setTime('09:00')
       setReason('')
       onClose()
-      Alert.alert('Cita programada', 'La agenda se actualizó correctamente.')
+      onCreated?.(appointment)
     },
     onError: (error: any) => Alert.alert('Revisa la cita', error?.message ?? 'No se pudo programar.'),
   })
@@ -317,6 +434,214 @@ function CreateAppointmentModal({ open, onClose }: { open: boolean; onClose: () 
             <Pressable style={s.cancelButton} onPress={onClose}><Text style={s.cancelText}>Cancelar</Text></Pressable>
             <Pressable style={s.submitButton} onPress={() => createAppointment.mutate()} disabled={createAppointment.isPending}>
               {createAppointment.isPending ? <ActivityIndicator color="#FFFFFF" /> : <><Ionicons name="calendar" size={17} color="#FFFFFF" /><Text style={s.submitText}>Programar cita</Text></>}
+            </Pressable>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </Modal>
+  )
+}
+
+function ManageAppointmentModal({
+  appointment,
+  onClose,
+  onEdit,
+  onReschedule,
+  onCancel,
+}: {
+  appointment: AgendaItem | null
+  onClose: () => void
+  onEdit: () => void
+  onReschedule: () => void
+  onCancel: () => void
+}) {
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
+  const date = appointment ? new Date(appointment.fecha_cita) : null
+  return (
+    <Modal visible={!!appointment} transparent animationType="slide" onRequestClose={onClose}>
+      <View style={s.modalOverlay}>
+        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
+        <View style={s.sheet}>
+          <View style={s.sheetHandle} />
+          <View style={s.sheetHeader}>
+            <View>
+              <Text style={s.sheetOverline}>GESTIÓN DE CITA</Text>
+              <Text style={s.sheetTitle}>{appointment ? appointmentPerson(appointment) : 'Cita'}</Text>
+            </View>
+            <Pressable style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
+          </View>
+          {appointment ? (
+            <View style={s.manageSummary}>
+              <Ionicons name="calendar" size={18} color={colors.primary} />
+              <View style={{ flex: 1 }}>
+                <Text style={s.manageDate}>{date?.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })} · {date?.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: false })}</Text>
+                <Text style={s.manageReason} numberOfLines={2}>{appointment.motivo}</Text>
+              </View>
+            </View>
+          ) : null}
+
+          <Pressable style={({ pressed }) => [s.manageOption, pressed && s.pressed]} onPress={onEdit}>
+            <View style={[s.manageIcon, { backgroundColor: colors.infoBg }]}><Ionicons name="edit-2" size={18} color={colors.infoText} /></View>
+            <View style={{ flex: 1 }}>
+              <Text style={s.manageTitle}>Editar datos</Text>
+              <Text style={s.manageSub}>Ajustar fecha, hora o motivo de la cita.</Text>
+            </View>
+            <Ionicons name="chevron-right" size={17} color={colors.textMuted} />
+          </Pressable>
+          <Pressable style={({ pressed }) => [s.manageOption, pressed && s.pressed]} onPress={onReschedule}>
+            <View style={[s.manageIcon, { backgroundColor: colors.successBg }]}><Ionicons name="refresh-cw" size={18} color={colors.successText} /></View>
+            <View style={{ flex: 1 }}>
+              <Text style={s.manageTitle}>Reagendar</Text>
+              <Text style={s.manageSub}>Mover la atención a un nuevo horario disponible.</Text>
+            </View>
+            <Ionicons name="chevron-right" size={17} color={colors.textMuted} />
+          </Pressable>
+          <Pressable style={({ pressed }) => [s.manageOption, s.manageDanger, pressed && s.pressed]} onPress={onCancel}>
+            <View style={[s.manageIcon, { backgroundColor: colors.errorBg }]}><Ionicons name="x-circle" size={18} color={colors.errorText} /></View>
+            <View style={{ flex: 1 }}>
+              <Text style={[s.manageTitle, { color: colors.errorText }]}>Cancelar cita</Text>
+              <Text style={s.manageSub}>Marcarla como cancelada y liberar el horario.</Text>
+            </View>
+            <Ionicons name="chevron-right" size={17} color={colors.textMuted} />
+          </Pressable>
+        </View>
+      </View>
+    </Modal>
+  )
+}
+
+function EditAppointmentModal({
+  state,
+  appointments,
+  pending,
+  onClose,
+  onSubmit,
+}: {
+  state: EditState | null
+  appointments: AgendaItem[]
+  pending: boolean
+  onClose: () => void
+  onSubmit: (values: { fecha: string; motivo: string }) => void
+}) {
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
+  const appointment = state?.appointment ?? null
+  const [date, setDate] = useState(inputDate(1))
+  const [time, setTime] = useState('09:00')
+  const [reason, setReason] = useState('')
+
+  useEffect(() => {
+    if (!appointment) return
+    const parsed = new Date(appointment.fecha_cita)
+    setDate(dateInputFromDate(parsed))
+    setTime(timeInputFromDate(parsed))
+    setReason(appointment.motivo)
+  }, [appointment])
+
+  const submit = () => {
+    if (!appointment) return
+    const parsed = buildDateTime(date, time)
+    if (!parsed) return Alert.alert('Fecha inválida', 'Usa una fecha y hora válidas.')
+    if (parsed.getTime() <= Date.now()) return Alert.alert('Horario inválido', 'La cita debe quedar programada en el futuro.')
+    if (!reason.trim()) return Alert.alert('Motivo obligatorio', 'Escribe el motivo de la cita.')
+    const conflict = findPatientConflict(appointments, appointment.paciente.id_paciente, parsed, appointment.id_cita)
+    if (conflict) return Alert.alert('Conflicto de horario', 'El paciente ya tiene una cita en ese horario.')
+    onSubmit({ fecha: parsed.toISOString(), motivo: reason.trim() })
+  }
+
+  const mode = state?.mode ?? 'EDITAR'
+  return (
+    <Modal visible={!!state} transparent animationType="slide" onRequestClose={onClose}>
+      <KeyboardAvoidingView style={s.modalOverlay} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
+        <View style={s.sheet}>
+          <View style={s.sheetHandle} />
+          <View style={s.sheetHeader}>
+            <View>
+              <Text style={s.sheetOverline}>{mode === 'REAGENDAR' ? 'REAGENDAR ATENCIÓN' : 'EDITAR ATENCIÓN'}</Text>
+              <Text style={s.sheetTitle}>{appointment ? appointmentPerson(appointment) : 'Cita'}</Text>
+            </View>
+            <Pressable style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
+          </View>
+          <View style={s.dateRow}>
+            <View style={{ flex: 1 }}><Text style={s.fieldLabel}>Fecha</Text><TextInput value={date} onChangeText={setDate} placeholder="AAAA-MM-DD" placeholderTextColor={colors.textMuted} style={s.textField} /></View>
+            <View style={s.timeField}><Text style={s.fieldLabel}>Hora</Text><TextInput value={time} onChangeText={setTime} placeholder="09:00" placeholderTextColor={colors.textMuted} style={s.textField} /></View>
+          </View>
+          <View style={s.quickDates}>
+            <DateChip label="Mañana" onPress={() => setDate(inputDate(1))} />
+            <DateChip label="En 3 días" onPress={() => setDate(inputDate(3))} />
+            <DateChip label="En 1 semana" onPress={() => setDate(inputDate(7))} />
+          </View>
+          <Text style={s.fieldLabel}>Motivo</Text>
+          <TextInput value={reason} onChangeText={setReason} placeholder="Ej. Control metabólico" placeholderTextColor={colors.textMuted} style={[s.textField, s.reasonField]} multiline />
+          <View style={s.validationNote}>
+            <Ionicons name="shield" size={16} color={colors.textMuted} />
+            <Text style={s.validationText}>PREDIA validará conflictos del paciente y del médico antes de guardar.</Text>
+          </View>
+          <View style={s.sheetActions}>
+            <Pressable style={s.cancelButton} onPress={onClose}><Text style={s.cancelText}>Cerrar</Text></Pressable>
+            <Pressable style={s.submitButton} onPress={submit} disabled={pending}>
+              {pending ? <ActivityIndicator color="#FFFFFF" /> : <><Ionicons name="save" size={17} color="#FFFFFF" /><Text style={s.submitText}>{mode === 'REAGENDAR' ? 'Reagendar' : 'Guardar'}</Text></>}
+            </Pressable>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </Modal>
+  )
+}
+
+function CancelAppointmentModal({
+  appointment,
+  pending,
+  onClose,
+  onSubmit,
+}: {
+  appointment: AgendaItem | null
+  pending: boolean
+  onClose: () => void
+  onSubmit: (observaciones: string) => void
+}) {
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
+  const [note, setNote] = useState('')
+
+  useEffect(() => {
+    if (appointment) setNote('')
+  }, [appointment])
+
+  return (
+    <Modal visible={!!appointment} transparent animationType="slide" onRequestClose={onClose}>
+      <KeyboardAvoidingView style={s.modalOverlay} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
+        <View style={s.sheet}>
+          <View style={s.sheetHandle} />
+          <View style={s.sheetHeader}>
+            <View>
+              <Text style={s.sheetOverline}>CANCELACIÓN</Text>
+              <Text style={s.sheetTitle}>Cancelar cita</Text>
+            </View>
+            <Pressable style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
+          </View>
+          <Text style={s.finishPatient}>{appointment ? appointmentPerson(appointment) : ''}</Text>
+          <Text style={s.finishReason}>{appointment?.motivo}</Text>
+          <Text style={s.fieldLabel}>Motivo de cancelación</Text>
+          <TextInput
+            style={[s.textField, s.reasonField]}
+            value={note}
+            onChangeText={setNote}
+            placeholder="Opcional: paciente reprogramará, no asistirá, duplicada..."
+            placeholderTextColor={colors.textMuted}
+            multiline
+          />
+          <View style={s.validationNote}>
+            <Ionicons name="info" size={16} color={colors.warningText} />
+            <Text style={s.validationText}>Esta acción libera el horario y la cita deja de mostrarse como activa.</Text>
+          </View>
+          <View style={s.sheetActions}>
+            <Pressable style={s.cancelButton} onPress={onClose}><Text style={s.cancelText}>Conservar</Text></Pressable>
+            <Pressable style={[s.submitButton, s.cancelSubmit]} onPress={() => onSubmit(note.trim())} disabled={pending}>
+              {pending ? <ActivityIndicator color="#FFFFFF" /> : <><Ionicons name="x-circle" size={17} color="#FFFFFF" /><Text style={s.submitText}>Cancelar cita</Text></>}
             </Pressable>
           </View>
         </View>
@@ -385,6 +710,7 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   loading: { padding: spacing.md },
   addButton: { width: 42, height: 42, borderRadius: radius.full, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
   list: { paddingHorizontal: spacing.md, paddingBottom: spacing.xxxl },
+  feedbackBanner: { marginTop: spacing.xs },
   summary: { flexDirection: 'row', alignItems: 'stretch', backgroundColor: colors.primaryDark, borderRadius: radius.sm, padding: spacing.md, marginTop: spacing.xs },
   summaryMetric: { flex: 1 },
   summaryValue: { ...typography.title },
@@ -431,6 +757,14 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   optionDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border },
   optionName: { flex: 1, ...typography.caption, color: colors.textPrimary },
   resultLoader: { padding: spacing.md },
+  manageSummary: { minHeight: 58, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, padding: spacing.sm, marginBottom: spacing.sm },
+  manageDate: { ...typography.bodyMedium, color: colors.textPrimary, textTransform: 'capitalize' },
+  manageReason: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
+  manageOption: { minHeight: 72, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, padding: spacing.sm, marginBottom: spacing.xs },
+  manageDanger: { borderColor: colors.errorBg },
+  manageIcon: { width: 40, height: 40, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
+  manageTitle: { ...typography.bodyMedium, color: colors.textPrimary },
+  manageSub: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
   dateRow: { flexDirection: 'row', gap: spacing.xs },
   timeField: { width: 112 },
   textField: { minHeight: 46, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong, backgroundColor: colors.surface, paddingHorizontal: spacing.sm, ...typography.body, color: colors.textPrimary },
@@ -438,11 +772,14 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   quickDates: { flexDirection: 'row', gap: spacing.xs, marginTop: spacing.xs },
   dateChip: { minHeight: 32, paddingHorizontal: spacing.sm, borderRadius: radius.full, backgroundColor: colors.surfaceMuted, alignItems: 'center', justifyContent: 'center' },
   dateChipText: { ...typography.overline, color: colors.textSecondary },
+  validationNote: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.xs, borderRadius: radius.md, padding: spacing.sm, backgroundColor: colors.surfaceMuted, marginTop: spacing.sm },
+  validationText: { flex: 1, ...typography.caption, color: colors.textSecondary },
   sheetActions: { flexDirection: 'row', gap: spacing.xs, marginTop: spacing.lg },
   cancelButton: { flex: 1, minHeight: 48, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong, alignItems: 'center', justifyContent: 'center' },
   cancelText: { ...typography.bodyMedium, color: colors.textSecondary },
   submitButton: { flex: 1.4, minHeight: 48, borderRadius: radius.sm, backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
   finishSubmit: { backgroundColor: colors.coral },
+  cancelSubmit: { backgroundColor: colors.error },
   submitText: { ...typography.bodyMedium, color: '#FFFFFF' },
   finishPatient: { ...typography.bodyMedium, color: colors.textPrimary },
   finishReason: { ...typography.caption, color: colors.textSecondary, marginTop: 3, marginBottom: spacing.xs },

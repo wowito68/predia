@@ -5,7 +5,7 @@ import { useRoute, useNavigation } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/services/api'
 import { Screen, ScreenHeader } from '@/components/Screen'
-import { PremiumCard, PrimaryButton } from '@/components/ui'
+import { FeedbackBanner, PremiumCard, PrimaryButton } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
@@ -39,7 +39,9 @@ export function DictadoNotasScreen() {
   const [segundos, setSegundos] = useState(0)
   const [texto, setTexto] = useState('')
   const [procesando, setProcesando] = useState(false)
+  const [saved, setSaved] = useState(false)
   const timer = useRef<ReturnType<typeof setInterval> | null>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const guardarNota = useMutation({
     mutationFn: () => {
@@ -50,10 +52,14 @@ export function DictadoNotasScreen() {
         observaciones: texto.trim(),
       })
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['expediente', idPaciente] })
-      qc.invalidateQueries({ queryKey: ['paciente', idPaciente] })
-      Alert.alert('Nota guardada', 'La transcripción se agregó al expediente clínico.', [{ text: 'OK', onPress: () => nav.goBack() }])
+    onSuccess: async () => {
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: ['expediente', idPaciente] }),
+        qc.invalidateQueries({ queryKey: ['paciente', idPaciente] }),
+        qc.invalidateQueries({ queryKey: ['clinical-snapshot', idPaciente] }),
+      ])
+      setSaved(true)
+      closeTimer.current = setTimeout(() => nav.goBack(), 900)
     },
     onError: (e: any) => Alert.alert('Error', e?.message ?? 'No se pudo guardar la nota'),
   })
@@ -66,6 +72,10 @@ export function DictadoNotasScreen() {
     }
     return () => { if (timer.current) clearInterval(timer.current) }
   }, [grabando])
+
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+  }, [])
 
   const fmt = (x: number) => `${Math.floor(x / 60)}:${String(x % 60).padStart(2, '0')}`
 
@@ -104,6 +114,9 @@ export function DictadoNotasScreen() {
     <View style={s.root}>
       <ScreenHeader title="Dictado de notas" subtitle={nombre || undefined} onBack={() => nav.goBack()} />
       <Screen scroll padded>
+        {saved ? (
+          <FeedbackBanner title="Nota guardada" subtitle="La transcripción se agregó al expediente clínico." tone="success" />
+        ) : null}
         <View style={s.recWrap}>
           <TouchableOpacity onPress={grabando ? detener : iniciar} style={[s.recCircle, grabando && s.recCircleActive]} disabled={procesando}>
             <Text style={s.recIcon}>{grabando ? '■' : '●'}</Text>
@@ -130,8 +143,8 @@ export function DictadoNotasScreen() {
         </PremiumCard>
 
         <PrimaryButton
-          label="Guardar en expediente"
-          disabled={!texto || guardarNota.isPending}
+          label={saved ? 'Guardado' : 'Guardar en expediente'}
+          disabled={!texto || guardarNota.isPending || saved}
           onPress={() => guardarNota.mutate()}
           style={{ marginTop: spacing.lg }}
         />

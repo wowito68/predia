@@ -8,22 +8,30 @@ import { query, QueryBuilder } from "@/lib/db"
 import { requireAuth } from "@/lib/auth"
 
 const createMedicionSchema = z.object({
-  id_paciente: z.number().positive().or(z.string().pipe(z.coerce.number().positive())),
-  peso: z.number().positive().optional(),
-  altura: z.number().positive().optional(),
-  circunferencia_cintura: z.number().positive().optional(),
-  circunferencia_cadera: z.number().positive().optional(),
-  presion_sistolica: z.number().positive().optional(),
-  presion_diastolica: z.number().positive().optional(),
-  observaciones: z.string().optional(),
-})
+  id_paciente: z.coerce.number().int().positive(),
+  peso: z.coerce.number().min(1).max(500).optional(),
+  altura: z.coerce.number().min(0.4).max(2.5).optional(),
+  circunferencia_cintura: z.coerce.number().min(20).max(250).optional(),
+  circunferencia_cadera: z.coerce.number().min(20).max(250).optional(),
+  presion_sistolica: z.coerce.number().int().min(50).max(260).optional(),
+  presion_diastolica: z.coerce.number().int().min(30).max(180).optional(),
+  observaciones: z.string().trim().max(2000).optional(),
+}).strict().refine((data) => (
+  data.peso != null
+  || data.altura != null
+  || data.circunferencia_cintura != null
+  || data.circunferencia_cadera != null
+  || data.presion_sistolica != null
+  || data.presion_diastolica != null
+  || !!data.observaciones
+), { message: "Captura al menos una medición" })
 
 // GET - Obtener mediciones
 export const GET = requireAuth(async (request: NextRequest, { user }) => {
   try {
     const { searchParams } = new URL(request.url)
-    const page = parseInt(searchParams.get("page") || "1")
-    const limit = parseInt(searchParams.get("limit") || "10")
+    const page = Math.max(1, parseInt(searchParams.get("page") || "1"))
+    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") || "10")))
     const id_paciente = searchParams.get("id_paciente")
     const offset = (page - 1) * limit
 

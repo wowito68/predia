@@ -721,14 +721,23 @@ async function seedClinicalForPatient(
 }
 
 async function seedCitasFromLegacyConsultas() {
-  const existing = await prisma.cita.count()
-  if (existing > 0) {
-    console.log(`📅 Agenda clínica ya tiene ${existing} citas; no se duplican datos.`)
-    return
-  }
-
   const today = new Date()
   today.setHours(0, 0, 0, 0)
+
+  const activeUpcoming = await prisma.cita.count({
+    where: {
+      estado: { in: ["PROGRAMADA", "EN_CURSO"] },
+      OR: [
+        { estado: "EN_CURSO" },
+        { fecha_cita: { gte: today } },
+      ],
+    },
+  })
+
+  if (activeUpcoming > 0) {
+    console.log(`📅 Agenda clínica vigente: ${activeUpcoming} citas activas; no se duplican datos.`)
+    return
+  }
 
   const consultasConCita = await prisma.consultaMedica.findMany({
     where: {
@@ -787,8 +796,10 @@ async function seedCitasFromLegacyConsultas() {
       skipDuplicates: true,
     })
 
-    const totalFallback = await prisma.cita.count()
-    console.log(`📅 Agenda clínica demo creada directamente: ${totalFallback} citas.`)
+    const totalFallback = await prisma.cita.count({
+      where: { estado: { in: ["PROGRAMADA", "EN_CURSO"] }, fecha_cita: { gte: today } },
+    })
+    console.log(`📅 Agenda clínica demo creada directamente: ${totalFallback} citas vigentes.`)
     return
   }
 
@@ -805,8 +816,10 @@ async function seedCitasFromLegacyConsultas() {
     skipDuplicates: true,
   })
 
-  const total = await prisma.cita.count()
-  console.log(`📅 Agenda clínica creada: ${total} citas programadas.`)
+  const total = await prisma.cita.count({
+    where: { estado: { in: ["PROGRAMADA", "EN_CURSO"] }, fecha_cita: { gte: today } },
+  })
+  console.log(`📅 Agenda clínica creada: ${total} citas vigentes.`)
 }
 
 // ============================================
@@ -837,7 +850,15 @@ async function main() {
       await Promise.all([
         prisma.paciente.count(),
         prisma.consultaMedica.count(),
-        prisma.cita.count({ where: { estado: { in: ["PROGRAMADA", "EN_CURSO"] } } }),
+        prisma.cita.count({
+          where: {
+            estado: { in: ["PROGRAMADA", "EN_CURSO"] },
+            OR: [
+              { estado: "EN_CURSO" },
+              { fecha_cita: { gte: new Date(new Date().setHours(0, 0, 0, 0)) } },
+            ],
+          },
+        }),
         prisma.receta.count(),
         prisma.prediccion.count(),
         prisma.alergia.count(),

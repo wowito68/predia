@@ -1,5 +1,5 @@
 # ── Etapa 1: Dependencias ─────────────────────────────────────────
-FROM node:18-alpine AS deps
+FROM node:20-alpine AS deps
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ RUN pnpm install --frozen-lockfile --filter @predia/web --filter @predia/shared
 
 
 # ── Etapa 2: Build ────────────────────────────────────────────────
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ RUN pnpm --filter @predia/web exec prisma generate
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-ENV JWT_SECRET=build-placeholder-not-used-at-runtime
+ENV PREDIA_BUILD_PHASE=true
 ENV JWT_EXPIRES_IN=7d
 ENV DATABASE_URL=mysql://placeholder:placeholder@localhost:3306/placeholder
 ENV NEXT_PUBLIC_API_URL=http://localhost:3000/api
@@ -39,7 +39,7 @@ RUN pnpm --filter @predia/web build
 
 
 # ── Etapa 3: Producción ───────────────────────────────────────────
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 

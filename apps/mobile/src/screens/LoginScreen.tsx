@@ -43,11 +43,11 @@ export function LoginScreen() {
     }
     setLoading(true)
     try {
-      const { user, token } =
+      const { user, token, refreshToken } =
         role === 'PACIENTE'
           ? await api.auth.loginPaciente(curp.trim().toUpperCase(), pin.trim())
           : await api.auth.loginMedico(username.trim(), password)
-      await login(user, token)
+      await login(user, token, refreshToken)
     } catch (e: any) {
       Alert.alert('Error', e?.message ?? 'No se pudo iniciar sesión')
     } finally {

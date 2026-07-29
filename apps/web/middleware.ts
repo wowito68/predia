@@ -16,6 +16,11 @@ export function middleware(request: NextRequest) {
   }
 
   const withCors = (response: NextResponse) => {
+    response.headers.set("X-Content-Type-Options", "nosniff")
+    response.headers.set("X-Frame-Options", "DENY")
+    response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    response.headers.set("X-PREDIA-Instance", process.env.PREDIA_INSTANCE_ID || process.env.HOSTNAME || "local-dev")
     if (pathname.startsWith("/api")) {
       Object.entries(corsHeaders).forEach(([key, value]) => response.headers.set(key, value))
     }
@@ -23,7 +28,18 @@ export function middleware(request: NextRequest) {
   }
 
   // Rutas públicas (sin protección)
-  const publicRoutes = ["/login", "/", "/api/auth/login", "/api/auth/login-paciente", "/api/auth/logout"]
+  const publicRoutes = [
+    "/login",
+    "/",
+    "/api/auth/login",
+    "/api/auth/login-paciente",
+    "/api/auth/refresh",
+    "/api/auth/logout",
+    "/api/health",
+    "/api/ready",
+    "/api/metrics",
+    "/api/ping",
+  ]
 
   if (publicRoutes.some(route => pathname === route)) {
     return withCors(NextResponse.next())
@@ -43,8 +59,8 @@ export function middleware(request: NextRequest) {
     const authHeader = request.headers.get("authorization")
 
     // Excepciones: auth públicas
-    if (["/api/auth/login", "/api/auth/login-paciente", "/api/auth/logout"].includes(pathname)) {
-      return NextResponse.next()
+    if (publicRoutes.includes(pathname)) {
+      return withCors(NextResponse.next())
     }
 
     // Verificar que hay token
@@ -60,10 +76,12 @@ export function middleware(request: NextRequest) {
 }
 
 function getCorsHeaders(origin: string | null) {
-  const allowedOrigin =
-    origin && /^(http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?)$/.test(origin)
-      ? origin
-      : "http://localhost:8082"
+  const configured = (process.env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+  const localOrigin = origin && /^(http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?)$/.test(origin)
+  const allowedOrigin = origin && (configured.includes(origin) || localOrigin) ? origin : "http://localhost:8082"
 
   return {
     "Access-Control-Allow-Origin": allowedOrigin,

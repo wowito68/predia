@@ -5,6 +5,7 @@ import { useAuthStore } from '@/store/authStore'
 import { api } from '@/services/api'
 import { Header } from '@/components/Header'
 import { QueryState } from '@/components/QueryState'
+import { EmptyState } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
@@ -78,7 +79,7 @@ export function ExpedienteScreen() {
             </View>
 
             {filtered.length === 0 ? (
-              <Text style={s.empty}>Sin registros en esta categoría.</Text>
+              <EmptyState icon="folder-open-outline" title="Sin registros" subtitle="No hay información clínica registrada en esta categoría." />
             ) : (
               filtered.map((item, i) => (
                 <View key={i} style={[s.item, { backgroundColor: item.bg }]}>
@@ -112,7 +113,6 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   },
   patientName: { ...typography.bodyMedium, color: colors.textPrimary },
   patientCurp: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
-  empty: { ...typography.caption, color: colors.textMuted, textAlign: 'center', paddingVertical: 24 },
   item: { borderRadius: radius.md, padding: spacing.md, marginBottom: spacing.xs, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: colors.border },
   itemTipo: { ...typography.overline, color: colors.textSecondary, marginBottom: 4 },
   itemLabel: { ...typography.caption, color: colors.textPrimary },

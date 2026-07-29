@@ -1,9 +1,10 @@
 // app/api/auth/login/route.ts
 import { NextResponse, NextRequest } from "next/server"
 import { z } from "zod"
-import { authenticateUser, generateToken } from "@/lib/auth"
+import { authenticateUser, issueRefreshToken } from "@/lib/auth"
 import { serialize } from "cookie"
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit"
+import { recordAuthAttempt } from "@/lib/metrics"
 
 const loginSchema = z.object({
   username: z.string().min(3, "Usuario debe tener al menos 3 caracteres"),
@@ -13,8 +14,10 @@ const loginSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const clientIp = getClientIp(req)
+    const userAgent = req.headers.get("user-agent")
     const { allowed, remaining, resetIn } = checkRateLimit(clientIp, 5, 15 * 60 * 1000) // 5 intentos cada 15 minutos
     if (!allowed) {
+      recordAuthAttempt("usuario", false)
       return NextResponse.json(
         {
           error: `Demasiados intentos. Intente en ${Math.ceil(resetIn / 1000)} segundos`,
@@ -33,6 +36,7 @@ export async function POST(req: NextRequest) {
     // Validar esquema
     const validation = loginSchema.safeParse(body)
     if (!validation.success) {
+      recordAuthAttempt("usuario", false)
       return NextResponse.json(
         { error: "Datos inválidos", details: validation.error.errors },
         { status: 400 },
@@ -45,8 +49,16 @@ export async function POST(req: NextRequest) {
     const result = await authenticateUser(username, password)
 
     if (!result.success) {
+      recordAuthAttempt("usuario", false)
       return NextResponse.json({ error: result.message || "Autenticación fallida" }, { status: 401 })
     }
+    recordAuthAttempt("usuario", true)
+
+    const refreshToken = await issueRefreshToken(
+      { subject_type: "usuario", id_usuario: result.user!.id_usuario },
+      { ip: clientIp, userAgent },
+    )
+    const secureCookies = process.env.SECURE_COOKIES === "true" || process.env.NODE_ENV === "production"
 
     // Crear respuesta
     const response = NextResponse.json(
@@ -54,6 +66,7 @@ export async function POST(req: NextRequest) {
         success: true,
         message: "Autenticado exitosamente",
         token: result.token,
+        refreshToken,
         user: result.user,
       },
       { status: 200 },
@@ -62,12 +75,22 @@ export async function POST(req: NextRequest) {
     // Setear cookie segura (opcional, para redundancia)
     response.headers.append(
       "Set-Cookie",
-           serialize("auth-token", result.token || "", {
-        httpOnly: false,  // CAMBIAR a false para que el middleware pueda leerlo
-        secure: false,     // CAMBIAR a false (sin HTTPS aún)
-        sameSite: "lax",   // CAMBIAR de strict a lax
+      serialize("auth-token", result.token || "", {
+        httpOnly: true,
+        secure: secureCookies,
+        sameSite: "lax",
         path: "/",
-        maxAge: 60 * 60 * 24 * 7, // 7 días
+        maxAge: 15 * 60,
+      }),
+    )
+    response.headers.append(
+      "Set-Cookie",
+      serialize("refresh-token", refreshToken, {
+        httpOnly: true,
+        secure: secureCookies,
+        sameSite: "lax",
+        path: "/api/auth",
+        maxAge: 7 * 24 * 60 * 60,
       }),
     )
 

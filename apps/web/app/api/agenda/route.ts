@@ -10,6 +10,26 @@ function serializeCita(cita: any) {
   }
 }
 
+async function findScheduleConflict(input: {
+  idPaciente: number
+  idUsuario: number
+  fecha: Date
+  excludeId?: number
+}) {
+  return prisma.cita.findFirst({
+    where: {
+      ...(input.excludeId ? { id_cita: { not: input.excludeId } } : {}),
+      estado: { in: ["PROGRAMADA", "EN_CURSO"] },
+      fecha_cita: input.fecha,
+      OR: [
+        { id_paciente: input.idPaciente },
+        { id_usuario: input.idUsuario },
+      ],
+    },
+    select: { id_cita: true, id_paciente: true, id_usuario: true },
+  })
+}
+
 async function authenticatedUser(request: NextRequest) {
   const token = request.headers.get("authorization")?.replace("Bearer ", "")
   if (!token) return null
@@ -83,16 +103,12 @@ export async function POST(request: NextRequest) {
     })
     if (!paciente) return NextResponse.json({ success: false, error: "Paciente no encontrado" }, { status: 404 })
 
-    const duplicate = await prisma.cita.findFirst({
-      where: {
-        id_paciente: idPaciente,
-        fecha_cita: fecha,
-        estado: { in: ["PROGRAMADA", "EN_CURSO"] },
-      },
-      select: { id_cita: true },
-    })
-    if (duplicate) {
-      return NextResponse.json({ success: false, error: "El paciente ya tiene una cita en ese horario" }, { status: 409 })
+    const conflict = await findScheduleConflict({ idPaciente, idUsuario: user.id_usuario, fecha })
+    if (conflict) {
+      const error = conflict.id_paciente === idPaciente
+        ? "El paciente ya tiene una cita en ese horario"
+        : "El médico ya tiene una cita en ese horario"
+      return NextResponse.json({ success: false, error }, { status: 409 })
     }
 
     const cita = await prisma.cita.create({

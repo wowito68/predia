@@ -19,41 +19,42 @@ model Rol {
 }
 
 model Usuario {
-  id_usuario             Int                      @id @default(autoincrement())
-  username               String                   @unique @db.VarChar(100)
-  password_hash          String                   @db.VarChar(255)
-  id_rol                 Int
-  nombre                 String                   @db.VarChar(100)
-  apellido_paterno       String                   @db.VarChar(100)
-  apellido_materno       String?                  @db.VarChar(100)
-  email                  String                   @unique @db.VarChar(100)
-  telefono               String?                  @db.VarChar(20)
-  cedula_profesional     String?                  @unique @db.VarChar(50)
-  especialidad           String?                  @db.VarChar(100)
-  activo                 Boolean                  @default(true)
-  ultimo_acceso          DateTime?
-  fecha_registro         DateTime                 @default(now())
-  fecha_modificacion     DateTime?                @default(now()) @updatedAt
+  id_usuario               Int                      @id @default(autoincrement())
+  username                 String                   @unique @db.VarChar(100)
+  password_hash            String                   @db.VarChar(255)
+  id_rol                   Int
+  nombre                   String                   @db.VarChar(100)
+  apellido_paterno         String                   @db.VarChar(100)
+  apellido_materno         String?                  @db.VarChar(100)
+  email                    String                   @unique @db.VarChar(100)
+  telefono                 String?                  @db.VarChar(20)
+  cedula_profesional       String?                  @unique @db.VarChar(50)
+  especialidad             String?                  @db.VarChar(100)
+  activo                   Boolean                  @default(true)
+  ultimo_acceso            DateTime?
+  fecha_registro           DateTime                 @default(now())
+  fecha_modificacion       DateTime?                @default(now()) @updatedAt
   // Relaciones existentes
-  auditoria              auditoria[]
-  estudios               EstudioLaboratorio[]
-  historiales            HistorialClinico[]
-  mediciones             MedicionAntropometrica[]
-  predicciones           Prediccion[]
-  rol                    Rol                      @relation(fields: [id_rol], references: [id_rol])
+  auditoria                auditoria[]
+  estudios                 EstudioLaboratorio[]
+  historiales              HistorialClinico[]
+  mediciones               MedicionAntropometrica[]
+  predicciones             Prediccion[]
+  rol                      Rol                      @relation(fields: [id_rol], references: [id_rol])
   // Nuevas relaciones - Historial Clínico
-  vacunasAplicadas       VacunaAplicada[]
+  vacunasAplicadas         VacunaAplicada[]
   patologiasDiagnosticadas PatologiaPaciente[]
-  consultasRealizadas    ConsultaMedica[]
-  citasProgramadas       Cita[]
-  imagenesRegistradas    ImagenDiagnostica[]
-  fracturasRegistradas   Fractura[]
-  alergiasRegistradas    Alergia[]
-  antecedentesRegistrados AntecedenteFamiliar[]
+  consultasRealizadas      ConsultaMedica[]
+  citasProgramadas         Cita[]
+  imagenesRegistradas      ImagenDiagnostica[]
+  fracturasRegistradas     Fractura[]
+  alergiasRegistradas      Alergia[]
+  antecedentesRegistrados  AntecedenteFamiliar[]
   // Relaciones EHR Avanzado
-  plantillasCreadas      Plantilla[]
-  recetasGeneradas       Receta[]
-  documentosSubidos      DocumentoAdjunto[]
+  plantillasCreadas        Plantilla[]
+  recetasGeneradas         Receta[]
+  documentosSubidos        DocumentoAdjunto[]
+  refreshTokens            RefreshToken[]
 
   @@index([id_rol], map: "usuario_id_rol_fkey")
   @@map("usuario")
@@ -74,28 +75,28 @@ model Direccion {
 }
 
 model Paciente {
-  id_paciente            Int                      @id @default(autoincrement())
-  cedula                 String                   @unique @db.VarChar(50)
+  id_paciente                  Int      @id @default(autoincrement())
+  cedula                       String   @unique @db.VarChar(50)
   // Credenciales de acceso a la app móvil del paciente (login CURP + PIN)
-  curp                   String?                  @unique @db.VarChar(18)
-  pin_hash               String?                  @db.VarChar(255)
-  nombre                 String                   @db.VarChar(100)
-  apellido_paterno       String                   @db.VarChar(100)
-  apellido_materno       String?                  @db.VarChar(100)
-  genero                 String                   @db.VarChar(10)
-  fecha_nacimiento       DateTime
-  edad                   Int?
-  telefono               String?                  @db.VarChar(20)
-  email                  String?                  @db.VarChar(100)
-  id_direccion           Int?
-  foto_perfil            String?                  @db.Text
+  curp                         String?  @unique @db.VarChar(18)
+  pin_hash                     String?  @db.VarChar(255)
+  nombre                       String   @db.VarChar(100)
+  apellido_paterno             String   @db.VarChar(100)
+  apellido_materno             String?  @db.VarChar(100)
+  genero                       String   @db.VarChar(10)
+  fecha_nacimiento             DateTime
+  edad                         Int?
+  telefono                     String?  @db.VarChar(20)
+  email                        String?  @db.VarChar(100)
+  id_direccion                 Int?
+  foto_perfil                  String?  @db.Text
   // Datos Adicionales Fase 2
-  tipo_sangre            String?                  @db.VarChar(5)
-  seguro_medico          String?                  @db.VarChar(100)
-  poliza_seguro          String?                  @db.VarChar(50)
-  contacto_emergencia_nombre String?              @db.VarChar(150)
-  contacto_emergencia_telefono String?            @db.VarChar(20)
-  
+  tipo_sangre                  String?  @db.VarChar(5)
+  seguro_medico                String?  @db.VarChar(100)
+  poliza_seguro                String?  @db.VarChar(50)
+  contacto_emergencia_nombre   String?  @db.VarChar(150)
+  contacto_emergencia_telefono String?  @db.VarChar(20)
+
   activo                 Boolean                  @default(true)
   fecha_registro         DateTime                 @default(now())
   fecha_modificacion     DateTime?                @default(now()) @updatedAt
@@ -118,6 +119,7 @@ model Paciente {
   recetas                Receta[]
   documentos             DocumentoAdjunto[]
   automonitoreos         Automonitoreo[]
+  refreshTokens          RefreshToken[]
 
   @@index([id_direccion], map: "paciente_id_direccion_fkey")
   @@map("paciente")
@@ -212,34 +214,34 @@ model ModeloIA {
 }
 
 model Prediccion {
-  id_prediccion            Int                     @id @default(autoincrement())
-  id_paciente              Int
-  id_usuario               Int
-  id_modelo                Int
-  id_estudio               Int?
-  id_medicion              Int?
-  fecha_prediccion         DateTime                @default(now())
-  datos_entrada            String                  @db.Text
-  resultado                String                  @db.VarChar(50)
-  probabilidad_diabetes    Float
-  probabilidad_no_diabetes Float
-  nivel_riesgo             String                  @db.VarChar(50)
-  factores_riesgo          String?                 @db.Text
-  recomendaciones          String?                 @db.Text
+  id_prediccion             Int                     @id @default(autoincrement())
+  id_paciente               Int
+  id_usuario                Int
+  id_modelo                 Int
+  id_estudio                Int?
+  id_medicion               Int?
+  fecha_prediccion          DateTime                @default(now())
+  datos_entrada             String                  @db.Text
+  resultado                 String                  @db.VarChar(50)
+  probabilidad_diabetes     Float
+  probabilidad_no_diabetes  Float
+  nivel_riesgo              String                  @db.VarChar(50)
+  factores_riesgo           String?                 @db.Text
+  recomendaciones           String?                 @db.Text
   // Estratificación de riesgo clínico (aditivo, compatible con histórico)
-  score_riesgo             Float?
-  recomendaciones_generadas String?                @db.Text
-  validado                 Boolean                 @default(false)
-  diagnostico_confirmado   String                  @default("Pendiente") @db.VarChar(50)
-  notas_medicas            String?                 @db.Text
-  fecha_validacion         DateTime?
-  fecha_registro           DateTime                @default(now())
-  fecha_modificacion       DateTime?               @default(now()) @updatedAt
-  estudio                  EstudioLaboratorio?     @relation(fields: [id_estudio], references: [id_estudio])
-  medicion                 MedicionAntropometrica? @relation(fields: [id_medicion], references: [id_medicion])
-  modelo                   ModeloIA                @relation(fields: [id_modelo], references: [id_modelo])
-  paciente                 Paciente                @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
-  usuario                  Usuario                 @relation(fields: [id_usuario], references: [id_usuario])
+  score_riesgo              Float?
+  recomendaciones_generadas String?                 @db.Text
+  validado                  Boolean                 @default(false)
+  diagnostico_confirmado    String                  @default("Pendiente") @db.VarChar(50)
+  notas_medicas             String?                 @db.Text
+  fecha_validacion          DateTime?
+  fecha_registro            DateTime                @default(now())
+  fecha_modificacion        DateTime?               @default(now()) @updatedAt
+  estudio                   EstudioLaboratorio?     @relation(fields: [id_estudio], references: [id_estudio])
+  medicion                  MedicionAntropometrica? @relation(fields: [id_medicion], references: [id_medicion])
+  modelo                    ModeloIA                @relation(fields: [id_modelo], references: [id_modelo])
+  paciente                  Paciente                @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario                   Usuario                 @relation(fields: [id_usuario], references: [id_usuario])
 
   @@index([id_estudio], map: "prediccion_id_estudio_fkey")
   @@index([id_medicion], map: "prediccion_id_medicion_fkey")
@@ -278,6 +280,29 @@ model auditoria {
 
   @@index([fecha_registro], map: "idx_fecha")
   @@index([id_usuario], map: "idx_usuario")
+}
+
+model RefreshToken {
+  id_refresh_token Int       @id @default(autoincrement())
+  token_hash       String    @unique @db.VarChar(128)
+  subject_type     String    @db.VarChar(20)
+  id_usuario       Int?
+  id_paciente      Int?
+  revoked          Boolean   @default(false)
+  expires_at       DateTime
+  created_at       DateTime  @default(now())
+  revoked_at       DateTime?
+  replaced_by_hash String?   @db.VarChar(128)
+  ip_address       String?   @db.VarChar(64)
+  user_agent       String?   @db.VarChar(255)
+  usuario          Usuario?  @relation(fields: [id_usuario], references: [id_usuario], onDelete: Cascade)
+  paciente         Paciente? @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+
+  @@index([id_usuario])
+  @@index([id_paciente])
+  @@index([expires_at])
+  @@index([revoked])
+  @@map("refresh_token")
 }
 
 // ========================================
@@ -373,7 +398,7 @@ model ConsultaMedica {
   fecha_registro     DateTime  @default(now())
   paciente           Paciente  @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
   usuario            Usuario   @relation(fields: [id_usuario], references: [id_usuario])
-  
+
   // Relación con Receta estructurada
   recetasEstructuradas Receta[]
   cita                 Cita?
@@ -385,21 +410,21 @@ model ConsultaMedica {
 
 // Agenda clínica con ciclo de vida independiente de la consulta médica.
 model Cita {
-  id_cita              Int              @id @default(autoincrement())
+  id_cita              Int             @id @default(autoincrement())
   id_paciente          Int
   id_usuario           Int
-  id_consulta          Int?             @unique
+  id_consulta          Int?            @unique
   fecha_cita           DateTime
-  motivo               String           @db.Text
-  estado               String           @default("PROGRAMADA") @db.VarChar(20)
+  motivo               String          @db.Text
+  estado               String          @default("PROGRAMADA") @db.VarChar(20)
   inicio_cita          DateTime?
   fin_cita             DateTime?
-  observaciones_cierre String?          @db.Text
-  fecha_registro       DateTime         @default(now())
-  fecha_modificacion   DateTime?        @default(now()) @updatedAt
-  paciente             Paciente         @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
-  usuario              Usuario          @relation(fields: [id_usuario], references: [id_usuario])
-  consulta             ConsultaMedica?  @relation(fields: [id_consulta], references: [id_consulta], onDelete: SetNull)
+  observaciones_cierre String?         @db.Text
+  fecha_registro       DateTime        @default(now())
+  fecha_modificacion   DateTime?       @default(now()) @updatedAt
+  paciente             Paciente        @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario              Usuario         @relation(fields: [id_usuario], references: [id_usuario])
+  consulta             ConsultaMedica? @relation(fields: [id_consulta], references: [id_consulta], onDelete: SetNull)
 
   @@index([id_paciente])
   @@index([id_usuario])
@@ -513,21 +538,21 @@ model Plantilla {
 
 // Recetas Medicas Digitales
 model Receta {
-  id_receta       Int             @id @default(autoincrement())
-  id_paciente     Int
-  id_usuario      Int
-  id_consulta     Int?
-  fecha_emicion   DateTime        @default(now())
-  medicamentos    String          @db.Text // JSON: {nombre, dosis, frecuencia, duracion}[]
-  instrucciones   String?         @db.Text
-  estado          String          @default("Activa") @db.VarChar(20) // Activa, Surtida, Cancelada
+  id_receta      Int             @id @default(autoincrement())
+  id_paciente    Int
+  id_usuario     Int
+  id_consulta    Int?
+  fecha_emicion  DateTime        @default(now())
+  medicamentos   String          @db.Text // JSON: {nombre, dosis, frecuencia, duracion}[]
+  instrucciones  String?         @db.Text
+  estado         String          @default("Activa") @db.VarChar(20) // Activa, Surtida, Cancelada
   // Immutabilidad PDF Fase 4
-  datos_medico    String?         @db.Text
-  datos_paciente  String?         @db.Text
-  fecha_registro  DateTime        @default(now())
-  paciente        Paciente        @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
-  usuario         Usuario         @relation(fields: [id_usuario], references: [id_usuario])
-  consulta        ConsultaMedica? @relation(fields: [id_consulta], references: [id_consulta])
+  datos_medico   String?         @db.Text
+  datos_paciente String?         @db.Text
+  fecha_registro DateTime        @default(now())
+  paciente       Paciente        @relation(fields: [id_paciente], references: [id_paciente], onDelete: Cascade)
+  usuario        Usuario         @relation(fields: [id_usuario], references: [id_usuario])
+  consulta       ConsultaMedica? @relation(fields: [id_consulta], references: [id_consulta])
 
   @@index([id_paciente])
   @@index([id_usuario])

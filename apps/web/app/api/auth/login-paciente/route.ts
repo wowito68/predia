@@ -2,8 +2,10 @@
 // Login de PACIENTE para la app móvil: CURP + PIN.
 import { NextResponse, NextRequest } from "next/server"
 import { z } from "zod"
-import { authenticatePaciente } from "@/lib/auth"
+import { authenticatePaciente, issueRefreshToken } from "@/lib/auth"
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit"
+import { serialize } from "cookie"
+import { recordAuthAttempt } from "@/lib/metrics"
 
 const loginPacienteSchema = z.object({
   curp: z.string().trim().min(8, "CURP inválido").max(18).transform((v) => v.toUpperCase()),
@@ -13,8 +15,10 @@ const loginPacienteSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const clientIp = getClientIp(req)
+    const userAgent = req.headers.get("user-agent")
     const { allowed, resetIn } = checkRateLimit(clientIp, 5, 15 * 60 * 1000)
     if (!allowed) {
+      recordAuthAttempt("paciente", false)
       return NextResponse.json(
         { success: false, error: `Demasiados intentos. Intente en ${Math.ceil(resetIn / 1000)} segundos` },
         { status: 429, headers: { "Retry-After": Math.ceil(resetIn / 1000).toString() } },
@@ -24,6 +28,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const validation = loginPacienteSchema.safeParse(body)
     if (!validation.success) {
+      recordAuthAttempt("paciente", false)
       return NextResponse.json(
         { success: false, error: "Datos inválidos", details: validation.error.errors },
         { status: 400 },
@@ -34,13 +39,31 @@ export async function POST(req: NextRequest) {
     const result = await authenticatePaciente(curp, pin)
 
     if (!result.success) {
+      recordAuthAttempt("paciente", false)
       return NextResponse.json({ success: false, error: result.message || "Autenticación fallida" }, { status: 401 })
     }
+    recordAuthAttempt("paciente", true)
 
-    return NextResponse.json(
-      { success: true, message: "Autenticado exitosamente", token: result.token, user: result.user },
+    const refreshToken = await issueRefreshToken(
+      { subject_type: "paciente", id_paciente: result.user!.id_paciente },
+      { ip: clientIp, userAgent },
+    )
+    const secureCookies = process.env.SECURE_COOKIES === "true" || process.env.NODE_ENV === "production"
+    const response = NextResponse.json(
+      { success: true, message: "Autenticado exitosamente", token: result.token, refreshToken, user: result.user },
       { status: 200 },
     )
+    response.headers.append(
+      "Set-Cookie",
+      serialize("refresh-token", refreshToken, {
+        httpOnly: true,
+        secure: secureCookies,
+        sameSite: "lax",
+        path: "/api/auth",
+        maxAge: 7 * 24 * 60 * 60,
+      }),
+    )
+    return response
   } catch (error) {
     console.error("Error en login-paciente:", error)
     return NextResponse.json({ success: false, error: "Error interno del servidor" }, { status: 500 })

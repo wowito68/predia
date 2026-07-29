@@ -201,6 +201,56 @@ export function EmptyState({
   )
 }
 
+export function FeedbackBanner({
+  icon,
+  title,
+  subtitle,
+  tone = 'success',
+  style,
+}: {
+  icon?: IconName
+  title: string
+  subtitle?: string
+  tone?: 'success' | 'info' | 'warning' | 'danger'
+  style?: ViewStyle
+}) {
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
+  const opacity = useRef(new Animated.Value(0)).current
+  const translateY = useRef(new Animated.Value(-8)).current
+  const palette = {
+    success: { bg: colors.successBg, text: colors.successText, glyph: 'check-circle' as IconName },
+    info: { bg: colors.infoBg, text: colors.infoText, glyph: 'activity' as IconName },
+    warning: { bg: colors.warningBg, text: colors.warningText, glyph: 'alert-triangle' as IconName },
+    danger: { bg: colors.errorBg, text: colors.errorText, glyph: 'x-circle' as IconName },
+  }[tone]
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(opacity, { toValue: 1, duration: 180, easing: Easing.out(Easing.quad), useNativeDriver: Platform.OS !== 'web' }),
+      Animated.timing(translateY, { toValue: 0, duration: 180, easing: Easing.out(Easing.quad), useNativeDriver: Platform.OS !== 'web' }),
+    ]).start()
+  }, [opacity, translateY])
+
+  return (
+    <Animated.View
+      style={[
+        s.feedback,
+        { backgroundColor: palette.bg, opacity, transform: [{ translateY }] },
+        style,
+      ]}
+    >
+      <View style={[s.feedbackIcon, { backgroundColor: `${palette.text}14` }]}>
+        <Ionicons name={icon ?? palette.glyph} size={18} color={palette.text} />
+      </View>
+      <View style={{ flex: 1 }}>
+        <Text style={[s.feedbackTitle, { color: palette.text }]}>{title}</Text>
+        {subtitle ? <Text style={[s.feedbackSub, { color: palette.text }]}>{subtitle}</Text> : null}
+      </View>
+    </Animated.View>
+  )
+}
+
 export function Skeleton({ width = '100%', height = 16, style }: { width?: number | string; height?: number; style?: ViewStyle }) {
   const { colors } = useTheme()
   const op = useRef(new Animated.Value(0.45)).current
@@ -328,6 +378,10 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   emptyIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md, borderWidth: 1, borderColor: colors.border },
   emptyTitle: { ...typography.bodyMedium, color: colors.textPrimary, textAlign: 'center' },
   emptySub: { ...typography.caption, color: colors.textMuted, textAlign: 'center', marginTop: 4, maxWidth: 260 },
+  feedback: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderRadius: radius.md, padding: spacing.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, marginBottom: spacing.sm },
+  feedbackIcon: { width: 36, height: 36, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
+  feedbackTitle: { ...typography.bodyMedium },
+  feedbackSub: { ...typography.caption, marginTop: 1, opacity: 0.82 },
   skelCard: { backgroundColor: colors.surface, borderRadius: radius.sm, padding: spacing.md, marginBottom: spacing.xs, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border },
   btn: { minHeight: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: radius.sm, paddingVertical: 12, paddingHorizontal: 18, borderWidth: 1 },
   btnText: { ...typography.bodyMedium },

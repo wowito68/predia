@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { View, Text, TextInput, Alert, ActivityIndicator, StyleSheet } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api, SignosVitalesInput } from '@/services/api'
 import { Screen, ScreenHeader } from '@/components/Screen'
-import { PremiumCard, PrimaryButton } from '@/components/ui'
+import { FeedbackBanner, PremiumCard, PrimaryButton } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
@@ -27,10 +27,21 @@ export function SignosVitalesScreen() {
   const nombre: string = route.params?.nombre ?? 'Paciente'
   const [values, setValues] = useState<Record<string, string>>({})
   const [obs, setObs] = useState('')
+  const [saved, setSaved] = useState(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+  }, [])
 
   const mut = useMutation({
     mutationFn: (input: SignosVitalesInput) => api.medico.addSignos(input),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['mediciones', idPaciente] }),
+    onSuccess: async () => {
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: ['mediciones', idPaciente] }),
+        qc.invalidateQueries({ queryKey: ['clinical-snapshot', idPaciente] }),
+      ])
+    },
   })
 
   const guardar = () => {
@@ -48,7 +59,10 @@ export function SignosVitalesScreen() {
     if (Object.keys(input).length === 1) { Alert.alert('Sin datos', 'Captura al menos una medición.'); return }
 
     mut.mutate(input, {
-      onSuccess: () => { Alert.alert('Guardado', 'Signos vitales registrados en el expediente.'); nav.goBack() },
+      onSuccess: () => {
+        setSaved(true)
+        closeTimer.current = setTimeout(() => nav.goBack(), 850)
+      },
       onError: (e: any) => Alert.alert('Error', e?.message ?? 'No se pudo guardar'),
     })
   }
@@ -57,6 +71,13 @@ export function SignosVitalesScreen() {
     <View style={s.root}>
       <ScreenHeader title="Signos vitales" subtitle={nombre} onBack={() => nav.goBack()} />
       <Screen scroll padded>
+        {saved ? (
+          <FeedbackBanner
+            title="Medición registrada"
+            subtitle="Los signos vitales ya están sincronizados con el expediente."
+            tone="success"
+          />
+        ) : null}
         {CAMPOS.map((c) => (
           <PremiumCard key={c.key as string} style={s.card}>
             <Text style={s.fieldLabel}>{c.label} <Text style={s.unidad}>({c.unidad})</Text></Text>
@@ -82,7 +103,7 @@ export function SignosVitalesScreen() {
           />
         </PremiumCard>
 
-        <PrimaryButton label="Guardar signos vitales" onPress={guardar} disabled={mut.isPending} />
+        <PrimaryButton label={saved ? 'Guardado' : 'Guardar signos vitales'} onPress={guardar} disabled={mut.isPending || saved} />
         {mut.isPending ? <ActivityIndicator color={colors.primary} style={{ marginTop: spacing.sm }} /> : null}
       </Screen>
     </View>

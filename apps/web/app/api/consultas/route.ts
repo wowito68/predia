@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
 import { prisma } from "@/lib/prisma"
 import { verifyToken } from "@/lib/auth"
+
+const consultaSchema = z.object({
+    id_paciente: z.coerce.number().int().positive(),
+    motivo_consulta: z.string().trim().min(3).max(1000),
+    sintomas: z.string().trim().max(2000).optional().nullable(),
+    exploracion_fisica: z.string().trim().max(2000).optional().nullable(),
+    diagnostico: z.string().trim().max(2000).optional().nullable(),
+    tratamiento: z.string().trim().max(2000).optional().nullable(),
+    receta: z.string().trim().max(2000).optional().nullable(),
+    proxima_cita: z.string().datetime().optional().nullable(),
+    observaciones: z.string().trim().max(3000).optional().nullable(),
+}).strict()
 
 // GET - Listar consultas médicas
 export async function GET(request: NextRequest) {
@@ -53,7 +66,13 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ success: false, error: "Token inválido" }, { status: 401 })
         }
 
-        const body = await request.json()
+        const validation = consultaSchema.safeParse(await request.json())
+        if (!validation.success) {
+            return NextResponse.json(
+                { success: false, error: "Datos inválidos", details: validation.error.errors },
+                { status: 400 },
+            )
+        }
         const {
             id_paciente,
             motivo_consulta,
@@ -63,20 +82,16 @@ export async function POST(request: NextRequest) {
             tratamiento,
             receta,
             proxima_cita,
-            observaciones
-        } = body
-
-        if (!id_paciente || !motivo_consulta) {
-            return NextResponse.json({
-                success: false,
-                error: "Faltan campos requeridos: id_paciente, motivo_consulta"
-            }, { status: 400 })
-        }
+            observaciones,
+        } = validation.data
 
         const paciente = await prisma.paciente.findUnique({
-            where: { id_paciente: parseInt(id_paciente) },
+            where: { id_paciente },
             select: { nombre: true, apellido_paterno: true, cedula: true, fecha_nacimiento: true, genero: true }
         });
+        if (!paciente) {
+            return NextResponse.json({ success: false, error: "Paciente no encontrado" }, { status: 404 })
+        }
 
         const datos_paciente = JSON.stringify(paciente || {});
         const datos_medico = JSON.stringify({
@@ -88,7 +103,7 @@ export async function POST(request: NextRequest) {
 
         const consulta = await prisma.consultaMedica.create({
             data: {
-                id_paciente: parseInt(id_paciente),
+                id_paciente,
                 id_usuario: user.id_usuario,
                 motivo_consulta,
                 sintomas: sintomas || null,

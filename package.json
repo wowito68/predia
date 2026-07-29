@@ -2,6 +2,7 @@
   "name": "predia-monorepo",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.23.0",
   "scripts": {
     "web:dev": "pnpm --filter @predia/web dev",
     "web:build": "pnpm --filter @predia/web build",
@@ -13,9 +14,32 @@
     "db:migrate": "pnpm --filter @predia/web db:migrate",
     "db:seed": "pnpm --filter @predia/web db:seed",
     "db:studio": "pnpm --filter @predia/web prisma:studio",
-    "setup": "bash setup.sh"
+    "setup": "bash setup.sh",
+    "lint": "eslint \"apps/**/*.{js,jsx,ts,tsx,mjs,cjs}\" \"packages/**/*.{js,jsx,ts,tsx,mjs,cjs}\" \"scripts/**/*.{js,mjs,cjs}\"",
+    "lint:errors": "eslint \"apps/**/*.{js,jsx,ts,tsx,mjs,cjs}\" \"packages/**/*.{js,jsx,ts,tsx,mjs,cjs}\" \"scripts/**/*.{js,mjs,cjs}\" --quiet",
+    "lint:ci": "pnpm lint:errors",
+    "typecheck": "pnpm typecheck:web && pnpm typecheck:mobile && pnpm typecheck:shared",
+    "typecheck:web": "npx tsc -p apps/web/tsconfig.json --noEmit",
+    "typecheck:mobile": "npx tsc -p apps/mobile/tsconfig.json --noEmit",
+    "typecheck:shared": "npx tsc -p packages/shared/tsconfig.json --noEmit",
+    "test": "pnpm test:web",
+    "test:web": "pnpm --filter @predia/web exec jest --runInBand",
+    "build": "pnpm build:web && pnpm build:mobile-web",
+    "build:web": "pnpm --filter @predia/web build",
+    "build:mobile-web": "pnpm --filter @predia/mobile build:web",
+    "prisma:generate": "pnpm --filter @predia/web exec prisma generate",
+    "prisma:validate": "pnpm --filter @predia/web exec prisma validate",
+    "prisma:migrate:deploy": "pnpm --filter @predia/web exec prisma migrate deploy",
+    "prisma:migrate:status": "pnpm --filter @predia/web exec prisma migrate status",
+    "ci:local": "pnpm prisma:generate && pnpm lint:ci && pnpm typecheck && pnpm test && pnpm prisma:validate && pnpm build:web && pnpm build:mobile-web",
+    "rubric-check": "bash scripts/rubric-check.sh"
   },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.8.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.65.0"
   }
 }

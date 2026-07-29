@@ -24,27 +24,28 @@
 \setlength{\parindent}{1.25cm}
 \setlength{\parskip}{0pt}
 \renewcommand{\arraystretch}{1.25}
+\renewcommand{\contentsname}{ÍNDICE}
+\addto\captionsspanish{\renewcommand{\listfigurename}{Tabla de ilustraciones}}
 
-\definecolor{prediaBlue}{HTML}{1565C0}
-\definecolor{prediaDark}{HTML}{17324D}
-\definecolor{prediaGray}{HTML}{667085}
-\definecolor{prediaLight}{HTML}{F2F5F9}
+\definecolor{prediaBlue}{HTML}{0E7490}
+\definecolor{prediaDark}{HTML}{10212B}
+\definecolor{prediaGray}{HTML}{64748B}
+\definecolor{prediaLight}{HTML}{F8FAFC}
+\definecolor{prediaTeal}{HTML}{5EC6CA}
 
 \titleformat{\chapter}[display]
-  {\normalfont\sffamily\bfseries\color{prediaDark}}
-  {\Large\MakeUppercase{\chaptertitlename}\ \thechapter}
-  {6pt}
-  {\color{prediaBlue}\rule{\linewidth}{0.8pt}\endgraf\vspace{6pt}\LARGE}
-  [\vspace{4pt}\color{prediaGray}\rule{\linewidth}{0.4pt}]
-\titleformat{\section}{\normalfont\sffamily\Large\bfseries\color{prediaDark}}{\thesection}{0.8em}{}
-\titleformat{\subsection}{\normalfont\sffamily\large\bfseries\color{prediaDark}}{\thesubsection}{0.7em}{}
+  {\normalfont\sffamily\bfseries\centering\color{black}}
+  {\Huge CAPÍTULO \thechapter}
+  {22pt}
+  {\Huge\MakeUppercase}
+\titleformat{\section}{\normalfont\sffamily\Large\bfseries\color{black}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\sffamily\large\bfseries\color{black}}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\normalfont\sffamily\normalsize\bfseries\color{black}}{\thesubsubsection}{0.7em}{}
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\color{prediaGray}PREDIA -- Integración móvil}
-\fancyhead[R]{\small\color{prediaGray}\leftmark}
 \fancyfoot[C]{\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrulewidth}{0pt}
 
 \newcommand{\status}[1]{\textbf{#1}}
 \newcommand{\projectname}{PREDIA}
@@ -56,37 +57,46 @@
 % ---------------------------------------------------------------------------
 \begin{titlepage}
   \thispagestyle{empty}
+  \setlength{\fboxrule}{1.1pt}
+  \setlength{\fboxsep}{0pt}
   \begin{center}
-    {\sffamily\Large\bfseries UNIVERSIDAD POLITÉCNICA DE QUERÉTARO}\\[0.15cm]
-    {\sffamily\large Ingeniería en Sistemas Computacionales}\\[0.15cm]
-    {\sffamily\normalsize Programación Móvil}\\[0.55cm]
+    \fbox{%
+      \begin{minipage}[c][0.92\textheight][t]{0.86\textwidth}
+        \begin{center}
+          \vspace{0.55cm}
+          \includegraphics[width=2.7cm]{manual-zeroheight/logo/isotipo.png}\\[0.25cm]
+          {\sffamily\Large\bfseries PREDIA}\\[0.15cm]
+          {\sffamily\normalsize Plataforma Clínica Inteligente para la Detección Temprana de Diabetes}\\[0.72cm]
 
-    \includegraphics[width=3.1cm]{../apps/mobile/assets/icon.png}\\[0.2cm]
-    {\sffamily\Huge\bfseries\color{prediaBlue} PREDIA}\\[0.15cm]
-    {\sffamily\large Plataforma Clínica Inteligente para la Detección Temprana de Diabetes}\\[0.45cm]
+          \begin{minipage}{0.78\linewidth}
+            \centering
+            {\sffamily\Large\bfseries Integración móvil para autogestión del paciente y atención clínica en movilidad}
+          \end{minipage}\\[0.72cm]
 
-    {\color{prediaBlue}\rule{0.82\linewidth}{1pt}}\\[0.45cm]
-    {\sffamily\Large\bfseries REPORTE DE PROYECTO INTEGRADOR}\\[0.2cm]
-    {\sffamily\normalsize Integración móvil para autogestión del paciente y atención clínica en movilidad}\\[0.45cm]
-    {\color{prediaBlue}\rule{0.82\linewidth}{1pt}}\\[0.5cm]
+          {\sffamily\Large REPORTE DE PROYECTO INTEGRADOR}\\[0.42cm]
+          {\sffamily\Large\bfseries PROGRAMA EDUCATIVO}\\[0.26cm]
+          {\sffamily\large Ingeniería en Sistemas Computacionales}\\[0.62cm]
 
-    {\sffamily\bfseries PRESENTAN}\\[0.15cm]
-    Arianna Valentina Giannoccaro Quiñonez\\
-    Álvarez Sánchez Guillermo\\
-    Muñoz Prado Cristopher Yanhyu\\
-    Villafuerte Armenta Gabriel Iván\\[0.45cm]
+          {\sffamily\Large\bfseries PRESENTAN}\\[0.25cm]
+          {\sffamily Arianna Valentina Giannoccaro Quiñonez}\\
+          {\sffamily Álvarez Sánchez Guillermo}\\
+          {\sffamily Muñoz Prado Cristopher Yanhyu}\\
+          {\sffamily Villafuerte Armenta Gabriel Iván}\\[0.62cm]
 
-    {\sffamily\bfseries DOCENTE}\\[0.1cm]
-    Iván Isay Guerra López\\[0.35cm]
-    {\sffamily\bfseries ASESORES UPQ}\\[0.1cm]
-    José Javier Moya Moya \quad | \quad Jairo Pacindo Piña
+          {\sffamily\Large\bfseries ASESOR UPQ}\\[0.2cm]
+          {\sffamily Andrea Aidee Martínez Servín}
+        \end{center}
 
-    \vfill
-    {\sffamily El Marqués, Querétaro \hfill Junio de 2026}
+        \vfill
+        \noindent\hspace*{0.55cm}{\sffamily El Marqués, Querétaro}\hfill{\sffamily Julio 2026}\hspace*{0.55cm}
+        \vspace{0.65cm}
+      \end{minipage}%
+    }
   \end{center}
 \end{titlepage}
 
-\pagenumbering{roman}
+\pagenumbering{arabic}
+\setcounter{page}{2}
 
 % ---------------------------------------------------------------------------
 % RESUMEN
@@ -94,17 +104,36 @@
 \chapter*{Resumen}
 \addcontentsline{toc}{chapter}{Resumen}
 
-El presente reporte documenta la ampliación móvil de \projectname, una plataforma clínica orientada a la gestión de expedientes y al apoyo para la detección temprana del riesgo de diabetes tipo 2. La solución web existente centraliza información de pacientes, consultas, signos vitales, recetas y predicciones de Inteligencia Artificial; sin embargo, su contexto principal de uso corresponde al escritorio y a sesiones clínicas prolongadas. La nueva integración móvil atiende necesidades diferentes: permitir al paciente consultar y registrar información de salud desde casa, y facilitar al médico la consulta y captura de datos durante rondas o atención al pie de cama.
+El presente reporte actualiza la entrega del Proyecto Integrador de \projectname\ para documentar únicamente la integración móvil. \projectname\ es una plataforma clínica inteligente orientada a la gestión de expedientes y al apoyo para la detección temprana del riesgo de diabetes tipo 2. La fase móvil amplía el sistema hacia dos escenarios de uso: la autogestión del paciente desde su teléfono y la atención clínica del médico en movilidad.
 
-La propuesta contempla dos roles diferenciados. El portal del paciente integra acceso a su resumen de salud, expediente en modo de lectura, citas, recetas, resultados de riesgo, automonitoreo y tendencias. La experiencia del médico prioriza agenda diaria, búsqueda rápida de pacientes, resumen clínico, alertas, registro de signos vitales, dictado de notas, captura de imágenes, validación de predicciones y firma de recetas. La aplicación se desarrolla con React Native y Expo, reutiliza la API de la plataforma web y mantiene autenticación, persistencia y control de acceso acordes con la naturaleza sensible de la información clínica.
+La propuesta contempla dos perfiles diferenciados. El portal del paciente integra acceso a su resumen de salud, expediente en modo de lectura, recetas, indicadores, resultados de riesgo y recomendaciones. La experiencia del médico prioriza agenda diaria, administración de citas, búsqueda rápida de pacientes, resumen clínico, alertas, registro de signos vitales, dictado de notas, validación de predicciones y firma de recetas. La aplicación se desarrolla con React Native y Expo, consume la API clínica existente y conserva autenticación, persistencia y control de acceso acordes con la naturaleza sensible de la información médica.
 
-Las dos primeras etapas abarcan el análisis de la brecha entre web y móvil, la definición de requisitos funcionales y no funcionales, el diseño de arquitectura e interfaces, y la construcción de un prototipo funcional conectado al backend de \projectname. El resultado es una base móvil complementaria a la plataforma web, orientada a reducir tiempos de consulta, mejorar el seguimiento del paciente y acercar la información clínica al momento en que se requiere tomar una decisión.
+Las dos primeras etapas abarcan el análisis de necesidades móviles, la definición de requisitos funcionales y no funcionales, el diseño de arquitectura e interfaces, y la construcción de un prototipo funcional conectado al backend de \projectname. El resultado es una aplicación móvil navegable para ambos perfiles, con evidencia visual capturada desde el prototipo ejecutado y alineación con los mockups de diseño compartidos en Figma.
 
 \noindent\textbf{Palabras clave:} salud móvil, expediente clínico, React Native, atención clínica, automonitoreo, diabetes, Inteligencia Artificial.
 
+\clearpage
+
+% ---------------------------------------------------------------------------
+% ABSTRACT
+% ---------------------------------------------------------------------------
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT}
+
+This report documents the mobile-only delivery of \projectname, an intelligent clinical platform for early diabetes risk detection. The mobile integration extends the existing clinical backend into two practical contexts: patient self-management from a smartphone and medical care while moving through clinical workflows.
+
+The application defines two differentiated profiles. Patients can review their health summary, clinical information, prescriptions, indicators, risk results and recommendations. Physicians can access a daily agenda, manage appointments, search patients, review clinical summaries, monitor alerts, record vital signs, dictate notes, validate AI predictions and sign prescriptions. The prototype was built with React Native and Expo, consumes the existing clinical API, and keeps authentication, persistence and access control aligned with sensitive health information.
+
+The first two stages included mobile requirements analysis, functional and non-functional specification, interface design, architecture definition and implementation of a functional prototype connected to \projectname. Evidence was captured from the running mobile application and cross-checked with the Figma mockups used as design reference.
+
+\noindent\textbf{Keywords:} mobile health, electronic health record, React Native, clinical care, self-monitoring, diabetes, Artificial Intelligence.
+
 \tableofcontents
 \clearpage
-\pagenumbering{arabic}
+
+\listoffigures
+\addcontentsline{toc}{chapter}{Tabla de ilustraciones}
+\clearpage
 
 % ---------------------------------------------------------------------------
 % CAPÍTULO I
@@ -115,18 +144,18 @@ Las dos primeras etapas abarcan el análisis de la brecha entre web y móvil, la
 
 \projectname\ (Plataforma Clínica Inteligente para la Detección Temprana de Diabetes) es un proyecto de software clínico que integra la administración de pacientes, historiales médicos y herramientas de apoyo basadas en Inteligencia Artificial. Su propósito es organizar información clínica estructurada y convertirla en señales útiles para la prevención, el seguimiento y la toma de decisiones por parte de profesionales de la salud.
 
-El proyecto original se implementó como una plataforma web con arquitectura cliente--servidor, API REST, base de datos relacional, autenticación mediante JSON Web Tokens y control de acceso por roles. Esta versión permite administrar pacientes, consultas, alergias, patologías, vacunas, antecedentes, signos vitales, documentos, recetas y predicciones de riesgo. La plataforma constituye el núcleo transaccional y clínico del sistema.
+El núcleo técnico existente de \projectname\ se implementó con arquitectura cliente--servidor, API REST, base de datos relacional, autenticación mediante JSON Web Tokens y control de acceso por roles. Este núcleo permite administrar pacientes, consultas, alergias, patologías, vacunas, antecedentes, signos vitales, documentos, recetas y predicciones de riesgo. Para la nueva entrega, dicho núcleo funciona como backend clínico de la aplicación móvil.
 
 La evolución del proyecto incorpora una aplicación móvil complementaria. Esta nueva integración no pretende duplicar todos los módulos de la web, sino adaptar el producto a escenarios en los que el usuario necesita información inmediata, acciones breves y capacidades nativas del dispositivo.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.32\linewidth]{../apps/mobile/assets/icon.png}
+  \includegraphics[width=0.32\linewidth]{manual-zeroheight/logo/isotipo.png}
   \caption{Logo del proyecto PREDIA utilizado en la aplicación móvil.}
   \label{fig:logo-predia}
 \end{figure}
 
-El símbolo gráfico se construye a partir de una forma geométrica ascendente en color azul clínico. La composición comunica tecnología, precisión y evolución, mientras que la paleta azul se asocia con confianza, seguridad y atención sanitaria. El logo se utiliza como identificador visual común entre las experiencias web y móvil.
+El símbolo gráfico se construye a partir de una forma geométrica ascendente en color azul clínico. La composición comunica tecnología, precisión y evolución, mientras que la paleta azul se asocia con confianza, seguridad y atención sanitaria. El logo se utiliza como identificador visual común del ecosistema PREDIA.
 
 \section{Contexto clínico y tecnológico}
 
@@ -144,10 +173,10 @@ No obstante, se identificaron cinco brechas principales:
 
 \begin{enumerate}[label=\arabic*.]
   \item El paciente no disponía de una experiencia propia para consultar sus datos y participar en el seguimiento de su salud.
-  \item La interfaz web no estaba optimizada para consulta rápida durante rondas o atención al pie de cama.
+  \item La interfaz principal no estaba optimizada para consulta rápida durante rondas o atención al pie de cama.
   \item La captura clínica móvil requería aprovechar micrófono, cámara y autenticación biométrica.
   \item El automonitoreo entre consultas no contaba con una interfaz específica para registro y visualización de tendencias.
-  \item Los recordatorios y alertas dependían de mecanismos web o correo, con menor oportunidad que una notificación móvil nativa.
+  \item Los recordatorios y alertas dependían de mecanismos del sistema principal o correo, con menor oportunidad que una notificación móvil nativa.
 \end{enumerate}
 
 Estas brechas justifican una aplicación móvil especializada que consuma los servicios existentes, mantenga una fuente única de información y ofrezca funciones coherentes con el contexto del dispositivo.
@@ -161,17 +190,52 @@ Los requisitos no funcionales consideran rendimiento, disponibilidad offline, pr
 % ---------------------------------------------------------------------------
 % CAPÍTULO II
 % ---------------------------------------------------------------------------
+\chapter{Marco teórico}
+
+\section{Salud móvil}
+
+La salud móvil, o \textit{mHealth}, se refiere al uso de dispositivos móviles para apoyar actividades de prevención, seguimiento, comunicación y atención clínica. En un proyecto como \projectname, la aplicación móvil no sustituye el expediente central ni la valoración médica; funciona como una capa de acceso inmediato que acerca la información al paciente y al profesional de salud.
+
+En el perfil del paciente, la salud móvil permite consultar indicaciones, revisar recetas, conocer próximas citas y observar tendencias de automonitoreo. En el perfil médico, permite actuar durante una ronda o consulta breve sin depender de una computadora. Esta diferencia de contexto obliga a diseñar pantallas con menor densidad, acciones claras y estados visibles.
+
+\section{Expediente clínico y continuidad de atención}
+
+El expediente clínico digital organiza datos de identificación, antecedentes, alergias, consultas, signos vitales, recetas y documentos asociados al paciente. Su valor aumenta cuando la información se mantiene actualizada y accesible para los actores autorizados. Por ello, la app móvil se conecta al mismo backend clínico de \projectname\ en lugar de crear una fuente de datos separada.
+
+La continuidad de atención requiere que el paciente pueda consultar instrucciones y aportar mediciones entre visitas, mientras el médico conserva control sobre validación, interpretación y decisiones clínicas. Esta relación evita que el automonitoreo se convierta en diagnóstico automático y mantiene la trazabilidad de cada intervención.
+
+\section{React Native, Expo y arquitectura móvil}
+
+React Native permite construir interfaces móviles con TypeScript y componentes declarativos. Expo agrega herramientas para desarrollo, permisos nativos, cámara, autenticación local, audio y empaquetado multiplataforma. Esta combinación es adecuada para un prototipo académico porque acelera validación en Android, iOS y navegador, sin abandonar la posibilidad de probar funciones nativas en dispositivos físicos.
+
+La arquitectura móvil de \projectname\ utiliza navegación por perfil, estado de sesión, caché de consultas y servicios HTTP conectados al backend. TanStack Query se emplea para lectura, caché e invalidación de datos; Zustand centraliza autenticación; SecureStore protege sesión en entornos nativos; y los módulos de Expo habilitan capacidades del dispositivo.
+
+\section{Usabilidad en sistemas clínicos}
+
+Los sistemas clínicos requieren interfaces con alta legibilidad, jerarquía visual y bajo margen de error. El uso de colores debe comunicar estado sin saturar la pantalla; los botones deben distinguir acciones primarias y secundarias; los formularios deben reducir ambigüedad; y los estados de carga o error deben indicar claramente si la información se guardó o requiere reintento.
+
+En \projectname\ móvil se priorizó una experiencia sobria, con fondo oscuro clínico, acentos turquesa, tarjetas delimitadas por bordes finos e iconografía consistente. Las decisiones visuales buscan transmitir confianza y profesionalismo, especialmente porque la información consultada pertenece al ámbito médico.
+
+\section{Inteligencia Artificial como apoyo clínico}
+
+La Inteligencia Artificial en \projectname\ se utiliza como apoyo para estimar riesgo de diabetes tipo 2 y priorizar seguimiento. El resultado no debe interpretarse como diagnóstico definitivo. Por esta razón, la aplicación muestra niveles de riesgo, factores relacionados y recomendaciones, pero conserva la validación médica como parte del flujo.
+
+El diseño móvil presenta la IA de forma comprensible para el paciente y accionable para el médico. Para el paciente, el resultado se acompaña de explicaciones y recomendaciones. Para el médico, se integra como alerta o elemento de priorización que puede revisarse, confirmarse o documentarse.
+
+% ---------------------------------------------------------------------------
+% CAPÍTULO III
+% ---------------------------------------------------------------------------
 \chapter{Definición del proyecto}
 
 \section{Planteamiento del problema}
 
-La plataforma web de \projectname\ centraliza información clínica y ofrece herramientas predictivas, pero no cubre por completo las necesidades que aparecen fuera del consultorio o de una computadora. El paciente continúa dependiendo del personal médico para conocer resultados, revisar indicaciones y dar seguimiento a sus mediciones. A su vez, el médico necesita acceder con rapidez al expediente mientras se desplaza, registrar signos vitales, documentar hallazgos y atender alertas sin completar flujos extensos diseñados para escritorio.
+El backend clínico de \projectname\ centraliza información y ofrece herramientas predictivas, pero el producto necesitaba una experiencia propia para los momentos en que no se usa una computadora. El paciente continúa dependiendo del personal médico para conocer resultados, revisar indicaciones y dar seguimiento a sus mediciones. A su vez, el médico necesita acceder con rapidez al expediente mientras se desplaza, registrar signos vitales, documentar hallazgos y atender alertas sin completar flujos extensos diseñados para escritorio.
 
 Esta separación entre la información disponible y el contexto real de uso provoca retrasos y fricción. Un dato de presión o glucosa registrado en casa puede quedar fuera del expediente; una alerta de alto riesgo puede no revisarse oportunamente; una nota clínica puede posponerse hasta que el médico regrese a una computadora. Además, la falta de participación directa del paciente limita la continuidad del seguimiento entre consultas.
 
 El problema central consiste, por tanto, en que \projectname\ dispone de información y servicios clínicos, pero requiere un canal móvil seguro y especializado que los acerque a dos momentos críticos: la autogestión cotidiana del paciente y la atención del médico en movimiento. Resolverlo exige mantener una sola fuente de datos, adaptar la navegación a tareas frecuentes y aprovechar capacidades nativas sin comprometer la confidencialidad del expediente.
 
-La pregunta que orienta el proyecto es la siguiente: \textit{¿cómo ampliar PREDIA mediante una aplicación móvil complementaria que permita al paciente participar en el seguimiento de su salud y al médico actuar con rapidez durante la atención clínica, conservando seguridad, trazabilidad y consistencia con la plataforma web?}
+La pregunta que orienta el proyecto es la siguiente: \textit{¿cómo ampliar PREDIA mediante una aplicación móvil que permita al paciente participar en el seguimiento de su salud y al médico actuar con rapidez durante la atención clínica, conservando seguridad, trazabilidad y consistencia con el expediente central?}
 
 \section{Justificación}
 
@@ -189,11 +253,11 @@ La aplicación móvil puede utilizar autenticación biométrica, cámara, micró
 
 \subsection{Reutilización de la inversión tecnológica}
 
-La solución no crea un backend independiente. La aplicación consume la API y la base de datos ya desarrolladas para la plataforma web, lo que reduce duplicidad y mantiene consistencia. React Native y Expo también reutilizan conocimientos del equipo en React, TypeScript, Zustand y TanStack Query. De esta forma, la ampliación móvil aprovecha la inversión previa y conserva una arquitectura mantenible.
+La solución no crea un backend independiente. La aplicación consume la API y la base de datos ya desarrolladas para \projectname, lo que reduce duplicidad y mantiene consistencia. React Native y Expo también reutilizan conocimientos del equipo en React, TypeScript, Zustand y TanStack Query. De esta forma, la ampliación móvil aprovecha la inversión previa y conserva una arquitectura mantenible.
 
 \subsection{Continuidad clínica y prevención}
 
-La combinación de información web y móvil permite registrar eventos en distintos momentos del proceso clínico. El médico genera indicaciones y valida riesgos; el paciente consulta esas indicaciones y aporta mediciones entre visitas. Esta continuidad fortalece el carácter preventivo de \projectname\ y transforma la plataforma de un repositorio de información a una herramienta de seguimiento y apoyo a decisiones.
+La combinación del expediente central y la app móvil permite registrar eventos en distintos momentos del proceso clínico. El médico genera indicaciones y valida riesgos; el paciente consulta esas indicaciones y aporta mediciones entre visitas. Esta continuidad fortalece el carácter preventivo de \projectname\ y transforma la plataforma de un repositorio de información a una herramienta de seguimiento y apoyo a decisiones.
 
 \section{Alcances y restricciones}
 
@@ -206,14 +270,15 @@ El proyecto contempla los siguientes alcances para la integración móvil:
   \item Autenticación diferenciada para médico y paciente, persistencia segura de sesión y base para desbloqueo biométrico.
   \item Navegación médica mediante Inicio, Agenda, Pacientes, Alertas y Perfil.
   \item Dashboard médico con citas del día, pacientes de alto riesgo, acciones rápidas y acceso al resumen clínico.
+  \item Administración móvil de agenda: consulta de citas vigentes, creación de nuevas citas, inicio de atención y cierre de cita.
   \item Resumen móvil del paciente con identidad, contacto, riesgo estratificado, alergias, signos vitales, consultas y recetas.
   \item Registro rápido de signos vitales conectado a la API de \projectname.
   \item Dictado de notas con captura de audio, transcripción y persistencia de la nota en el expediente.
   \item Captura de fotografías clínicas mediante cámara y flujo para adjuntar evidencia.
   \item Revisión y validación de predicciones de Inteligencia Artificial por parte del médico.
   \item Firma de recetas con autenticación biométrica cuando el dispositivo la soporte y flujo controlado de demostración en emulador.
-  \item Portal base del paciente con dashboard, expediente, recetas, citas, automonitoreo, resultados y tendencias.
-  \item Consumo de la API web mediante TanStack Query, manejo de estados de carga, error y refresco de datos.
+  \item Portal base del paciente con dashboard, expediente, recetas, citas, indicadores, resultados y recomendaciones.
+  \item Consumo de la API clínica mediante TanStack Query, manejo de estados de carga, error y refresco de datos.
   \item Integración de objetivos de salud para peso, IMC y presión como base de seguimiento longitudinal.
 \end{itemize}
 
@@ -242,7 +307,7 @@ Tiempo y recursos & El desarrollo se realiza en un contexto académico con un eq
 
 \section{Objetivo general}
 
-Desarrollar e integrar una aplicación móvil complementaria a la plataforma web \projectname\ que proporcione al paciente herramientas de consulta y automonitoreo, y al médico una experiencia de atención clínica en movilidad, mediante acceso seguro a la información, captura rápida de datos y aprovechamiento de capacidades nativas del dispositivo, manteniendo consistencia con el expediente clínico central y apoyo explicable a la toma de decisiones.
+Desarrollar e integrar una aplicación móvil complementaria a \projectname\ que proporcione al paciente herramientas de consulta, seguimiento e interpretación de su información clínica, y al médico una experiencia de atención en movilidad mediante acceso seguro al expediente, administración de agenda, captura rápida de datos y aprovechamiento de capacidades nativas del dispositivo.
 
 \section{Objetivos específicos}
 
@@ -250,7 +315,7 @@ Desarrollar e integrar una aplicación móvil complementaria a la plataforma web
   \item Diseñar una arquitectura móvil por roles que reutilice la API REST, autenticación y modelo de datos existentes de \projectname.
   \item Implementar autenticación para paciente y médico, almacenamiento seguro de sesión y soporte para desbloqueo biométrico en dispositivos compatibles.
   \item Proporcionar al paciente acceso a su resumen de salud, expediente, recetas, citas, resultados de riesgo, automonitoreo y tendencias.
-  \item Optimizar el flujo del médico mediante agenda diaria, búsqueda de pacientes, resumen clínico y alertas prioritarias accesibles en un máximo de dos interacciones principales.
+  \item Optimizar el flujo del médico mediante agenda diaria administrable, búsqueda de pacientes, resumen clínico y alertas prioritarias accesibles en un máximo de dos interacciones principales.
   \item Implementar el registro móvil de signos vitales con validación de rangos y persistencia inmediata en el backend.
   \item Incorporar micrófono y cámara para dictado de notas y captura de evidencia clínica asociada al expediente.
   \item Permitir la revisión y validación médica de resultados generados por IA, mostrando niveles de riesgo, factores relacionados y recomendaciones comprensibles.
@@ -260,19 +325,21 @@ Desarrollar e integrar una aplicación móvil complementaria a la plataforma web
 \end{enumerate}
 
 % ---------------------------------------------------------------------------
-% CAPÍTULO III
+% CAPÍTULO IV
 % ---------------------------------------------------------------------------
-\chapter{Desarrollo de las etapas}
+\chapter{Desarrollo del proyecto}
 
-\section{Primera etapa del proyecto}
+\section{Desarrollo de las etapas}
 
-\subsection{Análisis de la solución existente}
+\subsection{Primera etapa del proyecto}
 
-La primera etapa inició con la revisión funcional de la plataforma web para identificar qué capacidades podían reutilizarse y cuáles requerían una experiencia móvil específica. Se analizaron autenticación, dashboard, agenda, pacientes, expedientes, consultas, recetas, mediciones y predicciones. El resultado confirmó que la web debía mantenerse como núcleo administrativo y clínico, mientras que la aplicación móvil debía centrarse en tareas breves y frecuentes.
+\subsubsection{Análisis de la solución existente}
 
-Se documentó la diferencia entre ambos canales. La web está orientada a sesiones prolongadas, captura extensa y administración; la app móvil se enfoca en movimiento, consulta inmediata, automonitoreo, notificaciones y hardware del dispositivo. Esta decisión evitó construir una copia reducida del sitio web.
+La primera etapa inició con la revisión funcional del sistema existente para identificar qué capacidades podían reutilizarse y cuáles requerían una experiencia móvil específica. Se analizaron autenticación, dashboard, agenda, pacientes, expedientes, consultas, recetas, mediciones y predicciones. El resultado confirmó que el sistema principal debía mantenerse como núcleo administrativo y clínico, mientras que la aplicación móvil debía centrarse en tareas breves y frecuentes.
 
-\subsection{Definición de roles y requisitos}
+Se documentó la diferencia entre ambos canales. El escritorio está orientado a sesiones prolongadas, captura extensa y administración; la app móvil se enfoca en movimiento, consulta inmediata, automonitoreo, notificaciones y hardware del dispositivo. Esta decisión evitó construir una copia reducida del sistema principal.
+
+\subsubsection{Definición de roles y requisitos}
 
 Se establecieron dos perfiles. El paciente requiere autogestión y consulta controlada; el médico requiere ronda clínica móvil. A partir de estos perfiles se consolidaron RF01 a RF17 y RNF01 a RNF07. Las prioridades altas se asignaron a autenticación, dashboard, expediente, recetas, citas, automonitoreo, agenda, resumen clínico, signos vitales, validación de IA, alertas y firma.
 
@@ -290,19 +357,30 @@ Transversal & Seguridad, usabilidad, rendimiento, accesibilidad y base para modo
 \end{tabularx}
 \end{table}
 
-\subsection{Arquitectura tecnológica}
+\subsubsection{Arquitectura tecnológica}
 
 La arquitectura seleccionada utiliza React Native con Expo para compartir una base de código entre plataformas. React Navigation organiza flujos por rol; Zustand administra sesión; TanStack Query controla obtención, caché e invalidación de datos; SecureStore protege credenciales nativas; expo-local-authentication habilita biometría; expo-camera administra fotografías y expo-audio permite captura de voz.
 
-La aplicación consume los endpoints existentes de Next.js. Para la integración desde entornos de desarrollo móvil se definieron variables de URL de API y políticas CORS. La persistencia continúa en MySQL mediante los servicios del backend, por lo que web y móvil leen la misma información clínica.
+La aplicación consume los endpoints existentes de Next.js. Para la integración desde entornos de desarrollo móvil se definieron variables de URL de API y políticas CORS. La persistencia continúa en MySQL mediante los servicios del backend, por lo que los clientes médico y paciente leen la misma información clínica.
 
-\subsection{Diseño de interfaces y navegación}
+\subsubsection{Diseño de interfaces y navegación}
 
-Se definieron mapas de interfaz por rol. El médico dispone de cinco pestañas inferiores: Inicio, Agenda, Pacientes, Alertas y Perfil. Desde el detalle del paciente se accede a signos vitales, nueva consulta por dictado, fotografía clínica, validación de IA y receta. El paciente dispone de una navegación centrada en su dashboard, expediente, recetas, citas, automonitoreo y tendencias.
+Se definieron mapas de interfaz por rol. El médico dispone de cinco pestañas inferiores: Inicio, Agenda, Pacientes, Alertas y Perfil. Desde el detalle del paciente se accede a signos vitales, nueva consulta por dictado, fotografía clínica, validación de IA y receta. El paciente dispone de una navegación centrada en su dashboard, indicadores, recetas y recomendaciones.
 
 Los criterios de diseño priorizaron jerarquía, contraste, lectura rápida y objetivos táctiles amplios. Las alertas y niveles de riesgo se comunican mediante etiquetas clínicas Bajo, Moderado, Alto y Muy Alto, evitando que una probabilidad numérica aislada sea interpretada como diagnóstico.
 
-\subsection{Entregables de la primera etapa}
+Como referencia de diseño se utilizó el archivo Figma \textit{PREDIA -- Mockups App Móvil}. En su estructura se identificaron pantallas como IF-P01 Login, IF-P02 Dashboard Personal, IF-P03 Mis Resultados IA, IF-P04 Mi Expediente, IF-P05 Mis Recetas, IF-M05 Signos Vitales, IF-M06 Dictado de Notas, IF-M08 Validación IA e IF-M10 Firma Biométrica. Esta referencia ayudó a conservar trazabilidad entre requisitos, pantallas y flujos.
+
+La versión implementada adopta una identidad visual más propia de un producto HealthTech: fondo oscuro clínico no absoluto, acentos turquesa para acciones principales, jerarquía tipográfica marcada, tarjetas con bordes sutiles, navegación inferior persistente e iconografía homogénea. El objetivo visual fue alejarse de una interfaz genérica y acercarse a un producto móvil profesional, legible y confiable.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.34\linewidth]{mobile-report-assets/figma-paciente-dashboard.png}
+  \caption{Mockup de referencia del dashboard de paciente obtenido desde Figma.}
+  \label{fig:figma-dashboard-paciente}
+\end{figure}
+
+\subsubsection{Entregables de la primera etapa}
 
 \begin{itemize}
   \item Matriz de problemas, usuarios y propuesta de valor móvil.
@@ -313,25 +391,26 @@ Los criterios de diseño priorizaron jerarquía, contraste, lectura rápida y ob
   \item Propuesta de ajuste al modelo relacional para automonitoreo y autenticación del paciente.
   \item Selección del stack React Native + Expo y librerías nativas.
   \item Diseño inicial de navegación y mockups de las pantallas principales.
+  \item Sistema visual móvil basado en contraste alto, tarjetas sobrias, acentos clínicos e interacción táctil.
 \end{itemize}
 
-\section{Segunda etapa del proyecto}
+\subsection{Segunda etapa del proyecto}
 
-\subsection{Construcción del proyecto móvil}
+\subsubsection{Construcción del proyecto móvil}
 
 En la segunda etapa se creó la aplicación Expo dentro del repositorio de \projectname. Se configuraron TypeScript, alias de importación, React Navigation, TanStack Query y Zustand. También se establecieron recursos de aplicación, permisos para cámara y micrófono, iconografía y configuración para Android, iOS y web.
 
 La aplicación comparte tipos y contratos con el proyecto principal cuando resulta viable, pero conserva componentes y pantallas propios para mantener una experiencia móvil. Los componentes reutilizables incluyen pantalla segura, encabezados, tarjetas, filas táctiles, estados vacíos, skeletons, avatares, indicadores de riesgo y botones de acción.
 
-\subsection{Integración de autenticación}
+\subsubsection{Integración de autenticación}
 
 Se implementó login diferenciado para médico y paciente. El médico utiliza las credenciales existentes de la plataforma; el paciente utiliza el flujo de identidad definido para la aplicación. En iOS y Android, la sesión se almacena mediante SecureStore y puede quedar pendiente de desbloqueo biométrico. En Expo Web se utiliza almacenamiento local como mecanismo de compatibilidad del prototipo.
 
 La integración requirió habilitar preflight y encabezados CORS en la API para permitir consumo desde el servidor de desarrollo móvil. Además, se conserva un timeout de sesión como requisito de seguridad y se evita exponer datos clínicos antes de restaurar o validar la identidad.
 
-\subsection{Flujo del médico}
+\subsubsection{Flujo del médico}
 
-El dashboard médico muestra citas del día, total de pacientes, alertas de alto riesgo y accesos rápidos. La agenda organiza citas próximas y permite abrir el paciente asociado. El directorio de pacientes incorpora búsqueda y acceso al resumen clínico.
+El dashboard médico muestra citas del día, pacientes en riesgo, alertas de alto impacto y accesos rápidos. La agenda organiza las citas vigentes, separa el estado de cada atención y ofrece acciones para abrir expediente, iniciar una cita y finalizarla. Además, el botón principal de agenda permite registrar nuevas citas desde el teléfono, con paciente, médico, fecha, hora, motivo y notas.
 
 La vista de paciente concentra datos básicos, contacto, riesgo, alergias, últimos signos, consultas y recetas. Desde ahí se puede llamar, abrir WhatsApp, registrar una nueva medición, iniciar una consulta por dictado, tomar una fotografía y generar una receta. Esta estructura reduce la navegación entre módulos independientes.
 
@@ -345,19 +424,124 @@ Los flujos clínicos conectados incluyen:
   \item Firma de receta con biometría cuando exista hardware compatible y alternativa controlada para demostración.
 \end{itemize}
 
-\subsection{Flujo del paciente}
+\subsubsection{Flujo del paciente}
 
-Se construyó la base del portal móvil del paciente con pantallas de dashboard, expediente, recetas, citas, resultados, automonitoreo y tendencias. El dashboard presenta próxima cita, nivel de riesgo, indicadores y accesos frecuentes. El expediente se mantiene en modo de lectura para proteger la integridad de registros clínicos emitidos por profesionales.
+Se construyó la base del portal móvil del paciente con pantallas de dashboard, indicadores, recetas y recomendaciones. El dashboard presenta próxima cita, nivel de riesgo, indicadores recientes, recordatorios y accesos frecuentes. El expediente se mantiene en modo de lectura para proteger la integridad de registros clínicos emitidos por profesionales.
 
 El módulo de automonitoreo permite capturar glucosa, peso y presión; las tendencias organizan los datos en periodos para facilitar la lectura de evolución. Los objetivos de salud sirven como referencia visual y deben ser configurados o validados por el médico, no interpretados como prescripción automática.
 
-\subsection{Pruebas realizadas}
+\subsubsection{Pruebas realizadas}
 
-La integración se verificó mediante compilación TypeScript y navegación automatizada en Expo Web con viewport móvil. Se probaron login, dashboard médico, agenda, pacientes, expediente, alertas y perfil, consumiendo datos reales de la API local. La prueba no reportó solicitudes fallidas ni excepciones JavaScript en el recorrido principal.
+La integración se verificó mediante compilación TypeScript, exportación web de Expo y navegación automatizada con viewport móvil. Se probaron login, dashboard médico, agenda, pacientes, expediente, alertas, perfil, dashboard paciente, indicadores, recetas y recomendaciones, consumiendo datos reales de la API local. La prueba no reportó solicitudes fallidas, errores de consola críticos ni excepciones JavaScript en el recorrido principal.
 
-También se validó el backend local con autenticación, lectura de pacientes y persistencia de consultas. Las pruebas permitieron corregir CORS, restauración de sesión web, compatibilidad de Metro con Node 18, acciones sin comportamiento en perfil, persistencia de notas dictadas y bloqueo de firma en entornos sin biometría.
+También se validó el backend local con autenticación, lectura de pacientes, lectura de agenda y persistencia de información clínica. Las pruebas permitieron corregir CORS, restauración de sesión web, compatibilidad de Metro con Node 18, acciones sin comportamiento en perfil, persistencia de notas dictadas, bloqueo de firma en entornos sin biometría y datos de agenda desactualizados para la fecha de evaluación.
 
-\subsection{Estado de cumplimiento al cierre de la segunda etapa}
+\begin{table}[htbp]
+\centering
+\caption{Evidencia técnica ejecutada para la entrega móvil.}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.5cm}X>{\centering\arraybackslash}p{2.4cm}}
+\toprule
+Validación & Comando o mecanismo & Resultado \\
+\midrule
+TypeScript móvil & \texttt{npx tsc -p apps/mobile/tsconfig.json --noEmit} & Correcto \\
+TypeScript API & \texttt{pnpm --filter @predia/web exec tsc --noEmit} & Correcto \\
+Datos demo vigentes & \texttt{pnpm --filter @predia/web db:seed} & 12 citas vigentes \\
+Exportación Expo & \texttt{npx expo export --platform web} con polyfill Node 18 & Correcto \\
+Navegación CDP & Runner \texttt{scripts/mobile-cdp-qa.js} & 0 fallos críticos \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Evidencias visuales de la aplicación móvil}
+
+Las siguientes capturas fueron tomadas desde la aplicación móvil ejecutada en navegador con viewport de teléfono, conectada a la API local de \projectname. A diferencia de los mockups de referencia, estas imágenes corresponden a pantallas renderizadas por el código actual de React Native/Expo.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/01-login.png}\\
+    {\small Login con selector de perfil}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/02-inicio.png}\\
+    {\small Dashboard médico}
+  \end{minipage}
+  \caption{Acceso móvil y pantalla principal del perfil médico.}
+  \label{fig:evidencia-login-medico}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/03-agenda.png}\\
+    {\small Agenda médica administrable}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/04-pacientes.png}\\
+    {\small Directorio de pacientes}
+  \end{minipage}
+  \caption{Flujos médicos de agenda y cartera de pacientes.}
+  \label{fig:evidencia-agenda-pacientes}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/05-paciente-detalle.png}\\
+    {\small Resumen clínico del paciente}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/07-perfil.png}\\
+    {\small Perfil médico}
+  \end{minipage}
+  \caption{Consulta rápida de expediente y configuración del perfil clínico.}
+  \label{fig:evidencia-expediente-perfil}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/08-paciente-inicio.png}\\
+    {\small Dashboard del paciente}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/09-paciente-indicadores.png}\\
+    {\small Indicadores del paciente}
+  \end{minipage}
+  \caption{Experiencia móvil del paciente para seguimiento y automonitoreo.}
+  \label{fig:evidencia-paciente-indicadores}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/10-paciente-recetas.png}\\
+    {\small Recetas activas}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{mobile-report-assets/11-paciente-consejos.png}\\
+    {\small Recomendaciones}
+  \end{minipage}
+  \caption{Módulos del paciente para tratamiento y recomendaciones clínicas.}
+  \label{fig:evidencia-recetas-consejos}
+\end{figure}
+
+\subsubsection{Estado de cumplimiento al cierre de la segunda etapa}
 
 \begin{longtable}{>{\bfseries}p{2.8cm}p{7cm}p{3.3cm}}
 \toprule
@@ -368,8 +552,8 @@ Grupo & Resultado & Estado \\
 Grupo & Resultado & Estado \\
 \midrule
 \endhead
-RF01--RF08 & Base funcional del portal paciente: acceso, dashboard, expediente, recetas, citas, automonitoreo y tendencias. & Implementado como prototipo integrado; recordatorios push pendientes. \\
-RF09--RF12 & Login médico, agenda, resumen clínico y captura de signos vitales. & Funcional e integrado con API. \\
+RF01--RF08 & Base funcional del portal paciente: acceso, dashboard, expediente de lectura, recetas, citas, indicadores, automonitoreo y tendencias. & Implementado como prototipo integrado; recordatorios push pendientes. \\
+RF09--RF12 & Login médico, agenda administrable, resumen clínico y captura de signos vitales. & Funcional e integrado con API. \\
 RF13--RF15 & Dictado, cámara clínica y validación de IA. & Flujo implementado; requiere validación exhaustiva en dispositivo físico. \\
 RF16 & Alertas críticas. & Módulo visual funcional; push productivo pendiente. \\
 RF17 & Firma biométrica de recetas. & Flujo base implementado; validación física y firma productiva pendientes. \\
@@ -379,17 +563,30 @@ RNF03 / RNF07 & Seguridad y accesibilidad. & Base implementada; auditoría forma
 \bottomrule
 \end{longtable}
 
-\section{Resultado de las dos primeras etapas}
+\section{Análisis de los resultados}
 
 Las dos primeras etapas permitieron transformar la integración móvil de una propuesta conceptual a un prototipo conectado con la plataforma clínica. La primera etapa redujo incertidumbre mediante requisitos, arquitectura y diseño por contexto. La segunda etapa comprobó que los servicios existentes podían reutilizarse y que los flujos prioritarios podían ejecutarse desde una interfaz móvil.
 
-El principal resultado es una arquitectura de producto en la que la web y la app cumplen funciones complementarias. La web conserva gestión amplia, configuración y operación administrativa; la app acerca el expediente y las acciones clínicas al punto de atención, y abre un canal de participación para el paciente. Esta división evita duplicidad y proporciona una base realista para las siguientes etapas: offline seguro, push, mensajería, QR/NFC, pruebas en dispositivos físicos y piloto con usuarios.
+El principal resultado es una arquitectura de producto en la que el sistema principal y la app cumplen funciones complementarias. El sistema principal conserva gestión amplia, configuración y operación administrativa; la app acerca el expediente y las acciones clínicas al punto de atención, y abre un canal de participación para el paciente. Esta división evita duplicidad y proporciona una base realista para las siguientes etapas: offline seguro, push, mensajería, QR/NFC, pruebas en dispositivos físicos y piloto con usuarios.
+
+% ---------------------------------------------------------------------------
+% CAPÍTULO V
+% ---------------------------------------------------------------------------
+\chapter{Conclusiones}
+
+La integración móvil de \projectname\ permitió ampliar el alcance del sistema clínico hacia escenarios donde el acceso inmediato y la interacción táctil son indispensables. La aplicación ya no funciona solamente como una idea complementaria, sino como un prototipo ejecutable que permite iniciar sesión con perfiles diferenciados, revisar información clínica, navegar el expediente, administrar agenda médica y consultar datos de seguimiento del paciente.
+
+El desarrollo confirmó que la movilidad requiere una experiencia distinta a la de escritorio. Para el médico, la prioridad está en revisar agenda, abrir expedientes, identificar alertas y registrar acciones clínicas con pocos pasos. Para el paciente, la prioridad está en comprender su estado actual, revisar recetas, consultar indicadores y recibir recomendaciones sin alterar registros clínicos validados por profesionales.
+
+Desde el punto de vista técnico, el uso de React Native y Expo permitió construir una base multiplataforma con validación rápida en navegador y posibilidad de despliegue posterior en Android e iOS. La integración con la API clínica existente mantiene una sola fuente de datos, reduce duplicidad y conserva trazabilidad entre el expediente central y la aplicación móvil. Las pruebas automatizadas realizadas sobre el prototipo móvil no reportaron errores críticos de navegación, solicitudes fallidas ni excepciones JavaScript en el flujo principal.
+
+Como resultado de las dos primeras etapas, \projectname\ cuenta con una base móvil funcional, visualmente consistente y adecuada para una demostración académica. Los pendientes más importantes corresponden a validación en dispositivos físicos, endurecimiento de notificaciones push, modo offline seguro, firma productiva y pruebas con usuarios reales. Estas actividades forman una ruta clara para convertir el prototipo en un producto clínico más robusto.
 
 % ---------------------------------------------------------------------------
 % REFERENCIAS
 % ---------------------------------------------------------------------------
-\chapter*{Referencias}
-\addcontentsline{toc}{chapter}{Referencias}
+\chapter*{REFERENCIAS Y BIBLIOGRAFÍA}
+\addcontentsline{toc}{chapter}{REFERENCIAS Y BIBLIOGRAFÍA}
 
 \begin{enumerate}[label={[\arabic*]}]
   \item Federación Internacional de Diabetes. \textit{IDF Diabetes Atlas}. Información epidemiológica de diabetes mellitus.
@@ -399,6 +596,53 @@ El principal resultado es una arquitectura de producto en la que la web y la app
   \item Expo. \textit{Expo SDK Documentation: SecureStore, Local Authentication, Camera and Audio}.
   \item TanStack. \textit{TanStack Query Documentation}.
   \item Documentación técnica y levantamiento de requisitos de PREDIA, 2026.
+  \item Equipo PREDIA. \textit{PREDIA -- Mockups App Móvil}. Archivo Figma, 2026. Disponible en: \url{https://www.figma.com/design/nTG5IF9dLoIGZRSrHNtfuW/PREDIA-%E2%80%94-Mockups-App-M%C3%B3vil}
 \end{enumerate}
+
+\clearpage
+
+% ---------------------------------------------------------------------------
+% ANEXOS
+% ---------------------------------------------------------------------------
+\chapter*{ANEXOS}
+\addcontentsline{toc}{chapter}{ANEXOS}
+
+\section*{Anexo 1. Evidencias de validación móvil}
+
+Las capturas incluidas en el capítulo IV se generaron desde el prototipo móvil ejecutado con viewport de teléfono. Los archivos originales se conservaron en la carpeta \texttt{docs/mobile-report-assets/} para permitir revisión independiente.
+
+\begin{longtable}{>{\bfseries\raggedright\arraybackslash}p{6.2cm}p{6.6cm}}
+\toprule
+Archivo & Evidencia documentada \\
+\midrule
+\endfirsthead
+\toprule
+Archivo & Evidencia documentada \\
+\midrule
+\endhead
+\path{01-login.png} & Login móvil con selector de perfil médico/paciente. \\
+\path{02-inicio.png} & Dashboard médico con resumen operativo. \\
+\path{03-agenda.png} & Agenda médica con citas vigentes y acción para iniciar atención. \\
+\path{04-pacientes.png} & Directorio móvil de pacientes. \\
+\path{05-paciente-detalle.png} & Resumen clínico del paciente con riesgo, signos y acciones rápidas. \\
+\path{07-perfil.png} & Perfil médico y opciones de cuenta. \\
+\path{08-paciente-inicio.png} & Dashboard del paciente con riesgo, próxima cita y recordatorios. \\
+\path{09-paciente-indicadores.png} & Indicadores recientes del paciente. \\
+\path{10-paciente-recetas.png} & Recetas e indicaciones activas. \\
+\path{11-paciente-consejos.png} & Recomendaciones clínicas para el paciente. \\
+\path{figma-paciente-dashboard.png} & Mockup de referencia obtenido desde Figma. \\
+\path{report.json} & Resultado estructurado del recorrido automatizado CDP. \\
+\bottomrule
+\end{longtable}
+
+\section*{Anexo 2. Comandos de comprobación}
+
+\begin{itemize}
+  \item \texttt{npx tsc -p apps/mobile/tsconfig.json --noEmit}
+  \item \texttt{pnpm --filter @predia/web exec tsc --noEmit}
+  \item \texttt{pnpm --filter @predia/web db:seed}
+  \item \texttt{npx expo export --platform web}
+  \item \texttt{node scripts/mobile-cdp-qa.js}
+\end{itemize}
 
 \end{document}

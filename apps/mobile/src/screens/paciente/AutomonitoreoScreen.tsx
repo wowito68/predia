@@ -5,6 +5,7 @@ import { useAuthStore } from '@/store/authStore'
 import { api } from '@/services/api'
 import type { AutomonitoreoInput, AutomonitoreoRegistro, TipoAutomonitoreo } from '@predia/shared'
 import { Header } from '@/components/Header'
+import { FeedbackBanner } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
@@ -26,6 +27,7 @@ export function AutomonitoreoScreen() {
   const id = useAuthStore((st) => st.user?.id_paciente)
   const qc = useQueryClient()
   const [values, setValues] = useState<Record<string, string>>({})
+  const [success, setSuccess] = useState<string | null>(null)
   const today = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 
   const recent = useQuery({
@@ -60,7 +62,7 @@ export function AutomonitoreoScreen() {
     mut.mutate(input, {
       onSuccess: () => {
         setValues((prev) => ({ ...prev, [tipo]: '' }))
-        Alert.alert('Registrado', 'Tu medición se guardó correctamente.')
+        setSuccess(`${TIPOS.find((item) => item.tipo === tipo)?.label ?? 'Medición'} registrada correctamente.`)
       },
       onError: (e: any) => Alert.alert('Error', e?.message ?? 'No se pudo registrar'),
     })
@@ -72,6 +74,7 @@ export function AutomonitoreoScreen() {
     <View style={s.root}>
       <Header title="Automonitoreo de Salud" showBack />
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+        {success ? <FeedbackBanner title="Registro guardado" subtitle={success} tone="success" /> : null}
         <View style={s.dayCard}>
           <View>
             <Text style={s.dayTitle}>Registro del día</Text>

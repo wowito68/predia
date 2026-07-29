@@ -21,6 +21,7 @@ const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000/api'
 
 export interface LoginResult {
   token: string
+  refreshToken?: string
   user: AuthUser
 }
 
@@ -147,6 +148,29 @@ interface RequestOpts {
   multipart?: boolean
 }
 
+async function refreshAccessToken() {
+  const { refreshToken, login, logout } = useAuthStore.getState()
+  if (!refreshToken) return false
+
+  try {
+    const res = await fetch(`${BASE_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken }),
+    })
+    const json = await res.json().catch(() => null)
+    if (!res.ok || !json?.token || !json?.user) {
+      await logout()
+      return false
+    }
+    await login(json.user, json.token, json.refreshToken)
+    return true
+  } catch {
+    await logout()
+    return false
+  }
+}
+
 async function request<T>(path: string, options: RequestInit = {}, opts: RequestOpts = {}): Promise<T> {
   const { auth = true, multipart = false } = opts
   const headers: Record<string, string> = { ...(options.headers as Record<string, string>) }
@@ -171,8 +195,18 @@ async function request<T>(path: string, options: RequestInit = {}, opts: Request
   }
 
   if (res.status === 401 && auth) {
-    // Token inválido o expirado: cerrar sesión.
-    useAuthStore.getState().logout()
+    const refreshed = await refreshAccessToken()
+    if (refreshed) {
+      const retryHeaders = { ...headers, Authorization: `Bearer ${useAuthStore.getState().token}` }
+      res = await fetch(`${BASE_URL}${path}`, { ...options, headers: retryHeaders })
+      try {
+        json = await res.json()
+      } catch {
+        json = null
+      }
+    } else {
+      await useAuthStore.getState().logout()
+    }
   }
 
   if (!res.ok) {
@@ -247,7 +281,9 @@ export const api = {
     actualizarCita: (
       idCita: number,
       input: {
-        action: 'INICIAR' | 'FINALIZAR'
+        action: 'INICIAR' | 'FINALIZAR' | 'EDITAR' | 'REAGENDAR' | 'CANCELAR'
+        fecha?: string
+        motivo?: string
         observaciones?: string
         diagnostico?: string
         tratamiento?: string

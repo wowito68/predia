@@ -6,6 +6,7 @@ import type { ValidarPrediccionInput } from '@predia/shared'
 import { Header } from '@/components/Header'
 import { Badge } from '@/components/Badge'
 import { QueryState } from '@/components/QueryState'
+import { EmptyState, FeedbackBanner } from '@/components/ui'
 import { spacing, radius, typography, riskColor, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
@@ -14,6 +15,7 @@ export function ValidacionIAScreen() {
   const { colors } = useTheme()
   const s = useThemedStyles(makeStyles)
   const [notas, setNotas] = useState<Record<number, string>>({})
+  const [feedback, setFeedback] = useState<string | null>(null)
 
   const q = useQuery({ queryKey: ['predicciones'], queryFn: () => api.medico.predicciones() })
 
@@ -30,7 +32,7 @@ export function ValidacionIAScreen() {
     mut.mutate(
       { id, input: { diagnostico_confirmado: confirmar ? 'Confirmado' : 'Descartado', notas_medicas: notas[id] ?? '', validado: true } },
       {
-        onSuccess: () => Alert.alert(confirmar ? 'Diagnóstico confirmado' : 'Predicción descartada', `Predicción de ${nombre} registrada.`),
+        onSuccess: () => setFeedback(`${confirmar ? 'Diagnóstico confirmado' : 'Predicción descartada'} para ${nombre}.`),
         onError: (e: any) => Alert.alert('Error', e?.message ?? 'No se pudo validar'),
       },
     )
@@ -41,6 +43,7 @@ export function ValidacionIAScreen() {
       <Header title="Validar Predicciones IA" />
       <QueryState isLoading={q.isLoading} isError={q.isError} error={q.error} onRetry={q.refetch}>
         <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+          {feedback ? <FeedbackBanner title="Validación registrada" subtitle={feedback} tone="success" /> : null}
           <View style={s.statsRow}>
             <Badge label={`${pendientes.length} pendientes`} variant="warning" />
             <Badge label={`${(q.data ?? []).length - pendientes.length} validadas`} variant="success" />
@@ -82,7 +85,7 @@ export function ValidacionIAScreen() {
           })}
 
           {pendientes.length === 0 && (
-            <View style={s.empty}><Text style={s.emptyText}>✓ Todas las predicciones revisadas</Text></View>
+            <EmptyState icon="shield-checkmark-outline" title="Predicciones al día" subtitle="Todas las predicciones pendientes ya fueron revisadas clínicamente." />
           )}
         </ScrollView>
       </QueryState>

@@ -1,7 +1,9 @@
-import { View, Text, StyleSheet, Pressable, Linking, Alert } from 'react-native'
+import { useState } from 'react'
+import { ActivityIndicator, View, Text, StyleSheet, Pressable, Linking, Alert } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import { api } from '@/services/api'
+import { clinicalSummaryHtml, printHtml, sharePdf, showPdfError } from '@/services/pdf'
 import { useAuthStore } from '@/store/authStore'
 import { Screen, ScreenHeader } from '@/components/Screen'
 import {
@@ -11,6 +13,7 @@ import {
   QuickAction,
   CardSkeleton,
   EmptyState,
+  FeedbackBanner,
   Ionicons,
   PremiumCard,
   PrimaryButton,
@@ -44,6 +47,8 @@ export function PacienteDetalleScreen() {
   const s = useThemedStyles(makeStyles)
   const role = useAuthStore((state) => state.user?.rol)
   const isNurse = role === 'ENFERMERO'
+  const [pdfBusy, setPdfBusy] = useState<'print' | 'share' | null>(null)
+  const [pdfFeedback, setPdfFeedback] = useState<string | null>(null)
   const id: number = route.params?.idPaciente
   const fallbackName: string = route.params?.nombre ?? ''
 
@@ -63,6 +68,21 @@ export function PacienteDetalleScreen() {
   const activePrescription = summary?.recetasActivas?.[0]
   const criticalAllergies = summary?.alergiasCriticas ?? []
   const go = (screen: string) => nav.navigate(screen, { idPaciente: id, nombre: name })
+  const handleSummaryDocument = async (action: 'print' | 'share') => {
+    if (!data) return
+    setPdfFeedback(null)
+    setPdfBusy(action)
+    try {
+      const html = clinicalSummaryHtml(data)
+      if (action === 'print') await printHtml(html)
+      else await sharePdf(`Resumen clínico PREDIA ${name}`, html)
+      setPdfFeedback(action === 'print' ? 'Resumen enviado a impresión.' : 'PDF clínico generado correctamente.')
+    } catch (error) {
+      showPdfError(error)
+    } finally {
+      setPdfBusy(null)
+    }
+  }
 
   return (
     <View style={s.root}>
@@ -100,12 +120,35 @@ export function PacienteDetalleScreen() {
               <ContactButton icon="logo-whatsapp" label="WhatsApp" tint={colors.success} onPress={() => openWhatsApp(patient?.telefono, patient?.nombre)} />
             </View>
 
+            {pdfFeedback ? <FeedbackBanner title="Documento listo" subtitle={pdfFeedback} tone="success" style={s.documentFeedback} /> : null}
+
             <SectionTitle>Acciones clínicas</SectionTitle>
             <PremiumCard style={s.actionPanel}>
               <QuickAction icon="fitness" label="Nueva medición" onPress={() => go('SignosVitales')} />
               {!isNurse ? <QuickAction icon="mic" label="Nueva consulta" tint={colors.info} onPress={() => go('DictadoNotas')} /> : null}
               {!isNurse ? <QuickAction icon="document-text" label="Nueva receta" tint={colors.success} onPress={() => go('Firma')} /> : null}
               <QuickAction icon="time" label="Ver historial" tint={colors.textSecondary} onPress={() => go('HistorialClinico')} />
+            </PremiumCard>
+
+            <SectionTitle>Documentos</SectionTitle>
+            <PremiumCard style={s.documentPanel}>
+              <DocumentAction
+                icon="printer"
+                title="Imprimir resumen"
+                subtitle="Expediente clínico monocromático"
+                busy={pdfBusy === 'print'}
+                disabled={!!pdfBusy}
+                onPress={() => handleSummaryDocument('print')}
+              />
+              <View style={s.documentDivider} />
+              <DocumentAction
+                icon="share-2"
+                title="Exportar PDF"
+                subtitle="Compartir o guardar resumen clínico"
+                busy={pdfBusy === 'share'}
+                disabled={!!pdfBusy}
+                onPress={() => handleSummaryDocument('share')}
+              />
             </PremiumCard>
 
             <View style={s.decisionGrid}>
@@ -234,6 +277,37 @@ function ContactButton({ icon, label, onPress, tint }: { icon: IconName; label: 
   )
 }
 
+function DocumentAction({
+  icon,
+  title,
+  subtitle,
+  busy,
+  disabled,
+  onPress,
+}: {
+  icon: IconName
+  title: string
+  subtitle: string
+  busy?: boolean
+  disabled?: boolean
+  onPress: () => void
+}) {
+  const { colors } = useTheme()
+  const s = useThemedStyles(makeStyles)
+  return (
+    <Pressable style={({ pressed }) => [s.documentAction, pressed && !disabled && s.pressed, disabled && s.disabled]} onPress={onPress} disabled={disabled}>
+      <View style={s.documentIcon}>
+        {busy ? <ActivityIndicator size="small" color={colors.primary} /> : <Ionicons name={icon} size={18} color={colors.primary} />}
+      </View>
+      <View style={{ flex: 1 }}>
+        <Text style={s.documentTitle}>{title}</Text>
+        <Text style={s.documentSub}>{subtitle}</Text>
+      </View>
+      <Ionicons name="chevron-forward" size={17} color={colors.textMuted} />
+    </Pressable>
+  )
+}
+
 function DecisionCard({ label, value }: { label: string; value: string }) {
   const s = useThemedStyles(makeStyles)
   return (
@@ -282,7 +356,15 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   contactDivider: { width: StyleSheet.hairlineWidth, backgroundColor: colors.border, marginVertical: spacing.sm },
   contactText: { ...typography.bodyMedium },
   pressed: { opacity: 0.72 },
+  disabled: { opacity: 0.55 },
   actionPanel: { flexDirection: 'row', gap: spacing.xs, padding: spacing.xs },
+  documentFeedback: { marginTop: spacing.sm, marginBottom: 0 },
+  documentPanel: { padding: 0 },
+  documentAction: { minHeight: 70, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, padding: spacing.md },
+  documentIcon: { width: 40, height: 40, borderRadius: radius.full, backgroundColor: colors.infoBg, alignItems: 'center', justifyContent: 'center' },
+  documentTitle: { ...typography.bodyMedium, color: colors.textPrimary },
+  documentSub: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
+  documentDivider: { height: StyleSheet.hairlineWidth, backgroundColor: colors.border, marginHorizontal: spacing.md },
   decisionGrid: { flexDirection: 'row', marginTop: spacing.lg, backgroundColor: colors.surface, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border },
   decisionCard: { flex: 1, minHeight: 88, padding: spacing.md },
   decisionDivider: { width: StyleSheet.hairlineWidth, backgroundColor: colors.border, marginVertical: spacing.md },

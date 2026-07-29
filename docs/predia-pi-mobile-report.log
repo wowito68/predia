@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.2)  24 JUN 2026 08:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.2)  21 JUL 2026 12:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -429,7 +429,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip69
 )
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 52
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 53
 .
 
 (/usr/share/texmf/tex/latex/lm/t1lmr.fd
@@ -443,37 +443,37 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 (./predia-pi-mobile-report.aux)
 \openout1 = `predia-pi-mobile-report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Info: Redefining \microtypecontext on input line 52.
-Package microtype Info: Applying patch `item' on input line 52.
-Package microtype Info: Applying patch `toc' on input line 52.
-Package microtype Info: Applying patch `eqnum' on input line 52.
-Package microtype Info: Applying patch `footnote' on input line 52.
-Package microtype Info: Applying patch `verbatim' on input line 52.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Info: Redefining \microtypecontext on input line 53.
+Package microtype Info: Applying patch `item' on input line 53.
+Package microtype Info: Applying patch `toc' on input line 53.
+Package microtype Info: Applying patch `eqnum' on input line 53.
+Package microtype Info: Applying patch `footnote' on input line 53.
+Package microtype Info: Applying patch `verbatim' on input line 53.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 52.
+LaTeX Info: Redefining \showhyphens on input line 53.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -541,14 +541,20 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 52.
+Package hyperref Info: Link coloring OFF on input line 53.
 
 (./predia-pi-mobile-report.out) (./predia-pi-mobile-report.out)
 \@outlinefile=\write3
 \openout3 = `predia-pi-mobile-report.out'.
 
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 6
-0.
+<manual-zeroheight/logo/isotipo.png, id=144, 1027.84pt x 1027.84pt>
+File: manual-zeroheight/logo/isotipo.png Graphic file (type png)
+<use manual-zeroheight/logo/isotipo.png>
+Package pdftex.def Info: manual-zeroheight/logo/isotipo.png  used on input line
+ 94.
+(pdftex.def)             Requested size: 76.82234pt x 76.81805pt.
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 9
+4.
 
 (/usr/share/texmf/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -557,166 +563,268 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<../apps/mobile/assets/icon.png, id=144, 1027.84pt x 1027.84pt>
-File: ../apps/mobile/assets/icon.png Graphic file (type png)
-<use ../apps/mobile/assets/icon.png>
-Package pdftex.def Info: ../apps/mobile/assets/icon.png  used on input line 64.
-
-(pdftex.def)             Requested size: 88.2037pt x 88.18863pt.
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/
-dvips/lm/lm-ec.enc} <../apps/mobile/assets/icon.png>] [1
-
-] (./predia-pi-mobile-report.toc
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 4
-.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 9
+4.
 
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 4
-.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 9
+4.
 
 (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-4.
+94.
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-4.
+94.
 
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 4.
+(Font)              <12> on input line 94.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 4.
+(Font)              <8> on input line 94.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 4.
- [2
+(Font)              <6> on input line 94.
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/
+dvips/lm/lm-ec.enc} <./manual-zeroheight/logo/isotipo.png (PNG copy)>] [2
+
+] [3
+
+
+] (./predia-pi-mobile-report.toc
+[4
 
 ])
 \tf@toc=\write4
 \openout4 = `predia-pi-mobile-report.toc'.
 
- [3]
+ [5] (./predia-pi-mobile-report.lof)
+\tf@lof=\write5
+\openout5 = `predia-pi-mobile-report.lof'.
+
+ [6
+
+
+]
 \bbl@ensure@spanish {Cap\'\i tulo} 1.
-
-Overfull \hbox (0.25838pt too wide) in paragraph at lines 118--119
-[]\T1/lmr/m/n/12 (-20) El proyecto original se implementó como una plataforma w
-eb con arquitectura cliente--
- []
-
-File: ../apps/mobile/assets/icon.png Graphic file (type png)
-<use ../apps/mobile/assets/icon.png>
-Package pdftex.def Info: ../apps/mobile/assets/icon.png  used on input line 124
-.
+File: manual-zeroheight/logo/isotipo.png Graphic file (type png)
+<use manual-zeroheight/logo/isotipo.png>
+Package pdftex.def Info: manual-zeroheight/logo/isotipo.png  used on input line
+ 153.
 (pdftex.def)             Requested size: 146.5009pt x 146.50009pt.
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.134 
-       [1
+[7
 
 
-] [2] [3]
+] [8] [9]
 \bbl@ensure@spanish {Cap\'\i tulo} 2.
-[4
-
-] [5]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
-05.
- (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
-File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [6{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}] [7] [8] [9]
-\bbl@ensure@spanish {Cap\'\i tulo} 3.
 [10
 
-] [11] [12] [13]
-Underfull \hbox (badness 1264) in paragraph at lines 371--372
+] [11]
+\bbl@ensure@spanish {Cap\'\i tulo} 3.
+[12
+
+] [13]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
+69.
+ (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [14{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}] [15] [16] [17]
+\bbl@ensure@spanish {Cap\'\i tulo} 4.
+[18
+
+] [19]
+<mobile-report-assets/figma-paciente-dashboard.png, id=305, 391.4625pt x 847.16
+5pt>
+File: mobile-report-assets/figma-paciente-dashboard.png Graphic file (type png)
+
+<use mobile-report-assets/figma-paciente-dashboard.png>
+Package pdftex.def Info: mobile-report-assets/figma-paciente-dashboard.png  use
+d on input line 378.
+(pdftex.def)             Requested size: 155.65196pt x 336.84343pt.
+ [20 <./mobile-report-assets/figma-paciente-dashboard.png>] [21]
+[22] (/usr/share/texmf/tex/latex/lm/t1lmtt.fd)
+Underfull \hbox (badness 10000) in paragraph at lines 452--452
+[]|\T1/lmtt/m/n/12 npx tsc -p apps/mobile/tsconfig.json
+ []
+
+
+Underfull \hbox (badness 1077) in paragraph at lines 452--452
+[]|\T1/lmr/bx/n/12 (+20) Datos de-mo vi-
+ []
+
+
+Underfull \hbox (badness 3735) in paragraph at lines 452--452
+[]|\T1/lmtt/m/n/12 npx expo export --platform web \T1/lmr/m/n/12 (+20) con poly
+-fill
+ []
+
+<mobile-report-assets/01-login.png, id=326, 782.925pt x 1694.33pt>
+File: mobile-report-assets/01-login.png Graphic file (type png)
+<use mobile-report-assets/01-login.png>
+Package pdftex.def Info: mobile-report-assets/01-login.png  used on input line 
+463.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+<mobile-report-assets/02-inicio.png, id=327, 782.925pt x 1694.33pt>
+File: mobile-report-assets/02-inicio.png Graphic file (type png)
+<use mobile-report-assets/02-inicio.png>
+Package pdftex.def Info: mobile-report-assets/02-inicio.png  used on input line
+ 469.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+<mobile-report-assets/03-agenda.png, id=328, 782.925pt x 1694.33pt>
+File: mobile-report-assets/03-agenda.png Graphic file (type png)
+<use mobile-report-assets/03-agenda.png>
+Package pdftex.def Info: mobile-report-assets/03-agenda.png  used on input line
+ 480.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+<mobile-report-assets/04-pacientes.png, id=329, 782.925pt x 1694.33pt>
+File: mobile-report-assets/04-pacientes.png Graphic file (type png)
+<use mobile-report-assets/04-pacientes.png>
+Package pdftex.def Info: mobile-report-assets/04-pacientes.png  used on input l
+ine 486.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+<mobile-report-assets/05-paciente-detalle.png, id=330, 782.925pt x 1694.33pt>
+File: mobile-report-assets/05-paciente-detalle.png Graphic file (type png)
+<use mobile-report-assets/05-paciente-detalle.png>
+Package pdftex.def Info: mobile-report-assets/05-paciente-detalle.png  used on 
+input line 497.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+<mobile-report-assets/07-perfil.png, id=331, 782.925pt x 1694.33pt>
+File: mobile-report-assets/07-perfil.png Graphic file (type png)
+<use mobile-report-assets/07-perfil.png>
+Package pdftex.def Info: mobile-report-assets/07-perfil.png  used on input line
+ 503.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+<mobile-report-assets/08-paciente-inicio.png, id=332, 782.925pt x 1694.33pt>
+File: mobile-report-assets/08-paciente-inicio.png Graphic file (type png)
+<use mobile-report-assets/08-paciente-inicio.png>
+Package pdftex.def Info: mobile-report-assets/08-paciente-inicio.png  used on i
+nput line 514.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+<mobile-report-assets/09-paciente-indicadores.png, id=333, 782.925pt x 1694.33p
+t>
+File: mobile-report-assets/09-paciente-indicadores.png Graphic file (type png)
+<use mobile-report-assets/09-paciente-indicadores.png>
+Package pdftex.def Info: mobile-report-assets/09-paciente-indicadores.png  used
+ on input line 520.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+<mobile-report-assets/10-paciente-recetas.png, id=334, 782.925pt x 1694.33pt>
+File: mobile-report-assets/10-paciente-recetas.png Graphic file (type png)
+<use mobile-report-assets/10-paciente-recetas.png>
+Package pdftex.def Info: mobile-report-assets/10-paciente-recetas.png  used on 
+input line 531.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+<mobile-report-assets/11-paciente-consejos.png, id=335, 782.925pt x 1694.33pt>
+File: mobile-report-assets/11-paciente-consejos.png Graphic file (type png)
+<use mobile-report-assets/11-paciente-consejos.png>
+Package pdftex.def Info: mobile-report-assets/11-paciente-consejos.png  used on
+ input line 537.
+(pdftex.def)             Requested size: 160.68814pt x 347.7277pt.
+
+Underfull \hbox (badness 1264) in paragraph at lines 555--556
 \T1/lmr/m/n/12 (+20) mo pro-totipo in-
  []
 
 
-Underfull \hbox (badness 2635) in paragraph at lines 371--372
+Underfull \hbox (badness 2635) in paragraph at lines 555--556
 \T1/lmr/m/n/12 (+20) rios push pen-di-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 375--376
+Underfull \hbox (badness 10000) in paragraph at lines 559--560
 []|\T1/lmr/m/n/12 (+20) Flujo base im-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 375--376
+Underfull \hbox (badness 10000) in paragraph at lines 559--560
 \T1/lmr/m/n/12 (+20) ple-men-ta-do;
  []
 
 
-Underfull \hbox (badness 4072) in paragraph at lines 375--376
+Underfull \hbox (badness 4072) in paragraph at lines 559--560
 \T1/lmr/m/n/12 (+20) fir-ma pro-duc-ti-va
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 376--376
+Underfull \hbox (badness 10000) in paragraph at lines 560--560
 []|\T1/lmr/bx/n/12 (+20) RNF01 /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 376--377
+Underfull \hbox (badness 10000) in paragraph at lines 560--561
 \T1/lmr/m/n/12 (+20) caché y nave-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 376--377
+Underfull \hbox (badness 10000) in paragraph at lines 560--561
 \T1/lmr/m/n/12 (+20) gación prin-ci-pal
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 378--378
+Underfull \hbox (badness 10000) in paragraph at lines 562--562
 []|\T1/lmr/bx/n/12 (+20) RNF03 /
  []
 
 
-Underfull \hbox (badness 3977) in paragraph at lines 378--379
+Underfull \hbox (badness 3977) in paragraph at lines 562--563
 \T1/lmr/m/n/12 (+20) lec-tores de pan-
  []
 
-[14] [15] [16
+[23] [24] [25 <./mobile-report-assets/01-login.png (PNG copy)> <./mobile-report
+-assets/02-inicio.png (PNG copy)>] [26 <./mobile-report-assets/03-agenda.png (P
+NG copy)> <./mobile-report-assets/04-pacientes.png (PNG copy)>] [27 <./mobile-r
+eport-assets/05-paciente-detalle.png (PNG copy)> <./mobile-report-assets/07-per
+fil.png (PNG copy)>] [28 <./mobile-report-assets/08-paciente-inicio.png (PNG co
+py)> <./mobile-report-assets/09-paciente-indicadores.png (PNG copy)>] [29 <./mo
+bile-report-assets/10-paciente-recetas.png (PNG copy)> <./mobile-report-assets/
+11-paciente-consejos.png (PNG copy)>] [30]
+\bbl@ensure@spanish {Cap\'\i tulo} 5.
+[31
 
-] (./predia-pi-mobile-report.aux)
+] [32
+
+]
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 623.
+ [33
+
+
+] [34] (./predia-pi-mobile-report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `predia-pi-mobile-report.out' has not changed
 .
-(rerunfilecheck)             Checksum: 8E15878A5F880357992EC6F981521458;6666.
+(rerunfilecheck)             Checksum: 493CFD97F807ABE6B4D8306DEE9FC071;6211.
  ) 
 Here is how much of TeX's memory you used:
- 15486 strings out of 476182
- 252470 string characters out of 5795596
- 1934975 words of memory out of 5000000
- 37075 multiletter control sequences out of 15000+600000
- 615517 words of font info for 133 fonts, out of 8000000 for 9000
+ 15674 strings out of 476182
+ 257780 string characters out of 5795596
+ 1941975 words of memory out of 5000000
+ 37212 multiletter control sequences out of 15000+600000
+ 613954 words of font info for 137 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,13n,79p,1020b,637s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,116p,1020b,647s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr
 /share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/pub
-lic/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb>
-Output written on predia-pi-mobile-report.pdf (20 pages, 770571 bytes).
+lic/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/shar
+e/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public
+/lm/lmtk10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
+Output written on predia-pi-mobile-report.pdf (34 pages, 1968586 bytes).
 PDF statistics:
- 351 PDF objects out of 1000 (max. 8388607)
- 311 compressed objects within 4 object streams
- 82 named destinations out of 1000 (max. 500000)
- 35102 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 476 PDF objects out of 1000 (max. 8388607)
+ 403 compressed objects within 5 object streams
+ 118 named destinations out of 1000 (max. 500000)
+ 34133 words of extra memory for PDF output out of 35830 (max. 10000000)
 
