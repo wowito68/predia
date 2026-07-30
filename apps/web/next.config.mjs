@@ -1,6 +1,14 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import withPWAInit from "next-pwa";
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  outputFileTracingRoot: path.join(__dirname, '../..'),
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -21,8 +29,6 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-tabs', '@radix-ui/react-select'],
   },
 }
-
-import withPWAInit from "next-pwa";
 
 const withPWA = withPWAInit({
   dest: "public",

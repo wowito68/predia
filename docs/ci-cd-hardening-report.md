@@ -1,6 +1,6 @@
 # PREDIA - Reporte de fortalecimiento CI/CD
 
-Fecha: 2026-07-29
+Fecha: 2026-07-30
 
 ## Objetivo
 
@@ -21,7 +21,7 @@ Automatizar validaciones de calidad, seguridad, base de datos, builds y desplieg
 - `build-web`: construye Next.js en modo produccion y sube metadata de build.
 - `build-mobile-web`: typecheck movil y exporta bundle Expo Web como artefacto.
 - `docker`: valida compose dev/rubrica/produccion y construye imagen Docker de produccion.
-- `security-audit`: ejecuta `pnpm audit --audit-level high` como job no bloqueante por deuda existente de dependencias.
+- `security-audit`: ejecuta `pnpm security:audit`; es informativo en PR/develop y bloqueante en `main`.
 - `deploy-production`: despliega por SSH a VPS solo en `push` a `main`, despues de pasar todos los jobs bloqueantes.
 
 ## Cambios de soporte
@@ -41,8 +41,13 @@ Automatizar validaciones de calidad, seguridad, base de datos, builds y desplieg
 - Se agrego `build:web` en `apps/mobile` para validar export Expo Web.
 - Se agrego `predia-migrator` con profile `tools` en `docker-compose.production.yml`.
 - Se optimizo `.dockerignore`; el contexto Docker bajo de aproximadamente 1.6 GB a 3.3 MB.
-- Dockerfile ahora usa Node 20 y permite build sin secreto real mediante `PREDIA_BUILD_PHASE=true`; runtime sigue exigiendo `JWT_SECRET`.
+- Dockerfile ahora usa Node 20, fija `pnpm@10.23.0` con Corepack y permite build sin secreto real mediante `PREDIA_BUILD_PHASE=true`; runtime sigue exigiendo `JWT_SECRET`.
 - Jest ignora `.next` para evitar colisiones cuando existe un build local.
+- Next.js standalone usa `outputFileTracingRoot` para incluir dependencias del monorepo.
+- Produccion monta certificados reales desde `/etc/letsencrypt` y valida readiness HTTPS contra `/api/ready`.
+- Se agrego `apps/web/vercel.json` y la guia `docs/vercel-monorepo-deployment.md` para desplegar Vercel desde `apps/web`.
+- Se actualizaron dependencias vulnerables directas/transitivas (`next`, `jsonwebtoken`, `postcss`, `jws`, `sharp`, `fast-uri`, `serialize-javascript`, `lodash`, `js-yaml`, `shell-quote`, Babel) y se agregaron overrides de seguridad en `package.json`.
+- Se eliminaron del indice de Git 1219 artefactos generados (`.tmp`, caches Expo/Metro, auxiliares LaTeX, ZIP archivado y service worker/workbox generados por PWA) y se reforzo `.gitignore` para evitar que vuelvan al PR.
 
 ## Verificacion local realizada
 
@@ -60,6 +65,9 @@ docker compose config
 docker compose -f docker-compose.rubric.yml config
 docker compose -f docker-compose.production.yml --profile tools config
 docker build --target runner -t predia-web-ci:local .
+docker build --target deps -t predia-web-deps-ci:local .
+pnpm security:audit
+pnpm install --frozen-lockfile
 ```
 
 ## Resultados
@@ -72,9 +80,17 @@ docker build --target runner -t predia-web-ci:local .
 - Next.js production build: OK.
 - Expo Web export: OK.
 - Compose config dev/rubrica/produccion: OK.
-- Docker production image build: OK.
+- Docker production image build: OK antes del ajuste final de dependencias; despues se valido la etapa `deps` con Corepack y lockfile actualizado.
 - Actionlint: OK.
+- Audit CI con allowlist temporal: OK.
+- `pnpm install --frozen-lockfile`: OK.
 
 ## Nota de seguridad
 
-`pnpm audit --audit-level high` detecta vulnerabilidades heredadas en dependencias como Next.js/next-pwa y paquetes transitivos. Por eso el job `security-audit` queda no bloqueante: reporta el riesgo sin impedir demo/despliegue. La siguiente iteracion recomendada es actualizar Next.js y revisar reemplazo o upgrade de `next-pwa`.
+`pnpm security:audit:strict` todavia reporta advisories altas para `brace-expansion` y `postcss`, pero las versiones parcheadas solicitadas por npm audit no estan publicadas en el registro disponible desde este entorno (`brace-expansion` solicita `1.1.16`, `2.1.2` y `5.0.8`; `postcss` solicita `8.5.18`). Por eso `pnpm security:audit` ignora temporalmente:
+
+- `GHSA-3jxr-9vmj-r5cp`
+- `GHSA-r28c-9q8g-f849`
+- `GHSA-mh99-v99m-4gvg`
+
+El resto del audit sigue bloqueando despliegues en `main`. Cuando esas versiones existan en npm, eliminar la allowlist y correr `pnpm security:audit:strict`.

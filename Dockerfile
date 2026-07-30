@@ -3,7 +3,7 @@ FROM node:20-alpine AS deps
 
 WORKDIR /app
 
-RUN npm install -g pnpm
+RUN corepack enable && corepack prepare pnpm@10.23.0 --activate
 
 # Copiar archivos de workspace para cachear dependencias
 COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
@@ -19,7 +19,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 RUN apk add --no-cache openssl
-RUN npm install -g pnpm
+RUN corepack enable && corepack prepare pnpm@10.23.0 --activate
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules

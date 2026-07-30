@@ -13,14 +13,14 @@ services:
     volumes:
       - ./infra/reverse-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./infra/reverse-proxy/conf.d:/etc/nginx/conf.d:ro
-      - predia_certs:/etc/letsencrypt:ro
-      - predia_acme:/var/www/certbot:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro
     networks:
       - predia-public
       - predia-private
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost/api/health >/dev/null 2>&1 || exit 1"]
+      test: ["CMD-SHELL", "wget --no-check-certificate -qO- https://localhost/api/ready >/dev/null 2>&1 || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -198,8 +198,6 @@ volumes:
   predia_db_data_prod:
   predia_prometheus_data:
   predia_grafana_data:
-  predia_certs:
-  predia_acme:
   predia_migrator_node_modules:
   predia_migrator_web_node_modules:
   predia_migrator_shared_node_modules:

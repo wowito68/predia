@@ -314,7 +314,7 @@ jobs:
   security-audit:
     name: Dependency audit
     runs-on: ubuntu-latest
-    continue-on-error: true
+    continue-on-error: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -335,7 +335,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Audit high and critical vulnerabilities
-        run: pnpm audit --audit-level high
+        run: pnpm security:audit
 
   deploy-production:
     name: Deploy production VPS
@@ -348,6 +348,7 @@ jobs:
       - build-web
       - build-mobile-web
       - docker
+      - security-audit
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment: production
     steps:
@@ -388,18 +389,24 @@ jobs:
             set +a
 
             $DOCKER compose -f docker-compose.production.yml --profile tools config >/dev/null
+            if [ ! -f /etc/letsencrypt/live/predia/fullchain.pem ] || [ ! -f /etc/letsencrypt/live/predia/privkey.pem ]; then
+              echo "Faltan certificados TLS en /etc/letsencrypt/live/predia/." >&2
+              echo "Emite el certificado real o crea un symlink live/predia hacia el nombre del dominio antes de desplegar." >&2
+              exit 1
+            fi
+
             $DOCKER compose -f docker-compose.production.yml up -d db
             $DOCKER compose -f docker-compose.production.yml --profile tools run --rm predia-migrator
             $DOCKER compose -f docker-compose.production.yml up -d --build
             $DOCKER compose -f docker-compose.production.yml ps
 
             for i in $(seq 1 30); do
-              if curl -fsS http://127.0.0.1/api/health >/dev/null 2>&1; then
-                echo "PREDIA production healthcheck OK"
+              if curl -fkSs https://127.0.0.1/api/ready >/dev/null 2>&1; then
+                echo "PREDIA production readiness OK"
                 exit 0
               fi
               sleep 5
             done
 
-            echo "Healthcheck de produccion no respondio a tiempo." >&2
+            echo "Readiness de produccion no respondio a tiempo." >&2
             exit 1
