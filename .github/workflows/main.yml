@@ -222,7 +222,7 @@ jobs:
         run: pnpm build:web
 
       - name: Upload Next.js build metadata
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: next-build-metadata
           path: |
@@ -263,7 +263,7 @@ jobs:
         run: pnpm build:mobile-web
 
       - name: Upload Expo web artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: expo-web-dist
           path: apps/mobile/dist-web
