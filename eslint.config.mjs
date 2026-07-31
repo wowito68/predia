@@ -14,6 +14,7 @@ export default [
       '**/coverage/**',
       '**/.expo/**',
       '**/.tmp/**',
+      '**/next-env.d.ts',
       'apps/web/public/**',
       'apps/web/replace_layout.js',
       'apps/web/test-agenda.js',

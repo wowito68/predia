@@ -43,7 +43,10 @@ Automatizar validaciones de calidad, seguridad, base de datos, builds y desplieg
 - Se optimizo `.dockerignore`; el contexto Docker bajo de aproximadamente 1.6 GB a 3.3 MB.
 - Dockerfile ahora usa Node 20, fija `pnpm@10.23.0` con Corepack y permite build sin secreto real mediante `PREDIA_BUILD_PHASE=true`; runtime sigue exigiendo `JWT_SECRET`.
 - Jest ignora `.next` para evitar colisiones cuando existe un build local.
+- ESLint ignora `next-env.d.ts`, porque Next.js lo genera automaticamente y sus referencias triples no son codigo fuente del proyecto.
 - Next.js standalone usa `outputFileTracingRoot` para incluir dependencias del monorepo.
+- Se agrego `00000000000000_init` como migracion base para que `prisma migrate deploy` pueda construir una MySQL vacia.
+- El smoke query del job `database` usa una funcion async compatible con la salida CommonJS de `tsx -e`.
 - Produccion monta certificados reales desde `/etc/letsencrypt` y valida readiness HTTPS contra `/api/ready`.
 - Se agrego `apps/web/vercel.json` y la guia `docs/vercel-monorepo-deployment.md` para desplegar Vercel desde `apps/web`.
 - Se actualizaron dependencias vulnerables directas/transitivas (`next`, `jsonwebtoken`, `postcss`, `jws`, `sharp`, `fast-uri`, `serialize-javascript`, `lodash`, `js-yaml`, `shell-quote`, Babel) y se agregaron overrides de seguridad en `package.json`.
@@ -77,6 +80,7 @@ pnpm install --frozen-lockfile
 - Jest: 4 suites, 14 tests OK.
 - Prisma validate: OK.
 - Prisma migrate deploy/status local: OK.
+- Migraciones sobre MySQL 8 vacia: 3 migraciones aplicadas, seed completo, 20 pacientes y 6 usuarios confirmados.
 - Next.js production build: OK.
 - Expo Web export: OK.
 - Compose config dev/rubrica/produccion: OK.

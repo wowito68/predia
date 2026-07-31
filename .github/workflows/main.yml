@@ -169,13 +169,22 @@ jobs:
           pnpm --filter @predia/web exec tsx -e "
           import { PrismaClient } from '@prisma/client'
           const prisma = new PrismaClient()
-          const [pacientes, usuarios] = await Promise.all([
-            prisma.paciente.count(),
-            prisma.usuario.count(),
-          ])
-          console.log({ pacientes, usuarios })
-          await prisma.\$disconnect()
-          if (pacientes < 1 || usuarios < 1) process.exit(1)
+          async function main() {
+            const [pacientes, usuarios] = await Promise.all([
+              prisma.paciente.count(),
+              prisma.usuario.count(),
+            ])
+            console.log({ pacientes, usuarios })
+            if (pacientes < 1 || usuarios < 1) {
+              throw new Error('El seed no creo los registros clinicos esperados')
+            }
+          }
+          main()
+            .catch((error) => {
+              console.error(error)
+              process.exitCode = 1
+            })
+            .finally(() => prisma.\$disconnect())
           "
 
   build-web:
