@@ -315,10 +315,40 @@ jobs:
         with:
           context: .
           push: false
-          load: false
+          load: true
           tags: predia-web:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Smoke test production container
+        run: |
+          container_name="predia-web-smoke-${GITHUB_RUN_ID}"
+          trap 'docker stop "$container_name" >/dev/null 2>&1 || true' EXIT
+
+          docker run -d --rm \
+            --name "$container_name" \
+            -p 127.0.0.1:3000:3000 \
+            -e DATABASE_URL \
+            -e JWT_SECRET \
+            -e JWT_EXPIRES_IN \
+            -e JWT_ISSUER \
+            -e JWT_AUDIENCE \
+            -e PREDIA_ENCRYPTION_KEY \
+            predia-web:${{ github.sha }}
+
+          for _attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health >/dev/null; then
+              exit 0
+            fi
+            if ! docker inspect -f '{{.State.Running}}' "$container_name" 2>/dev/null | grep -q true; then
+              docker logs "$container_name"
+              exit 1
+            fi
+            sleep 2
+          done
+
+          docker logs "$container_name"
+          exit 1
 
   security-audit:
     name: Dependency audit
