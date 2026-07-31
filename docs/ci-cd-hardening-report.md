@@ -27,6 +27,7 @@ Automatizar validaciones de calidad, seguridad, base de datos, builds y desplieg
 ## Cambios de soporte
 
 - Se agrego `eslint.config.mjs` con flat config para JS/TS, React Hooks y TypeScript.
+- `actionlint` se ejecuta desde la imagen oficial fijada en `rhysd/actionlint:1.7.12`.
 - Se reemplazo `next lint` interactivo por `eslint .` en `apps/web`.
 - Se agregaron scripts root:
   - `pnpm lint`
@@ -39,6 +40,7 @@ Automatizar validaciones de calidad, seguridad, base de datos, builds y desplieg
   - `pnpm prisma:migrate:deploy`
   - `pnpm ci:local`
 - Se agrego `build:web` en `apps/mobile` para validar export Expo Web.
+- La app movil declara `@expo/vector-icons` como dependencia directa para que el typecheck funcione en instalaciones limpias de pnpm.
 - Se agrego `predia-migrator` con profile `tools` en `docker-compose.production.yml`.
 - Se optimizo `.dockerignore`; el contexto Docker bajo de aproximadamente 1.6 GB a 3.3 MB.
 - Dockerfile ahora usa Node 20, fija `pnpm@10.23.0` con Corepack y permite build sin secreto real mediante `PREDIA_BUILD_PHASE=true`; runtime sigue exigiendo `JWT_SECRET`.
