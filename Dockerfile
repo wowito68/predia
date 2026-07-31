@@ -3,11 +3,13 @@ FROM node:20-alpine AS deps
 
 WORKDIR /app
 
+RUN apk add --no-cache openssl
 RUN corepack enable && corepack prepare pnpm@10.23.0 --activate
 
 # Copiar archivos de workspace para cachear dependencias
 COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
 COPY apps/web/package.json ./apps/web/package.json
+COPY apps/web/prisma/schema.prisma ./apps/web/prisma/schema.prisma
 COPY packages/shared/package.json ./packages/shared/package.json
 
 RUN pnpm install --frozen-lockfile --filter @predia/web --filter @predia/shared
