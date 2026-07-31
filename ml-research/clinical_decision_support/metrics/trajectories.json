@@ -1,0 +1,80 @@
+{
+ "transition_counts": [
+  [
+   0,
+   87,
+   3,
+   0
+  ],
+  [
+   127,
+   0,
+   140,
+   1
+  ],
+  [
+   0,
+   142,
+   0,
+   159
+  ],
+  [
+   0,
+   0,
+   135,
+   0
+  ]
+ ],
+ "transition_matrix": [
+  [
+   0.0,
+   0.967,
+   0.033,
+   0.0
+  ],
+  [
+   0.474,
+   0.0,
+   0.522,
+   0.004
+  ],
+  [
+   0.0,
+   0.472,
+   0.0,
+   0.528
+  ],
+  [
+   0.0,
+   0.0,
+   1.0,
+   0.0
+  ]
+ ],
+ "bands": [
+  "Bajo",
+  "Moderado",
+  "Alto",
+  "Muy Alto"
+ ],
+ "trajectory_types": {
+  "Sin transiciones": 135,
+  "Oscila": 121,
+  "Empeora": 79,
+  "Mejora": 65
+ },
+ "events_before_upgrades": {
+  "n_up": 390,
+  "pct_con_evento_previo": 0.054
+ },
+ "example_routes": [
+  "Muy Alto → Alto → Moderado → Bajo",
+  "Muy Alto → Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto",
+  "Bajo → Moderado → Bajo → Moderado → Bajo → Moderado",
+  "Muy Alto → Alto → Moderado → Bajo",
+  "Muy Alto → Alto → Moderado → Bajo",
+  "Alto → Moderado → Alto → Muy Alto",
+  "Moderado → Alto → Moderado → Alto",
+  "Muy Alto → Alto → Muy Alto"
+ ]
+}

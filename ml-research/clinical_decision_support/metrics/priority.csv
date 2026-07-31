@@ -1,0 +1,401 @@
+patient_id,priority_score,priority_band,top_driver,archetype
+1,79.7,Crítica,riesgo,Alto riesgo persistente
+2,82.7,Crítica,riesgo,Deterioro lento
+3,18.4,Baja,comorbilidades,Mejora rápida
+4,21.1,Baja,evolucion,Estable
+5,66.9,Alta,riesgo,Oscilante
+6,35.9,Media,riesgo,Oscilante
+7,47.4,Media,riesgo,Oscilante
+8,71.2,Alta,riesgo,Alto riesgo persistente
+9,13.1,Baja,evolucion,Estable
+10,10.8,Baja,evolucion,Mejora rápida
+11,5.9,Baja,evolucion,Mejora rápida
+12,72.5,Alta,riesgo,Deterioro lento
+13,17.2,Baja,evolucion,Estable
+14,17.9,Baja,evolucion,Estable
+15,51.1,Alta,riesgo,Oscilante
+16,65.5,Alta,riesgo,Alto riesgo persistente
+17,10.7,Baja,comorbilidades,Mejora rápida
+18,58.6,Alta,riesgo,Deterioro lento
+19,15.8,Baja,evolucion,Estable
+20,66.1,Alta,riesgo,Oscilante
+21,63.1,Alta,riesgo,Deterioro lento
+22,12.2,Baja,evolucion,Mejora rápida
+23,36.3,Media,evolucion,Deterioro lento
+24,10.4,Baja,evolucion,Mejora rápida
+25,62.1,Alta,riesgo,Oscilante
+26,58.8,Alta,riesgo,Deterioro lento
+27,26.6,Media,riesgo,Mejora rápida
+28,23.3,Baja,evolucion,Estable
+29,72.8,Alta,riesgo,Alto riesgo persistente
+30,75.9,Crítica,riesgo,Alto riesgo persistente
+31,68.8,Alta,riesgo,Oscilante
+32,5.3,Baja,evolucion,Mejora rápida
+33,71.7,Alta,riesgo,Alto riesgo persistente
+34,59.0,Alta,riesgo,Deterioro lento
+35,12.6,Baja,evolucion,Mejora rápida
+36,75.3,Crítica,riesgo,Deterioro lento
+37,73.0,Alta,riesgo,Alto riesgo persistente
+38,5.3,Baja,evolucion,Mejora rápida
+39,12.9,Baja,evolucion,Estable
+40,86.8,Crítica,riesgo,Alto riesgo persistente
+41,19.7,Baja,comorbilidades,Mejora rápida
+42,55.6,Alta,riesgo,Estable
+43,28.5,Media,evolucion,Oscilante
+44,72.8,Alta,riesgo,Deterioro lento
+45,71.3,Alta,riesgo,Deterioro lento
+46,64.5,Alta,riesgo,Deterioro lento
+47,19.6,Baja,evolucion,Estable
+48,12.6,Baja,evolucion,Estable
+49,63.2,Alta,riesgo,Oscilante
+50,66.4,Alta,riesgo,Deterioro lento
+51,14.5,Baja,evolucion,Estable
+52,33.1,Media,riesgo,Estable
+53,43.0,Media,evolucion,Oscilante
+54,17.3,Baja,evolucion,Estable
+55,75.7,Crítica,riesgo,Alto riesgo persistente
+56,60.8,Alta,riesgo,Deterioro lento
+57,16.6,Baja,evolucion,Estable
+58,23.0,Baja,evolucion,Estable
+59,5.0,Baja,evolucion,Mejora rápida
+60,22.4,Baja,evolucion,Estable
+61,69.2,Alta,riesgo,Alto riesgo persistente
+62,46.8,Media,evolucion,Deterioro lento
+63,70.0,Alta,riesgo,Deterioro lento
+64,20.0,Baja,evolucion,Estable
+65,18.2,Baja,evolucion,Estable
+66,76.8,Crítica,riesgo,Deterioro lento
+67,19.3,Baja,evolucion,Mejora rápida
+68,17.3,Baja,evolucion,Estable
+69,72.1,Alta,riesgo,Alto riesgo persistente
+70,6.6,Baja,evolucion,Mejora rápida
+71,73.3,Alta,riesgo,Deterioro lento
+72,19.2,Baja,evolucion,Estable
+73,17.2,Baja,evolucion,Oscilante
+74,74.3,Alta,riesgo,Alto riesgo persistente
+75,70.1,Alta,riesgo,Deterioro lento
+76,82.7,Crítica,riesgo,Deterioro lento
+77,75.3,Crítica,riesgo,Deterioro lento
+78,77.4,Crítica,riesgo,Alto riesgo persistente
+79,34.2,Media,evolucion,Estable
+80,70.4,Alta,riesgo,Deterioro lento
+81,17.8,Baja,evolucion,Estable
+82,71.0,Alta,riesgo,Deterioro lento
+83,20.0,Baja,evolucion,Estable
+84,54.4,Alta,riesgo,Oscilante
+85,79.0,Crítica,riesgo,Alto riesgo persistente
+86,7.7,Baja,evolucion,Mejora rápida
+87,6.4,Baja,evolucion,Mejora rápida
+88,82.0,Crítica,riesgo,Oscilante
+89,80.3,Crítica,riesgo,Alto riesgo persistente
+90,30.9,Media,comorbilidades,Estable
+91,18.1,Baja,comorbilidades,Mejora rápida
+92,65.6,Alta,riesgo,Oscilante
+93,17.5,Baja,evolucion,Estable
+94,69.4,Alta,riesgo,Deterioro lento
+95,10.8,Baja,evolucion,Mejora rápida
+96,24.2,Baja,evolucion,Estable
+97,15.9,Baja,evolucion,Estable
+98,72.4,Alta,riesgo,Alto riesgo persistente
+99,6.9,Baja,evolucion,Mejora rápida
+100,12.2,Baja,evolucion,Mejora rápida
+101,70.9,Alta,riesgo,Deterioro lento
+102,42.7,Media,riesgo,Oscilante
+103,79.7,Crítica,riesgo,Alto riesgo persistente
+104,82.7,Crítica,riesgo,Alto riesgo persistente
+105,14.8,Baja,evolucion,Estable
+106,53.0,Alta,riesgo,Deterioro lento
+107,13.4,Baja,evolucion,Estable
+108,11.0,Baja,comorbilidades,Mejora rápida
+109,15.0,Baja,evolucion,Mejora rápida
+110,77.0,Crítica,riesgo,Alto riesgo persistente
+111,70.5,Alta,riesgo,Alto riesgo persistente
+112,6.9,Baja,evolucion,Mejora rápida
+113,73.4,Alta,riesgo,Alto riesgo persistente
+114,25.7,Media,evolucion,Estable
+115,69.7,Alta,riesgo,Oscilante
+116,53.3,Alta,riesgo,Estable
+117,76.4,Crítica,riesgo,Alto riesgo persistente
+118,50.5,Alta,riesgo,Oscilante
+119,60.7,Alta,riesgo,Deterioro lento
+120,68.3,Alta,riesgo,Alto riesgo persistente
+121,61.8,Alta,riesgo,Deterioro lento
+122,26.6,Media,evolucion,Estable
+123,6.0,Baja,evolucion,Mejora rápida
+124,19.4,Baja,comorbilidades,Mejora rápida
+125,41.5,Media,evolucion,Oscilante
+126,41.7,Media,riesgo,Estable
+127,74.2,Alta,riesgo,Alto riesgo persistente
+128,7.7,Baja,evolucion,Mejora rápida
+129,64.5,Alta,riesgo,Deterioro lento
+130,69.5,Alta,riesgo,Deterioro lento
+131,11.8,Baja,evolucion,Estable
+132,6.4,Baja,evolucion,Mejora rápida
+133,17.5,Baja,evolucion,Estable
+134,52.2,Alta,riesgo,Estable
+135,87.4,Crítica,riesgo,Alto riesgo persistente
+136,10.2,Baja,comorbilidades,Mejora rápida
+137,69.9,Alta,riesgo,Deterioro lento
+138,11.6,Baja,evolucion,Estable
+139,15.4,Baja,evolucion,Estable
+140,26.1,Media,evolucion,Estable
+141,10.7,Baja,comorbilidades,Mejora rápida
+142,37.6,Media,evolucion,Oscilante
+143,17.3,Baja,evolucion,Estable
+144,25.1,Media,riesgo,Mejora rápida
+145,66.3,Alta,riesgo,Deterioro lento
+146,72.2,Alta,riesgo,Deterioro lento
+147,12.2,Baja,evolucion,Estable
+148,10.5,Baja,comorbilidades,Mejora rápida
+149,24.3,Baja,evolucion,Estable
+150,47.2,Media,riesgo,Estable
+151,74.7,Alta,riesgo,Deterioro lento
+152,15.5,Baja,evolucion,Estable
+153,19.4,Baja,comorbilidades,Mejora rápida
+154,47.9,Media,riesgo,Deterioro lento
+155,75.4,Crítica,riesgo,Deterioro lento
+156,18.8,Baja,evolucion,Estable
+157,70.2,Alta,riesgo,Alto riesgo persistente
+158,75.0,Crítica,riesgo,Alto riesgo persistente
+159,76.0,Crítica,riesgo,Oscilante
+160,7.9,Baja,evolucion,Mejora rápida
+161,72.1,Alta,riesgo,Alto riesgo persistente
+162,16.2,Baja,evolucion,Estable
+163,14.5,Baja,eventos,Mejora rápida
+164,68.5,Alta,riesgo,Oscilante
+165,73.1,Alta,riesgo,Deterioro lento
+166,16.6,Baja,evolucion,Estable
+167,79.1,Crítica,riesgo,Alto riesgo persistente
+168,66.9,Alta,riesgo,Oscilante
+169,12.0,Baja,evolucion,Mejora rápida
+170,72.8,Alta,riesgo,Alto riesgo persistente
+171,5.6,Baja,evolucion,Mejora rápida
+172,15.9,Baja,evolucion,Estable
+173,20.0,Baja,evolucion,Estable
+174,71.5,Alta,riesgo,Deterioro lento
+175,18.7,Baja,riesgo,Estable
+176,20.0,Baja,evolucion,Estable
+177,74.5,Alta,riesgo,Alto riesgo persistente
+178,70.2,Alta,riesgo,Oscilante
+179,12.4,Baja,evolucion,Mejora rápida
+180,80.7,Crítica,riesgo,Deterioro lento
+181,68.1,Alta,riesgo,Deterioro lento
+182,81.1,Crítica,riesgo,Alto riesgo persistente
+183,30.0,Media,evolucion,Estable
+184,24.2,Baja,evolucion,Oscilante
+185,71.8,Alta,riesgo,Alto riesgo persistente
+186,71.8,Alta,riesgo,Alto riesgo persistente
+187,17.2,Baja,evolucion,Estable
+188,69.1,Alta,riesgo,Oscilante
+189,65.4,Alta,riesgo,Deterioro lento
+190,68.2,Alta,riesgo,Alto riesgo persistente
+191,14.1,Baja,evolucion,Estable
+192,69.1,Alta,riesgo,Alto riesgo persistente
+193,57.6,Alta,riesgo,Oscilante
+194,12.6,Baja,evolucion,Mejora rápida
+195,8.4,Baja,evolucion,Mejora rápida
+196,9.8,Baja,evolucion,Estable
+197,69.3,Alta,riesgo,Deterioro lento
+198,60.4,Alta,riesgo,Oscilante
+199,30.0,Media,riesgo,Estable
+200,70.2,Alta,riesgo,Deterioro lento
+201,76.5,Crítica,riesgo,Oscilante
+202,20.0,Baja,evolucion,Estable
+203,5.7,Baja,evolucion,Mejora rápida
+204,76.5,Crítica,riesgo,Alto riesgo persistente
+205,81.4,Crítica,riesgo,Alto riesgo persistente
+206,70.0,Alta,riesgo,Deterioro lento
+207,11.7,Baja,comorbilidades,Mejora rápida
+208,28.9,Media,riesgo,Estable
+209,71.6,Alta,riesgo,Alto riesgo persistente
+210,13.1,Baja,comorbilidades,Mejora rápida
+211,26.1,Media,evolucion,Mejora rápida
+212,10.6,Baja,evolucion,Mejora rápida
+213,82.0,Crítica,riesgo,Deterioro lento
+214,76.5,Crítica,riesgo,Alto riesgo persistente
+215,12.2,Baja,evolucion,Mejora rápida
+216,68.8,Alta,riesgo,Deterioro lento
+217,68.0,Alta,riesgo,Alto riesgo persistente
+218,13.0,Baja,evolucion,Estable
+219,73.0,Alta,riesgo,Alto riesgo persistente
+220,14.5,Baja,evolucion,Estable
+221,56.6,Alta,riesgo,Deterioro lento
+222,14.0,Baja,evolucion,Estable
+223,5.4,Baja,evolucion,Mejora rápida
+224,23.7,Baja,riesgo,Estable
+225,67.4,Alta,riesgo,Deterioro lento
+226,77.1,Crítica,riesgo,Alto riesgo persistente
+227,68.6,Alta,riesgo,Deterioro lento
+228,11.6,Baja,evolucion,Mejora rápida
+229,64.0,Alta,riesgo,Deterioro lento
+230,12.5,Baja,evolucion,Estable
+231,63.4,Alta,riesgo,Oscilante
+232,65.2,Alta,riesgo,Deterioro lento
+233,78.3,Crítica,riesgo,Deterioro lento
+234,6.8,Baja,evolucion,Mejora rápida
+235,11.8,Baja,evolucion,Estable
+236,53.9,Alta,riesgo,Oscilante
+237,68.9,Alta,riesgo,Deterioro lento
+238,68.4,Alta,riesgo,Deterioro lento
+239,69.2,Alta,riesgo,Deterioro lento
+240,74.4,Alta,riesgo,Alto riesgo persistente
+241,75.0,Alta,riesgo,Deterioro lento
+242,73.5,Alta,riesgo,Alto riesgo persistente
+243,20.2,Baja,riesgo,Estable
+244,26.1,Media,evolucion,Mejora rápida
+245,6.4,Baja,evolucion,Mejora rápida
+246,69.7,Alta,riesgo,Alto riesgo persistente
+247,43.2,Media,evolucion,Deterioro lento
+248,17.7,Baja,evolucion,Estable
+249,8.9,Baja,evolucion,Mejora rápida
+250,16.4,Baja,evolucion,Estable
+251,72.0,Alta,riesgo,Alto riesgo persistente
+252,21.9,Baja,evolucion,Estable
+253,11.3,Baja,evolucion,Mejora rápida
+254,37.8,Media,evolucion,Oscilante
+255,10.3,Baja,comorbilidades,Mejora rápida
+256,18.9,Baja,evolucion,Estable
+257,28.0,Media,riesgo,Estable
+258,28.5,Media,evolucion,Estable
+259,69.5,Alta,riesgo,Alto riesgo persistente
+260,64.1,Alta,riesgo,Alto riesgo persistente
+261,14.9,Baja,evolucion,Estable
+262,9.4,Baja,comorbilidades,Mejora rápida
+263,43.0,Media,riesgo,Oscilante
+264,60.0,Alta,riesgo,Deterioro lento
+265,78.5,Crítica,riesgo,Alto riesgo persistente
+266,76.6,Crítica,riesgo,Deterioro lento
+267,44.6,Media,riesgo,Oscilante
+268,18.5,Baja,evolucion,Estable
+269,61.2,Alta,riesgo,Oscilante
+270,50.5,Alta,riesgo,Estable
+271,21.7,Baja,evolucion,Estable
+272,80.2,Crítica,riesgo,Oscilante
+273,11.6,Baja,evolucion,Estable
+274,14.1,Baja,evolucion,Mejora rápida
+275,55.9,Alta,riesgo,Estable
+276,5.7,Baja,evolucion,Mejora rápida
+277,70.1,Alta,riesgo,Deterioro lento
+278,67.8,Alta,riesgo,Deterioro lento
+279,17.2,Baja,evolucion,Estable
+280,59.3,Alta,riesgo,Oscilante
+281,30.1,Media,evolucion,Estable
+282,9.6,Baja,evolucion,Estable
+283,62.7,Alta,riesgo,Oscilante
+284,54.9,Alta,riesgo,Oscilante
+285,11.7,Baja,comorbilidades,Mejora rápida
+286,73.4,Alta,riesgo,Deterioro lento
+287,17.9,Baja,evolucion,Estable
+288,11.8,Baja,comorbilidades,Mejora rápida
+289,78.0,Crítica,riesgo,Deterioro lento
+290,54.2,Alta,riesgo,Deterioro lento
+291,66.6,Alta,riesgo,Deterioro lento
+292,14.8,Baja,evolucion,Mejora rápida
+293,16.0,Baja,evolucion,Estable
+294,66.9,Alta,riesgo,Oscilante
+295,21.4,Baja,evolucion,Mejora rápida
+296,77.1,Crítica,riesgo,Deterioro lento
+297,64.7,Alta,riesgo,Deterioro lento
+298,74.2,Alta,riesgo,Deterioro lento
+299,58.6,Alta,riesgo,Alto riesgo persistente
+300,54.6,Alta,riesgo,Estable
+301,66.3,Alta,riesgo,Deterioro lento
+302,68.5,Alta,riesgo,Oscilante
+303,64.9,Alta,riesgo,Deterioro lento
+304,16.4,Baja,evolucion,Estable
+305,16.1,Baja,evolucion,Estable
+306,39.8,Media,riesgo,Mejora rápida
+307,15.7,Baja,evolucion,Estable
+308,56.4,Alta,riesgo,Estable
+309,80.3,Crítica,riesgo,Deterioro lento
+310,15.5,Baja,evolucion,Mejora rápida
+311,12.3,Baja,evolucion,Estable
+312,50.2,Alta,riesgo,Deterioro lento
+313,5.9,Baja,evolucion,Mejora rápida
+314,74.0,Alta,riesgo,Deterioro lento
+315,71.6,Alta,riesgo,Deterioro lento
+316,75.4,Crítica,riesgo,Oscilante
+317,24.3,Baja,evolucion,Estable
+318,62.8,Alta,riesgo,Deterioro lento
+319,12.3,Baja,evolucion,Estable
+320,12.8,Baja,comorbilidades,Mejora rápida
+321,9.1,Baja,evolucion,Mejora rápida
+322,59.5,Alta,riesgo,Deterioro lento
+323,15.5,Baja,evolucion,Estable
+324,20.4,Baja,evolucion,Estable
+325,7.2,Baja,evolucion,Mejora rápida
+326,23.5,Baja,evolucion,Estable
+327,33.3,Media,evolucion,Oscilante
+328,77.3,Crítica,riesgo,Alto riesgo persistente
+329,18.3,Baja,evolucion,Estable
+330,15.6,Baja,evolucion,Estable
+331,10.3,Baja,eventos,Mejora rápida
+332,63.1,Alta,riesgo,Alto riesgo persistente
+333,73.6,Alta,riesgo,Deterioro lento
+334,72.1,Alta,riesgo,Deterioro lento
+335,32.8,Media,riesgo,Estable
+336,30.5,Media,evolucion,Estable
+337,6.7,Baja,evolucion,Mejora rápida
+338,36.3,Media,evolucion,Oscilante
+339,15.7,Baja,evolucion,Oscilante
+340,12.8,Baja,evolucion,Mejora rápida
+341,48.0,Media,riesgo,Estable
+342,70.3,Alta,riesgo,Deterioro lento
+343,66.2,Alta,riesgo,Deterioro lento
+344,16.7,Baja,evolucion,Estable
+345,41.2,Media,riesgo,Estable
+346,68.7,Alta,riesgo,Oscilante
+347,6.0,Baja,evolucion,Mejora rápida
+348,69.6,Alta,riesgo,Alto riesgo persistente
+349,73.6,Alta,riesgo,Oscilante
+350,71.9,Alta,riesgo,Alto riesgo persistente
+351,52.4,Alta,riesgo,Oscilante
+352,57.6,Alta,riesgo,Deterioro lento
+353,67.5,Alta,riesgo,Deterioro lento
+354,69.2,Alta,riesgo,Deterioro lento
+355,23.3,Baja,evolucion,Estable
+356,22.8,Baja,evolucion,Estable
+357,37.3,Media,riesgo,Oscilante
+358,62.9,Alta,riesgo,Deterioro lento
+359,5.6,Baja,evolucion,Mejora rápida
+360,69.6,Alta,riesgo,Deterioro lento
+361,23.4,Baja,evolucion,Estable
+362,76.2,Crítica,riesgo,Alto riesgo persistente
+363,65.1,Alta,riesgo,Deterioro lento
+364,17.6,Baja,evolucion,Estable
+365,24.4,Baja,evolucion,Estable
+366,40.8,Media,riesgo,Mejora rápida
+367,52.7,Alta,riesgo,Oscilante
+368,26.5,Media,evolucion,Mejora rápida
+369,70.4,Alta,riesgo,Oscilante
+370,19.6,Baja,evolucion,Estable
+371,77.6,Crítica,riesgo,Oscilante
+372,77.0,Crítica,riesgo,Deterioro lento
+373,68.9,Alta,riesgo,Alto riesgo persistente
+374,63.6,Alta,riesgo,Deterioro lento
+375,69.3,Alta,riesgo,Deterioro lento
+376,32.1,Media,riesgo,Estable
+377,68.8,Alta,riesgo,Alto riesgo persistente
+378,64.7,Alta,riesgo,Deterioro lento
+379,79.9,Crítica,riesgo,Alto riesgo persistente
+380,68.6,Alta,riesgo,Deterioro lento
+381,57.7,Alta,riesgo,Oscilante
+382,69.1,Alta,riesgo,Deterioro lento
+383,13.3,Baja,evolucion,Estable
+384,84.6,Crítica,riesgo,Oscilante
+385,23.0,Baja,riesgo,Estable
+386,70.4,Alta,riesgo,Alto riesgo persistente
+387,78.4,Crítica,riesgo,Oscilante
+388,39.9,Media,riesgo,Oscilante
+389,63.6,Alta,riesgo,Oscilante
+390,20.8,Baja,evolucion,Estable
+391,23.5,Baja,riesgo,Estable
+392,17.7,Baja,evolucion,Estable
+393,17.1,Baja,comorbilidades,Mejora rápida
+394,68.6,Alta,riesgo,Alto riesgo persistente
+395,33.7,Media,riesgo,Estable
+396,14.1,Baja,evolucion,Estable
+397,72.0,Alta,riesgo,Alto riesgo persistente
+398,38.4,Media,riesgo,Estable
+399,76.2,Crítica,riesgo,Alto riesgo persistente
+400,38.7,Media,riesgo,Estable

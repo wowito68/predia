@@ -1,0 +1,28 @@
+{
+  "name": "random_forest",
+  "mode": "screening",
+  "best_params": {
+    "clf__max_depth": 10,
+    "clf__max_features": "sqrt",
+    "clf__min_samples_leaf": 8,
+    "clf__n_estimators": 241
+  },
+  "cv_roc_auc": 0.6572520346034917,
+  "fit_time_sec": 267.38,
+  "subsampled": false,
+  "n_train_used": 80000,
+  "test_metrics": {
+    "accuracy": 0.62445,
+    "balanced_accuracy": 0.5593750000000001,
+    "precision": 0.6340400119438638,
+    "recall_sensitivity": 0.88475,
+    "specificity": 0.234,
+    "f1": 0.7387023830231345,
+    "mcc": 0.15759816716545236,
+    "tn": 1872,
+    "fp": 6128,
+    "fn": 1383,
+    "tp": 10617,
+    "roc_auc": 0.6548613020833333
+  }
+}
