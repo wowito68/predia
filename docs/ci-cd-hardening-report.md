@@ -22,7 +22,7 @@ Automatizar validaciones de calidad, seguridad, base de datos, builds y desplieg
 - `build-mobile-web`: typecheck movil y exporta bundle Expo Web como artefacto.
 - `docker`: valida compose dev/rubrica/produccion y construye imagen Docker de produccion.
 - `security-audit`: ejecuta `pnpm security:audit`; es informativo en PR/develop y bloqueante en `main`.
-- `deploy-production`: despliega por SSH a VPS solo en `push` a `main`, despues de pasar todos los jobs bloqueantes.
+- `deploy-production`: despliega por SSH a VPS solo en `push` a `main`, despues de pasar todos los jobs bloqueantes y cuando la variable de repositorio `ENABLE_PRODUCTION_DEPLOY` vale `true`.
 
 ## Cambios de soporte
 
