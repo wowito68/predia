@@ -1,0 +1,51 @@
+groups:
+  - name: predia-private-server
+    rules:
+      - alert: PrediaApiMetricsDown
+        expr: up{job="predia-api"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "La API publica no entrega metricas al servidor privado"
+
+      - alert: PrediaPublicEndpointDown
+        expr: probe_success{job="blackbox-https"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PREDIA no responde por HTTPS"
+          description: "La sonda fallo para {{ $labels.instance }}."
+
+      - alert: PrediaCertificateExpiringSoon
+        expr: probe_ssl_earliest_cert_expiry{job="blackbox-https"} - time() < 1209600
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "El certificado TLS vence en menos de 14 dias"
+
+      - alert: PrediaPrivateMysqlDown
+        expr: probe_success{job="blackbox-mysql"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "MySQL privado no acepta conexiones TCP"
+
+      - alert: PrediaPrivateDiskLow
+        expr: node_filesystem_avail_bytes{fstype!~"tmpfs|overlay|squashfs"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay|squashfs"} < 0.15
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "El servidor privado tiene menos de 15% de disco libre"
+
+      - alert: PrediaPrivateMemoryHigh
+        expr: 1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) > 0.90
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "El servidor privado supera 90% de memoria"

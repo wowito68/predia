@@ -17,11 +17,15 @@ Abrir con anticipación:
 
 1. En un teléfono, `https://prediaa.duckdns.org/mobile/` o la versión APK instalada.
 2. En una laptop, `https://prediaa.duckdns.org` con un perfil clínico.
-3. Una terminal conectada al VPS, sin mostrar secretos ni el contenido de `.env.production`.
-4. Grafana mediante túnel SSH local, porque no está expuesto a Internet.
+3. Una terminal con `./scripts/demo/predia-live-demo.sh`, sin mostrar secretos ni archivos de entorno.
+4. Grafana preparado con `./scripts/demo/open-grafana.sh`, mediante túnel SSH hacia el servidor privado.
 5. Este repositorio en las rutas de evidencia citadas en el guion.
 
 No mostrar contraseñas, tokens JWT completos, llaves privadas, `.env.production`, datos personales reales ni el contenido de respaldos.
+
+Antes de ejecutar el panel, explicar:
+
+> Esta demostración no reproduce resultados preparados. Cada opción ejecuta una prueba nueva contra el código o consulta el estado actual de los servidores. Todas tienen una condición verificable de aprobación y devuelven error cuando el control no está funcionando.
 
 ## Orden táctico de demostración
 
@@ -95,10 +99,10 @@ Explicar la diferencia entre controles y demostrar que no se confía en la inter
 >
 > Para información sensible que sí debe recuperarse existe cifrado AES-256-GCM. GCM aporta confidencialidad e integridad: además de ocultar el contenido, detecta si el texto cifrado fue alterado. La llave se obtiene de `PREDIA_ENCRYPTION_KEY`, no del código. Los refresh tokens tampoco se almacenan en claro; la base conserva su SHA-256 para poder revocarlos sin exponer el token original.
 
-Ejecutar o mostrar el resultado de:
+En el panel de demostración, ejecutar primero **1 - Criptografía** y después **2 - Protección JWT**. El segundo punto combina pruebas locales con dos solicitudes controladas a la API publicada:
 
 ```bash
-pnpm --filter @predia/web exec jest --runInBand security-crypto security-jwt refresh-token
+./scripts/demo/predia-live-demo.sh
 ```
 
 > Después del login se emite un access token JWT corto y un refresh token opaco. El JWT se valida por firma, algoritmo HS256, emisor, audiencia, expiración y tipo de sujeto. El payload contiene sólo identificadores mínimos, rol y tipo de sesión; no contiene contraseña, CURP ni información clínica.
@@ -147,35 +151,31 @@ Mostrar que sólo el punto de entrada necesario es público y que una falla de u
 
 ### Guion sugerido
 
-> La solución está desplegada en una instancia EC2 de AWS mediante Docker Compose. En el VPS implementamos dos capas lógicas. La capa pública contiene Nginx y sólo publica los puertos 80 y 443. La capa privada contiene dos réplicas de Next.js, MySQL, Prometheus, Grafana y exporters en redes Docker internas sin puertos públicos.
+> La solución está desplegada en dos instancias EC2 físicas dentro de la misma VPC. El servidor público, con IP privada 172.31.37.174, contiene Nginx, TLS, la web, la versión móvil y dos réplicas de Next.js. El servidor privado, 172.31.45.164, ejecuta MySQL y toda la observabilidad.
 >
-> Es importante ser precisos: hoy son dos capas aisladas en un solo VPS, no dos máquinas físicas independientes. Esto satisface la separación lógica y evita exponer la base, pero comparte el mismo dominio de falla. La evolución prevista es mover la red privada a un segundo VPS o una subred privada de AWS sin cambiar los contratos de la aplicación.
+> La EC2 privada no publica HTTP, HTTPS, Grafana, Prometheus ni MySQL hacia Internet. MySQL escucha sólo en la interfaz VPC y acepta únicamente la IP privada del servidor público. Grafana y Prometheus se enlazan a localhost y se consultan por túnel SSH. La base anterior se conserva temporalmente como rollback hasta completar el corte de datos verificado.
 
-Mostrar el diagrama de `docs/ARQUITECTURA_INFRAESTRUCTURA.md` y después:
+Mostrar el diagrama de `docs/ARQUITECTURA_INFRAESTRUCTURA.md` y después ejecutar **3 - Firewall** en el panel:
 
 ```bash
-sudo ss -lntup
-sudo ufw status numbered
-sudo fail2ban-client status sshd
+./scripts/demo/predia-live-demo.sh
 ```
 
 > El firewall combina el Security Group de AWS y UFW. La política de entrada es denegar por defecto; HTTP y HTTPS están permitidos, SSH se limita a la IP administrativa y MySQL, API, Grafana y Prometheus no se publican. Fail2ban agrega bloqueo temporal frente a intentos repetidos de SSH. El script detecta el puerto SSH, crea respaldo, valida `sshd` y tiene rollback para reducir el riesgo de perder acceso.
 >
 > Nginx termina TLS con un certificado válido de Let's Encrypt. HTTP redirige a HTTPS, Certbot renueva automáticamente y se configuran TLS 1.2/1.3, HSTS, CSP, límites de solicitud, timeouts, cabeceras forwarding y rate limiting. De esta forma el tráfico móvil, web y API viaja cifrado.
 
-Mostrar:
+Ejecutar **4 - Certificado SSL**. El panel muestra redirección HTTPS, readiness, emisor, vigencia y huella SHA-256 sin desplegar secretos.
 
 ```bash
-curl -I http://prediaa.duckdns.org
-curl -I https://prediaa.duckdns.org
-openssl s_client -connect prediaa.duckdns.org:443 -servername prediaa.duckdns.org </dev/null
+./scripts/demo/predia-live-demo.sh
 ```
 
 > El balanceador utiliza `least_conn` y dos instancias de API. Cada instancia tiene health check y un identificador. Nginx evita temporalmente una instancia con fallos y puede reintentar errores seguros en la otra. Esto mejora disponibilidad y permite demostrar distribución real de solicitudes.
 
-```bash
-URL=https://prediaa.duckdns.org/api/health bash scripts/test-load-balancer.sh
-```
+Ejecutar **5 - Balanceador** en el mismo panel. Se realizan doce solicitudes y se cuenta qué réplica respondió a cada una.
+
+Para la demostracion visual de monitoreo, ejecutar **7 - Pulso en Grafana**. El script abre el dashboard, crea una carga temporal con `CPUQuota` y `RuntimeMaxSec`, espera la siguiente recopilacion de Prometheus y confirma que la metrica aumenta. La carga termina automaticamente y permite observar tambien el descenso, sin tocar datos clinicos ni la base de datos.
 
 ### Frase de transición
 
@@ -183,9 +183,10 @@ URL=https://prediaa.duckdns.org/api/health bash scripts/test-load-balancer.sh
 
 ### Evidencia que debe conocer
 
-- Compose de producción: `docker-compose.production.yml`.
+- Compose público y privado: `docker-compose.production.yml` y `docker-compose.private.yml`.
 - Proxy/balanceador: `infra/reverse-proxy/nginx.conf` y `conf.d/predia.conf`.
-- Firewall: `infra/firewall/`.
+- Firewall: `infra/firewall/apply-private-ufw.sh` y `private-docker-filter.sh`.
+- Evidencia de dos servidores: `docs/two-server-deployment.md` y `scripts/infra/verify-two-server-architecture.sh`.
 - TLS: `setup-https.sh`.
 - Prueba de balanceo: `scripts/test-load-balancer.sh`.
 - Despliegue: `deploy-ec2.sh`.
@@ -215,9 +216,13 @@ Terminar con evidencia dinámica: observar el sistema y registrar desde móvil u
 
 ### Guion sugerido
 
-> La operación se monitorea con Prometheus y Grafana, ambos restringidos a localhost y redes internas. Prometheus recopila salud de las dos APIs, CPU, memoria, disco, red, contenedores, conexiones MySQL, estado de Nginx, códigos 4xx/5xx, latencia y disponibilidad HTTPS. Grafana se provisiona como código para que el tablero sea reproducible.
+> La operación se monitorea desde la segunda EC2 con Prometheus y Grafana, ambos restringidos a localhost. Prometheus recopila salud de la API pública, CPU, memoria, disco, contenedores, conectividad MySQL y disponibilidad HTTPS. Grafana se provisiona como código para que el tablero sea reproducible.
 
-Mostrar el dashboard PREDIA - Salud del sistema.
+Abrir directamente el dashboard **PREDIA - Salud del sistema**:
+
+```bash
+./scripts/demo/open-grafana.sh
+```
 
 > También configuramos alertas para API o instancia caída, MySQL o Nginx no disponibles, incremento de errores 5xx, memoria alta, disco bajo, fallos de autenticación, endpoint público caído y certificado próximo a vencer. Los logs de Docker rotan por tamaño para evitar llenar el disco.
 >
@@ -225,7 +230,7 @@ Mostrar el dashboard PREDIA - Salud del sistema.
 
 Registrar un valor de demostración claramente etiquetado. En la web, abrir el mismo paciente y actualizar la vista.
 
-> El dato ya está visible en la contraparte web porque móvil y web no mantienen bases separadas: ambos consumen la misma API y MySQL privada. Si se pierde conexión, la interfaz informa el estado y no presenta una operación fallida como exitosa. Este recorrido prueba teléfono, HTTPS, JWT, autorización, validación, API, base de datos y sincronización.
+> El dato ya está visible en la contraparte web porque móvil y web no mantienen bases separadas: ambos consumen la misma API y una sola base central. Si se pierde conexión, la interfaz informa el estado y no presenta una operación fallida como exitosa. Este recorrido prueba teléfono, HTTPS, JWT, autorización, validación, API, base de datos y sincronización.
 >
 > La plataforma completa está alojada en AWS y dispone de health checks, migraciones Prisma, reinicio automático, respaldo diario con checksum, restauración confirmada y rollback por etiqueta de imagen. GitHub Actions ejecuta escaneo de secretos, lint, tipos, pruebas, migraciones en MySQL limpio, builds web y móvil, auditoría de dependencias y builds Docker antes de desplegar.
 >
@@ -233,7 +238,7 @@ Registrar un valor de demostración claramente etiquetado. En la web, abrir el m
 
 ### Evidencia que debe conocer
 
-- Prometheus y alertas: `monitoring/prometheus.yml` y `monitoring/alert_rules.yml`.
+- Prometheus y alertas privadas: `monitoring/prometheus.private.yml` y `monitoring/alert_rules.private.yml`.
 - Dashboard: `monitoring/grafana/dashboards/predia-overview.json`.
 - Sincronización: `apps/web/app/api/pacientes/[id]/automonitoreo/route.ts` y servicio móvil.
 - Backups: `scripts/backup/` y `scripts/restore/`.
@@ -270,7 +275,7 @@ SHA-256 es deliberadamente rápido y facilita probar millones de contraseñas. b
 La etiqueta de autenticación deja de coincidir y el descifrado falla. GCM detecta alteración además de mantener confidencialidad.
 
 **¿Dónde están las llaves?**  
-En variables/secretos del entorno del VPS y CI, nunca en Git ni en el APK. El repositorio sólo contiene plantillas sin valores reales.
+En variables protegidas de las EC2 y secretos de CI, nunca en Git ni en el APK. El repositorio sólo contiene plantillas sin valores reales.
 
 **¿Qué contiene el JWT?**  
 Identificador, rol, tipo de sujeto y claims estándar. No contiene contraseña, CURP, expediente ni datos clínicos.
@@ -287,16 +292,16 @@ Ningún VPS aislado puede garantizar inmunidad. Hay rate limiting, límites de c
 ### Arquitectura e infraestructura
 
 **¿Realmente tienen dos servidores?**  
-Hay dos capas lógicas y dos réplicas de API aisladas por redes Docker en un VPS. No afirmamos que sean dos máquinas físicas. La base no es pública, pero el host sigue siendo un único dominio de falla; la migración futura es mover la capa privada a otra instancia/subred.
+Sí. Son dos EC2 físicas: `172.31.37.174` recibe HTTPS y `172.31.45.164` ejecuta datos y observabilidad. El comando `scripts/infra/verify-two-server-architecture.sh` comprueba ambos hosts, contenedores, métricas, firewall y puertos cerrados sin mostrar secretos.
 
 **¿Por qué la base de datos no tiene puerto publicado?**  
-Sólo las APIs necesitan hablar con MySQL. Al no publicar 3306 se reduce la superficie de ataque y las reglas de red expresan el flujo permitido.
+MySQL se enlaza a la IP privada de la VPC, no a interfaces públicas. UFW y `DOCKER-USER` permiten 3306 únicamente desde `172.31.37.174/32`; el Security Group debe repetir esa misma relación entre servidores.
 
 **¿Qué pasa si una API falla?**  
 Nginx detecta fallos pasivamente, deja de enviarle tráfico durante el periodo configurado y utiliza la otra réplica. Los health checks permiten observar el incidente.
 
 **¿Balancear dos contenedores en el mismo VPS da alta disponibilidad total?**  
-Da redundancia de proceso y permite actualizaciones/fallas parciales, pero no protege contra la caída del VPS. Alta disponibilidad completa requiere réplicas en hosts o zonas distintas.
+Da redundancia de proceso frente a la caída de una réplica, pero ambas APIs siguen en la EC2 pública. La segunda EC2 elimina el mismo dominio de falla para observabilidad y datos; alta disponibilidad total de aplicación requeriría además réplicas web en otra zona.
 
 **¿Cómo se renueva el certificado?**  
 Certbot usa renovación automática. La sonda de Prometheus calcula los días restantes y alerta antes del vencimiento.
@@ -343,7 +348,7 @@ No. Es apoyo a la detección y priorización de riesgo. El resultado debe interp
 | Evitar decir | Respuesta técnicamente correcta |
 |---|---|
 | “Es imposible hackearnos” | “Reducimos superficie y aplicamos defensa en profundidad; monitoreamos y corregimos riesgo residual.” |
-| “Tenemos dos VPS” | “Tenemos dos capas lógicas y dos réplicas en un VPS; la separación física es la siguiente etapa.” |
+| “Tenemos dos VPS completamente tolerantes a fallos” | “Tenemos dos EC2 físicas y separación de responsabilidades; la alta disponibilidad total aún requeriría réplicas de aplicación en otra zona.” |
 | “JWT cifra los datos” | “JWT firma e identifica; HTTPS cifra el tránsito.” |
 | “bcrypt cifra contraseñas” | “bcrypt genera un hash irreversible.” |
 | “El firewall evita cualquier DDoS” | “Filtra puertos y algunos abusos; un DDoS volumétrico exige protección aguas arriba.” |
@@ -355,7 +360,7 @@ No. Es apoyo a la detección y priorización de riesgo. El resultado debe interp
 2. Ejecutar las pruebas unitarias y de seguridad desde el repositorio.
 3. Mostrar `docker compose ... config` para explicar redes y servicios.
 4. Usar un video corto previamente grabado del flujo móvil-web.
-5. Aclarar que una falla de conectividad del aula no equivale a una caída verificada del VPS.
+5. Aclarar que una falla de conectividad del aula no equivale a una caída verificada de la infraestructura.
 
 ## Lista final de memorización
 
@@ -371,4 +376,3 @@ Cada integrante debe poder explicar en una frase:
 - APK frente a AAB.
 - validación cliente frente a validación servidor.
 - caché frente a base de datos como fuente de verdad.
-

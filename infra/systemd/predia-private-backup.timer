@@ -1,0 +1,11 @@
+[Unit]
+Description=Respaldo diario de MySQL privado PREDIA
+
+[Timer]
+OnCalendar=*-*-* 02:15:00
+Persistent=true
+RandomizedDelaySec=15m
+Unit=predia-private-backup.service
+
+[Install]
+WantedBy=timers.target

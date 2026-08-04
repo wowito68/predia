@@ -1,0 +1,19 @@
+[Unit]
+Description=Respaldo verificado de MySQL privado PREDIA
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/home/ubuntu/predia-private
+Environment=PREDIA_ENV_FILE=/home/ubuntu/predia-private/.env.private
+Environment=PREDIA_COMPOSE_FILE=/home/ubuntu/predia-private/docker-compose.private.yml
+Environment=BACKUP_DIR=/home/ubuntu/predia-private/backups
+Environment=BACKUP_RETENTION_DAYS=14
+UMask=0077
+ExecStart=/home/ubuntu/predia-private/scripts/backup/production-backup.sh
+
+[Install]
+WantedBy=multi-user.target

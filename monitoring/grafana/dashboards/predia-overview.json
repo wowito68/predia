@@ -17,7 +17,7 @@
   "panels": [
     {
       "type": "stat",
-      "title": "API replicas disponibles",
+      "title": "API publica",
       "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
       "fieldConfig": {
         "defaults": {
@@ -26,15 +26,14 @@
             "mode": "absolute",
             "steps": [
               { "color": "red", "value": null },
-              { "color": "orange", "value": 1 },
-              { "color": "green", "value": 2 }
+              { "color": "green", "value": 1 }
             ]
           }
         },
         "overrides": []
       },
       "targets": [
-        { "expr": "sum(up{job=\"predia-api\"})", "refId": "A" }
+        { "expr": "max(up{job=\"predia-api\"})", "refId": "A" }
       ]
     },
     {
@@ -78,7 +77,7 @@
         "overrides": []
       },
       "targets": [
-        { "expr": "max(up{job=\"mysql\"})", "refId": "A" }
+        { "expr": "max(probe_success{job=\"blackbox-mysql\"})", "refId": "A" }
       ]
     },
     {
@@ -164,7 +163,7 @@
     },
     {
       "type": "timeseries",
-      "title": "Solicitudes procesadas por Nginx",
+      "title": "Actividad del monitoreo",
       "gridPos": { "x": 0, "y": 4, "w": 8, "h": 8 },
       "fieldConfig": {
         "defaults": { "unit": "reqps" },
@@ -172,8 +171,8 @@
       },
       "targets": [
         {
-          "expr": "rate(nginx_http_requests_total[5m])",
-          "legendFormat": "solicitudes/s",
+          "expr": "sum(rate(prometheus_http_requests_total[1m]))",
+          "legendFormat": "consultas/s",
           "refId": "A"
         }
       ]
@@ -196,19 +195,19 @@
     },
     {
       "type": "timeseries",
-      "title": "Respuestas HTTP 4xx y 5xx",
+      "title": "Codigos HTTP publicos",
       "gridPos": { "x": 16, "y": 4, "w": 8, "h": 8 },
       "targets": [
         {
-          "expr": "sum by (status) (rate(predia_http_response_count_total{status=~\"4..|5..\"}[5m]))",
-          "legendFormat": "HTTP {{status}}",
+          "expr": "probe_http_status_code{job=\"blackbox-https\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ]
     },
     {
       "type": "timeseries",
-      "title": "CPU por contenedor PREDIA",
+      "title": "CPU servidor privado - demo en vivo",
       "gridPos": { "x": 0, "y": 12, "w": 8, "h": 8 },
       "fieldConfig": {
         "defaults": { "unit": "percentunit" },
@@ -216,48 +215,43 @@
       },
       "targets": [
         {
-          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{name=~\"predia.*\"}[5m]))",
-          "legendFormat": "{{name}}",
+          "expr": "1 - avg(rate(node_cpu_seconds_total{mode=\"idle\"}[1m]))",
+          "legendFormat": "CPU",
           "refId": "A"
         }
       ]
     },
     {
       "type": "timeseries",
-      "title": "Memoria por contenedor PREDIA",
+      "title": "Memoria servidor privado",
       "gridPos": { "x": 8, "y": 12, "w": 8, "h": 8 },
       "fieldConfig": {
-        "defaults": { "unit": "bytes" },
+        "defaults": { "unit": "percentunit" },
         "overrides": []
       },
       "targets": [
         {
-          "expr": "container_memory_working_set_bytes{name=~\"predia.*\"}",
-          "legendFormat": "{{name}}",
+          "expr": "1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)",
+          "legendFormat": "memoria usada",
           "refId": "A"
         }
       ]
     },
     {
       "type": "timeseries",
-      "title": "Conexiones MySQL",
+      "title": "Latencia de conexion MySQL",
       "gridPos": { "x": 16, "y": 12, "w": 8, "h": 8 },
       "targets": [
         {
-          "expr": "mysql_global_status_threads_connected",
-          "legendFormat": "conexiones activas",
+          "expr": "probe_duration_seconds{job=\"blackbox-mysql\"}",
+          "legendFormat": "conexion TCP",
           "refId": "A"
-        },
-        {
-          "expr": "mysql_global_status_max_used_connections",
-          "legendFormat": "maximo utilizado",
-          "refId": "B"
         }
       ]
     },
     {
       "type": "timeseries",
-      "title": "Latencia HTTP total p95",
+      "title": "Tiempo de recopilacion de la API",
       "gridPos": { "x": 0, "y": 20, "w": 12, "h": 8 },
       "fieldConfig": {
         "defaults": { "unit": "s" },
@@ -265,8 +259,8 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(predia_http_response_time_seconds_hist_bucket[5m])))",
-          "legendFormat": "p95",
+          "expr": "scrape_duration_seconds{job=\"predia-api\"}",
+          "legendFormat": "scrape API",
           "refId": "A"
         }
       ]
@@ -284,13 +278,13 @@
       ]
     }
   ],
-  "refresh": "15s",
+  "refresh": "5s",
   "schemaVersion": 39,
   "tags": ["predia", "produccion", "salud"],
   "templating": { "list": [] },
-  "time": { "from": "now-30m", "to": "now" },
+  "time": { "from": "now-5m", "to": "now" },
   "timezone": "browser",
   "title": "PREDIA - Salud del sistema",
   "uid": "predia-overview",
-  "version": 2
+  "version": 3
 }

@@ -1,0 +1,363 @@
+PREDIA - COMANDOS DE RESCATE Y DEFENSA TECNICA
+Fecha: 2026-08-04
+
+Objetivo:
+Tener comandos rapidos para demostrar seguridad, API, SSL, firewall,
+balanceador, monitoreo, app movil y estado del VPS durante preguntas del jurado.
+
+Regla importante:
+No pegues tokens, passwords, .env ni llaves privadas en pantalla. Si un comando
+pide credenciales, usalas solo en tu terminal local y no las proyectes.
+
+
+===============================================================================
+0. VARIABLES UTILES PARA NO ESCRIBIR TODO A MANO
+===============================================================================
+
+export PREDIA_DOMAIN="prediaa.duckdns.org"
+# Guarda el dominio publico en una variable para reutilizarlo en curl.
+
+export PREDIA_PUBLIC_SSH="ubuntu@ec2-52-15-133-69.us-east-2.compute.amazonaws.com"
+# Servidor publico: reverse proxy, API web, app movil web y balanceador.
+
+export PREDIA_PRIVATE_SSH="ubuntu@ec2-18-222-145-243.us-east-2.compute.amazonaws.com"
+# Servidor privado: base de datos, Prometheus, Grafana y monitoreo.
+
+chmod 400 "$HOME/Descargas/PREDIA.pem"
+# Corrige permisos de la llave SSH. Si no haces esto, SSH puede rechazarla.
+
+
+===============================================================================
+1. PANEL PRINCIPAL DE DEMOSTRACION
+===============================================================================
+
+./scripts/demo/predia-live-demo.sh
+# Abre el panel bonito con evidencias: hash/cifrado, JWT, firewall, SSL,
+# balanceador, monitoreo, Grafana en vivo y validacion de datos invalidos.
+
+bash scripts/demo/predia-live-demo.sh --all
+# Ejecuta todas las evidencias de golpe. Sirve como preflight antes de exponer.
+
+bash scripts/demo/data-validation-demo.sh
+# Demuestra que la API rechaza un peso de 999 kg y una cita en fecha pasada.
+# Despues consulta de nuevo para comprobar que esos datos NO quedaron guardados.
+
+bash scripts/demo/ufw-status-demo.sh
+# Muestra las reglas activas del firewall con sudo ufw status verbose en el
+# servidor privado configurado para la demo.
+
+bash scripts/demo/ufw-status-demo.sh --both
+# Variante opcional para intentar servidor publico y privado. Usala solo si SSH
+# al publico esta permitido desde tu red.
+
+bash scripts/demo/open-grafana.sh
+# Abre Grafana rapidamente por tunel SSH, sin publicar Grafana en Internet.
+
+bash scripts/demo/grafana-live-pulse.sh
+# Genera una carga temporal controlada para ver cambiar una grafica en vivo.
+
+
+===============================================================================
+2. PRUEBAS RAPIDAS DESDE TU MAQUINA LOCAL
+===============================================================================
+
+curl -I "http://${PREDIA_DOMAIN}"
+# Debe responder 301 hacia HTTPS. Prueba redireccion segura.
+
+curl -I "https://${PREDIA_DOMAIN}"
+# Debe responder por HTTPS. Prueba que el sitio tenga certificado SSL activo.
+
+curl -fsS "https://${PREDIA_DOMAIN}/api/ready"
+# Prueba readiness real de la API. Incluye conexion a base de datos.
+
+curl -fsS "https://${PREDIA_DOMAIN}/api/health"
+# Prueba health basico de la app web/API.
+
+curl -fsS "https://${PREDIA_DOMAIN}/mobile/healthz"
+# Prueba que la version movil web este publicada detras del proxy.
+
+curl -sS -o /dev/null -w "%{http_code}\n" "https://${PREDIA_DOMAIN}/api/pacientes"
+# Sin JWT debe responder 401. Demuestra proteccion de API.
+
+for i in $(seq 1 12); do curl -fsSI "https://${PREDIA_DOMAIN}/api/health" | awk -F': ' '/X-PREDIA-Instance/{print $2}'; done | sort | uniq -c
+# Muestra que el balanceador reparte respuestas entre replicas distintas.
+
+for i in $(seq 1 60); do curl -s -o /dev/null -w "%{http_code}\n" "https://${PREDIA_DOMAIN}/api/health"; done | sort | uniq -c
+# Envia varias solicitudes seguras para demostrar disponibilidad y estabilidad
+# sin hacer una prueba destructiva de carga.
+
+openssl s_client -connect "${PREDIA_DOMAIN}:443" -servername "${PREDIA_DOMAIN}" </dev/null 2>/dev/null | openssl x509 -noout -issuer -subject -dates -fingerprint -sha256
+# Lee el certificado TLS servido en vivo: emisor, dominio, vigencia y huella.
+
+
+===============================================================================
+3. SI TE PREGUNTAN POR HASH, CIFRADO Y JWT
+===============================================================================
+
+bash scripts/demo/security-tests.sh crypto
+# Ejecuta pruebas reales de bcrypt y AES-256-GCM contra codigo del proyecto.
+
+bash scripts/demo/jwt-api-demo.sh
+# Prueba firma/expiracion de JWT y rechazo HTTP 401 desde la API publicada.
+
+pnpm --filter @predia/web exec jest --runInBand __tests__/security-crypto.test.ts
+# Prueba unitaria especifica de criptografia.
+
+pnpm --filter @predia/web exec jest --runInBand __tests__/security-jwt.test.ts
+# Prueba unitaria especifica de JWT.
+
+pnpm --filter @predia/web exec jest --runInBand __tests__/api-authorization.test.ts
+# Prueba que endpoints protegidos no acepten acceso sin permisos.
+
+
+===============================================================================
+4. SI TE PREGUNTAN POR FIREWALL Y PUERTOS
+===============================================================================
+
+ssh -i "$HOME/Descargas/PREDIA.pem" "$PREDIA_PUBLIC_SSH"
+# Entra al servidor publico.
+
+ssh -i "$HOME/Descargas/PREDIA.pem" "$PREDIA_PRIVATE_SSH"
+# Entra al servidor privado.
+
+sudo ufw status verbose
+# Muestra reglas activas del firewall UFW.
+
+sudo fail2ban-client status
+# Muestra si Fail2ban esta activo.
+
+sudo fail2ban-client status sshd
+# Muestra proteccion contra intentos de fuerza bruta por SSH.
+
+sudo ss -tulpn
+# Lista puertos escuchando en el servidor. Sirve para demostrar que no hay
+# servicios sensibles expuestos innecesariamente.
+
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+# Muestra contenedores, salud y puertos publicados por Docker.
+
+bash scripts/demo/production-readonly.sh firewall
+# Hace la evidencia automatizada de firewall sin modificar el servidor.
+
+bash scripts/demo/ufw-status-demo.sh
+# Evidencia directa de UFW: imprime sudo ufw status verbose.
+
+
+===============================================================================
+5. SERVIDOR PUBLICO: ESTADO, LOGS Y RECUPERACION RAPIDA
+===============================================================================
+
+ssh -i "$HOME/Descargas/PREDIA.pem" "$PREDIA_PUBLIC_SSH"
+# Conectarse al VPS publico.
+
+cd ~/predia
+# Ir al proyecto desplegado en el servidor publico.
+
+docker compose -f docker-compose.production.yml ps
+# Ver estado de API, proxy, movil web, DB y exporters.
+
+docker compose -f docker-compose.production.yml logs --tail=80 predia-proxy
+# Ver ultimos logs de Nginx/reverse proxy.
+
+docker compose -f docker-compose.production.yml logs --tail=80 predia-api-1 predia-api-2
+# Ver ultimos logs de las replicas de la API.
+
+docker compose -f docker-compose.production.yml logs --tail=80 predia-mobile-web
+# Ver logs de la version movil web servida por Nginx.
+
+docker compose -f docker-compose.production.yml restart predia-proxy predia-api-1 predia-api-2 predia-mobile-web
+# Reinicio rapido si la web/API/movil web se queda colgada.
+
+docker compose -f docker-compose.production.yml up -d --build
+# Reconstruye y levanta produccion. Usar si acabas de subir cambios.
+
+docker stats --no-stream
+# Muestra uso actual de CPU/RAM por contenedor.
+
+df -h
+# Revisa espacio en disco. Si esta lleno, Docker o MySQL pueden fallar.
+
+free -h
+# Revisa memoria disponible del servidor.
+
+sudo journalctl -u docker --no-pager -n 120
+# Logs recientes del servicio Docker si los contenedores no levantan.
+
+
+===============================================================================
+6. SERVIDOR PRIVADO: DB, PROMETHEUS Y GRAFANA
+===============================================================================
+
+ssh -i "$HOME/Descargas/PREDIA.pem" "$PREDIA_PRIVATE_SSH"
+# Conectarse al VPS privado.
+
+cd ~/predia-private
+# Ir al proyecto desplegado en el servidor privado.
+
+docker compose -f docker-compose.private.yml ps
+# Ver estado de MySQL, Prometheus, Grafana, exporters y monitoreo.
+
+docker compose -f docker-compose.private.yml logs --tail=80 grafana
+# Ver logs de Grafana.
+
+docker compose -f docker-compose.private.yml logs --tail=80 prometheus
+# Ver logs de Prometheus.
+
+curl -fsS "http://127.0.0.1:3001/api/health"
+# Verifica Grafana desde el servidor privado. No necesita exponerlo a Internet.
+
+curl -fsS "http://127.0.0.1:9090/-/ready"
+# Verifica que Prometheus este listo.
+
+docker compose -f docker-compose.private.yml restart grafana prometheus
+# Reinicio rapido del stack de monitoreo.
+
+
+===============================================================================
+7. BASE DE DATOS Y MIGRACIONES
+===============================================================================
+
+pnpm prisma:validate
+# Valida que el schema Prisma sea correcto.
+
+pnpm prisma:migrate:status
+# Muestra si hay migraciones pendientes en el entorno configurado.
+
+pnpm prisma:generate
+# Regenera el cliente Prisma si cambiaste schema.prisma.
+
+docker compose -f docker-compose.production.yml --profile tools run --rm predia-migrator pnpm --filter @predia/web exec prisma migrate status
+# Revisa migraciones desde el contenedor de produccion.
+
+docker compose -f docker-compose.production.yml --profile tools run --rm predia-migrator pnpm --filter @predia/web exec prisma migrate deploy
+# Aplica migraciones pendientes en produccion. Usar solo si ya validaste backup.
+
+bash scripts/backup/production-backup.sh
+# Genera respaldo antes de cambios delicados.
+
+
+===============================================================================
+8. APP MOVIL: VALIDACION RAPIDA
+===============================================================================
+
+pnpm typecheck:mobile
+# Revisa TypeScript de la app movil.
+
+pnpm --filter @predia/mobile start -- --tunnel
+# Inicia Expo con tunel para abrir desde Expo Go aunque no estes en la misma red.
+
+pnpm --filter @predia/mobile web -- --port 8082
+# Levanta la app movil en navegador local para probar rapido UI y navegacion.
+
+node scripts/mobile-cdp-qa.js
+# Prueba automatizada de navegacion movil en navegador.
+
+node scripts/mobile-agenda-lifecycle-qa.js
+# Prueba flujo de agenda movil: crear, iniciar y finalizar cita.
+
+node scripts/mobile-deep-cdp-qa.js
+# Recorrido mas profundo de pantallas moviles.
+
+curl -fsS "https://${PREDIA_DOMAIN}/mobile/healthz"
+# Comprueba que la app movil web este publicada en el VPS.
+
+
+===============================================================================
+9. CI/CD Y CALIDAD LOCAL
+===============================================================================
+
+pnpm install --frozen-lockfile
+# Instala dependencias respetando el lockfile.
+
+pnpm lint:ci
+# Ejecuta ESLint en modo CI.
+
+pnpm typecheck
+# Revisa tipos de web, movil y shared.
+
+pnpm test
+# Ejecuta pruebas automatizadas web.
+
+pnpm build:web
+# Compila la parte web/Next.js.
+
+pnpm build:mobile-web
+# Exporta la app movil como web para publicarla en /mobile/.
+
+pnpm ci:local
+# Pipeline local completo: Prisma, lint, tipos, tests y builds.
+
+pnpm security:audit
+# Busca vulnerabilidades altas en dependencias.
+
+bash scripts/rubric-check.sh
+# Ejecuta chequeos alineados con la rubrica tecnica.
+
+
+===============================================================================
+10. DEMOSTRACIONES MANUALES CON CURL
+===============================================================================
+
+API="https://${PREDIA_DOMAIN}/api"
+# Base URL de la API publica.
+
+curl -sS -o /dev/null -w "%{http_code}\n" "${API}/pacientes"
+# Debe responder 401 sin token. Sirve para explicar JWT.
+
+curl -sS -X POST "${API}/auth/login" -H "Content-Type: application/json" --data '{"username":"usuario_demo","password":"password_demo"}'
+# Login medico. No lo proyectes con credenciales reales si el jurado esta viendo.
+
+curl -sS -X POST "${API}/auth/login-paciente" -H "Content-Type: application/json" --data '{"curp":"CURP_DEMO","pin":"PIN_DEMO"}'
+# Login paciente movil. Demuestra autenticacion separada por perfil.
+
+bash scripts/demo/data-validation-demo.sh
+# Mejor forma de mostrar validaciones: hace login, manda datos invalidos,
+# recibe HTTP 400 y confirma que no se guardaron.
+
+
+===============================================================================
+11. SI ALGO FALLA DURANTE LA PRESENTACION
+===============================================================================
+
+curl -fsS "https://${PREDIA_DOMAIN}/api/ready" || echo "API/DB no lista"
+# Primer diagnostico: si falla, revisar contenedores o DB.
+
+ssh -i "$HOME/Descargas/PREDIA.pem" "$PREDIA_PUBLIC_SSH" "cd ~/predia && docker compose -f docker-compose.production.yml ps"
+# Estado remoto del servidor publico en una sola linea desde tu maquina.
+
+ssh -i "$HOME/Descargas/PREDIA.pem" "$PREDIA_PUBLIC_SSH" "cd ~/predia && docker compose -f docker-compose.production.yml restart predia-proxy predia-api-1 predia-api-2 predia-mobile-web"
+# Reinicio remoto rapido del frente publico.
+
+ssh -i "$HOME/Descargas/PREDIA.pem" "$PREDIA_PRIVATE_SSH" "cd ~/predia-private && docker compose -f docker-compose.private.yml ps"
+# Estado remoto del servidor privado en una sola linea.
+
+bash scripts/demo/open-grafana.sh --check
+# Confirma que el tunel a Grafana funciona sin abrir navegador.
+
+git status --short
+# Verifica si hay cambios locales sin commit antes de mover cosas.
+
+git log --oneline --decorate -n 8
+# Muestra los ultimos commits para explicar que version estas presentando.
+
+
+===============================================================================
+12. FRASES RAPIDAS PARA CONTESTAR
+===============================================================================
+
+"El servidor publico solo expone 80 y 443; la base de datos y Grafana estan en
+red privada o enlazados a localhost."
+
+"La API no acepta endpoints clinicos sin JWT. Si llamamos /api/pacientes sin
+token, responde 401."
+
+"El balanceador es Nginx y distribuye peticiones entre predia-api-1 y
+predia-api-2; lo comprobamos con la cabecera X-PREDIA-Instance."
+
+"Las validaciones importantes no dependen solo del formulario: tambien estan
+en backend. Por eso un curl con peso 999 kg o cita pasada responde 400 y no se
+inserta en la base de datos."
+
+"Grafana no esta publico; entramos por tunel SSH para monitoreo administrativo."
+
+"Antes de migrar o redeployar, se debe correr backup y revisar migraciones."

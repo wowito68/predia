@@ -1,0 +1,141 @@
+x-logging: &predia-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: predia-private-db
+    command:
+      - --bind-address=0.0.0.0
+      - --skip-name-resolve
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-predia_db}
+      MYSQL_USER: ${MYSQL_USER:-predia_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?set MYSQL_PASSWORD}
+    ports:
+      - "${PREDIA_PRIVATE_IP:?set PREDIA_PRIVATE_IP}:3306:3306"
+    volumes:
+      - predia_private_db_data:/var/lib/mysql
+    networks:
+      - data
+    logging: *predia-logging
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    container_name: predia-private-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+    ports:
+      - "127.0.0.1:9090:9090"
+    extra_hosts:
+      - "prediaa.duckdns.org:${PREDIA_PUBLIC_PRIVATE_IP:?set PREDIA_PUBLIC_PRIVATE_IP}"
+    volumes:
+      - ./monitoring/prometheus.private.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/alert_rules.private.yml:/etc/prometheus/alert_rules.yml:ro
+      - predia_private_prometheus_data:/prometheus
+    networks:
+      - monitoring
+    logging: *predia-logging
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:9090/-/ready >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: predia-private-grafana
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?set GRAFANA_ADMIN_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_SECURITY_COOKIE_SECURE: "false"
+      GF_SECURITY_COOKIE_SAMESITE: strict
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - predia_private_grafana_data:/var/lib/grafana
+    networks:
+      - monitoring
+    logging: *predia-logging
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    container_name: predia-private-node-exporter
+    command:
+      - --path.rootfs=/host
+    pid: host
+    volumes:
+      - /:/host:ro,rslave
+    networks:
+      - monitoring
+    logging: *predia-logging
+    restart: unless-stopped
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: predia-private-cadvisor
+    privileged: true
+    devices:
+      - /dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+    networks:
+      - monitoring
+    logging: *predia-logging
+    restart: unless-stopped
+
+  blackbox-exporter:
+    image: quay.io/prometheus/blackbox-exporter:v0.28.0
+    container_name: predia-private-blackbox-exporter
+    command:
+      - --config.file=/etc/blackbox/blackbox.yml
+    volumes:
+      - ./monitoring/blackbox.private.yml:/etc/blackbox/blackbox.yml:ro
+    networks:
+      - data
+      - monitoring
+    logging: *predia-logging
+    restart: unless-stopped
+
+networks:
+  data:
+    driver: bridge
+  monitoring:
+    driver: bridge
+
+volumes:
+  predia_private_db_data:
+  predia_private_prometheus_data:
+  predia_private_grafana_data:

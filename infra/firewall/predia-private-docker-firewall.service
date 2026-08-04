@@ -1,0 +1,13 @@
+[Unit]
+Description=PREDIA private Docker ingress filter
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/predia-private/firewall.env
+ExecStart=/usr/local/sbin/predia-private-docker-filter
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

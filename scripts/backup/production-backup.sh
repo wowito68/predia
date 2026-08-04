@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ENV_FILE="${PREDIA_ENV_FILE:-${ROOT_DIR}/.env.production}"
-COMPOSE_FILE="${ROOT_DIR}/docker-compose.production.yml"
+COMPOSE_FILE="${PREDIA_COMPOSE_FILE:-${ROOT_DIR}/docker-compose.production.yml}"
 BACKUP_DIR="${BACKUP_DIR:-${ROOT_DIR}/backups}"
 BACKUP_RETENTION_DAYS="${BACKUP_RETENTION_DAYS:-14}"
 
