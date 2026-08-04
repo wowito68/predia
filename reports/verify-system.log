@@ -1,0 +1,20 @@
+== node: node --version
+v18.19.1
+== pnpm: pnpm --version
+10.23.0
+== web-tsc: npx tsc -p apps/web/tsconfig.json --noEmit
+== mobile-tsc: npx tsc -p apps/mobile/tsconfig.json --noEmit
+== web-tests: pnpm --filter @predia/web exec jest --runInBand
+
+Test Suites: 4 passed, 4 total
+Tests:       14 passed, 14 total
+Snapshots:   0 total
+Time:        2.205 s, estimated 4 s
+Ran all test suites.
+== prisma-validate: pnpm --filter @predia/web exec prisma validate
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+The schema at prisma/schema.prisma is valid 🚀
+== api-health: curl -fsS http://127.0.0.1:3002/api/health | tee /home/wowo/Descargas/predia/evidence/api-health.json
+{"success":true,"status":"ok","service":"predia-api","instance":"local-dev","timestamp":"2026-07-28T18:47:52.904Z"}== api-metrics: curl -fsS http://127.0.0.1:3002/api/metrics | tee /home/wowo/Descargas/predia/evidence/api-metrics.prom | grep -q predia_app_up
+== mobile-url: curl -fsS http://localhost:8082 >/dev/null

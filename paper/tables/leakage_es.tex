@@ -1,0 +1,20 @@
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.2}
+\caption{Demostración de fuga: regresión logística validada por 5-fold
+entrenada sobre subconjuntos aislados de variables de
+\texttt{diabetes\_dataset.csv}}
+\label{tab:leakage}
+\centering
+\begin{tabular}{l c c}
+\toprule
+\textbf{Subconjunto de variables} & \textbf{Exactitud} & \textbf{ROC-AUC} \\
+\midrule
+\texttt{hba1c} solamente & 0.8520 & 0.9325 \\
+\texttt{glucose\_fasting} solamente & 0.7307 & 0.8082 \\
+Labs.\ diagnósticos (HbA1c+glucosa+insulina) & 0.8567 & 0.9337 \\
+\texttt{diabetes\_stage}+\texttt{risk\_score} & \textbf{0.9979} & \textbf{0.9974} \\
+\midrule
+Cribado (numéricas no diagnósticas) & 0.6163 & 0.6121 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,91 @@
+{
+  "generatedAt": "2026-07-28T18:47:57.760Z",
+  "overall": "OK",
+  "passed": 9,
+  "failed": 0,
+  "checks": [
+    {
+      "id": "node",
+      "ok": true,
+      "exitCode": 0
+    },
+    {
+      "id": "pnpm",
+      "ok": true,
+      "exitCode": 0
+    },
+    {
+      "id": "web-tsc",
+      "ok": true,
+      "exitCode": 0
+    },
+    {
+      "id": "mobile-tsc",
+      "ok": true,
+      "exitCode": 0
+    },
+    {
+      "id": "web-tests",
+      "ok": true,
+      "exitCode": 0
+    },
+    {
+      "id": "prisma-validate",
+      "ok": true,
+      "exitCode": 0
+    },
+    {
+      "id": "api-health",
+      "ok": true,
+      "exitCode": 0
+    },
+    {
+      "id": "api-metrics",
+      "ok": true,
+      "exitCode": 0
+    },
+    {
+      "id": "mobile-url",
+      "ok": true,
+      "exitCode": 0
+    }
+  ],
+  "requiredDocs": [
+    {
+      "path": "docs/RUBRICA_CUMPLIMIENTO.md",
+      "exists": true
+    },
+    {
+      "path": "docs/SEGURIDAD_CRIPTOGRAFICA.md",
+      "exists": true
+    },
+    {
+      "path": "docs/AUTENTICACION_JWT.md",
+      "exists": true
+    },
+    {
+      "path": "docs/ARQUITECTURA_INFRAESTRUCTURA.md",
+      "exists": true
+    },
+    {
+      "path": "docs/MONITOREO.md",
+      "exists": true
+    },
+    {
+      "path": "docs/FIREWALL.md",
+      "exists": true
+    },
+    {
+      "path": "docs/SSL_HTTPS.md",
+      "exists": true
+    },
+    {
+      "path": "docs/BALANCEO_CARGA.md",
+      "exists": true
+    },
+    {
+      "path": "docs/GUIA_DEMOSTRACION.md",
+      "exists": true
+    }
+  ]
+}

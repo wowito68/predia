@@ -1,0 +1,13 @@
+feature,label,mean_abs_shap
+riesgo_current,Riesgo de diabetes,3.3203
+glucosa_current,Glucosa actual,1.548
+actividad_current,Actividad física,1.0287
+imc_current,IMC actual,0.3
+pas_current,PA sistólica,0.2856
+adherencia,Adherencia,0.1683
+pad_current,PA diastólica,0.1559
+peso_slope_m,Tendencia de peso,0.1258
+imc_slope_m,Tendencia de IMC,0.0404
+age,Edad,0.0301
+glucosa_slope_m,Tendencia de glucosa,0.0034
+n_comorbilidades,Nº de comorbilidades,0.0

@@ -1,0 +1,17 @@
+# HELP predia_app_up PREDIA application health flag.
+# TYPE predia_app_up gauge
+predia_app_up 1
+# HELP predia_app_uptime_seconds PREDIA process uptime in seconds.
+# TYPE predia_app_uptime_seconds gauge
+predia_app_uptime_seconds 0
+# HELP predia_process_memory_bytes Node.js process memory usage.
+# TYPE predia_process_memory_bytes gauge
+predia_process_memory_bytes{type="rss"} 396455936
+predia_process_memory_bytes{type="heap_used"} 191906408
+predia_process_memory_bytes{type="heap_total"} 227467264
+# HELP predia_auth_attempts_total Authentication attempts by role and result.
+# TYPE predia_auth_attempts_total counter
+# HELP predia_http_requests_total HTTP requests observed by instrumented API routes.
+# TYPE predia_http_requests_total counter
+# HELP predia_http_request_duration_ms_sum Sum of HTTP durations in milliseconds by instrumented route.
+# TYPE predia_http_request_duration_ms_sum counter

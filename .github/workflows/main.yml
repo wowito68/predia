@@ -1,60 +1,480 @@
-name: CI/CD Pipeline
+name: PREDIA CI/CD
 
 on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
       - main
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: predia-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: "true"
+  NODE_VERSION: "22"
+  PNPM_VERSION: "10.23.0"
+  NEXT_TELEMETRY_DISABLED: "1"
+  NODE_ENV: test
+  DATABASE_URL: mysql://predia_ci:predia_ci_password@127.0.0.1:3306/predia_ci
+  NEXT_PUBLIC_API_URL: http://127.0.0.1:3000/api
+  EXPO_PUBLIC_API_URL: http://127.0.0.1:3000/api
+  JWT_SECRET: predia_ci_jwt_secret_32_bytes_min
+  JWT_EXPIRES_IN: 15m
+  JWT_ISSUER: predia-ci
+  JWT_AUDIENCE: predia-ci-clients
+  PREDIA_ENCRYPTION_KEY: cHJlZGlhLWNpLWVuY3J5cHRpb24ta2V5LTMyLWJ5ISE=
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_DATABASE: predia_ci
+  MYSQL_USER: predia_ci
+  MYSQL_PASSWORD: predia_ci_password
+  GRAFANA_ADMIN_PASSWORD: predia-ci-grafana-password
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  ci:
-    name: Continuous Integration
+  actionlint:
+    name: GitHub Actions lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v7
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Validate workflow syntax
+        run: docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12
+
+  quality:
+    name: Lint and typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: "pnpm"
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
 
-      - name: Install Dependencies
-        run: pnpm install
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Generate Prisma Types
-        run: pnpm prisma generate
+      - name: Generate Prisma client
+        run: pnpm prisma:generate
 
-      - name: Run Tests
-        run: pnpm run test
+      - name: Lint monorepo
+        run: pnpm lint:ci
 
-      - name: Build Project
-        run: pnpm run build
-        
-  cd:
-    name: Continuous Deployment
-    needs: ci
+      - name: Typecheck web, mobile and shared
+        run: pnpm typecheck
+
+  tests:
+    name: Unit and security tests
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - name: Deploy to VPS
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm prisma:generate
+
+      - name: Run Jest suites
+        run: pnpm test
+
+  database:
+    name: Prisma migrations against MySQL
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: predia_ci
+          MYSQL_USER: predia_ci
+          MYSQL_PASSWORD: predia_ci_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm prisma:generate
+
+      - name: Validate Prisma schema
+        run: pnpm prisma:validate
+
+      - name: Apply migrations to clean MySQL
+        run: pnpm prisma:migrate:deploy
+
+      - name: Check migration status
+        run: pnpm prisma:migrate:status
+
+      - name: Seed demo clinical data
+        run: pnpm db:seed
+
+      - name: Smoke query migrated database
+        run: |
+          pnpm --filter @predia/web exec tsx -e "
+          import { PrismaClient } from '@prisma/client'
+          const prisma = new PrismaClient()
+          async function main() {
+            const [pacientes, usuarios] = await Promise.all([
+              prisma.paciente.count(),
+              prisma.usuario.count(),
+            ])
+            console.log({ pacientes, usuarios })
+            if (pacientes < 1 || usuarios < 1) {
+              throw new Error('El seed no creo los registros clinicos esperados')
+            }
+          }
+          main()
+            .catch((error) => {
+              console.error(error)
+              process.exitCode = 1
+            })
+            .finally(() => prisma.\$disconnect())
+          "
+
+  build-web:
+    name: Build Next.js web
+    runs-on: ubuntu-latest
+    needs:
+      - quality
+      - tests
+      - database
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm prisma:generate
+
+      - name: Build web app
+        env:
+          NODE_ENV: production
+        run: pnpm build:web
+
+      - name: Upload Next.js build metadata
+        uses: actions/upload-artifact@v7
+        with:
+          name: next-build-metadata
+          path: |
+            apps/web/.next/BUILD_ID
+            apps/web/.next/routes-manifest.json
+          if-no-files-found: warn
+          retention-days: 7
+
+  build-mobile-web:
+    name: Build Expo web bundle
+    runs-on: ubuntu-latest
+    needs:
+      - quality
+      - tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck mobile package
+        run: pnpm typecheck:mobile
+
+      - name: Export Expo web app
+        run: pnpm build:mobile-web
+
+      - name: Upload Expo web artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: expo-web-dist
+          path: apps/mobile/dist-web
+          if-no-files-found: error
+          retention-days: 7
+
+  docker:
+    name: Docker and compose validation
+    runs-on: ubuntu-latest
+    needs:
+      - build-web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Create CI env files for compose validation
+        run: |
+          cat > .env.local <<'EOF'
+          DATABASE_URL=mysql://predia_ci:predia_ci_password@db:3306/predia_ci
+          JWT_SECRET=predia_ci_jwt_secret_32_bytes_min
+          JWT_EXPIRES_IN=15m
+          PREDIA_ENCRYPTION_KEY=cHJlZGlhLWNpLWVuY3J5cHRpb24ta2V5LTMyLWJ5ISE=
+          NEXT_PUBLIC_API_URL=http://localhost:3000/api
+          EOF
+          cat > .env.production <<'EOF'
+          NODE_ENV=production
+          PREDIA_DOMAIN=predia-ci.example.com
+          APP_URL=https://predia-ci.example.com
+          NEXT_PUBLIC_API_URL=https://predia-ci.example.com/api
+          EXPO_PUBLIC_API_URL=https://predia-ci.example.com/api
+          DATABASE_URL=mysql://predia_ci:Ci-App-Password-Only-2026@db:3306/predia_ci
+          MYSQL_ROOT_PASSWORD=Ci-Root-Password-Only-2026
+          MYSQL_DATABASE=predia_ci
+          MYSQL_USER=predia_ci
+          MYSQL_PASSWORD=Ci-App-Password-Only-2026
+          JWT_SECRET=predia_ci_jwt_secret_32_bytes_min
+          JWT_EXPIRES_IN=15m
+          JWT_REFRESH_EXPIRES_IN=7d
+          JWT_ISSUER=predia-ci
+          JWT_AUDIENCE=predia-ci-clients
+          PREDIA_ENCRYPTION_KEY=cHJlZGlhLWNpLWVuY3J5cHRpb24ta2V5LTMyLWJ5ISE=
+          ALLOWED_ORIGINS=https://predia-ci.example.com
+          SECURE_COOKIES=true
+          COOKIE_DOMAIN=predia-ci.example.com
+          LETSENCRYPT_EMAIL=ci@example.com
+          SEED_DEMO_DATA=false
+          GRAFANA_ADMIN_PASSWORD=Ci-Grafana-Password-Only-2026
+          EOF
+
+      - name: Validate production environment contract
+        run: node scripts/validate-production-env.mjs .env.production
+
+      - name: Validate compose files
+        run: |
+          docker compose config >/tmp/predia-compose.yml
+          docker compose -f docker-compose.rubric.yml config >/tmp/predia-rubric-compose.yml
+          docker compose -f docker-compose.production.yml --profile tools config >/tmp/predia-production-compose.yml
+
+      - name: Build production Docker image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: false
+          load: true
+          tags: predia-web:${{ github.sha }}
+          build-args: |
+            NEXT_PUBLIC_API_URL=https://predia-ci.example.com/api
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build mobile production Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.mobile-web
+          push: false
+          load: true
+          tags: predia-mobile-web:${{ github.sha }}
+          build-args: |
+            EXPO_PUBLIC_API_URL=https://predia-ci.example.com/api
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test production container
+        run: |
+          container_name="predia-web-smoke-${GITHUB_RUN_ID}"
+          trap 'docker stop "$container_name" >/dev/null 2>&1 || true' EXIT
+
+          docker run -d --rm \
+            --name "$container_name" \
+            -p 127.0.0.1:3000:3000 \
+            -e DATABASE_URL \
+            -e JWT_SECRET \
+            -e JWT_EXPIRES_IN \
+            -e JWT_ISSUER \
+            -e JWT_AUDIENCE \
+            -e PREDIA_ENCRYPTION_KEY \
+            predia-web:${{ github.sha }}
+
+          for _attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health >/dev/null; then
+              exit 0
+            fi
+            if ! docker inspect -f '{{.State.Running}}' "$container_name" 2>/dev/null | grep -q true; then
+              docker logs "$container_name"
+              exit 1
+            fi
+            sleep 2
+          done
+
+          docker logs "$container_name"
+          exit 1
+
+      - name: Smoke test mobile production container
+        run: |
+          container_name="predia-mobile-smoke-${GITHUB_RUN_ID}"
+          trap 'docker stop "$container_name" >/dev/null 2>&1 || true' EXIT
+
+          docker run -d --rm \
+            --name "$container_name" \
+            -p 127.0.0.1:8080:8080 \
+            predia-mobile-web:${{ github.sha }}
+
+          for _attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/healthz >/dev/null && \
+               curl -fsS http://127.0.0.1:8080/ >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+
+          docker logs "$container_name"
+          exit 1
+
+  security-audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ github.event_name == 'pull_request' || github.ref != 'refs/heads/main' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit high and critical vulnerabilities
+        run: pnpm security:audit
+
+  deploy-production:
+    name: Deploy production VPS
+    runs-on: ubuntu-latest
+    needs:
+      - actionlint
+      - quality
+      - tests
+      - database
+      - build-web
+      - build-mobile-web
+      - docker
+      - security-audit
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      vars.ENABLE_PRODUCTION_DEPLOY == 'true'
+    environment: production
+    steps:
+      - name: Deploy over SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          script_stop: true
           script: |
-            cd predia || cd /home/admin/predia
-            git pull origin main
-            
-            # Reconstruir contenedores y levantar la aplicación
-            sudo docker-compose up -d --build
-            
-            # Ejecutar migraciones en la de base de datos
-            sudo docker exec diabetes-ai npx prisma db push --accept-data-loss || true
+            set -euo pipefail
+
+            if [ -d "${PREDIA_APP_DIR:-predia}/.git" ]; then
+              cd "${PREDIA_APP_DIR:-predia}"
+            elif [ -d "/home/admin/predia/.git" ]; then
+              cd /home/admin/predia
+            else
+              echo "No se encontro el directorio del repo PREDIA en el VPS." >&2
+              exit 1
+            fi
+
+            DOCKER="docker"
+            if ! docker ps >/dev/null 2>&1; then
+              DOCKER="sudo docker"
+            fi
+
+            git fetch origin main
+            git reset --hard origin/main
+
+            if [ ! -f .env.production ]; then
+              echo "Falta .env.production en el VPS. No se despliega sin variables reales." >&2
+              exit 1
+            fi
+
+            PREDIA_ENV_FILE="$PWD/.env.production" bash deploy-ec2.sh

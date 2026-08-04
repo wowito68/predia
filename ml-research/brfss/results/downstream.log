@@ -1,0 +1,75 @@
+[downstream] esperando fin del entrenamiento...
+[downstream] entrenamiento detectado. Ejecutando fases 1C-1F...
+Calibrando modelo seleccionado: xgboost
+
+=== Fiabilidad (Brier / ECE) ===
+ variant  brier_val  ece_val  brier_test  ece_test
+original    0.09677  0.00400     0.09740   0.00444
+   platt    0.09852  0.02572     0.09951   0.02854
+isotonic    0.09650  0.00000     0.09746   0.00293
+
+Calibración elegida: isotonic (menor ECE en test)
+Modelo xgboost (isotonic) — derivando umbrales en val (50,736 pacientes)
+
+=== Comparación de métodos ===
+        method                                                       thresholds                   band_sizes  min_band_size  monotonic  prev_ratio_extreme  eta_squared                 band_prevalences
+   percentiles   [0.07476635277271271, 0.2406417280435562, 0.47044023871421814]   [25299, 14671, 8134, 2632]           2632       True               20.49       0.1790 [0.0267, 0.1489, 0.3402, 0.5475]
+     quartiles [0.017834065482020378, 0.07476635277271271, 0.19664804637432098] [10295, 15004, 11874, 13563]          10295       True               52.86       0.1569 [0.0067, 0.0405, 0.1337, 0.3543]
+      clinical                                         [0.0899, 0.1414, 0.3322]   [25513, 4929, 12644, 7650]           4929       True               16.18       0.1742  [0.0271, 0.1023, 0.1989, 0.439]
+cost_sensitive                                               [0.0909, 0.2, 0.4]   [26147, 11921, 7831, 4837]           4837       True               17.25       0.1804 [0.0286, 0.1419, 0.2859, 0.4941]
+
+Método elegido: cost_sensitive | umbrales [0.0909, 0.2, 0.4]
+Bandas (val):
+  Bajo      n= 26,147 ( 51.5%) prev=0.029  rango=[0.0, 0.0909]
+  Moderado  n= 11,921 ( 23.5%) prev=0.142  rango=[0.0909, 0.2]
+  Alto      n=  7,831 ( 15.4%) prev=0.286  rango=[0.2, 0.4]
+  Muy Alto  n=  4,837 (  9.5%) prev=0.494  rango=[0.4, 1.0]
+=== Explicabilidad (xgboost; SHAP via xgboost) ===
+Top-10 SHAP:
+  Salud general percibida                    |SHAP|=0.5839  [riesgo]
+  Hipertensión arterial                      |SHAP|=0.4589  [riesgo]
+  Índice de masa corporal (IMC)              |SHAP|=0.3951  [riesgo]
+  Grupo etario                               |SHAP|=0.3588  [riesgo]
+  Colesterol alto                            |SHAP|=0.2633  [riesgo]
+  Nivel de ingreso                           |SHAP|=0.1147  [protector]
+  Sexo (0=mujer, 1=hombre)                   |SHAP|=0.0954  [riesgo]
+  Cardiopatía coronaria o infarto            |SHAP|=0.0541  [riesgo]
+  Chequeo de colesterol en 5 años            |SHAP|=0.0499  [riesgo]
+  Dificultad para caminar/subir escaleras    |SHAP|=0.0489  [riesgo]
+Validación clínica en TEST (50,736) | método cost_sensitive | umbrales [0.0909, 0.2, 0.4]
+
+=== Bandas en TEST ===
+  Bajo      n=26,149 prev=0.029 OR=   1.0 RR=  1.0 -> Seguimiento normal
+  Moderado  n=11,877 prev=0.142 OR= 5.486 RR= 4.85 -> Educación y cambios de hábitos
+  Alto      n= 7,844 prev=0.291 OR=13.658 RR= 9.97 -> Evaluación clínica prioritaria
+  Muy Alto  n= 4,866 prev=0.480 OR=30.704 RR=16.438 -> Referencia médica inmediata
+
+=== Puntos de operación (cribado >= umbral) ===
+  decision  threshold  sensitivity  specificity    ppv    npv  lr_plus  flagged_pct
+≥ Moderado     0.0909       0.8919       0.5813 0.2564 0.9708    2.130        48.46
+    ≥ Alto     0.2000       0.6538       0.8148 0.3637 0.9356    3.530        25.05
+≥ Muy Alto     0.4000       0.3306       0.9421 0.4803 0.8968    5.708         9.59
+
+Veredicto: clínicamente significativo = True | incremento extremo x16.45
+[downstream] generando notebooks y reporte...
+escrito 01_EDA_BRFSS.ipynb
+escrito 02_Model_Training.ipynb
+escrito 03_Calibration.ipynb
+escrito 04_Risk_Stratification.ipynb
+escrito 05_Explainability.ipynb
+escrito 06_Clinical_Validation.ipynb
+escrito /home/wowo/Descargas/predia/ml-research/brfss/risk_stratification_report.md
+[downstream] ejecutando notebooks con nbconvert...
+[NbConvertApp] Converting notebook notebooks/01_EDA_BRFSS.ipynb to notebook
+[NbConvertApp] Writing 594686 bytes to notebooks/01_EDA_BRFSS.ipynb
+[NbConvertApp] Converting notebook notebooks/02_Model_Training.ipynb to notebook
+[NbConvertApp] Writing 310172 bytes to notebooks/02_Model_Training.ipynb
+[NbConvertApp] Converting notebook notebooks/03_Calibration.ipynb to notebook
+[NbConvertApp] Writing 62940 bytes to notebooks/03_Calibration.ipynb
+[NbConvertApp] Converting notebook notebooks/04_Risk_Stratification.ipynb to notebook
+[NbConvertApp] Writing 139234 bytes to notebooks/04_Risk_Stratification.ipynb
+[NbConvertApp] Converting notebook notebooks/05_Explainability.ipynb to notebook
+[NbConvertApp] Writing 440143 bytes to notebooks/05_Explainability.ipynb
+[NbConvertApp] Converting notebook notebooks/06_Clinical_Validation.ipynb to notebook
+[NbConvertApp] Writing 101514 bytes to notebooks/06_Clinical_Validation.ipynb
+[downstream] COMPLETADO

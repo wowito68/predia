@@ -1,0 +1,8002 @@
+[
+ {
+  "patient_id": 1,
+  "priority_score": 79.7,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.844,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.356,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.1,
+   "eventos": 5.0,
+   "adherencia": 3.56,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 2,
+  "priority_score": 82.7,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.955,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.382,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 23.88,
+   "eventos": 5.0,
+   "adherencia": 3.82,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 3,
+  "priority_score": 18.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.29500000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 7.38,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 4,
+  "priority_score": 21.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.29,
+   "evolucion": 0.41400000000000003,
+   "eventos": 0.0,
+   "adherencia": 0.062000000000000055,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 10.15,
+   "evolucion": 10.35,
+   "eventos": 0.0,
+   "adherencia": 0.62,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 5,
+  "priority_score": 66.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.636,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.41500000000000004,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 15.9,
+   "eventos": 5.0,
+   "adherencia": 4.15,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 6,
+  "priority_score": 35.9,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.43,
+   "evolucion": 0.491,
+   "eventos": 0.0,
+   "adherencia": 0.357,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 15.05,
+   "evolucion": 12.28,
+   "eventos": 0.0,
+   "adherencia": 3.57,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 7,
+  "priority_score": 47.4,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.56,
+   "evolucion": 0.5760000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.33799999999999997,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 19.6,
+   "evolucion": 14.4,
+   "eventos": 0.0,
+   "adherencia": 3.38,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 8,
+  "priority_score": 71.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.735,
+   "eventos": 0.0,
+   "adherencia": 0.385,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 18.38,
+   "eventos": 0.0,
+   "adherencia": 3.85,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 9,
+  "priority_score": 13.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.12,
+   "evolucion": 0.31799999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.09599999999999997,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 4.2,
+   "evolucion": 7.95,
+   "eventos": 0.0,
+   "adherencia": 0.96,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 10,
+  "priority_score": 10.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.20499999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 5.12,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 11,
+  "priority_score": 5.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.19900000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.017000000000000015,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 4.98,
+   "eventos": 0.0,
+   "adherencia": 0.17,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 12,
+  "priority_score": 72.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.9,
+   "evolucion": 0.876,
+   "eventos": 0.0,
+   "adherencia": 0.40800000000000003,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 31.5,
+   "evolucion": 21.9,
+   "eventos": 0.0,
+   "adherencia": 4.08,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 13,
+  "priority_score": 17.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.16,
+   "evolucion": 0.392,
+   "eventos": 0.0,
+   "adherencia": 0.18300000000000005,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.6,
+   "evolucion": 9.8,
+   "eventos": 0.0,
+   "adherencia": 1.83,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 14,
+  "priority_score": 17.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.2,
+   "evolucion": 0.364,
+   "eventos": 0.0,
+   "adherencia": 0.18500000000000005,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 7.0,
+   "evolucion": 9.1,
+   "eventos": 0.0,
+   "adherencia": 1.85,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 15,
+  "priority_score": 51.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.59,
+   "evolucion": 0.611,
+   "eventos": 0.0,
+   "adherencia": 0.513,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 20.65,
+   "evolucion": 15.28,
+   "eventos": 0.0,
+   "adherencia": 5.13,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 16,
+  "priority_score": 65.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.96,
+   "evolucion": 0.725,
+   "eventos": 0.0,
+   "adherencia": 0.381,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.6,
+   "evolucion": 18.12,
+   "eventos": 0.0,
+   "adherencia": 3.81,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 17,
+  "priority_score": 10.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.17099999999999993,
+   "eventos": 0.0,
+   "adherencia": 0.03400000000000003,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 4.27,
+   "eventos": 0.0,
+   "adherencia": 0.34,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 18,
+  "priority_score": 58.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.58,
+   "evolucion": 0.7989999999999999,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.33099999999999996,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 20.3,
+   "evolucion": 19.97,
+   "eventos": 5.0,
+   "adherencia": 3.31,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 19,
+  "priority_score": 15.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.17,
+   "evolucion": 0.3590000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.08299999999999996,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.95,
+   "evolucion": 8.98,
+   "eventos": 0.0,
+   "adherencia": 0.83,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 20,
+  "priority_score": 66.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.84,
+   "evolucion": 0.65,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.5449999999999999,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 29.4,
+   "evolucion": 16.25,
+   "eventos": 5.0,
+   "adherencia": 5.45,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 21,
+  "priority_score": 63.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.81,
+   "evolucion": 0.823,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.41800000000000004,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 28.35,
+   "evolucion": 20.57,
+   "eventos": 5.0,
+   "adherencia": 4.18,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 22,
+  "priority_score": 12.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.23199999999999998,
+   "eventos": 0.0,
+   "adherencia": 0.10099999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.8,
+   "eventos": 0.0,
+   "adherencia": 1.01,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 23,
+  "priority_score": 36.3,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.45,
+   "evolucion": 0.687,
+   "eventos": 0.0,
+   "adherencia": 0.33699999999999997,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 15.75,
+   "evolucion": 17.18,
+   "eventos": 0.0,
+   "adherencia": 3.37,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 24,
+  "priority_score": 10.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.2659999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.133,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 6.65,
+   "eventos": 0.0,
+   "adherencia": 1.33,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 25,
+  "priority_score": 62.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.56,
+   "evolucion": 0.6990000000000001,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.502,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 19.6,
+   "evolucion": 17.48,
+   "eventos": 5.0,
+   "adherencia": 5.02,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 26,
+  "priority_score": 58.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.786,
+   "eventos": 0.0,
+   "adherencia": 0.23399999999999999,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 19.65,
+   "eventos": 0.0,
+   "adherencia": 2.34,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 27,
+  "priority_score": 26.6,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.35,
+   "evolucion": 0.486,
+   "eventos": 0.0,
+   "adherencia": 0.21799999999999997,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 12.25,
+   "evolucion": 12.15,
+   "eventos": 0.0,
+   "adherencia": 2.18,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 28,
+  "priority_score": 23.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.17,
+   "evolucion": 0.44700000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.119,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 5.95,
+   "evolucion": 11.18,
+   "eventos": 0.0,
+   "adherencia": 1.19,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 29,
+  "priority_score": 72.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.96,
+   "evolucion": 0.747,
+   "eventos": 0.0,
+   "adherencia": 0.5489999999999999,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.6,
+   "evolucion": 18.68,
+   "eventos": 0.0,
+   "adherencia": 5.49,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 30,
+  "priority_score": 75.9,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.844,
+   "eventos": 0.0,
+   "adherencia": 0.511,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 21.1,
+   "eventos": 0.0,
+   "adherencia": 5.11,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 31,
+  "priority_score": 68.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.87,
+   "evolucion": 0.734,
+   "eventos": 0.0,
+   "adherencia": 0.504,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 30.45,
+   "evolucion": 18.35,
+   "eventos": 0.0,
+   "adherencia": 5.04,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 32,
+  "priority_score": 5.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.19700000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 4.93,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 33,
+  "priority_score": 71.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.847,
+   "eventos": 0.0,
+   "adherencia": 0.5469999999999999,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.18,
+   "eventos": 0.0,
+   "adherencia": 5.47,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 34,
+  "priority_score": 59.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.86,
+   "evolucion": 0.766,
+   "eventos": 0.0,
+   "adherencia": 0.47,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 30.1,
+   "evolucion": 19.15,
+   "eventos": 0.0,
+   "adherencia": 4.7,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 35,
+  "priority_score": 12.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.20200000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.14500000000000002,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 5.05,
+   "eventos": 0.0,
+   "adherencia": 1.45,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 36,
+  "priority_score": 75.3,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.882,
+   "eventos": 0.6666666666666666,
+   "adherencia": 0.363,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 22.05,
+   "eventos": 10.0,
+   "adherencia": 3.63,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 37,
+  "priority_score": 73.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.764,
+   "eventos": 0.0,
+   "adherencia": 0.42100000000000004,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 19.1,
+   "eventos": 0.0,
+   "adherencia": 4.21,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 38,
+  "priority_score": 5.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.18299999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.03700000000000003,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 4.57,
+   "eventos": 0.0,
+   "adherencia": 0.37,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 39,
+  "priority_score": 12.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.14,
+   "evolucion": 0.31900000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 4.9,
+   "evolucion": 7.98,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 40,
+  "priority_score": 86.8,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.847,
+   "eventos": 0.6666666666666666,
+   "adherencia": 0.5609999999999999,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.18,
+   "eventos": 10.0,
+   "adherencia": 5.61,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 41,
+  "priority_score": 19.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.08,
+   "evolucion": 0.236,
+   "eventos": 0.0,
+   "adherencia": 0.09599999999999997,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 2.8,
+   "evolucion": 5.9,
+   "eventos": 0.0,
+   "adherencia": 0.96,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 42,
+  "priority_score": 55.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.92,
+   "evolucion": 0.673,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.15500000000000003,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 32.2,
+   "evolucion": 16.83,
+   "eventos": 5.0,
+   "adherencia": 1.55,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 43,
+  "priority_score": 28.5,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.26,
+   "evolucion": 0.45299999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.30800000000000005,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 9.1,
+   "evolucion": 11.32,
+   "eventos": 0.0,
+   "adherencia": 3.08,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 44,
+  "priority_score": 72.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.94,
+   "eventos": 0.0,
+   "adherencia": 0.42800000000000005,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 23.5,
+   "eventos": 0.0,
+   "adherencia": 4.28,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 45,
+  "priority_score": 71.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.894,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.395,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.35,
+   "eventos": 5.0,
+   "adherencia": 3.95,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 46,
+  "priority_score": 64.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.73,
+   "evolucion": 0.764,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.488,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 25.55,
+   "evolucion": 19.1,
+   "eventos": 5.0,
+   "adherencia": 4.88,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 47,
+  "priority_score": 19.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.21,
+   "evolucion": 0.397,
+   "eventos": 0.0,
+   "adherencia": 0.235,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 7.35,
+   "evolucion": 9.93,
+   "eventos": 0.0,
+   "adherencia": 2.35,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 48,
+  "priority_score": 12.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.395,
+   "eventos": 0.0,
+   "adherencia": 0.029000000000000026,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 9.88,
+   "eventos": 0.0,
+   "adherencia": 0.29,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 49,
+  "priority_score": 63.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.83,
+   "evolucion": 0.764,
+   "eventos": 0.0,
+   "adherencia": 0.506,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 29.05,
+   "evolucion": 19.1,
+   "eventos": 0.0,
+   "adherencia": 5.06,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 50,
+  "priority_score": 66.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.93,
+   "evolucion": 0.848,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.268,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 32.55,
+   "evolucion": 21.2,
+   "eventos": 5.0,
+   "adherencia": 2.68,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 51,
+  "priority_score": 14.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.14,
+   "evolucion": 0.383,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 4.9,
+   "evolucion": 9.57,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 52,
+  "priority_score": 33.1,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.41,
+   "evolucion": 0.44399999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.267,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 14.35,
+   "evolucion": 11.1,
+   "eventos": 0.0,
+   "adherencia": 2.67,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 53,
+  "priority_score": 43.0,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.4,
+   "evolucion": 0.5920000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.42500000000000004,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 14.0,
+   "evolucion": 14.8,
+   "eventos": 0.0,
+   "adherencia": 4.25,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 54,
+  "priority_score": 17.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.351,
+   "eventos": 0.0,
+   "adherencia": 0.17400000000000004,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 8.77,
+   "eventos": 0.0,
+   "adherencia": 1.74,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 55,
+  "priority_score": 75.7,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.888,
+   "eventos": 0.0,
+   "adherencia": 0.349,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.2,
+   "eventos": 0.0,
+   "adherencia": 3.49,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 56,
+  "priority_score": 60.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.92,
+   "evolucion": 0.764,
+   "eventos": 0.0,
+   "adherencia": 0.45199999999999996,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 32.2,
+   "evolucion": 19.1,
+   "eventos": 0.0,
+   "adherencia": 4.52,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 57,
+  "priority_score": 16.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.08,
+   "evolucion": 0.3540000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 2.8,
+   "evolucion": 8.85,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 58,
+  "priority_score": 23.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.28,
+   "evolucion": 0.42500000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.261,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 9.8,
+   "evolucion": 10.63,
+   "eventos": 0.0,
+   "adherencia": 2.61,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 59,
+  "priority_score": 5.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.18700000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 4.68,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 60,
+  "priority_score": 22.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.22,
+   "evolucion": 0.33099999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.14500000000000002,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 7.7,
+   "evolucion": 8.27,
+   "eventos": 0.0,
+   "adherencia": 1.45,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 61,
+  "priority_score": 69.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.81,
+   "eventos": 0.0,
+   "adherencia": 0.43500000000000005,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 20.25,
+   "eventos": 0.0,
+   "adherencia": 4.35,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 62,
+  "priority_score": 46.8,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.43,
+   "evolucion": 0.728,
+   "eventos": 0.0,
+   "adherencia": 0.35,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 15.05,
+   "evolucion": 18.2,
+   "eventos": 0.0,
+   "adherencia": 3.5,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 63,
+  "priority_score": 70.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.85,
+   "evolucion": 0.798,
+   "eventos": 0.0,
+   "adherencia": 0.5329999999999999,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 29.75,
+   "evolucion": 19.95,
+   "eventos": 0.0,
+   "adherencia": 5.33,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 64,
+  "priority_score": 20.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.11,
+   "evolucion": 0.373,
+   "eventos": 0.0,
+   "adherencia": 0.18300000000000005,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 3.85,
+   "evolucion": 9.32,
+   "eventos": 0.0,
+   "adherencia": 1.83,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 65,
+  "priority_score": 18.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.22,
+   "evolucion": 0.40900000000000003,
+   "eventos": 0.0,
+   "adherencia": 0.03200000000000003,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 7.7,
+   "evolucion": 10.23,
+   "eventos": 0.0,
+   "adherencia": 0.32,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 66,
+  "priority_score": 76.8,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.91,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.41000000000000003,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.75,
+   "eventos": 5.0,
+   "adherencia": 4.1,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 67,
+  "priority_score": 19.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.264,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.09899999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 6.6,
+   "eventos": 5.0,
+   "adherencia": 0.99,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 68,
+  "priority_score": 17.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.04,
+   "evolucion": 0.31499999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.30700000000000005,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.4,
+   "evolucion": 7.87,
+   "eventos": 0.0,
+   "adherencia": 3.07,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 69,
+  "priority_score": 72.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.793,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.29900000000000004,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.82,
+   "eventos": 5.0,
+   "adherencia": 2.99,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 70,
+  "priority_score": 6.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.20400000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.07699999999999996,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 5.1,
+   "eventos": 0.0,
+   "adherencia": 0.77,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 71,
+  "priority_score": 73.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.93,
+   "evolucion": 0.903,
+   "eventos": 0.0,
+   "adherencia": 0.31899999999999995,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 32.55,
+   "evolucion": 22.57,
+   "eventos": 0.0,
+   "adherencia": 3.19,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 72,
+  "priority_score": 19.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.14,
+   "evolucion": 0.373,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 4.9,
+   "evolucion": 9.32,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 73,
+  "priority_score": 17.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.15,
+   "evolucion": 0.378,
+   "eventos": 0.0,
+   "adherencia": 0.252,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.25,
+   "evolucion": 9.45,
+   "eventos": 0.0,
+   "adherencia": 2.52,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 74,
+  "priority_score": 74.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.823,
+   "eventos": 0.0,
+   "adherencia": 0.369,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 20.57,
+   "eventos": 0.0,
+   "adherencia": 3.69,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 75,
+  "priority_score": 70.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.85,
+   "evolucion": 0.829,
+   "eventos": 0.0,
+   "adherencia": 0.46599999999999997,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 29.75,
+   "evolucion": 20.72,
+   "eventos": 0.0,
+   "adherencia": 4.66,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 76,
+  "priority_score": 82.7,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.942,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.486,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 23.55,
+   "eventos": 5.0,
+   "adherencia": 4.86,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 77,
+  "priority_score": 75.3,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.91,
+   "eventos": 0.0,
+   "adherencia": 0.36,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 22.75,
+   "eventos": 0.0,
+   "adherencia": 3.6,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 78,
+  "priority_score": 77.4,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.776,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.366,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.4,
+   "eventos": 5.0,
+   "adherencia": 3.66,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 79,
+  "priority_score": 34.2,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.33,
+   "evolucion": 0.568,
+   "eventos": 0.0,
+   "adherencia": 0.35,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 11.55,
+   "evolucion": 14.2,
+   "eventos": 0.0,
+   "adherencia": 3.5,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 80,
+  "priority_score": 70.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.95,
+   "evolucion": 0.883,
+   "eventos": 0.0,
+   "adherencia": 0.505,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.25,
+   "evolucion": 22.07,
+   "eventos": 0.0,
+   "adherencia": 5.05,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 81,
+  "priority_score": 17.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.08,
+   "evolucion": 0.35,
+   "eventos": 0.0,
+   "adherencia": 0.122,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 2.8,
+   "evolucion": 8.75,
+   "eventos": 0.0,
+   "adherencia": 1.22,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 82,
+  "priority_score": 71.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.908,
+   "eventos": 0.0,
+   "adherencia": 0.33399999999999996,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.7,
+   "eventos": 0.0,
+   "adherencia": 3.34,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 83,
+  "priority_score": 20.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.16,
+   "evolucion": 0.32099999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.136,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 5.6,
+   "evolucion": 8.02,
+   "eventos": 0.0,
+   "adherencia": 1.36,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 84,
+  "priority_score": 54.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.81,
+   "evolucion": 0.6739999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.41800000000000004,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 28.35,
+   "evolucion": 16.85,
+   "eventos": 0.0,
+   "adherencia": 4.18,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 85,
+  "priority_score": 79.0,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.769,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.477,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 19.23,
+   "eventos": 5.0,
+   "adherencia": 4.77,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 86,
+  "priority_score": 7.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.17400000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.22799999999999998,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 4.35,
+   "eventos": 0.0,
+   "adherencia": 2.28,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 87,
+  "priority_score": 6.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.21799999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.06000000000000005,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.45,
+   "eventos": 0.0,
+   "adherencia": 0.6,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 88,
+  "priority_score": 82.0,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.94,
+   "evolucion": 0.856,
+   "eventos": 1.0,
+   "adherencia": 0.265,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 32.9,
+   "evolucion": 21.4,
+   "eventos": 15.0,
+   "adherencia": 2.65,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 89,
+  "priority_score": 80.3,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.8260000000000001,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.5389999999999999,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 20.65,
+   "eventos": 5.0,
+   "adherencia": 5.39,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 90,
+  "priority_score": 30.9,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.26,
+   "evolucion": 0.358,
+   "eventos": 0.0,
+   "adherencia": 0.28800000000000003,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 9.1,
+   "evolucion": 8.95,
+   "eventos": 0.0,
+   "adherencia": 2.88,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 91,
+  "priority_score": 18.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.29500000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 7.38,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 92,
+  "priority_score": 65.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.95,
+   "evolucion": 0.708,
+   "eventos": 0.0,
+   "adherencia": 0.46499999999999997,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.25,
+   "evolucion": 17.7,
+   "eventos": 0.0,
+   "adherencia": 4.65,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 93,
+  "priority_score": 17.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.23,
+   "evolucion": 0.369,
+   "eventos": 0.0,
+   "adherencia": 0.018000000000000016,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 8.05,
+   "evolucion": 9.22,
+   "eventos": 0.0,
+   "adherencia": 0.18,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 94,
+  "priority_score": 69.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.883,
+   "eventos": 0.0,
+   "adherencia": 0.269,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 22.07,
+   "eventos": 0.0,
+   "adherencia": 2.69,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 95,
+  "priority_score": 10.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.21799999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.45,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 96,
+  "priority_score": 24.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.22,
+   "evolucion": 0.41200000000000003,
+   "eventos": 0.0,
+   "adherencia": 0.11699999999999999,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 7.7,
+   "evolucion": 10.3,
+   "eventos": 0.0,
+   "adherencia": 1.17,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 97,
+  "priority_score": 15.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.11,
+   "evolucion": 0.3390000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.357,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 3.85,
+   "evolucion": 8.48,
+   "eventos": 0.0,
+   "adherencia": 3.57,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 98,
+  "priority_score": 72.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.7889999999999999,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.33899999999999997,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.72,
+   "eventos": 5.0,
+   "adherencia": 3.39,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 99,
+  "priority_score": 6.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.237,
+   "eventos": 0.0,
+   "adherencia": 0.061000000000000054,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.92,
+   "eventos": 0.0,
+   "adherencia": 0.61,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 100,
+  "priority_score": 12.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.21499999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.07899999999999996,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 5.37,
+   "eventos": 0.0,
+   "adherencia": 0.79,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 101,
+  "priority_score": 70.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.9,
+   "eventos": 0.0,
+   "adherencia": 0.371,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 22.5,
+   "eventos": 0.0,
+   "adherencia": 3.71,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 102,
+  "priority_score": 42.7,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.45,
+   "evolucion": 0.534,
+   "eventos": 0.0,
+   "adherencia": 0.357,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 15.75,
+   "evolucion": 13.35,
+   "eventos": 0.0,
+   "adherencia": 3.57,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 103,
+  "priority_score": 79.7,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.8360000000000001,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.41300000000000003,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 20.9,
+   "eventos": 5.0,
+   "adherencia": 4.13,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 104,
+  "priority_score": 82.7,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.854,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.633,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.35,
+   "eventos": 5.0,
+   "adherencia": 6.33,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 105,
+  "priority_score": 14.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.16,
+   "evolucion": 0.34299999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.06000000000000005,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.6,
+   "evolucion": 8.57,
+   "eventos": 0.0,
+   "adherencia": 0.6,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 106,
+  "priority_score": 53.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.76,
+   "evolucion": 0.7989999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.138,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 26.6,
+   "evolucion": 19.97,
+   "eventos": 0.0,
+   "adherencia": 1.38,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 107,
+  "priority_score": 13.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.06,
+   "evolucion": 0.32799999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.30600000000000005,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 2.1,
+   "evolucion": 8.2,
+   "eventos": 0.0,
+   "adherencia": 3.06,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 108,
+  "priority_score": 11.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.19200000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.013000000000000012,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 4.8,
+   "eventos": 0.0,
+   "adherencia": 0.13,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 109,
+  "priority_score": 15.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.29900000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.17700000000000005,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 7.48,
+   "eventos": 0.0,
+   "adherencia": 1.77,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 110,
+  "priority_score": 77.0,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.884,
+   "eventos": 0.0,
+   "adherencia": 0.494,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.1,
+   "eventos": 0.0,
+   "adherencia": 4.94,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 111,
+  "priority_score": 70.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.9,
+   "evolucion": 0.766,
+   "eventos": 0.0,
+   "adherencia": 0.486,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 31.5,
+   "evolucion": 19.15,
+   "eventos": 0.0,
+   "adherencia": 4.86,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 112,
+  "priority_score": 6.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.04,
+   "evolucion": 0.21299999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.016000000000000014,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.4,
+   "evolucion": 5.32,
+   "eventos": 0.0,
+   "adherencia": 0.16,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 113,
+  "priority_score": 73.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.96,
+   "evolucion": 0.779,
+   "eventos": 0.0,
+   "adherencia": 0.529,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.6,
+   "evolucion": 19.48,
+   "eventos": 0.0,
+   "adherencia": 5.29,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 114,
+  "priority_score": 25.7,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.27,
+   "evolucion": 0.381,
+   "eventos": 0.0,
+   "adherencia": 0.17500000000000004,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 9.45,
+   "evolucion": 9.53,
+   "eventos": 0.0,
+   "adherencia": 1.75,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 115,
+  "priority_score": 69.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.92,
+   "evolucion": 0.765,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.33399999999999996,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 32.2,
+   "evolucion": 19.12,
+   "eventos": 5.0,
+   "adherencia": 3.34,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 116,
+  "priority_score": 53.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.87,
+   "evolucion": 0.65,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.15900000000000003,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 30.45,
+   "evolucion": 16.25,
+   "eventos": 5.0,
+   "adherencia": 1.59,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 117,
+  "priority_score": 76.4,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.856,
+   "eventos": 0.0,
+   "adherencia": 0.5389999999999999,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 21.4,
+   "eventos": 0.0,
+   "adherencia": 5.39,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 118,
+  "priority_score": 50.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.73,
+   "evolucion": 0.607,
+   "eventos": 0.0,
+   "adherencia": 0.477,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 25.55,
+   "evolucion": 15.17,
+   "eventos": 0.0,
+   "adherencia": 4.77,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 119,
+  "priority_score": 60.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.89,
+   "evolucion": 0.8360000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.361,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 31.15,
+   "evolucion": 20.9,
+   "eventos": 0.0,
+   "adherencia": 3.61,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 120,
+  "priority_score": 68.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.786,
+   "eventos": 0.0,
+   "adherencia": 0.43100000000000005,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.65,
+   "eventos": 0.0,
+   "adherencia": 4.31,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 121,
+  "priority_score": 61.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.88,
+   "evolucion": 0.903,
+   "eventos": 0.0,
+   "adherencia": 0.344,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 30.8,
+   "evolucion": 22.57,
+   "eventos": 0.0,
+   "adherencia": 3.44,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 122,
+  "priority_score": 26.6,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.26,
+   "evolucion": 0.395,
+   "eventos": 0.0,
+   "adherencia": 0.257,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 9.1,
+   "evolucion": 9.88,
+   "eventos": 0.0,
+   "adherencia": 2.57,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 123,
+  "priority_score": 6.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.20200000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.05600000000000005,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.05,
+   "eventos": 0.0,
+   "adherencia": 0.56,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 124,
+  "priority_score": 19.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.18200000000000005,
+   "eventos": 0.0,
+   "adherencia": 0.245,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 4.55,
+   "eventos": 0.0,
+   "adherencia": 2.45,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 125,
+  "priority_score": 41.5,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.4,
+   "evolucion": 0.573,
+   "eventos": 0.0,
+   "adherencia": 0.31899999999999995,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 14.0,
+   "evolucion": 14.32,
+   "eventos": 0.0,
+   "adherencia": 3.19,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 126,
+  "priority_score": 41.7,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.65,
+   "evolucion": 0.5489999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.02300000000000002,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 22.75,
+   "evolucion": 13.72,
+   "eventos": 0.0,
+   "adherencia": 0.23,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 127,
+  "priority_score": 74.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.822,
+   "eventos": 0.0,
+   "adherencia": 0.405,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 20.55,
+   "eventos": 0.0,
+   "adherencia": 4.05,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 128,
+  "priority_score": 7.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.18999999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.22199999999999998,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 4.75,
+   "eventos": 0.0,
+   "adherencia": 2.22,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 129,
+  "priority_score": 64.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.89,
+   "evolucion": 0.811,
+   "eventos": 0.0,
+   "adherencia": 0.30900000000000005,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 31.15,
+   "evolucion": 20.28,
+   "eventos": 0.0,
+   "adherencia": 3.09,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 130,
+  "priority_score": 69.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.873,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.377,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 21.82,
+   "eventos": 5.0,
+   "adherencia": 3.77,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 131,
+  "priority_score": 11.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.32700000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.19099999999999995,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 8.18,
+   "eventos": 0.0,
+   "adherencia": 1.91,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 132,
+  "priority_score": 6.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.22599999999999998,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 5.65,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 133,
+  "priority_score": 17.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.04,
+   "evolucion": 0.33799999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.261,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.4,
+   "evolucion": 8.45,
+   "eventos": 0.0,
+   "adherencia": 2.61,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 134,
+  "priority_score": 52.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.73,
+   "evolucion": 0.666,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 25.55,
+   "evolucion": 16.65,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 135,
+  "priority_score": 87.4,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.847,
+   "eventos": 0.6666666666666666,
+   "adherencia": 0.623,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.18,
+   "eventos": 10.0,
+   "adherencia": 6.23,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 136,
+  "priority_score": 10.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.19400000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 4.85,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 137,
+  "priority_score": 69.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.87,
+   "evolucion": 0.834,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.362,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 30.45,
+   "evolucion": 20.85,
+   "eventos": 5.0,
+   "adherencia": 3.62,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 138,
+  "priority_score": 11.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.33999999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.24,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 8.5,
+   "eventos": 0.0,
+   "adherencia": 2.4,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 139,
+  "priority_score": 15.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.18,
+   "evolucion": 0.32200000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.10199999999999998,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 6.3,
+   "evolucion": 8.05,
+   "eventos": 0.0,
+   "adherencia": 1.02,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 140,
+  "priority_score": 26.1,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.24,
+   "evolucion": 0.45999999999999996,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.123,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 8.4,
+   "evolucion": 11.5,
+   "eventos": 5.0,
+   "adherencia": 1.23,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 141,
+  "priority_score": 10.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.18400000000000005,
+   "eventos": 0.0,
+   "adherencia": 0.041000000000000036,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 4.6,
+   "eventos": 0.0,
+   "adherencia": 0.41,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 142,
+  "priority_score": 37.6,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.34,
+   "evolucion": 0.495,
+   "eventos": 0.0,
+   "adherencia": 0.33699999999999997,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 11.9,
+   "evolucion": 12.38,
+   "eventos": 0.0,
+   "adherencia": 3.37,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 143,
+  "priority_score": 17.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.18,
+   "evolucion": 0.3590000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.19999999999999996,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 6.3,
+   "evolucion": 8.98,
+   "eventos": 0.0,
+   "adherencia": 2.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 144,
+  "priority_score": 25.1,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.29,
+   "evolucion": 0.35,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.122,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 10.15,
+   "evolucion": 8.75,
+   "eventos": 5.0,
+   "adherencia": 1.22,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 145,
+  "priority_score": 66.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.73,
+   "evolucion": 0.845,
+   "eventos": 0.0,
+   "adherencia": 0.46299999999999997,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 25.55,
+   "evolucion": 21.12,
+   "eventos": 0.0,
+   "adherencia": 4.63,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 146,
+  "priority_score": 72.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.9259999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.4,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 23.15,
+   "eventos": 0.0,
+   "adherencia": 4.0,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 147,
+  "priority_score": 12.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.1,
+   "evolucion": 0.33099999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.04500000000000004,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 3.5,
+   "evolucion": 8.27,
+   "eventos": 0.0,
+   "adherencia": 0.45,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 148,
+  "priority_score": 10.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.04,
+   "evolucion": 0.15900000000000003,
+   "eventos": 0.0,
+   "adherencia": 0.015000000000000013,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.4,
+   "evolucion": 3.98,
+   "eventos": 0.0,
+   "adherencia": 0.15,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 149,
+  "priority_score": 24.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.23,
+   "evolucion": 0.33999999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.272,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 8.05,
+   "evolucion": 8.5,
+   "eventos": 0.0,
+   "adherencia": 2.72,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 150,
+  "priority_score": 47.2,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.59,
+   "evolucion": 0.597,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.16000000000000003,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 20.65,
+   "evolucion": 14.92,
+   "eventos": 5.0,
+   "adherencia": 1.6,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 151,
+  "priority_score": 74.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.923,
+   "eventos": 0.6666666666666666,
+   "adherencia": 0.23399999999999999,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 23.08,
+   "eventos": 10.0,
+   "adherencia": 2.34,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 152,
+  "priority_score": 15.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.30700000000000005,
+   "eventos": 0.0,
+   "adherencia": 0.10499999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 7.68,
+   "eventos": 0.0,
+   "adherencia": 1.05,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 153,
+  "priority_score": 19.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.2509999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.06399999999999995,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 6.27,
+   "eventos": 0.0,
+   "adherencia": 0.64,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 154,
+  "priority_score": 47.9,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.65,
+   "evolucion": 0.7030000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.261,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 22.75,
+   "evolucion": 17.58,
+   "eventos": 0.0,
+   "adherencia": 2.61,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 155,
+  "priority_score": 75.4,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.9359999999999999,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.19999999999999996,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 23.4,
+   "eventos": 5.0,
+   "adherencia": 2.0,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 156,
+  "priority_score": 18.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.12,
+   "evolucion": 0.32299999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.14900000000000002,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 4.2,
+   "evolucion": 8.07,
+   "eventos": 0.0,
+   "adherencia": 1.49,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 157,
+  "priority_score": 70.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.95,
+   "evolucion": 0.77,
+   "eventos": 0.0,
+   "adherencia": 0.271,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.25,
+   "evolucion": 19.25,
+   "eventos": 0.0,
+   "adherencia": 2.71,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 158,
+  "priority_score": 75.0,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.839,
+   "eventos": 0.0,
+   "adherencia": 0.406,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 20.97,
+   "eventos": 0.0,
+   "adherencia": 4.06,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 159,
+  "priority_score": 76.0,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.8180000000000001,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.366,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 20.45,
+   "eventos": 5.0,
+   "adherencia": 3.66,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 160,
+  "priority_score": 7.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.21799999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 5.45,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 161,
+  "priority_score": 72.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.748,
+   "eventos": 0.0,
+   "adherencia": 0.44899999999999995,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 18.7,
+   "eventos": 0.0,
+   "adherencia": 4.49,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 162,
+  "priority_score": 16.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.29400000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.28,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 7.35,
+   "eventos": 0.0,
+   "adherencia": 2.8,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 163,
+  "priority_score": 14.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.11,
+   "evolucion": 0.19599999999999995,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.07899999999999996,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 3.85,
+   "evolucion": 4.9,
+   "eventos": 5.0,
+   "adherencia": 0.79,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "eventos"
+ },
+ {
+  "patient_id": 164,
+  "priority_score": 68.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.73,
+   "evolucion": 0.754,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.41500000000000004,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 25.55,
+   "evolucion": 18.85,
+   "eventos": 5.0,
+   "adherencia": 4.15,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 165,
+  "priority_score": 73.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.95,
+   "evolucion": 0.769,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.5589999999999999,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.25,
+   "evolucion": 19.23,
+   "eventos": 5.0,
+   "adherencia": 5.59,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 166,
+  "priority_score": 16.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.17,
+   "evolucion": 0.367,
+   "eventos": 0.0,
+   "adherencia": 0.14600000000000002,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.95,
+   "evolucion": 9.18,
+   "eventos": 0.0,
+   "adherencia": 1.46,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 167,
+  "priority_score": 79.1,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.8360000000000001,
+   "eventos": 0.6666666666666666,
+   "adherencia": 0.32099999999999995,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 20.9,
+   "eventos": 10.0,
+   "adherencia": 3.21,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 168,
+  "priority_score": 66.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.752,
+   "eventos": 0.0,
+   "adherencia": 0.378,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 18.8,
+   "eventos": 0.0,
+   "adherencia": 3.78,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 169,
+  "priority_score": 12.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.20999999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.14300000000000002,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.25,
+   "eventos": 0.0,
+   "adherencia": 1.43,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 170,
+  "priority_score": 72.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.95,
+   "evolucion": 0.756,
+   "eventos": 0.0,
+   "adherencia": 0.5640000000000001,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.25,
+   "evolucion": 18.9,
+   "eventos": 0.0,
+   "adherencia": 5.64,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 171,
+  "priority_score": 5.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.19200000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.04800000000000004,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 4.8,
+   "eventos": 0.0,
+   "adherencia": 0.48,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 172,
+  "priority_score": 15.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.33499999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.14700000000000002,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 8.38,
+   "eventos": 0.0,
+   "adherencia": 1.47,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 173,
+  "priority_score": 20.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.23,
+   "evolucion": 0.43399999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.10999999999999999,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 8.05,
+   "evolucion": 10.85,
+   "eventos": 0.0,
+   "adherencia": 1.1,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 174,
+  "priority_score": 71.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.86,
+   "evolucion": 0.867,
+   "eventos": 0.0,
+   "adherencia": 0.469,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 30.1,
+   "evolucion": 21.68,
+   "eventos": 0.0,
+   "adherencia": 4.69,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 175,
+  "priority_score": 18.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.27,
+   "evolucion": 0.371,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 9.45,
+   "evolucion": 9.28,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 176,
+  "priority_score": 20.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.14,
+   "evolucion": 0.35,
+   "eventos": 0.0,
+   "adherencia": 0.137,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 4.9,
+   "evolucion": 8.75,
+   "eventos": 0.0,
+   "adherencia": 1.37,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 177,
+  "priority_score": 74.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.839,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.353,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 20.97,
+   "eventos": 5.0,
+   "adherencia": 3.53,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 178,
+  "priority_score": 70.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.776,
+   "eventos": 0.0,
+   "adherencia": 0.399,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 19.4,
+   "eventos": 0.0,
+   "adherencia": 3.99,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 179,
+  "priority_score": 12.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.20999999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.17800000000000005,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.25,
+   "eventos": 0.0,
+   "adherencia": 1.78,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 180,
+  "priority_score": 80.7,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.908,
+   "eventos": 0.6666666666666666,
+   "adherencia": 0.29700000000000004,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.7,
+   "eventos": 10.0,
+   "adherencia": 2.97,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 181,
+  "priority_score": 68.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.81,
+   "evolucion": 0.851,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.352,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 28.35,
+   "evolucion": 21.27,
+   "eventos": 5.0,
+   "adherencia": 3.52,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 182,
+  "priority_score": 81.1,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.786,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.646,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 19.65,
+   "eventos": 5.0,
+   "adherencia": 6.46,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 183,
+  "priority_score": 30.0,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.32,
+   "evolucion": 0.501,
+   "eventos": 0.0,
+   "adherencia": 0.127,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 11.2,
+   "evolucion": 12.53,
+   "eventos": 0.0,
+   "adherencia": 1.27,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 184,
+  "priority_score": 24.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.14,
+   "evolucion": 0.42399999999999993,
+   "eventos": 0.0,
+   "adherencia": 0.371,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 4.9,
+   "evolucion": 10.6,
+   "eventos": 0.0,
+   "adherencia": 3.71,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 185,
+  "priority_score": 71.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.86,
+   "eventos": 0.0,
+   "adherencia": 0.5329999999999999,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.5,
+   "eventos": 0.0,
+   "adherencia": 5.33,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 186,
+  "priority_score": 71.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.865,
+   "eventos": 0.0,
+   "adherencia": 0.518,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.62,
+   "eventos": 0.0,
+   "adherencia": 5.18,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 187,
+  "priority_score": 17.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.1,
+   "evolucion": 0.30299999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.11099999999999999,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 3.5,
+   "evolucion": 7.57,
+   "eventos": 0.0,
+   "adherencia": 1.11,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 188,
+  "priority_score": 69.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.727,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.19399999999999995,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 18.18,
+   "eventos": 5.0,
+   "adherencia": 1.94,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 189,
+  "priority_score": 65.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.92,
+   "evolucion": 0.793,
+   "eventos": 0.0,
+   "adherencia": 0.33999999999999997,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 32.2,
+   "evolucion": 19.82,
+   "eventos": 0.0,
+   "adherencia": 3.4,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 190,
+  "priority_score": 68.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.8200000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.30600000000000005,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 20.5,
+   "eventos": 0.0,
+   "adherencia": 3.06,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 191,
+  "priority_score": 14.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.1,
+   "evolucion": 0.33099999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.237,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 3.5,
+   "evolucion": 8.27,
+   "eventos": 0.0,
+   "adherencia": 2.37,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 192,
+  "priority_score": 69.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.791,
+   "eventos": 0.0,
+   "adherencia": 0.46699999999999997,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 19.78,
+   "eventos": 0.0,
+   "adherencia": 4.67,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 193,
+  "priority_score": 57.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.78,
+   "evolucion": 0.6970000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.28300000000000003,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 27.3,
+   "evolucion": 17.43,
+   "eventos": 0.0,
+   "adherencia": 2.83,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 194,
+  "priority_score": 12.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.24,
+   "eventos": 0.0,
+   "adherencia": 0.08899999999999997,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 6.0,
+   "eventos": 0.0,
+   "adherencia": 0.89,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 195,
+  "priority_score": 8.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.09,
+   "evolucion": 0.20900000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 3.15,
+   "evolucion": 5.23,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 196,
+  "priority_score": 9.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.30599999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.11199999999999999,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 7.65,
+   "eventos": 0.0,
+   "adherencia": 1.12,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 197,
+  "priority_score": 69.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.83,
+   "evolucion": 0.81,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.496,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 29.05,
+   "evolucion": 20.25,
+   "eventos": 5.0,
+   "adherencia": 4.96,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 198,
+  "priority_score": 60.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.87,
+   "evolucion": 0.636,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.4,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 30.45,
+   "evolucion": 15.9,
+   "eventos": 5.0,
+   "adherencia": 4.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 199,
+  "priority_score": 30.0,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.39,
+   "evolucion": 0.389,
+   "eventos": 0.0,
+   "adherencia": 0.16100000000000003,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 13.65,
+   "evolucion": 9.72,
+   "eventos": 0.0,
+   "adherencia": 1.61,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 200,
+  "priority_score": 70.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.93,
+   "evolucion": 0.792,
+   "eventos": 0.0,
+   "adherencia": 0.28800000000000003,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 32.55,
+   "evolucion": 19.8,
+   "eventos": 0.0,
+   "adherencia": 2.88,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 201,
+  "priority_score": 76.5,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.92,
+   "evolucion": 0.8360000000000001,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.33799999999999997,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 32.2,
+   "evolucion": 20.9,
+   "eventos": 5.0,
+   "adherencia": 3.38,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 202,
+  "priority_score": 20.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.25,
+   "evolucion": 0.372,
+   "eventos": 0.0,
+   "adherencia": 0.19099999999999995,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 8.75,
+   "evolucion": 9.3,
+   "eventos": 0.0,
+   "adherencia": 1.91,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 203,
+  "priority_score": 5.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.19200000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.05700000000000005,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 4.8,
+   "eventos": 0.0,
+   "adherencia": 0.57,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 204,
+  "priority_score": 76.5,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.8260000000000001,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.5900000000000001,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 20.65,
+   "eventos": 5.0,
+   "adherencia": 5.9,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 205,
+  "priority_score": 81.4,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.855,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.498,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.38,
+   "eventos": 5.0,
+   "adherencia": 4.98,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 206,
+  "priority_score": 70.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.87,
+   "evolucion": 0.882,
+   "eventos": 0.0,
+   "adherencia": 0.249,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 30.45,
+   "evolucion": 22.05,
+   "eventos": 0.0,
+   "adherencia": 2.49,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 207,
+  "priority_score": 11.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.19900000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.06699999999999995,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 4.98,
+   "eventos": 0.0,
+   "adherencia": 0.67,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 208,
+  "priority_score": 28.9,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.33,
+   "evolucion": 0.46099999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.08699999999999997,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 11.55,
+   "evolucion": 11.52,
+   "eventos": 0.0,
+   "adherencia": 0.87,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 209,
+  "priority_score": 71.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.726,
+   "eventos": 0.0,
+   "adherencia": 0.41200000000000003,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 18.15,
+   "eventos": 0.0,
+   "adherencia": 4.12,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 210,
+  "priority_score": 13.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.18099999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.18500000000000005,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 4.52,
+   "eventos": 0.0,
+   "adherencia": 1.85,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 211,
+  "priority_score": 26.1,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.27,
+   "evolucion": 0.45899999999999996,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.018000000000000016,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 9.45,
+   "evolucion": 11.47,
+   "eventos": 5.0,
+   "adherencia": 0.18,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 212,
+  "priority_score": 10.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.13,
+   "evolucion": 0.236,
+   "eventos": 0.0,
+   "adherencia": 0.018000000000000016,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 4.55,
+   "evolucion": 5.9,
+   "eventos": 0.0,
+   "adherencia": 0.18,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 213,
+  "priority_score": 82.0,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.943,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.38,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 23.57,
+   "eventos": 5.0,
+   "adherencia": 3.8,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 214,
+  "priority_score": 76.5,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.862,
+   "eventos": 0.0,
+   "adherencia": 0.5,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.55,
+   "eventos": 0.0,
+   "adherencia": 5.0,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 215,
+  "priority_score": 12.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.20499999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.136,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 5.12,
+   "eventos": 0.0,
+   "adherencia": 1.36,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 216,
+  "priority_score": 68.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.95,
+   "evolucion": 0.91,
+   "eventos": 0.0,
+   "adherencia": 0.28300000000000003,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.25,
+   "evolucion": 22.75,
+   "eventos": 0.0,
+   "adherencia": 2.83,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 217,
+  "priority_score": 68.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.745,
+   "eventos": 0.0,
+   "adherencia": 0.504,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 18.62,
+   "eventos": 0.0,
+   "adherencia": 5.04,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 218,
+  "priority_score": 13.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.06,
+   "evolucion": 0.32700000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.274,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 2.1,
+   "evolucion": 8.18,
+   "eventos": 0.0,
+   "adherencia": 2.74,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 219,
+  "priority_score": 73.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.811,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.30300000000000005,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 20.28,
+   "eventos": 5.0,
+   "adherencia": 3.03,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 220,
+  "priority_score": 14.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.17,
+   "evolucion": 0.34099999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.0050000000000000044,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.95,
+   "evolucion": 8.52,
+   "eventos": 0.0,
+   "adherencia": 0.05,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 221,
+  "priority_score": 56.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.76,
+   "evolucion": 0.806,
+   "eventos": 0.0,
+   "adherencia": 0.487,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 26.6,
+   "evolucion": 20.15,
+   "eventos": 0.0,
+   "adherencia": 4.87,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 222,
+  "priority_score": 14.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.356,
+   "eventos": 0.0,
+   "adherencia": 0.261,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 8.9,
+   "eventos": 0.0,
+   "adherencia": 2.61,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 223,
+  "priority_score": 5.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.17299999999999993,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 4.32,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 224,
+  "priority_score": 23.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.26,
+   "evolucion": 0.33499999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.126,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 9.1,
+   "evolucion": 8.38,
+   "eventos": 0.0,
+   "adherencia": 1.26,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 225,
+  "priority_score": 67.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.94,
+   "evolucion": 0.81,
+   "eventos": 0.0,
+   "adherencia": 0.42100000000000004,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 32.9,
+   "evolucion": 20.25,
+   "eventos": 0.0,
+   "adherencia": 4.21,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 226,
+  "priority_score": 77.1,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.88,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.51,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.0,
+   "eventos": 5.0,
+   "adherencia": 5.1,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 227,
+  "priority_score": 68.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.854,
+   "eventos": 0.0,
+   "adherencia": 0.257,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 21.35,
+   "eventos": 0.0,
+   "adherencia": 2.57,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 228,
+  "priority_score": 11.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.236,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 5.9,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 229,
+  "priority_score": 64.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.85,
+   "evolucion": 0.845,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.31000000000000005,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 29.75,
+   "evolucion": 21.12,
+   "eventos": 5.0,
+   "adherencia": 3.1,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 230,
+  "priority_score": 12.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.1,
+   "evolucion": 0.358,
+   "eventos": 0.0,
+   "adherencia": 0.0010000000000000009,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 3.5,
+   "evolucion": 8.95,
+   "eventos": 0.0,
+   "adherencia": 0.01,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 231,
+  "priority_score": 63.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.89,
+   "evolucion": 0.735,
+   "eventos": 0.0,
+   "adherencia": 0.392,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 31.15,
+   "evolucion": 18.38,
+   "eventos": 0.0,
+   "adherencia": 3.92,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 232,
+  "priority_score": 65.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.87,
+   "evolucion": 0.838,
+   "eventos": 0.0,
+   "adherencia": 0.38,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 30.45,
+   "evolucion": 20.95,
+   "eventos": 0.0,
+   "adherencia": 3.8,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 233,
+  "priority_score": 78.3,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.96,
+   "evolucion": 0.906,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.20299999999999996,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.6,
+   "evolucion": 22.65,
+   "eventos": 5.0,
+   "adherencia": 2.03,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 234,
+  "priority_score": 6.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.21499999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.10599999999999998,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.37,
+   "eventos": 0.0,
+   "adherencia": 1.06,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 235,
+  "priority_score": 11.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.31499999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.14400000000000002,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 7.87,
+   "eventos": 0.0,
+   "adherencia": 1.44,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 236,
+  "priority_score": 53.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.5,
+   "evolucion": 0.6020000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.632,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 17.5,
+   "evolucion": 15.05,
+   "eventos": 0.0,
+   "adherencia": 6.32,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 237,
+  "priority_score": 68.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.851,
+   "eventos": 0.0,
+   "adherencia": 0.33299999999999996,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 21.27,
+   "eventos": 0.0,
+   "adherencia": 3.33,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 238,
+  "priority_score": 68.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.96,
+   "evolucion": 0.85,
+   "eventos": 0.0,
+   "adherencia": 0.353,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.6,
+   "evolucion": 21.25,
+   "eventos": 0.0,
+   "adherencia": 3.53,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 239,
+  "priority_score": 69.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.889,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.23299999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 22.23,
+   "eventos": 5.0,
+   "adherencia": 2.33,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 240,
+  "priority_score": 74.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.787,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.475,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 19.68,
+   "eventos": 5.0,
+   "adherencia": 4.75,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 241,
+  "priority_score": 75.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.9,
+   "evolucion": 0.859,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.19999999999999996,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 31.5,
+   "evolucion": 21.48,
+   "eventos": 5.0,
+   "adherencia": 2.0,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 242,
+  "priority_score": 73.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.785,
+   "eventos": 0.0,
+   "adherencia": 0.46199999999999997,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.62,
+   "eventos": 0.0,
+   "adherencia": 4.62,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 243,
+  "priority_score": 20.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.31,
+   "evolucion": 0.31900000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.135,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 10.85,
+   "evolucion": 7.98,
+   "eventos": 0.0,
+   "adherencia": 1.35,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 244,
+  "priority_score": 26.1,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.14,
+   "evolucion": 0.385,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.16000000000000003,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 4.9,
+   "evolucion": 9.62,
+   "eventos": 5.0,
+   "adherencia": 1.6,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 245,
+  "priority_score": 6.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.23299999999999998,
+   "eventos": 0.0,
+   "adherencia": 0.019000000000000017,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.82,
+   "eventos": 0.0,
+   "adherencia": 0.19,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 246,
+  "priority_score": 69.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.94,
+   "evolucion": 0.7230000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.375,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 32.9,
+   "evolucion": 18.08,
+   "eventos": 0.0,
+   "adherencia": 3.75,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 247,
+  "priority_score": 43.2,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.48,
+   "evolucion": 0.762,
+   "eventos": 0.0,
+   "adherencia": 0.23199999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 16.8,
+   "evolucion": 19.05,
+   "eventos": 0.0,
+   "adherencia": 2.32,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 248,
+  "priority_score": 17.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.21,
+   "evolucion": 0.3490000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.16000000000000003,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 7.35,
+   "evolucion": 8.73,
+   "eventos": 0.0,
+   "adherencia": 1.6,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 249,
+  "priority_score": 8.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.2929999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.050000000000000044,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 7.32,
+   "eventos": 0.0,
+   "adherencia": 0.5,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 250,
+  "priority_score": 16.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.04,
+   "evolucion": 0.31099999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.22099999999999997,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.4,
+   "evolucion": 7.77,
+   "eventos": 0.0,
+   "adherencia": 2.21,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 251,
+  "priority_score": 72.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.779,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.31799999999999995,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.48,
+   "eventos": 5.0,
+   "adherencia": 3.18,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 252,
+  "priority_score": 21.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.27,
+   "evolucion": 0.404,
+   "eventos": 0.0,
+   "adherencia": 0.24,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 9.45,
+   "evolucion": 10.1,
+   "eventos": 0.0,
+   "adherencia": 2.4,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 253,
+  "priority_score": 11.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.21499999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.02300000000000002,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 5.37,
+   "eventos": 0.0,
+   "adherencia": 0.23,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 254,
+  "priority_score": 37.8,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.28,
+   "evolucion": 0.565,
+   "eventos": 0.0,
+   "adherencia": 0.391,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 9.8,
+   "evolucion": 14.12,
+   "eventos": 0.0,
+   "adherencia": 3.91,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 255,
+  "priority_score": 10.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.19200000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.018000000000000016,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 4.8,
+   "eventos": 0.0,
+   "adherencia": 0.18,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 256,
+  "priority_score": 18.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.21,
+   "evolucion": 0.383,
+   "eventos": 0.0,
+   "adherencia": 0.20299999999999996,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 7.35,
+   "evolucion": 9.57,
+   "eventos": 0.0,
+   "adherencia": 2.03,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 257,
+  "priority_score": 28.0,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.35,
+   "evolucion": 0.362,
+   "eventos": 0.0,
+   "adherencia": 0.16700000000000004,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 12.25,
+   "evolucion": 9.05,
+   "eventos": 0.0,
+   "adherencia": 1.67,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 258,
+  "priority_score": 28.5,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.28,
+   "evolucion": 0.4570000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.22999999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 9.8,
+   "evolucion": 11.43,
+   "eventos": 0.0,
+   "adherencia": 2.3,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 259,
+  "priority_score": 69.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.89,
+   "evolucion": 0.751,
+   "eventos": 0.0,
+   "adherencia": 0.45399999999999996,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 31.15,
+   "evolucion": 18.77,
+   "eventos": 0.0,
+   "adherencia": 4.54,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 260,
+  "priority_score": 64.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.93,
+   "evolucion": 0.716,
+   "eventos": 0.0,
+   "adherencia": 0.37,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 32.55,
+   "evolucion": 17.9,
+   "eventos": 0.0,
+   "adherencia": 3.7,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 261,
+  "priority_score": 14.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.15,
+   "evolucion": 0.29200000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.23399999999999999,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.25,
+   "evolucion": 7.3,
+   "eventos": 0.0,
+   "adherencia": 2.34,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 262,
+  "priority_score": 9.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.16299999999999992,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 4.07,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 263,
+  "priority_score": 43.0,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.35,
+   "evolucion": 0.471,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.398,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 12.25,
+   "evolucion": 11.77,
+   "eventos": 5.0,
+   "adherencia": 3.98,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 264,
+  "priority_score": 60.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.89,
+   "evolucion": 0.85,
+   "eventos": 0.0,
+   "adherencia": 0.261,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 31.15,
+   "evolucion": 21.25,
+   "eventos": 0.0,
+   "adherencia": 2.61,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 265,
+  "priority_score": 78.5,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.7969999999999999,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.42500000000000004,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.92,
+   "eventos": 5.0,
+   "adherencia": 4.25,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 266,
+  "priority_score": 76.6,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.9319999999999999,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.363,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 23.3,
+   "eventos": 5.0,
+   "adherencia": 3.63,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 267,
+  "priority_score": 44.6,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.5,
+   "evolucion": 0.56,
+   "eventos": 0.0,
+   "adherencia": 0.31499999999999995,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 17.5,
+   "evolucion": 14.0,
+   "eventos": 0.0,
+   "adherencia": 3.15,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 268,
+  "priority_score": 18.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.19,
+   "evolucion": 0.374,
+   "eventos": 0.0,
+   "adherencia": 0.247,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 6.65,
+   "evolucion": 9.35,
+   "eventos": 0.0,
+   "adherencia": 2.47,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 269,
+  "priority_score": 61.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.73,
+   "evolucion": 0.655,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.42500000000000004,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 25.55,
+   "evolucion": 16.38,
+   "eventos": 5.0,
+   "adherencia": 4.25,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 270,
+  "priority_score": 50.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.54,
+   "evolucion": 0.494,
+   "eventos": 0.0,
+   "adherencia": 0.42800000000000005,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 18.9,
+   "evolucion": 12.35,
+   "eventos": 0.0,
+   "adherencia": 4.28,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 271,
+  "priority_score": 21.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.21,
+   "evolucion": 0.33099999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.10999999999999999,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 7.35,
+   "evolucion": 8.27,
+   "eventos": 0.0,
+   "adherencia": 1.1,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 272,
+  "priority_score": 80.2,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.8180000000000001,
+   "eventos": 1.0,
+   "adherencia": 0.5489999999999999,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 20.45,
+   "eventos": 15.0,
+   "adherencia": 5.49,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 273,
+  "priority_score": 11.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.31599999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.127,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 7.9,
+   "eventos": 0.0,
+   "adherencia": 1.27,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 274,
+  "priority_score": 14.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.2559999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.09199999999999997,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 6.4,
+   "eventos": 0.0,
+   "adherencia": 0.92,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 275,
+  "priority_score": 55.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.712,
+   "eventos": 0.0,
+   "adherencia": 0.123,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 17.8,
+   "eventos": 0.0,
+   "adherencia": 1.23,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 276,
+  "priority_score": 5.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.21299999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 5.32,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 277,
+  "priority_score": 70.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.96,
+   "evolucion": 0.866,
+   "eventos": 0.0,
+   "adherencia": 0.483,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.6,
+   "evolucion": 21.65,
+   "eventos": 0.0,
+   "adherencia": 4.83,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 278,
+  "priority_score": 67.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.94,
+   "evolucion": 0.833,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.405,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 32.9,
+   "evolucion": 20.82,
+   "eventos": 5.0,
+   "adherencia": 4.05,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 279,
+  "priority_score": 17.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.18,
+   "evolucion": 0.405,
+   "eventos": 0.0,
+   "adherencia": 0.07799999999999996,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 6.3,
+   "evolucion": 10.12,
+   "eventos": 0.0,
+   "adherencia": 0.78,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 280,
+  "priority_score": 59.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.74,
+   "evolucion": 0.757,
+   "eventos": 0.0,
+   "adherencia": 0.45099999999999996,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 25.9,
+   "evolucion": 18.93,
+   "eventos": 0.0,
+   "adherencia": 4.51,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 281,
+  "priority_score": 30.1,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.31,
+   "evolucion": 0.44299999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.32299999999999995,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 10.85,
+   "evolucion": 11.07,
+   "eventos": 0.0,
+   "adherencia": 3.23,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 282,
+  "priority_score": 9.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.04,
+   "evolucion": 0.31999999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.017000000000000015,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.4,
+   "evolucion": 8.0,
+   "eventos": 0.0,
+   "adherencia": 0.17,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 283,
+  "priority_score": 62.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.9,
+   "evolucion": 0.704,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.36,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 31.5,
+   "evolucion": 17.6,
+   "eventos": 5.0,
+   "adherencia": 3.6,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 284,
+  "priority_score": 54.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.81,
+   "evolucion": 0.71,
+   "eventos": 0.0,
+   "adherencia": 0.382,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 28.35,
+   "evolucion": 17.75,
+   "eventos": 0.0,
+   "adherencia": 3.82,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 285,
+  "priority_score": 11.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.18000000000000005,
+   "eventos": 0.0,
+   "adherencia": 0.11199999999999999,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 4.5,
+   "eventos": 0.0,
+   "adherencia": 1.12,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 286,
+  "priority_score": 73.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.94,
+   "evolucion": 0.881,
+   "eventos": 0.0,
+   "adherencia": 0.346,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 32.9,
+   "evolucion": 22.02,
+   "eventos": 0.0,
+   "adherencia": 3.46,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 287,
+  "priority_score": 17.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.33799999999999997,
+   "eventos": 0.0,
+   "adherencia": 0.20399999999999996,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 8.45,
+   "eventos": 0.0,
+   "adherencia": 2.04,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 288,
+  "priority_score": 11.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.19099999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.09799999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 4.77,
+   "eventos": 0.0,
+   "adherencia": 0.98,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 289,
+  "priority_score": 78.0,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.9,
+   "evolucion": 0.899,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.4,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 31.5,
+   "evolucion": 22.48,
+   "eventos": 5.0,
+   "adherencia": 4.0,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 290,
+  "priority_score": 54.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.79,
+   "evolucion": 0.736,
+   "eventos": 0.0,
+   "adherencia": 0.31499999999999995,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 27.65,
+   "evolucion": 18.4,
+   "eventos": 0.0,
+   "adherencia": 3.15,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 291,
+  "priority_score": 66.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.877,
+   "eventos": 0.0,
+   "adherencia": 0.5369999999999999,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 21.93,
+   "eventos": 0.0,
+   "adherencia": 5.37,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 292,
+  "priority_score": 14.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.08,
+   "evolucion": 0.28,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 2.8,
+   "evolucion": 7.0,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 293,
+  "priority_score": 16.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.17,
+   "evolucion": 0.398,
+   "eventos": 0.0,
+   "adherencia": 0.010000000000000009,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.95,
+   "evolucion": 9.95,
+   "eventos": 0.0,
+   "adherencia": 0.1,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 294,
+  "priority_score": 66.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.62,
+   "evolucion": 0.675,
+   "eventos": 0.6666666666666666,
+   "adherencia": 0.33499999999999996,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 21.7,
+   "evolucion": 16.88,
+   "eventos": 10.0,
+   "adherencia": 3.35,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 295,
+  "priority_score": 21.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.09,
+   "evolucion": 0.265,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.16700000000000004,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 3.15,
+   "evolucion": 6.62,
+   "eventos": 5.0,
+   "adherencia": 1.67,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 296,
+  "priority_score": 77.1,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.854,
+   "eventos": 0.0,
+   "adherencia": 0.6759999999999999,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 21.35,
+   "eventos": 0.0,
+   "adherencia": 6.76,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 297,
+  "priority_score": 64.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.83,
+   "evolucion": 0.8180000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.519,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 29.05,
+   "evolucion": 20.45,
+   "eventos": 0.0,
+   "adherencia": 5.19,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 298,
+  "priority_score": 74.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.878,
+   "eventos": 0.6666666666666666,
+   "adherencia": 0.22799999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.95,
+   "eventos": 10.0,
+   "adherencia": 2.28,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 299,
+  "priority_score": 58.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.72,
+   "evolucion": 0.751,
+   "eventos": 0.0,
+   "adherencia": 0.46099999999999997,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 25.2,
+   "evolucion": 18.77,
+   "eventos": 0.0,
+   "adherencia": 4.61,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 300,
+  "priority_score": 54.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.95,
+   "evolucion": 0.656,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 33.25,
+   "evolucion": 16.4,
+   "eventos": 5.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 301,
+  "priority_score": 66.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.77,
+   "evolucion": 0.795,
+   "eventos": 0.0,
+   "adherencia": 0.45199999999999996,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 26.95,
+   "evolucion": 19.88,
+   "eventos": 0.0,
+   "adherencia": 4.52,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 302,
+  "priority_score": 68.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.83,
+   "evolucion": 0.768,
+   "eventos": 0.0,
+   "adherencia": 0.529,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 29.05,
+   "evolucion": 19.2,
+   "eventos": 0.0,
+   "adherencia": 5.29,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 303,
+  "priority_score": 64.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.89,
+   "eventos": 0.0,
+   "adherencia": 0.267,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.25,
+   "eventos": 0.0,
+   "adherencia": 2.67,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 304,
+  "priority_score": 16.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.08,
+   "evolucion": 0.3420000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 2.8,
+   "evolucion": 8.55,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 305,
+  "priority_score": 16.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.30799999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.09399999999999997,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 7.7,
+   "eventos": 0.0,
+   "adherencia": 0.94,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 306,
+  "priority_score": 39.8,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.48,
+   "evolucion": 0.521,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 16.8,
+   "evolucion": 13.03,
+   "eventos": 5.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 307,
+  "priority_score": 15.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.1,
+   "evolucion": 0.42899999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.15200000000000002,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 3.5,
+   "evolucion": 10.72,
+   "eventos": 0.0,
+   "adherencia": 1.52,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 308,
+  "priority_score": 56.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.677,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.265,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 16.93,
+   "eventos": 5.0,
+   "adherencia": 2.65,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 309,
+  "priority_score": 80.3,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.912,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.247,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.8,
+   "eventos": 5.0,
+   "adherencia": 2.47,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 310,
+  "priority_score": 15.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.1,
+   "evolucion": 0.246,
+   "eventos": 0.0,
+   "adherencia": 0.08399999999999996,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 3.5,
+   "evolucion": 6.15,
+   "eventos": 0.0,
+   "adherencia": 0.84,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 311,
+  "priority_score": 12.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.28200000000000003,
+   "eventos": 0.0,
+   "adherencia": 0.35,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 7.05,
+   "eventos": 0.0,
+   "adherencia": 3.5,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 312,
+  "priority_score": 50.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.63,
+   "evolucion": 0.761,
+   "eventos": 0.0,
+   "adherencia": 0.41200000000000003,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 22.05,
+   "evolucion": 19.02,
+   "eventos": 0.0,
+   "adherencia": 4.12,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 313,
+  "priority_score": 5.9,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.18099999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.10299999999999998,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 4.52,
+   "eventos": 0.0,
+   "adherencia": 1.03,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 314,
+  "priority_score": 74.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.93,
+   "evolucion": 0.9,
+   "eventos": 0.0,
+   "adherencia": 0.397,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 32.55,
+   "evolucion": 22.5,
+   "eventos": 0.0,
+   "adherencia": 3.97,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 315,
+  "priority_score": 71.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.951,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.28200000000000003,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 23.77,
+   "eventos": 5.0,
+   "adherencia": 2.82,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 316,
+  "priority_score": 75.4,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.96,
+   "evolucion": 0.844,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.569,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.6,
+   "evolucion": 21.1,
+   "eventos": 5.0,
+   "adherencia": 5.69,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 317,
+  "priority_score": 24.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.23,
+   "evolucion": 0.42500000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.06599999999999995,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 8.05,
+   "evolucion": 10.63,
+   "eventos": 0.0,
+   "adherencia": 0.66,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 318,
+  "priority_score": 62.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.89,
+   "evolucion": 0.841,
+   "eventos": 0.0,
+   "adherencia": 0.558,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 31.15,
+   "evolucion": 21.02,
+   "eventos": 0.0,
+   "adherencia": 5.58,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 319,
+  "priority_score": 12.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.07,
+   "evolucion": 0.30700000000000005,
+   "eventos": 0.0,
+   "adherencia": 0.22199999999999998,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 2.45,
+   "evolucion": 7.68,
+   "eventos": 0.0,
+   "adherencia": 2.22,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 320,
+  "priority_score": 12.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.04,
+   "evolucion": 0.19400000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.15300000000000002,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.4,
+   "evolucion": 4.85,
+   "eventos": 0.0,
+   "adherencia": 1.53,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 321,
+  "priority_score": 9.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.2659999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.06599999999999995,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 6.65,
+   "eventos": 0.0,
+   "adherencia": 0.66,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 322,
+  "priority_score": 59.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.9,
+   "evolucion": 0.744,
+   "eventos": 0.0,
+   "adherencia": 0.44299999999999995,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 31.5,
+   "evolucion": 18.6,
+   "eventos": 0.0,
+   "adherencia": 4.43,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 323,
+  "priority_score": 15.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.16,
+   "evolucion": 0.3370000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.14700000000000002,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.6,
+   "evolucion": 8.43,
+   "eventos": 0.0,
+   "adherencia": 1.47,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 324,
+  "priority_score": 20.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.43500000000000005,
+   "eventos": 0.0,
+   "adherencia": 0.276,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 10.88,
+   "eventos": 0.0,
+   "adherencia": 2.76,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 325,
+  "priority_score": 7.2,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.03,
+   "evolucion": 0.22699999999999998,
+   "eventos": 0.0,
+   "adherencia": 0.04500000000000004,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.05,
+   "evolucion": 5.67,
+   "eventos": 0.0,
+   "adherencia": 0.45,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 326,
+  "priority_score": 23.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.3,
+   "evolucion": 0.45499999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.16200000000000003,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 10.5,
+   "evolucion": 11.37,
+   "eventos": 0.0,
+   "adherencia": 1.62,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 327,
+  "priority_score": 33.3,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.19,
+   "evolucion": 0.45200000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.5389999999999999,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 6.65,
+   "evolucion": 11.3,
+   "eventos": 0.0,
+   "adherencia": 5.39,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 328,
+  "priority_score": 77.3,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.77,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.41200000000000003,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 19.25,
+   "eventos": 5.0,
+   "adherencia": 4.12,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 329,
+  "priority_score": 18.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.11,
+   "evolucion": 0.31499999999999995,
+   "eventos": 0.0,
+   "adherencia": 0.15500000000000003,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 3.85,
+   "evolucion": 7.87,
+   "eventos": 0.0,
+   "adherencia": 1.55,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 330,
+  "priority_score": 15.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.15,
+   "evolucion": 0.376,
+   "eventos": 0.0,
+   "adherencia": 0.09899999999999998,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.25,
+   "evolucion": 9.4,
+   "eventos": 0.0,
+   "adherencia": 0.99,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 331,
+  "priority_score": 10.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.16299999999999992,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.051000000000000045,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 4.07,
+   "eventos": 5.0,
+   "adherencia": 0.51,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "eventos"
+ },
+ {
+  "patient_id": 332,
+  "priority_score": 63.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.785,
+   "eventos": 0.0,
+   "adherencia": 0.15900000000000003,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 19.62,
+   "eventos": 0.0,
+   "adherencia": 1.59,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 333,
+  "priority_score": 73.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.864,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.30400000000000005,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 21.6,
+   "eventos": 5.0,
+   "adherencia": 3.04,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 334,
+  "priority_score": 72.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.852,
+   "eventos": 0.0,
+   "adherencia": 0.614,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 21.3,
+   "eventos": 0.0,
+   "adherencia": 6.14,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 335,
+  "priority_score": 32.8,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.43,
+   "evolucion": 0.41700000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.23299999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 15.05,
+   "evolucion": 10.43,
+   "eventos": 0.0,
+   "adherencia": 2.33,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 336,
+  "priority_score": 30.5,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.26,
+   "evolucion": 0.524,
+   "eventos": 0.0,
+   "adherencia": 0.32699999999999996,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 9.1,
+   "evolucion": 13.1,
+   "eventos": 0.0,
+   "adherencia": 3.27,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 337,
+  "priority_score": 6.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.22699999999999998,
+   "eventos": 0.0,
+   "adherencia": 0.030000000000000027,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 5.67,
+   "eventos": 0.0,
+   "adherencia": 0.3,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 338,
+  "priority_score": 36.3,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.33,
+   "evolucion": 0.632,
+   "eventos": 0.0,
+   "adherencia": 0.395,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 11.55,
+   "evolucion": 15.8,
+   "eventos": 0.0,
+   "adherencia": 3.95,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 339,
+  "priority_score": 15.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.05,
+   "evolucion": 0.369,
+   "eventos": 0.0,
+   "adherencia": 0.469,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 1.75,
+   "evolucion": 9.22,
+   "eventos": 0.0,
+   "adherencia": 4.69,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 340,
+  "priority_score": 12.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.242,
+   "eventos": 0.0,
+   "adherencia": 0.10399999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 6.05,
+   "eventos": 0.0,
+   "adherencia": 1.04,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 341,
+  "priority_score": 48.0,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.77,
+   "evolucion": 0.587,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.137,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 26.95,
+   "evolucion": 14.67,
+   "eventos": 5.0,
+   "adherencia": 1.37,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 342,
+  "priority_score": 70.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.835,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.261,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 20.88,
+   "eventos": 5.0,
+   "adherencia": 2.61,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 343,
+  "priority_score": 66.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.76,
+   "evolucion": 0.802,
+   "eventos": 0.0,
+   "adherencia": 0.44999999999999996,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 26.6,
+   "evolucion": 20.05,
+   "eventos": 0.0,
+   "adherencia": 4.5,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 344,
+  "priority_score": 16.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.13,
+   "evolucion": 0.41700000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.17300000000000004,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 4.55,
+   "evolucion": 10.43,
+   "eventos": 0.0,
+   "adherencia": 1.73,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 345,
+  "priority_score": 41.2,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.48,
+   "evolucion": 0.505,
+   "eventos": 0.0,
+   "adherencia": 0.17800000000000005,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 16.8,
+   "evolucion": 12.62,
+   "eventos": 0.0,
+   "adherencia": 1.78,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 346,
+  "priority_score": 68.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.92,
+   "evolucion": 0.75,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.277,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 32.2,
+   "evolucion": 18.75,
+   "eventos": 5.0,
+   "adherencia": 2.77,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 347,
+  "priority_score": 6.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.02,
+   "evolucion": 0.17599999999999993,
+   "eventos": 0.0,
+   "adherencia": 0.09399999999999997,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.7,
+   "evolucion": 4.4,
+   "eventos": 0.0,
+   "adherencia": 0.94,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 348,
+  "priority_score": 69.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.775,
+   "eventos": 0.0,
+   "adherencia": 0.5880000000000001,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.38,
+   "eventos": 0.0,
+   "adherencia": 5.88,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 349,
+  "priority_score": 73.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.96,
+   "evolucion": 0.8200000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.44699999999999995,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.6,
+   "evolucion": 20.5,
+   "eventos": 0.0,
+   "adherencia": 4.47,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 350,
+  "priority_score": 71.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.877,
+   "eventos": 0.0,
+   "adherencia": 0.499,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.93,
+   "eventos": 0.0,
+   "adherencia": 4.99,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 351,
+  "priority_score": 52.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.76,
+   "evolucion": 0.653,
+   "eventos": 0.0,
+   "adherencia": 0.44499999999999995,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 26.6,
+   "evolucion": 16.32,
+   "eventos": 0.0,
+   "adherencia": 4.45,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 352,
+  "priority_score": 57.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.92,
+   "evolucion": 0.773,
+   "eventos": 0.0,
+   "adherencia": 0.608,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 32.2,
+   "evolucion": 19.32,
+   "eventos": 0.0,
+   "adherencia": 6.08,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 353,
+  "priority_score": 67.5,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.849,
+   "eventos": 0.0,
+   "adherencia": 0.43799999999999994,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 21.22,
+   "eventos": 0.0,
+   "adherencia": 4.38,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 354,
+  "priority_score": 69.2,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.921,
+   "eventos": 0.0,
+   "adherencia": 0.18799999999999994,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 23.03,
+   "eventos": 0.0,
+   "adherencia": 1.88,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 355,
+  "priority_score": 23.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.18,
+   "evolucion": 0.42200000000000004,
+   "eventos": 0.0,
+   "adherencia": 0.14300000000000002,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 6.3,
+   "evolucion": 10.55,
+   "eventos": 0.0,
+   "adherencia": 1.43,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 356,
+  "priority_score": 22.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.28,
+   "evolucion": 0.402,
+   "eventos": 0.0,
+   "adherencia": 0.29400000000000004,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 9.8,
+   "evolucion": 10.05,
+   "eventos": 0.0,
+   "adherencia": 2.94,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 357,
+  "priority_score": 37.3,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.33,
+   "evolucion": 0.43700000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.482,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 11.55,
+   "evolucion": 10.93,
+   "eventos": 0.0,
+   "adherencia": 4.82,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 358,
+  "priority_score": 62.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.91,
+   "evolucion": 0.839,
+   "eventos": 0.0,
+   "adherencia": 0.511,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 31.85,
+   "evolucion": 20.97,
+   "eventos": 0.0,
+   "adherencia": 5.11,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 359,
+  "priority_score": 5.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.15900000000000003,
+   "eventos": 0.0,
+   "adherencia": 0.129,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 3.98,
+   "eventos": 0.0,
+   "adherencia": 1.29,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 360,
+  "priority_score": 69.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.847,
+   "eventos": 0.0,
+   "adherencia": 0.44599999999999995,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 21.18,
+   "eventos": 0.0,
+   "adherencia": 4.46,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 361,
+  "priority_score": 23.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.12,
+   "evolucion": 0.367,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 4.2,
+   "evolucion": 9.18,
+   "eventos": 5.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 362,
+  "priority_score": 76.2,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.842,
+   "eventos": 0.0,
+   "adherencia": 0.513,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.05,
+   "eventos": 0.0,
+   "adherencia": 5.13,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 363,
+  "priority_score": 65.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.83,
+   "evolucion": 0.854,
+   "eventos": 0.0,
+   "adherencia": 0.472,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 29.05,
+   "evolucion": 21.35,
+   "eventos": 0.0,
+   "adherencia": 4.72,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 364,
+  "priority_score": 17.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.16,
+   "evolucion": 0.4,
+   "eventos": 0.0,
+   "adherencia": 0.19499999999999995,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 5.6,
+   "evolucion": 10.0,
+   "eventos": 0.0,
+   "adherencia": 1.95,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 365,
+  "priority_score": 24.4,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.24,
+   "evolucion": 0.391,
+   "eventos": 0.0,
+   "adherencia": 0.12,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 8.4,
+   "evolucion": 9.78,
+   "eventos": 0.0,
+   "adherencia": 1.2,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 366,
+  "priority_score": 40.8,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.64,
+   "evolucion": 0.5349999999999999,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 22.4,
+   "evolucion": 13.37,
+   "eventos": 5.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 367,
+  "priority_score": 52.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.63,
+   "evolucion": 0.692,
+   "eventos": 0.0,
+   "adherencia": 0.33099999999999996,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 22.05,
+   "evolucion": 17.3,
+   "eventos": 0.0,
+   "adherencia": 3.31,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 368,
+  "priority_score": 26.5,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.3,
+   "evolucion": 0.44100000000000006,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 10.5,
+   "evolucion": 11.03,
+   "eventos": 0.0,
+   "adherencia": 0.0,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 369,
+  "priority_score": 70.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.95,
+   "evolucion": 0.652,
+   "eventos": 0.0,
+   "adherencia": 0.585,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.25,
+   "evolucion": 16.3,
+   "eventos": 0.0,
+   "adherencia": 5.85,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 370,
+  "priority_score": 19.6,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.23,
+   "evolucion": 0.385,
+   "eventos": 0.0,
+   "adherencia": 0.19399999999999995,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 8.05,
+   "evolucion": 9.62,
+   "eventos": 0.0,
+   "adherencia": 1.94,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 371,
+  "priority_score": 77.6,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.79,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.391,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 19.75,
+   "eventos": 5.0,
+   "adherencia": 3.91,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 372,
+  "priority_score": 77.0,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.968,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.28400000000000003,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 24.2,
+   "eventos": 5.0,
+   "adherencia": 2.84,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 373,
+  "priority_score": 68.9,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.795,
+   "eventos": 0.0,
+   "adherencia": 0.43300000000000005,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 19.88,
+   "eventos": 0.0,
+   "adherencia": 4.33,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 374,
+  "priority_score": 63.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.827,
+   "eventos": 0.0,
+   "adherencia": 0.33199999999999996,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 20.67,
+   "eventos": 0.0,
+   "adherencia": 3.32,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 375,
+  "priority_score": 69.3,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.859,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.31599999999999995,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 21.48,
+   "eventos": 5.0,
+   "adherencia": 3.16,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 376,
+  "priority_score": 32.1,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.43,
+   "evolucion": 0.388,
+   "eventos": 0.0,
+   "adherencia": 0.238,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 15.05,
+   "evolucion": 9.7,
+   "eventos": 0.0,
+   "adherencia": 2.38,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 377,
+  "priority_score": 68.8,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.97,
+   "evolucion": 0.77,
+   "eventos": 0.0,
+   "adherencia": 0.562,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.95,
+   "evolucion": 19.25,
+   "eventos": 0.0,
+   "adherencia": 5.62,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 378,
+  "priority_score": 64.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.83,
+   "evolucion": 0.863,
+   "eventos": 0.0,
+   "adherencia": 0.406,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 29.05,
+   "evolucion": 21.57,
+   "eventos": 0.0,
+   "adherencia": 4.06,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 379,
+  "priority_score": 79.9,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.785,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.6,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.62,
+   "eventos": 5.0,
+   "adherencia": 6.0,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 380,
+  "priority_score": 68.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.96,
+   "evolucion": 0.832,
+   "eventos": 0.0,
+   "adherencia": 0.41800000000000004,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 33.6,
+   "evolucion": 20.8,
+   "eventos": 0.0,
+   "adherencia": 4.18,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 381,
+  "priority_score": 57.7,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.78,
+   "evolucion": 0.681,
+   "eventos": 0.0,
+   "adherencia": 0.33299999999999996,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 27.3,
+   "evolucion": 17.03,
+   "eventos": 0.0,
+   "adherencia": 3.33,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 382,
+  "priority_score": 69.1,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.88,
+   "evolucion": 0.823,
+   "eventos": 0.0,
+   "adherencia": 0.276,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 30.8,
+   "evolucion": 20.57,
+   "eventos": 0.0,
+   "adherencia": 2.76,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 383,
+  "priority_score": 13.3,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.12,
+   "evolucion": 0.361,
+   "eventos": 0.0,
+   "adherencia": 0.009000000000000008,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 4.2,
+   "evolucion": 9.03,
+   "eventos": 0.0,
+   "adherencia": 0.09,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 384,
+  "priority_score": 84.6,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.824,
+   "eventos": 0.6666666666666666,
+   "adherencia": 0.43700000000000006,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 20.6,
+   "eventos": 10.0,
+   "adherencia": 4.37,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 385,
+  "priority_score": 23.0,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.33,
+   "evolucion": 0.373,
+   "eventos": 0.0,
+   "adherencia": 0.21199999999999997,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 11.55,
+   "evolucion": 9.32,
+   "eventos": 0.0,
+   "adherencia": 2.12,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 386,
+  "priority_score": 70.4,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.95,
+   "evolucion": 0.78,
+   "eventos": 0.0,
+   "adherencia": 0.269,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 33.25,
+   "evolucion": 19.5,
+   "eventos": 0.0,
+   "adherencia": 2.69,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 387,
+  "priority_score": 78.4,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 0.98,
+   "evolucion": 0.784,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.44599999999999995,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 34.3,
+   "evolucion": 19.6,
+   "eventos": 5.0,
+   "adherencia": 4.46,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 388,
+  "priority_score": 39.9,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.38,
+   "evolucion": 0.5129999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.38,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 13.3,
+   "evolucion": 12.82,
+   "eventos": 0.0,
+   "adherencia": 3.8,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 389,
+  "priority_score": 63.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.77,
+   "evolucion": 0.6599999999999999,
+   "eventos": 0.0,
+   "adherencia": 0.514,
+   "comorbilidades": 1.0
+  },
+  "contributions": {
+   "riesgo": 26.95,
+   "evolucion": 16.5,
+   "eventos": 0.0,
+   "adherencia": 5.14,
+   "comorbilidades": 15.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 390,
+  "priority_score": 20.8,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.17,
+   "evolucion": 0.353,
+   "eventos": 0.0,
+   "adherencia": 0.10499999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 5.95,
+   "evolucion": 8.82,
+   "eventos": 0.0,
+   "adherencia": 1.05,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 391,
+  "priority_score": 23.5,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.27,
+   "evolucion": 0.32700000000000007,
+   "eventos": 0.0,
+   "adherencia": 0.08999999999999997,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 9.45,
+   "evolucion": 8.18,
+   "eventos": 0.0,
+   "adherencia": 0.9,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 392,
+  "priority_score": 17.7,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.22,
+   "evolucion": 0.3390000000000001,
+   "eventos": 0.0,
+   "adherencia": 0.14700000000000002,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 7.7,
+   "evolucion": 8.48,
+   "eventos": 0.0,
+   "adherencia": 1.47,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 393,
+  "priority_score": 17.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.01,
+   "evolucion": 0.257,
+   "eventos": 0.0,
+   "adherencia": 0.029000000000000026,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 0.35,
+   "evolucion": 6.42,
+   "eventos": 0.0,
+   "adherencia": 0.29,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "comorbilidades"
+ },
+ {
+  "patient_id": 394,
+  "priority_score": 68.6,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 0.99,
+   "evolucion": 0.752,
+   "eventos": 0.0,
+   "adherencia": 0.512,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 34.65,
+   "evolucion": 18.8,
+   "eventos": 0.0,
+   "adherencia": 5.12,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 395,
+  "priority_score": 33.7,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.48,
+   "evolucion": 0.45899999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.04700000000000004,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 16.8,
+   "evolucion": 11.47,
+   "eventos": 0.0,
+   "adherencia": 0.47,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 396,
+  "priority_score": 14.1,
+  "priority_band": "Baja",
+  "components": {
+   "riesgo": 0.12,
+   "evolucion": 0.31099999999999994,
+   "eventos": 0.0,
+   "adherencia": 0.20799999999999996,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 4.2,
+   "evolucion": 7.77,
+   "eventos": 0.0,
+   "adherencia": 2.08,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "evolucion"
+ },
+ {
+  "patient_id": 397,
+  "priority_score": 72.0,
+  "priority_band": "Alta",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.885,
+   "eventos": 0.0,
+   "adherencia": 0.49,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 22.12,
+   "eventos": 0.0,
+   "adherencia": 4.9,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 398,
+  "priority_score": 38.4,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.58,
+   "evolucion": 0.662,
+   "eventos": 0.0,
+   "adherencia": 0.15300000000000002,
+   "comorbilidades": 0.0
+  },
+  "contributions": {
+   "riesgo": 20.3,
+   "evolucion": 16.55,
+   "eventos": 0.0,
+   "adherencia": 1.53,
+   "comorbilidades": 0.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 399,
+  "priority_score": 76.2,
+  "priority_band": "Crítica",
+  "components": {
+   "riesgo": 1.0,
+   "evolucion": 0.87,
+   "eventos": 0.3333333333333333,
+   "adherencia": 0.44099999999999995,
+   "comorbilidades": 0.6666666666666666
+  },
+  "contributions": {
+   "riesgo": 35.0,
+   "evolucion": 21.75,
+   "eventos": 5.0,
+   "adherencia": 4.41,
+   "comorbilidades": 10.0
+  },
+  "top_driver": "riesgo"
+ },
+ {
+  "patient_id": 400,
+  "priority_score": 38.7,
+  "priority_band": "Media",
+  "components": {
+   "riesgo": 0.57,
+   "evolucion": 0.45899999999999996,
+   "eventos": 0.0,
+   "adherencia": 0.22499999999999998,
+   "comorbilidades": 0.3333333333333333
+  },
+  "contributions": {
+   "riesgo": 19.95,
+   "evolucion": 11.47,
+   "eventos": 0.0,
+   "adherencia": 2.25,
+   "comorbilidades": 5.0
+  },
+  "top_driver": "riesgo"
+ }
+]

@@ -1,0 +1,170 @@
+[
+  {
+    "feature": "age",
+    "mean_abs_shap": 0.05389242457202049
+  },
+  {
+    "feature": "family_history_diabetes",
+    "mean_abs_shap": 0.05362351164747935
+  },
+  {
+    "feature": "physical_activity_minutes_per_week",
+    "mean_abs_shap": 0.03617246871036158
+  },
+  {
+    "feature": "bmi",
+    "mean_abs_shap": 0.022007537462786577
+  },
+  {
+    "feature": "diet_score",
+    "mean_abs_shap": 0.01264935918627687
+  },
+  {
+    "feature": "hdl_cholesterol",
+    "mean_abs_shap": 0.012540994666064256
+  },
+  {
+    "feature": "triglycerides",
+    "mean_abs_shap": 0.008207887811418568
+  },
+  {
+    "feature": "screen_time_hours_per_day",
+    "mean_abs_shap": 0.007563673175863776
+  },
+  {
+    "feature": "ldl_cholesterol",
+    "mean_abs_shap": 0.005623239671681727
+  },
+  {
+    "feature": "gender_Female",
+    "mean_abs_shap": 0.00489681949477043
+  },
+  {
+    "feature": "gender_Male",
+    "mean_abs_shap": 0.0048413346345533015
+  },
+  {
+    "feature": "cholesterol_total",
+    "mean_abs_shap": 0.003786579461263759
+  },
+  {
+    "feature": "waist_to_hip_ratio",
+    "mean_abs_shap": 0.003773736253799535
+  },
+  {
+    "feature": "systolic_bp",
+    "mean_abs_shap": 0.002907624909579328
+  },
+  {
+    "feature": "ethnicity_White",
+    "mean_abs_shap": 0.0024413288029695264
+  },
+  {
+    "feature": "income_level_Middle",
+    "mean_abs_shap": 0.0022680294606653366
+  },
+  {
+    "feature": "smoking_status_Never",
+    "mean_abs_shap": 0.0021622968530648212
+  },
+  {
+    "feature": "employment_status_Retired",
+    "mean_abs_shap": 0.002016640110153275
+  },
+  {
+    "feature": "income_level_Upper-Middle",
+    "mean_abs_shap": 0.0017440600561716034
+  },
+  {
+    "feature": "heart_rate",
+    "mean_abs_shap": 0.0015939374622178165
+  },
+  {
+    "feature": "education_level_Highschool",
+    "mean_abs_shap": 0.0015607104924134155
+  },
+  {
+    "feature": "diastolic_bp",
+    "mean_abs_shap": 0.001548389379773197
+  },
+  {
+    "feature": "cardiovascular_history",
+    "mean_abs_shap": 0.0013814874873018781
+  },
+  {
+    "feature": "ethnicity_Hispanic",
+    "mean_abs_shap": 0.0012968631636848015
+  },
+  {
+    "feature": "education_level_Postgraduate",
+    "mean_abs_shap": 0.0011814061762901956
+  },
+  {
+    "feature": "ethnicity_Black",
+    "mean_abs_shap": 0.0011399987009439617
+  },
+  {
+    "feature": "education_level_Graduate",
+    "mean_abs_shap": 0.0010836568783970347
+  },
+  {
+    "feature": "alcohol_consumption_per_week",
+    "mean_abs_shap": 0.0009389703956567083
+  },
+  {
+    "feature": "smoking_status_Current",
+    "mean_abs_shap": 0.0009369043152863981
+  },
+  {
+    "feature": "smoking_status_Former",
+    "mean_abs_shap": 0.0008464727690971265
+  },
+  {
+    "feature": "income_level_Low",
+    "mean_abs_shap": 0.0006607926459064471
+  },
+  {
+    "feature": "sleep_hours_per_day",
+    "mean_abs_shap": 0.0006313792543062961
+  },
+  {
+    "feature": "income_level_Lower-Middle",
+    "mean_abs_shap": 0.0005369998357963958
+  },
+  {
+    "feature": "hypertension_history",
+    "mean_abs_shap": 0.00045653648765656667
+  },
+  {
+    "feature": "income_level_High",
+    "mean_abs_shap": 0.00039609841553124884
+  },
+  {
+    "feature": "ethnicity_Other",
+    "mean_abs_shap": 0.00035067399837351095
+  },
+  {
+    "feature": "ethnicity_Asian",
+    "mean_abs_shap": 0.0002978375498352341
+  },
+  {
+    "feature": "employment_status_Student",
+    "mean_abs_shap": 0.00023990658735925207
+  },
+  {
+    "feature": "employment_status_Employed",
+    "mean_abs_shap": 0.0002350761388966691
+  },
+  {
+    "feature": "employment_status_Unemployed",
+    "mean_abs_shap": 0.0001420111521261717
+  },
+  {
+    "feature": "gender_Other",
+    "mean_abs_shap": 6.658448436627446e-05
+  },
+  {
+    "feature": "education_level_No formal",
+    "mean_abs_shap": 9.947225312208953e-06
+  }
+]
