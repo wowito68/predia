@@ -47,6 +47,12 @@ up: docker-up         # usa Docker por defecto
 down: docker-down
 logs: docker-logs
 
+rubric-check:
+	bash scripts/rubric-check.sh
+
+ci-local:
+	pnpm ci:local
+
 .PHONY: docker-up docker-down docker-logs docker-build docker-restart \
         podman-up podman-down podman-logs podman-build podman-restart \
-        status up down logs
+        status up down logs rubric-check ci-local

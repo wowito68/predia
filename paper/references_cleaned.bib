@@ -1,0 +1,396 @@
+% =====================================================================
+% references_cleaned.bib
+% Bibliografía auditada y corregida para:
+%   "¿Cuánto Mejora Realmente el Aprendizaje Automático la Predicción
+%    del Riesgo de Diabetes...? ... BRFSS 2015"
+%
+% NOTA DE PROCEDENCIA:
+%   El usuario aportó el .bbl compilado (no los .bib fuente
+%   references.bib / mimeti.bib). Estas entradas se reconstruyeron a
+%   partir del .bbl y se completaron con DOIs verificados contra
+%   Crossref / DOI.org / PubMed / sitios de la editorial (jun. 2026).
+%   Compilan con \bibliographystyle{IEEEtran}.
+%
+% TODOS los DOIs aquí incluidos fueron verificados manualmente.
+% No se inventó ningún DOI. Las entradas sin DOI no lo tienen porque
+% la fuente (JMLR, NeurIPS/PMLR, reportes, datasets) no asigna DOI.
+% =====================================================================
+
+% ---------- Epidemiología / guías clínicas ----------
+
+@techreport{idf2021atlas,
+  author       = {{International Diabetes Federation}},
+  title        = {{IDF} Diabetes Atlas, 10th ed.},
+  institution  = {International Diabetes Federation},
+  address      = {Brussels, Belgium},
+  year         = {2021}
+  % Reporte institucional: sin DOI. ISBN 978-2-930229-98-0 (no verificado aquí).
+}
+
+@article{ada2021classification,
+  author  = {{American Diabetes Association}},
+  title   = {Classification and diagnosis of diabetes: {Standards} of Medical Care in Diabetes---2021},
+  journal = {Diabetes Care},
+  volume  = {44},
+  number  = {Supplement 1},
+  pages   = {S15--S33},
+  year    = {2021},
+  doi     = {10.2337/dc21-S002}
+}
+
+@article{elsayed2023classification,
+  author  = {Nuha A. ElSayed and others},
+  title   = {2. Classification and diagnosis of diabetes: {Standards} of Care in Diabetes---2023},
+  journal = {Diabetes Care},
+  volume  = {46},
+  number  = {Supplement 1},
+  pages   = {S19--S40},
+  year    = {2023},
+  doi     = {10.2337/dc23-S002}
+}
+
+% ---------- Predicción de diabetes a partir de encuestas ----------
+
+@article{xie2019building,
+  author  = {Zidian Xie and Olga Nikolayeva and Jiebo Luo and Dongmei Li},
+  title   = {Building risk prediction models for type 2 diabetes using machine learning techniques},
+  journal = {Preventing Chronic Disease},
+  volume  = {16},
+  pages   = {E130},
+  year    = {2019},
+  doi     = {10.5888/pcd16.190109}
+}
+
+@article{dinh2019data,
+  author  = {An Dinh and Stacey Miertschin and Amber Young and Somya D. Mohanty},
+  title   = {A data-driven approach to predicting diabetes and cardiovascular disease with machine learning},
+  journal = {BMC Medical Informatics and Decision Making},
+  volume  = {19},
+  number  = {1},
+  pages   = {211},
+  year    = {2019},
+  doi     = {10.1186/s12911-019-0918-5}
+}
+
+@article{tigga2020prediction,
+  author  = {Neha Prerna Tigga and Shruti Garg},
+  title   = {Prediction of type 2 diabetes using machine learning classification methods},
+  journal = {Procedia Computer Science},
+  volume  = {167},
+  pages   = {706--716},
+  year    = {2020},
+  doi     = {10.1016/j.procs.2020.03.336}
+}
+
+@article{tasin2023diabetes,
+  author  = {Isfafuzzaman Tasin and Tansin Ullah Nabil and Sanjida Islam and Riasat Khan},
+  title   = {Diabetes prediction using machine learning and explainable {AI} techniques},
+  journal = {Healthcare Technology Letters},
+  volume  = {10},
+  number  = {1-2},
+  pages   = {1--10},
+  year    = {2023},
+  doi     = {10.1049/htl2.12039}
+}
+
+@misc{rashid2020diabetes,
+  author       = {Ahlam Rashid},
+  title        = {Diabetes Dataset},
+  howpublished = {Mendeley Data, V1},
+  year         = {2020},
+  doi          = {10.17632/wj9rwkp9c2.1}
+}
+
+% ---------- ML vs. regresión logística / validación clínica ----------
+
+@article{christodoulou2019systematic,
+  author  = {Evangelia Christodoulou and Jie Ma and Gary S. Collins and Ewout W. Steyerberg and Jan Y. Verbakel and Ben {Van Calster}},
+  title   = {A systematic review shows no performance benefit of machine learning over logistic regression for clinical prediction models},
+  journal = {Journal of Clinical Epidemiology},
+  volume  = {110},
+  pages   = {12--22},
+  year    = {2019},
+  doi     = {10.1016/j.jclinepi.2019.02.004}
+}
+
+@book{steyerberg2019validation,
+  author    = {Ewout W. Steyerberg},
+  title     = {Clinical Prediction Models: A Practical Approach to Development, Validation, and Updating},
+  edition   = {2nd},
+  publisher = {Springer},
+  address   = {Cham, Switzerland},
+  series    = {Statistics for Biology and Health},
+  year      = {2019},
+  isbn      = {978-3-030-16398-3},
+  doi       = {10.1007/978-3-030-16399-0}
+}
+
+@article{collins2024tripod,
+  author  = {Gary S. Collins and others},
+  title   = {{TRIPOD+AI} statement: Updated guidance for reporting clinical prediction models that use regression or machine learning methods},
+  journal = {BMJ},
+  volume  = {385},
+  pages   = {e078378},
+  year    = {2024},
+  doi     = {10.1136/bmj-2023-078378}
+}
+
+% ---------- Fuga de información (leakage) ----------
+
+@article{kaufman2012leakage,
+  author  = {Shachar Kaufman and Saharon Rosset and Claudia Perlich and Ori Stitelman},
+  title   = {Leakage in data mining: Formulation, detection, and avoidance},
+  journal = {ACM Transactions on Knowledge Discovery from Data (TKDD)},
+  volume  = {6},
+  number  = {4},
+  pages   = {1--21},
+  year    = {2012},
+  doi     = {10.1145/2382577.2382579}
+}
+
+@article{kapoor2023leakage,
+  author  = {Sayash Kapoor and Arvind Narayanan},
+  title   = {Leakage and the reproducibility crisis in machine-learning-based science},
+  journal = {Patterns},
+  volume  = {4},
+  number  = {9},
+  pages   = {100804},
+  year    = {2023},
+  doi     = {10.1016/j.patter.2023.100804}
+}
+
+% ---------- Calibración ----------
+
+@article{vancalster2019calibration,
+  author  = {Ben {Van Calster} and David J. McLernon and Maarten {van Smeden} and Laure Wynants and Ewout W. Steyerberg},
+  title   = {Calibration: The {Achilles} heel of predictive analytics},
+  journal = {BMC Medicine},
+  volume  = {17},
+  number  = {1},
+  pages   = {230},
+  year    = {2019},
+  doi     = {10.1186/s12916-019-1466-7}
+}
+
+@inproceedings{niculescu2005predicting,
+  author    = {Alexandru Niculescu-Mizil and Rich Caruana},
+  title     = {Predicting good probabilities with supervised learning},
+  booktitle = {Proc. 22nd Int. Conf. on Machine Learning (ICML)},
+  pages     = {625--632},
+  year      = {2005},
+  doi       = {10.1145/1102351.1102430}
+}
+
+@inproceedings{guo2017calibration,
+  author    = {Chuan Guo and Geoff Pleiss and Yu Sun and Kilian Q. Weinberger},
+  title     = {On calibration of modern neural networks},
+  booktitle = {Proc. 34th Int. Conf. on Machine Learning (ICML)},
+  series    = {PMLR},
+  volume    = {70},
+  pages     = {1321--1330},
+  year      = {2017}
+  % Sin DOI: actas PMLR no asignan DOI. arXiv:1706.04599.
+}
+
+% ---------- Interpretabilidad / IA explicable ----------
+
+@inproceedings{lundberg2017shap,
+  author    = {Scott M. Lundberg and Su-In Lee},
+  title     = {A unified approach to interpreting model predictions},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  pages     = {4765--4774},
+  year      = {2017}
+  % Sin DOI: actas NeurIPS no asignan DOI. arXiv:1705.07874.
+}
+
+@article{lundberg2020local,
+  author  = {Scott M. Lundberg and Gabriel Erion and Hugh Chen and Alex DeGrave and Jordan M. Prutkin and Bala Nair and Ronit Katz and Jonathan Himmelfarb and Nisha Bansal and Su-In Lee},
+  title   = {From local explanations to global understanding with explainable {AI} for trees},
+  journal = {Nature Machine Intelligence},
+  volume  = {2},
+  number  = {1},
+  pages   = {56--67},
+  year    = {2020},
+  doi     = {10.1038/s42256-019-0138-9}
+}
+
+@inproceedings{ribeiro2016lime,
+  author    = {Marco Tulio Ribeiro and Sameer Singh and Carlos Guestrin},
+  title     = {``Why should {I} trust you?'': Explaining the predictions of any classifier},
+  booktitle = {Proc. 22nd ACM SIGKDD Int. Conf. on Knowledge Discovery and Data Mining},
+  pages     = {1135--1144},
+  year      = {2016},
+  doi       = {10.1145/2939672.2939778}
+}
+
+@article{rudin2019stop,
+  author  = {Cynthia Rudin},
+  title   = {Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead},
+  journal = {Nature Machine Intelligence},
+  volume  = {1},
+  number  = {5},
+  pages   = {206--215},
+  year    = {2019},
+  doi     = {10.1038/s42256-019-0048-x}
+}
+
+@inproceedings{caruana2015intelligible,
+  author    = {Rich Caruana and Yin Lou and Johannes Gehrke and Paul Koch and Marc Sturm and Noemie Elhadad},
+  title     = {Intelligible models for healthcare: Predicting pneumonia risk and hospital 30-day readmission},
+  booktitle = {Proc. 21st ACM SIGKDD Int. Conf. on Knowledge Discovery and Data Mining},
+  pages     = {1721--1730},
+  year      = {2015},
+  doi       = {10.1145/2783258.2788613}
+}
+
+@article{ghassemi2021false,
+  author  = {Marzyeh Ghassemi and Luke Oakden-Rayner and Andrew L. Beam},
+  title   = {The false hope of current approaches to explainable artificial intelligence in health care},
+  journal = {The Lancet Digital Health},
+  volume  = {3},
+  number  = {11},
+  pages   = {e745--e750},
+  year    = {2021},
+  doi     = {10.1016/S2589-7500(21)00208-9}
+}
+
+% ---------- Métricas / imbalance ----------
+
+@article{saito2015precision,
+  author  = {Takaya Saito and Marc Rehmsmeier},
+  title   = {The precision-recall plot is more informative than the {ROC} plot when evaluating binary classifiers on imbalanced datasets},
+  journal = {PLoS ONE},
+  volume  = {10},
+  number  = {3},
+  pages   = {e0118432},
+  year    = {2015},
+  doi     = {10.1371/journal.pone.0118432}
+}
+
+@article{he2009learning,
+  author  = {Haibo He and Edwardo A. Garcia},
+  title   = {Learning from imbalanced data},
+  journal = {IEEE Transactions on Knowledge and Data Engineering},
+  volume  = {21},
+  number  = {9},
+  pages   = {1263--1284},
+  year    = {2009},
+  doi     = {10.1109/TKDE.2008.239}
+}
+
+@article{chicco2020mcc,
+  author  = {Davide Chicco and Giuseppe Jurman},
+  title   = {The advantages of the {Matthews} correlation coefficient ({MCC}) over {F1} score and accuracy in binary classification evaluation},
+  journal = {BMC Genomics},
+  volume  = {21},
+  number  = {1},
+  pages   = {6},
+  year    = {2020},
+  doi     = {10.1186/s12864-019-6413-7}
+}
+
+@article{demsar2006statistical,
+  author  = {Janez Dem{\v{s}}ar},
+  title   = {Statistical comparisons of classifiers over multiple data sets},
+  journal = {Journal of Machine Learning Research},
+  volume  = {7},
+  pages   = {1--30},
+  year    = {2006}
+  % Sin DOI: JMLR no asigna DOI.
+}
+
+% ---------- Modelos / algoritmos ----------
+
+@article{pedregosa2011scikit,
+  author  = {Fabian Pedregosa and Ga{\"e}l Varoquaux and Alexandre Gramfort and Vincent Michel and Bertrand Thirion and Olivier Grisel and Mathieu Blondel and Peter Prettenhofer and Ron Weiss and Vincent Dubourg and Jake Vanderplas and Alexandre Passos and David Cournapeau and Matthieu Brucher and Matthieu Perrot and {\'E}douard Duchesnay},
+  title   = {Scikit-learn: Machine learning in {Python}},
+  journal = {Journal of Machine Learning Research},
+  volume  = {12},
+  pages   = {2825--2830},
+  year    = {2011}
+  % Sin DOI: JMLR no asigna DOI.
+}
+
+@article{breiman2001random,
+  author  = {Leo Breiman},
+  title   = {Random forests},
+  journal = {Machine Learning},
+  volume  = {45},
+  number  = {1},
+  pages   = {5--32},
+  year    = {2001},
+  doi     = {10.1023/A:1010933404324}
+}
+
+@article{friedman2001greedy,
+  author  = {Jerome H. Friedman},
+  title   = {Greedy function approximation: A gradient boosting machine},
+  journal = {Annals of Statistics},
+  volume  = {29},
+  number  = {5},
+  pages   = {1189--1232},
+  year    = {2001},
+  doi     = {10.1214/aos/1013203451}
+}
+
+@inproceedings{chen2016xgboost,
+  author    = {Tianqi Chen and Carlos Guestrin},
+  title     = {{XGBoost}: A scalable tree boosting system},
+  booktitle = {Proc. 22nd ACM SIGKDD Int. Conf. on Knowledge Discovery and Data Mining (KDD)},
+  pages     = {785--794},
+  year      = {2016},
+  doi       = {10.1145/2939672.2939785}
+}
+
+@inproceedings{ke2017lightgbm,
+  author    = {Guolin Ke and Qi Meng and Thomas Finley and Taifeng Wang and Wei Chen and Weidong Ma and Qiwei Ye and Tie-Yan Liu},
+  title     = {{LightGBM}: A highly efficient gradient boosting decision tree},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  pages     = {3146--3154},
+  year      = {2017}
+  % Sin DOI: actas NeurIPS no asignan DOI.
+}
+
+@article{cover1967knn,
+  author  = {Thomas Cover and Peter Hart},
+  title   = {Nearest neighbor pattern classification},
+  journal = {IEEE Transactions on Information Theory},
+  volume  = {13},
+  number  = {1},
+  pages   = {21--27},
+  year    = {1967},
+  doi     = {10.1109/TIT.1967.1053964}
+}
+
+@article{cortes1995svm,
+  author  = {Corinna Cortes and Vladimir Vapnik},
+  title   = {Support-vector networks},
+  journal = {Machine Learning},
+  volume  = {20},
+  number  = {3},
+  pages   = {273--297},
+  year    = {1995},
+  doi     = {10.1007/BF00994018}
+}
+
+% ---------- Datasets / fuentes de datos ----------
+
+@misc{teboul2021dataset,
+  author       = {Alex Teboul},
+  title        = {Diabetes Health Indicators Dataset},
+  howpublished = {Kaggle},
+  note         = {Derivado del CDC Behavioral Risk Factor Surveillance System (BRFSS) 2015},
+  year         = {2021},
+  url          = {https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset}
+  % Sin DOI: Kaggle no asigna DOI a este dataset.
+}
+
+@techreport{cdc2015brfss,
+  author      = {{Centers for Disease Control and Prevention}},
+  title       = {Behavioral Risk Factor Surveillance System (BRFSS) 2015 Survey Data and Documentation},
+  institution = {U.S. Department of Health and Human Services, CDC},
+  year        = {2015}
+  % Reporte/documentación gubernamental: sin DOI.
+}

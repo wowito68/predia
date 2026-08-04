@@ -1,0 +1,10 @@
+# CSV grandes del dataset BRFSS (regenerables vía kagglehub: alexteboul/diabetes-health-indicators-dataset)
+data/*.csv
+
+# Artefactos binarios reproducibles (regenerar con los scripts run_*.py)
+datasets/
+models/
+
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

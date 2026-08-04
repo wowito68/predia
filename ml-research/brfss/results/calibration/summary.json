@@ -1,0 +1,27 @@
+{
+  "best_model": "xgboost",
+  "chosen_calibration": "isotonic",
+  "reliability": [
+    {
+      "variant": "original",
+      "brier_val": 0.09677,
+      "ece_val": 0.004,
+      "brier_test": 0.0974,
+      "ece_test": 0.00444
+    },
+    {
+      "variant": "platt",
+      "brier_val": 0.09852,
+      "ece_val": 0.02572,
+      "brier_test": 0.09951,
+      "ece_test": 0.02854
+    },
+    {
+      "variant": "isotonic",
+      "brier_val": 0.0965,
+      "ece_val": 0.0,
+      "brier_test": 0.09746,
+      "ece_test": 0.00293
+    }
+  ]
+}

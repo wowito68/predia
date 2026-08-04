@@ -1,0 +1,92 @@
+{
+  "ces_recupera_orden_clinico": [
+    {
+      "archetype": "Mejora rápida",
+      "mean": 76.22,
+      "std": 8.03,
+      "count": 74
+    },
+    {
+      "archetype": "Estable",
+      "mean": 60.38,
+      "std": 9.37,
+      "count": 116
+    },
+    {
+      "archetype": "Deterioro lento",
+      "mean": 14.96,
+      "std": 5.92,
+      "count": 91
+    },
+    {
+      "archetype": "Alto riesgo persistente",
+      "mean": 19.61,
+      "std": 4.68,
+      "count": 63
+    },
+    {
+      "archetype": "Oscilante",
+      "mean": 34.31,
+      "std": 12.65,
+      "count": 56
+    }
+  ],
+  "clustering_best": "DBSCAN",
+  "ari_vs_arquetipo": 0.924,
+  "alertas_lead_time": {
+    "n_events": 218,
+    "detection_rate": 0.995,
+    "median_lead_time_days": 25.0,
+    "mean_lead_time_days": 20.7
+  },
+  "top_indicadores_deterioro": [
+    {
+      "feature": "imc_slope_m",
+      "importance": 0.08538455192387605
+    },
+    {
+      "feature": "glucosa_w90_mean",
+      "importance": 0.05829693637971662
+    },
+    {
+      "feature": "riesgo_w90_mean",
+      "importance": 0.05581694536363127
+    },
+    {
+      "feature": "glucosa_w180_mean",
+      "importance": 0.05212164184345881
+    },
+    {
+      "feature": "glucosa_w30_mean",
+      "importance": 0.0499613040713652
+    },
+    {
+      "feature": "peso_slope_m",
+      "importance": 0.04066495369552261
+    },
+    {
+      "feature": "riesgo_current",
+      "importance": 0.03818039411695898
+    },
+    {
+      "feature": "pad_w30_mean",
+      "importance": 0.033243286441641914
+    },
+    {
+      "feature": "glucosa_current",
+      "importance": 0.03228125722356269
+    },
+    {
+      "feature": "riesgo_w180_mean",
+      "importance": 0.02844245560138568
+    },
+    {
+      "feature": "glucosa_w7_mean",
+      "importance": 0.027816588810363918
+    },
+    {
+      "feature": "riesgo_w30_mean",
+      "importance": 0.02594772646078541
+    }
+  ]
+}

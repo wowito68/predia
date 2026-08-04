@@ -1,0 +1,401 @@
+patient_id,priority,band,accion_top,n_alertas
+1,79.7,Crítica,Derivar a especialista,7
+2,82.7,Crítica,Derivar a especialista,9
+3,18.4,Baja,Programar consulta,0
+4,21.1,Baja,Actualizar glucosa,1
+5,66.9,Alta,Derivar a especialista,4
+6,35.9,Media,Derivar a especialista,2
+7,47.4,Media,Derivar a especialista,2
+8,71.2,Alta,Derivar a especialista,6
+9,13.1,Baja,Actualizar glucosa,1
+10,10.8,Baja,Actualizar glucosa,0
+11,5.9,Baja,Actualizar glucosa,0
+12,72.5,Alta,Derivar a especialista,7
+13,17.2,Baja,Programar consulta,0
+14,17.9,Baja,Actualizar glucosa,0
+15,51.1,Alta,Derivar a especialista,4
+16,65.5,Alta,Revisar/ajustar tratamiento,7
+17,10.7,Baja,Programar consulta,0
+18,58.6,Alta,Derivar a especialista,6
+19,15.8,Baja,Programar consulta,0
+20,66.1,Alta,Derivar a especialista,5
+21,63.1,Alta,Derivar a especialista,4
+22,12.2,Baja,Programar consulta,0
+23,36.3,Media,Revisar/ajustar tratamiento,3
+24,10.4,Baja,Programar consulta,0
+25,62.1,Alta,Derivar a especialista,7
+26,58.8,Alta,Derivar a especialista,3
+27,26.6,Media,Revisar/ajustar tratamiento,0
+28,23.3,Baja,Programar consulta,0
+29,72.8,Alta,Derivar a especialista,7
+30,75.9,Crítica,Derivar a especialista,8
+31,68.8,Alta,Derivar a especialista,5
+32,5.3,Baja,Actualizar glucosa,1
+33,71.7,Alta,Revisar/ajustar tratamiento,10
+34,59.0,Alta,Revisar/ajustar tratamiento,4
+35,12.6,Baja,Programar consulta,0
+36,75.3,Crítica,Revisar/ajustar tratamiento,7
+37,73.0,Alta,Derivar a especialista,7
+38,5.3,Baja,Programar consulta,0
+39,12.9,Baja,Programar consulta,0
+40,86.8,Crítica,Derivar a especialista,8
+41,19.7,Baja,Programar consulta,0
+42,55.6,Alta,Revisar/ajustar tratamiento,2
+43,28.5,Media,Programar consulta,1
+44,72.8,Alta,Derivar a especialista,8
+45,71.3,Alta,Derivar a especialista,7
+46,64.5,Alta,Revisar/ajustar tratamiento,7
+47,19.6,Baja,Actualizar glucosa,0
+48,12.6,Baja,Actualizar glucosa,0
+49,63.2,Alta,Derivar a especialista,4
+50,66.4,Alta,Derivar a especialista,4
+51,14.5,Baja,Actualizar glucosa,0
+52,33.1,Media,Derivar a especialista,1
+53,43.0,Media,Derivar a especialista,4
+54,17.3,Baja,Actualizar glucosa,0
+55,75.7,Crítica,Derivar a especialista,8
+56,60.8,Alta,Derivar a especialista,4
+57,16.6,Baja,Programar consulta,1
+58,23.0,Baja,Revisar/ajustar tratamiento,0
+59,5.0,Baja,Programar consulta,0
+60,22.4,Baja,Programar consulta,0
+61,69.2,Alta,Derivar a especialista,8
+62,46.8,Media,Derivar a especialista,4
+63,70.0,Alta,Derivar a especialista,7
+64,20.0,Baja,Programar consulta,1
+65,18.2,Baja,Programar consulta,0
+66,76.8,Crítica,Revisar/ajustar tratamiento,8
+67,19.3,Baja,Derivar a especialista,1
+68,17.3,Baja,Reforzar adherencia al tratamiento,1
+69,72.1,Alta,Derivar a especialista,7
+70,6.6,Baja,Actualizar glucosa,1
+71,73.3,Alta,Derivar a especialista,6
+72,19.2,Baja,Actualizar glucosa,0
+73,17.2,Baja,Programar consulta,1
+74,74.3,Alta,Derivar a especialista,7
+75,70.1,Alta,Derivar a especialista,6
+76,82.7,Crítica,Derivar a especialista,8
+77,75.3,Crítica,Derivar a especialista,9
+78,77.4,Crítica,Derivar a especialista,8
+79,34.2,Media,Derivar a especialista,2
+80,70.4,Alta,Revisar/ajustar tratamiento,6
+81,17.8,Baja,Programar consulta,0
+82,71.0,Alta,Revisar/ajustar tratamiento,8
+83,20.0,Baja,Actualizar glucosa,1
+84,54.4,Alta,Derivar a especialista,4
+85,79.0,Crítica,Derivar a especialista,8
+86,7.7,Baja,Actualizar glucosa,1
+87,6.4,Baja,Actualizar glucosa,0
+88,82.0,Crítica,Derivar a especialista,6
+89,80.3,Crítica,Derivar a especialista,7
+90,30.9,Media,Derivar a especialista,3
+91,18.1,Baja,Programar consulta,0
+92,65.6,Alta,Derivar a especialista,7
+93,17.5,Baja,Actualizar glucosa,0
+94,69.4,Alta,Revisar/ajustar tratamiento,6
+95,10.8,Baja,Programar consulta,0
+96,24.2,Baja,Programar consulta,1
+97,15.9,Baja,Programar consulta,0
+98,72.4,Alta,Derivar a especialista,7
+99,6.9,Baja,Programar consulta,0
+100,12.2,Baja,Programar consulta,0
+101,70.9,Alta,Revisar/ajustar tratamiento,7
+102,42.7,Media,Derivar a especialista,4
+103,79.7,Crítica,Derivar a especialista,8
+104,82.7,Crítica,Derivar a especialista,8
+105,14.8,Baja,Programar consulta,0
+106,53.0,Alta,Derivar a especialista,3
+107,13.4,Baja,Actualizar glucosa,1
+108,11.0,Baja,Programar consulta,0
+109,15.0,Baja,Programar consulta,0
+110,77.0,Crítica,Derivar a especialista,8
+111,70.5,Alta,Derivar a especialista,7
+112,6.9,Baja,Programar consulta,0
+113,73.4,Alta,Derivar a especialista,8
+114,25.7,Media,Programar consulta,0
+115,69.7,Alta,Revisar/ajustar tratamiento,5
+116,53.3,Alta,Revisar/ajustar tratamiento,2
+117,76.4,Crítica,Derivar a especialista,8
+118,50.5,Alta,Derivar a especialista,3
+119,60.7,Alta,Derivar a especialista,4
+120,68.3,Alta,Derivar a especialista,6
+121,61.8,Alta,Derivar a especialista,5
+122,26.6,Media,Actualizar glucosa,0
+123,6.0,Baja,Actualizar glucosa,0
+124,19.4,Baja,Actualizar glucosa,0
+125,41.5,Media,Derivar a especialista,2
+126,41.7,Media,Derivar a especialista,2
+127,74.2,Alta,Derivar a especialista,7
+128,7.7,Baja,Actualizar glucosa,0
+129,64.5,Alta,Derivar a especialista,8
+130,69.5,Alta,Derivar a especialista,7
+131,11.8,Baja,Programar consulta,0
+132,6.4,Baja,Programar consulta,0
+133,17.5,Baja,Programar consulta,0
+134,52.2,Alta,Derivar a especialista,2
+135,87.4,Crítica,Derivar a especialista,8
+136,10.2,Baja,Programar consulta,0
+137,69.9,Alta,Derivar a especialista,7
+138,11.6,Baja,Programar consulta,0
+139,15.4,Baja,Programar consulta,0
+140,26.1,Media,Actualizar glucosa,0
+141,10.7,Baja,Programar consulta,0
+142,37.6,Media,Derivar a especialista,2
+143,17.3,Baja,Actualizar glucosa,1
+144,25.1,Media,Revisar/ajustar tratamiento,0
+145,66.3,Alta,Derivar a especialista,7
+146,72.2,Alta,Derivar a especialista,11
+147,12.2,Baja,Programar consulta,0
+148,10.5,Baja,Programar consulta,0
+149,24.3,Baja,Programar consulta,0
+150,47.2,Media,Derivar a especialista,0
+151,74.7,Alta,Revisar/ajustar tratamiento,6
+152,15.5,Baja,Actualizar glucosa,0
+153,19.4,Baja,Actualizar glucosa,0
+154,47.9,Media,Derivar a especialista,3
+155,75.4,Crítica,Derivar a especialista,7
+156,18.8,Baja,Actualizar glucosa,1
+157,70.2,Alta,Derivar a especialista,6
+158,75.0,Crítica,Derivar a especialista,9
+159,76.0,Crítica,Derivar a especialista,8
+160,7.9,Baja,Actualizar glucosa,0
+161,72.1,Alta,Derivar a especialista,7
+162,16.2,Baja,Actualizar glucosa,0
+163,14.5,Baja,Programar consulta,0
+164,68.5,Alta,Derivar a especialista,4
+165,73.1,Alta,Derivar a especialista,7
+166,16.6,Baja,Actualizar glucosa,0
+167,79.1,Crítica,Revisar/ajustar tratamiento,7
+168,66.9,Alta,Revisar/ajustar tratamiento,6
+169,12.0,Baja,Actualizar glucosa,0
+170,72.8,Alta,Derivar a especialista,6
+171,5.6,Baja,Actualizar glucosa,0
+172,15.9,Baja,Actualizar glucosa,0
+173,20.0,Baja,Actualizar glucosa,1
+174,71.5,Alta,Derivar a especialista,6
+175,18.7,Baja,Programar consulta,0
+176,20.0,Baja,Actualizar glucosa,1
+177,74.5,Alta,Revisar/ajustar tratamiento,7
+178,70.2,Alta,Derivar a especialista,5
+179,12.4,Baja,Actualizar glucosa,0
+180,80.7,Crítica,Derivar a especialista,5
+181,68.1,Alta,Derivar a especialista,6
+182,81.1,Crítica,Derivar a especialista,8
+183,30.0,Media,Programar consulta,0
+184,24.2,Baja,Programar consulta,2
+185,71.8,Alta,Derivar a especialista,11
+186,71.8,Alta,Derivar a especialista,9
+187,17.2,Baja,Actualizar glucosa,0
+188,69.1,Alta,Revisar/ajustar tratamiento,5
+189,65.4,Alta,Revisar/ajustar tratamiento,6
+190,68.2,Alta,Derivar a especialista,6
+191,14.1,Baja,Programar consulta,0
+192,69.1,Alta,Derivar a especialista,8
+193,57.6,Alta,Derivar a especialista,3
+194,12.6,Baja,Programar consulta,0
+195,8.4,Baja,Actualizar glucosa,0
+196,9.8,Baja,Programar consulta,0
+197,69.3,Alta,Derivar a especialista,5
+198,60.4,Alta,Derivar a especialista,3
+199,30.0,Media,Programar consulta,0
+200,70.2,Alta,Derivar a especialista,6
+201,76.5,Crítica,Derivar a especialista,7
+202,20.0,Baja,Programar consulta,1
+203,5.7,Baja,Actualizar glucosa,0
+204,76.5,Crítica,Derivar a especialista,8
+205,81.4,Crítica,Derivar a especialista,8
+206,70.0,Alta,Derivar a especialista,5
+207,11.7,Baja,Programar consulta,0
+208,28.9,Media,Revisar/ajustar tratamiento,0
+209,71.6,Alta,Derivar a especialista,7
+210,13.1,Baja,Programar consulta,0
+211,26.1,Media,Revisar/ajustar tratamiento,0
+212,10.6,Baja,Programar consulta,0
+213,82.0,Crítica,Derivar a especialista,9
+214,76.5,Crítica,Derivar a especialista,7
+215,12.2,Baja,Actualizar glucosa,0
+216,68.8,Alta,Derivar a especialista,5
+217,68.0,Alta,Derivar a especialista,6
+218,13.0,Baja,Actualizar glucosa,0
+219,73.0,Alta,Revisar/ajustar tratamiento,7
+220,14.5,Baja,Programar consulta,0
+221,56.6,Alta,Derivar a especialista,3
+222,14.0,Baja,Programar consulta,0
+223,5.4,Baja,Actualizar glucosa,1
+224,23.7,Baja,Programar consulta,0
+225,67.4,Alta,Revisar/ajustar tratamiento,6
+226,77.1,Crítica,Derivar a especialista,9
+227,68.6,Alta,Revisar/ajustar tratamiento,5
+228,11.6,Baja,Programar consulta,0
+229,64.0,Alta,Revisar/ajustar tratamiento,6
+230,12.5,Baja,Programar consulta,0
+231,63.4,Alta,Revisar/ajustar tratamiento,6
+232,65.2,Alta,Revisar/ajustar tratamiento,6
+233,78.3,Crítica,Derivar a especialista,7
+234,6.8,Baja,Actualizar glucosa,0
+235,11.8,Baja,Actualizar glucosa,1
+236,53.9,Alta,Derivar a especialista,5
+237,68.9,Alta,Derivar a especialista,5
+238,68.4,Alta,Revisar/ajustar tratamiento,6
+239,69.2,Alta,Revisar/ajustar tratamiento,4
+240,74.4,Alta,Derivar a especialista,7
+241,75.0,Alta,Derivar a especialista,5
+242,73.5,Alta,Derivar a especialista,7
+243,20.2,Baja,Programar consulta,0
+244,26.1,Media,Revisar/ajustar tratamiento,0
+245,6.4,Baja,Programar consulta,0
+246,69.7,Alta,Derivar a especialista,6
+247,43.2,Media,Revisar/ajustar tratamiento,3
+248,17.7,Baja,Programar consulta,0
+249,8.9,Baja,Actualizar glucosa,0
+250,16.4,Baja,Actualizar glucosa,1
+251,72.0,Alta,Derivar a especialista,8
+252,21.9,Baja,Programar consulta,0
+253,11.3,Baja,Programar consulta,0
+254,37.8,Media,Derivar a especialista,4
+255,10.3,Baja,Actualizar glucosa,0
+256,18.9,Baja,Programar consulta,0
+257,28.0,Media,Programar consulta,1
+258,28.5,Media,Actualizar glucosa,0
+259,69.5,Alta,Derivar a especialista,6
+260,64.1,Alta,Derivar a especialista,8
+261,14.9,Baja,Actualizar glucosa,0
+262,9.4,Baja,Actualizar glucosa,1
+263,43.0,Media,Derivar a especialista,4
+264,60.0,Alta,Derivar a especialista,4
+265,78.5,Crítica,Derivar a especialista,7
+266,76.6,Crítica,Derivar a especialista,8
+267,44.6,Media,Derivar a especialista,3
+268,18.5,Baja,Programar consulta,0
+269,61.2,Alta,Revisar/ajustar tratamiento,6
+270,50.5,Alta,Derivar a especialista,3
+271,21.7,Baja,Programar consulta,0
+272,80.2,Crítica,Derivar a especialista,5
+273,11.6,Baja,Programar consulta,0
+274,14.1,Baja,Programar consulta,0
+275,55.9,Alta,Revisar/ajustar tratamiento,5
+276,5.7,Baja,Actualizar glucosa,0
+277,70.1,Alta,Derivar a especialista,5
+278,67.8,Alta,Derivar a especialista,5
+279,17.2,Baja,Actualizar glucosa,1
+280,59.3,Alta,Derivar a especialista,5
+281,30.1,Media,Actualizar glucosa,2
+282,9.6,Baja,Programar consulta,0
+283,62.7,Alta,Revisar/ajustar tratamiento,4
+284,54.9,Alta,Derivar a especialista,3
+285,11.7,Baja,Actualizar glucosa,0
+286,73.4,Alta,Derivar a especialista,6
+287,17.9,Baja,Actualizar glucosa,0
+288,11.8,Baja,Programar consulta,2
+289,78.0,Crítica,Derivar a especialista,7
+290,54.2,Alta,Derivar a especialista,3
+291,66.6,Alta,Derivar a especialista,8
+292,14.8,Baja,Programar consulta,1
+293,16.0,Baja,Actualizar glucosa,0
+294,66.9,Alta,Derivar a especialista,7
+295,21.4,Baja,Programar consulta,0
+296,77.1,Crítica,Derivar a especialista,6
+297,64.7,Alta,Derivar a especialista,4
+298,74.2,Alta,Revisar/ajustar tratamiento,5
+299,58.6,Alta,Derivar a especialista,7
+300,54.6,Alta,Revisar/ajustar tratamiento,2
+301,66.3,Alta,Derivar a especialista,5
+302,68.5,Alta,Derivar a especialista,6
+303,64.9,Alta,Derivar a especialista,7
+304,16.4,Baja,Actualizar glucosa,0
+305,16.1,Baja,Programar consulta,0
+306,39.8,Media,Contacto preventivo,2
+307,15.7,Baja,Revisar/ajustar tratamiento,0
+308,56.4,Alta,Revisar/ajustar tratamiento,3
+309,80.3,Crítica,Derivar a especialista,6
+310,15.5,Baja,Actualizar glucosa,1
+311,12.3,Baja,Programar consulta,0
+312,50.2,Alta,Derivar a especialista,5
+313,5.9,Baja,Actualizar glucosa,0
+314,74.0,Alta,Derivar a especialista,8
+315,71.6,Alta,Derivar a especialista,6
+316,75.4,Crítica,Revisar/ajustar tratamiento,8
+317,24.3,Baja,Actualizar glucosa,0
+318,62.8,Alta,Derivar a especialista,3
+319,12.3,Baja,Programar consulta,0
+320,12.8,Baja,Actualizar glucosa,1
+321,9.1,Baja,Actualizar glucosa,0
+322,59.5,Alta,Derivar a especialista,4
+323,15.5,Baja,Actualizar glucosa,0
+324,20.4,Baja,Revisar/ajustar tratamiento,0
+325,7.2,Baja,Actualizar glucosa,1
+326,23.5,Baja,Revisar/ajustar tratamiento,0
+327,33.3,Media,Reforzar adherencia al tratamiento,1
+328,77.3,Crítica,Derivar a especialista,7
+329,18.3,Baja,Programar consulta,0
+330,15.6,Baja,Programar consulta,0
+331,10.3,Baja,Actualizar glucosa,1
+332,63.1,Alta,Derivar a especialista,7
+333,73.6,Alta,Derivar a especialista,7
+334,72.1,Alta,Revisar/ajustar tratamiento,7
+335,32.8,Media,Derivar a especialista,0
+336,30.5,Media,Reforzar adherencia al tratamiento,1
+337,6.7,Baja,Actualizar glucosa,1
+338,36.3,Media,Programar consulta,4
+339,15.7,Baja,Actualizar glucosa,1
+340,12.8,Baja,Programar consulta,0
+341,48.0,Media,Revisar/ajustar tratamiento,0
+342,70.3,Alta,Derivar a especialista,5
+343,66.2,Alta,Derivar a especialista,5
+344,16.7,Baja,Programar consulta,0
+345,41.2,Media,Derivar a especialista,2
+346,68.7,Alta,Derivar a especialista,3
+347,6.0,Baja,Actualizar glucosa,0
+348,69.6,Alta,Revisar/ajustar tratamiento,7
+349,73.6,Alta,Derivar a especialista,7
+350,71.9,Alta,Revisar/ajustar tratamiento,8
+351,52.4,Alta,Derivar a especialista,3
+352,57.6,Alta,Revisar/ajustar tratamiento,4
+353,67.5,Alta,Derivar a especialista,5
+354,69.2,Alta,Derivar a especialista,6
+355,23.3,Baja,Actualizar glucosa,0
+356,22.8,Baja,Programar consulta,0
+357,37.3,Media,Derivar a especialista,2
+358,62.9,Alta,Derivar a especialista,6
+359,5.6,Baja,Actualizar glucosa,0
+360,69.6,Alta,Derivar a especialista,6
+361,23.4,Baja,Actualizar glucosa,0
+362,76.2,Crítica,Derivar a especialista,9
+363,65.1,Alta,Derivar a especialista,6
+364,17.6,Baja,Revisar/ajustar tratamiento,0
+365,24.4,Baja,Actualizar glucosa,0
+366,40.8,Media,Revisar/ajustar tratamiento,1
+367,52.7,Alta,Derivar a especialista,5
+368,26.5,Media,Revisar/ajustar tratamiento,0
+369,70.4,Alta,Derivar a especialista,5
+370,19.6,Baja,Actualizar glucosa,0
+371,77.6,Crítica,Derivar a especialista,6
+372,77.0,Crítica,Derivar a especialista,8
+373,68.9,Alta,Derivar a especialista,8
+374,63.6,Alta,Revisar/ajustar tratamiento,5
+375,69.3,Alta,Revisar/ajustar tratamiento,6
+376,32.1,Media,Derivar a especialista,1
+377,68.8,Alta,Derivar a especialista,6
+378,64.7,Alta,Derivar a especialista,7
+379,79.9,Crítica,Derivar a especialista,8
+380,68.6,Alta,Revisar/ajustar tratamiento,8
+381,57.7,Alta,Derivar a especialista,8
+382,69.1,Alta,Derivar a especialista,4
+383,13.3,Baja,Programar consulta,0
+384,84.6,Crítica,Derivar a especialista,7
+385,23.0,Baja,Actualizar glucosa,0
+386,70.4,Alta,Derivar a especialista,6
+387,78.4,Crítica,Derivar a especialista,7
+388,39.9,Media,Derivar a especialista,4
+389,63.6,Alta,Derivar a especialista,5
+390,20.8,Baja,Actualizar glucosa,0
+391,23.5,Baja,Programar consulta,0
+392,17.7,Baja,Actualizar glucosa,0
+393,17.1,Baja,Programar consulta,0
+394,68.6,Alta,Revisar/ajustar tratamiento,7
+395,33.7,Media,Derivar a especialista,0
+396,14.1,Baja,Programar consulta,0
+397,72.0,Alta,Revisar/ajustar tratamiento,8
+398,38.4,Media,Revisar/ajustar tratamiento,1
+399,76.2,Crítica,Derivar a especialista,9
+400,38.7,Media,Derivar a especialista,0
