@@ -5,6 +5,8 @@ const fs = require("fs")
 const baseUrl = process.env.PREDIA_BASE_URL || "http://127.0.0.1:3002"
 const cdpUrl = process.env.PREDIA_CDP_URL || "http://127.0.0.1:9222"
 const shotsDir = process.env.PREDIA_SCREENSHOTS_DIR || "/tmp/predia-shots"
+const qaUsername = process.env.PREDIA_QA_USERNAME || "admin_luis"
+const qaPassword = process.env.PREDIA_QA_PASSWORD || "password123"
 fs.mkdirSync(shotsDir, { recursive: true })
 
 async function openTab(url) {
@@ -21,8 +23,9 @@ function createClient(wsUrl) {
   ws.addEventListener("message", (ev) => {
     const msg = JSON.parse(ev.data)
     if (msg.id && pending.has(msg.id)) {
-      const { resolve, reject } = pending.get(msg.id)
+      const { resolve, reject, timeout } = pending.get(msg.id)
       pending.delete(msg.id)
+      clearTimeout(timeout)
       if (msg.error) reject(new Error(`${msg.error.message}: ${msg.error.data || ""}`))
       else resolve(msg.result)
       return
@@ -38,10 +41,10 @@ function createClient(wsUrl) {
     const msgId = ++id
     ws.send(JSON.stringify({ id: msgId, method, params }))
     return new Promise((resolve, reject) => {
-      pending.set(msgId, { resolve, reject })
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         if (pending.has(msgId)) { pending.delete(msgId); reject(new Error(`Timeout CDP: ${method}`)) }
       }, 60000)
+      pending.set(msgId, { resolve, reject, timeout })
     })
   }
   async function evaluate(expression, awaitPromise = true) {
@@ -134,8 +137,8 @@ if (require.main === module) {
 
     // Login
     await go("/login", "01-login")
-    await fill(client, "#username", "admin_luis")
-    await fill(client, "#password", "password123")
+    await fill(client, "#username", qaUsername)
+    await fill(client, "#password", qaPassword)
     await client.evaluate(`document.querySelector('form')?.requestSubmit()`)
     const logged = await waitFor(client, "location.pathname === '/dashboard'", 30000)
 

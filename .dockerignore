@@ -44,13 +44,13 @@ server.log
 # IDE / OS
 .vscode
 .idea
+.claude
 *.swp
 *.swo
 .DS_Store
 Thumbs.db
 
 # Archivos innecesarios para el build
-apps/mobile/
 n8n-workflow-*.json
 Dataset*.csv
 diabetes_dataset.csv

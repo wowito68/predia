@@ -116,7 +116,7 @@ export function LoginScreen() {
             {(['PACIENTE', 'MEDICO'] as Role[]).map((item) => {
               const active = role === item
               return (
-                <Pressable key={item} style={[s.roleBtn, active && s.roleBtnActive]} onPress={() => setRole(item)}>
+                <Pressable accessibilityRole="button" accessibilityState={{ selected: active }} key={item} style={[s.roleBtn, active && s.roleBtnActive]} onPress={() => setRole(item)}>
                   <Ionicons name={item === 'PACIENTE' ? 'person-outline' : 'medkit-outline'} size={16} color={active ? colors.textPrimary : colors.textSecondary} />
                   <Text style={[s.roleTxt, active && s.roleTxtActive]}>{item === 'PACIENTE' ? 'Paciente' : 'Personal clínico'}</Text>
                 </Pressable>
@@ -161,11 +161,11 @@ export function LoginScreen() {
             </>
           )}
 
-          <Pressable style={({ pressed }) => [s.primaryBtn, (pressed || loading) && s.pressed]} onPress={handleLogin} disabled={loading}>
+          <Pressable accessibilityRole="button" style={({ pressed }) => [s.primaryBtn, (pressed || loading) && s.pressed]} onPress={handleLogin} disabled={loading}>
             {loading ? <ActivityIndicator color={colors.surface} /> : <Text style={s.primaryText}>Ingresar</Text>}
           </Pressable>
 
-          <Pressable onPress={handleBiometric} style={s.biometricRow}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Usar biometría" onPress={handleBiometric} style={s.biometricRow}>
             <Ionicons name="finger-print" size={16} color={colors.textMuted} />
             <Text style={s.biometricText}>Usar biometria</Text>
           </Pressable>
@@ -221,7 +221,7 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   heroCopy: { ...typography.body, color: colors.textSecondary, marginTop: spacing.sm, maxWidth: 330 },
   panel: { backgroundColor: colors.surface, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, padding: spacing.md },
   roleRow: { flexDirection: 'row', backgroundColor: colors.surfaceMuted, borderRadius: radius.sm, padding: 4, marginBottom: spacing.lg },
-  roleBtn: { flex: 1, minHeight: 42, borderRadius: radius.sm, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  roleBtn: { flex: 1, minHeight: 44, borderRadius: radius.sm, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
   roleBtnActive: { backgroundColor: colors.surface, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong },
   roleTxt: { ...typography.caption, color: colors.textSecondary },
   roleTxtActive: { color: colors.textPrimary },
@@ -242,7 +242,7 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   primaryBtn: { minHeight: 50, backgroundColor: colors.primary, borderRadius: radius.sm, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 8, marginTop: spacing.xs },
   primaryText: { ...typography.bodyMedium, color: colors.surface },
   pressed: { opacity: 0.76 },
-  biometricRow: { alignSelf: 'center', flexDirection: 'row', alignItems: 'center', gap: 6, marginVertical: spacing.md },
+  biometricRow: { minHeight: 44, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginVertical: spacing.sm, paddingHorizontal: spacing.sm },
   biometricText: { ...typography.caption, color: colors.textMuted },
   help: { ...typography.overline, color: colors.textMuted, textAlign: 'center' },
   lockedRoot: { flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: spacing.xxl },

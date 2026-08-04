@@ -45,12 +45,12 @@ export function CamaraClinicaScreen() {
     }
   }
 
-  if (!permission) return <View style={s.root}><Header title="Cámara Clínica" /></View>
+  if (!permission) return <View style={s.root}><Header title="Cámara Clínica" showBack /></View>
 
   if (!permission.granted) {
     return (
       <View style={s.root}>
-        <Header title="Cámara Clínica" />
+        <Header title="Cámara Clínica" showBack />
         <View style={s.center}>
           <Text style={s.permText}>Se necesita acceso a la cámara para fotos clínicas.</Text>
           <TouchableOpacity style={s.permBtn} onPress={requestPermission}>
@@ -63,6 +63,7 @@ export function CamaraClinicaScreen() {
 
   return (
     <View style={s.cameraRoot}>
+      <Header title="Cámara Clínica" subtitle={nombre || undefined} showBack />
       <CameraView ref={cameraRef} style={s.camera} facing="back">
         <View style={s.overlay}>
           <View style={s.frame} />

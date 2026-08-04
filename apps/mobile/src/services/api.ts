@@ -257,6 +257,11 @@ export const api = {
     prediccion: (id: number) => request<PrediccionResponse>(`/pacientes/${id}/prediccion`),
     recetas: (id: number) => request<RecetaResumen[]>(`/pacientes/${id}/recetas`),
     citas: (id: number) => request<CitaResumen[]>(`/pacientes/${id}/citas`),
+    cancelarCita: (idPaciente: number, idCita: number) =>
+      request<{ id_cita: number; estado: string }>(`/pacientes/${idPaciente}/citas/${idCita}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ action: 'CANCELAR' }),
+      }),
     expediente: (id: number) => request<ExpedienteResumen>(`/pacientes/${id}/expediente`),
 
     automonitoreo: (id: number, tipo?: AutomonitoreoRegistro['tipo'], dias = 90) =>

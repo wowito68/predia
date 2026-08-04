@@ -29,9 +29,16 @@ const prisma = new PrismaClient()
 // ============================================
 
 const SALT_ROUNDS = 10
-const DEFAULT_PASSWORD = "password123"
-const DEFAULT_PATIENT_PIN = "123456"
+const DEFAULT_PASSWORD = process.env.DEMO_USER_PASSWORD || "password123"
+const DEFAULT_PATIENT_PIN = process.env.DEMO_PATIENT_PIN || "123456"
 const DEFAULT_MODEL_VERSION = "v2.0-screening-logreg"
+
+if (
+  process.env.NODE_ENV === "production" &&
+  (DEFAULT_PASSWORD === "password123" || DEFAULT_PATIENT_PIN === "123456")
+) {
+  throw new Error("DEMO_USER_PASSWORD y DEMO_PATIENT_PIN seguros son obligatorios al sembrar en produccion")
+}
 
 // Etiqueta visible para marcar datos como ficticios donde aplique.
 const DEMO_TAG = "[DEMO]"

@@ -20,7 +20,7 @@ concurrency:
 
 env:
   CI: "true"
-  NODE_VERSION: "20"
+  NODE_VERSION: "22"
   PNPM_VERSION: "10.23.0"
   NEXT_TELEMETRY_DISABLED: "1"
   NODE_ENV: test
@@ -292,17 +292,32 @@ jobs:
           NEXT_PUBLIC_API_URL=http://localhost:3000/api
           EOF
           cat > .env.production <<'EOF'
-          DATABASE_URL=mysql://predia_ci:predia_ci_password@db:3306/predia_ci
-          MYSQL_ROOT_PASSWORD=root
+          NODE_ENV=production
+          PREDIA_DOMAIN=predia-ci.example.com
+          APP_URL=https://predia-ci.example.com
+          NEXT_PUBLIC_API_URL=https://predia-ci.example.com/api
+          EXPO_PUBLIC_API_URL=https://predia-ci.example.com/api
+          DATABASE_URL=mysql://predia_ci:Ci-App-Password-Only-2026@db:3306/predia_ci
+          MYSQL_ROOT_PASSWORD=Ci-Root-Password-Only-2026
           MYSQL_DATABASE=predia_ci
           MYSQL_USER=predia_ci
-          MYSQL_PASSWORD=predia_ci_password
+          MYSQL_PASSWORD=Ci-App-Password-Only-2026
           JWT_SECRET=predia_ci_jwt_secret_32_bytes_min
           JWT_EXPIRES_IN=15m
+          JWT_REFRESH_EXPIRES_IN=7d
+          JWT_ISSUER=predia-ci
+          JWT_AUDIENCE=predia-ci-clients
           PREDIA_ENCRYPTION_KEY=cHJlZGlhLWNpLWVuY3J5cHRpb24ta2V5LTMyLWJ5ISE=
-          NEXT_PUBLIC_API_URL=http://localhost:3000/api
-          GRAFANA_ADMIN_PASSWORD=predia-ci-grafana-password
+          ALLOWED_ORIGINS=https://predia-ci.example.com
+          SECURE_COOKIES=true
+          COOKIE_DOMAIN=predia-ci.example.com
+          LETSENCRYPT_EMAIL=ci@example.com
+          SEED_DEMO_DATA=false
+          GRAFANA_ADMIN_PASSWORD=Ci-Grafana-Password-Only-2026
           EOF
+
+      - name: Validate production environment contract
+        run: node scripts/validate-production-env.mjs .env.production
 
       - name: Validate compose files
         run: |
@@ -317,6 +332,21 @@ jobs:
           push: false
           load: true
           tags: predia-web:${{ github.sha }}
+          build-args: |
+            NEXT_PUBLIC_API_URL=https://predia-ci.example.com/api
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build mobile production Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.mobile-web
+          push: false
+          load: true
+          tags: predia-mobile-web:${{ github.sha }}
+          build-args: |
+            EXPO_PUBLIC_API_URL=https://predia-ci.example.com/api
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -343,6 +373,27 @@ jobs:
             if ! docker inspect -f '{{.State.Running}}' "$container_name" 2>/dev/null | grep -q true; then
               docker logs "$container_name"
               exit 1
+            fi
+            sleep 2
+          done
+
+          docker logs "$container_name"
+          exit 1
+
+      - name: Smoke test mobile production container
+        run: |
+          container_name="predia-mobile-smoke-${GITHUB_RUN_ID}"
+          trap 'docker stop "$container_name" >/dev/null 2>&1 || true' EXIT
+
+          docker run -d --rm \
+            --name "$container_name" \
+            -p 127.0.0.1:8080:8080 \
+            predia-mobile-web:${{ github.sha }}
+
+          for _attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/healthz >/dev/null && \
+               curl -fsS http://127.0.0.1:8080/ >/dev/null; then
+              exit 0
             fi
             sleep 2
           done
@@ -426,29 +477,4 @@ jobs:
               exit 1
             fi
 
-            set -a
-            . ./.env.production
-            set +a
-
-            $DOCKER compose -f docker-compose.production.yml --profile tools config >/dev/null
-            if [ ! -f /etc/letsencrypt/live/predia/fullchain.pem ] || [ ! -f /etc/letsencrypt/live/predia/privkey.pem ]; then
-              echo "Faltan certificados TLS en /etc/letsencrypt/live/predia/." >&2
-              echo "Emite el certificado real o crea un symlink live/predia hacia el nombre del dominio antes de desplegar." >&2
-              exit 1
-            fi
-
-            $DOCKER compose -f docker-compose.production.yml up -d db
-            $DOCKER compose -f docker-compose.production.yml --profile tools run --rm predia-migrator
-            $DOCKER compose -f docker-compose.production.yml up -d --build
-            $DOCKER compose -f docker-compose.production.yml ps
-
-            for i in $(seq 1 30); do
-              if curl -fkSs https://127.0.0.1/api/ready >/dev/null 2>&1; then
-                echo "PREDIA production readiness OK"
-                exit 0
-              fi
-              sleep 5
-            done
-
-            echo "Readiness de produccion no respondio a tiempo." >&2
-            exit 1
+            PREDIA_ENV_FILE="$PWD/.env.production" bash deploy-ec2.sh

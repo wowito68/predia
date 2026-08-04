@@ -3,8 +3,8 @@
 import { NextResponse, NextRequest } from "next/server"
 import { z } from "zod"
 import { authenticatePaciente, issueRefreshToken } from "@/lib/auth"
-import { checkRateLimit, getClientIp } from "@/lib/rate-limit"
-import { serialize } from "cookie"
+import { checkRateLimit, getClientIp, resetRateLimit } from "@/lib/rate-limit"
+import { serialize } from "@/lib/cookies"
 import { recordAuthAttempt } from "@/lib/metrics"
 
 const loginPacienteSchema = z.object({
@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
       recordAuthAttempt("paciente", false)
       return NextResponse.json({ success: false, error: result.message || "Autenticación fallida" }, { status: 401 })
     }
+    resetRateLimit(clientIp)
     recordAuthAttempt("paciente", true)
 
     const refreshToken = await issueRefreshToken(

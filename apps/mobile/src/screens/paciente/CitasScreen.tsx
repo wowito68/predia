@@ -1,10 +1,12 @@
-import { ScrollView, View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native'
-import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { ActivityIndicator, ScrollView, View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '@/store/authStore'
 import { api } from '@/services/api'
 import { Header } from '@/components/Header'
 import { Card } from '@/components/Card'
 import { QueryState } from '@/components/QueryState'
+import { FeedbackBanner, Ionicons } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useThemedStyles } from '@/theme/context'
 
@@ -16,6 +18,8 @@ const fmtTime = (iso: string) =>
 export function CitasScreen() {
   const s = useThemedStyles(makeStyles)
   const id = useAuthStore((st) => st.user?.id_paciente)
+  const queryClient = useQueryClient()
+  const [feedback, setFeedback] = useState<string | null>(null)
   const q = useQuery({
     queryKey: ['citas', id],
     queryFn: () => api.paciente.citas(id!),
@@ -24,10 +28,34 @@ export function CitasScreen() {
 
   const citas = q.data ?? []
   const [proxima, ...resto] = citas
+  const cancelar = useMutation({
+    mutationFn: (idCita: number) => api.paciente.cancelarCita(id!, idCita),
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['citas', id] }),
+        queryClient.invalidateQueries({ queryKey: ['dashboard', id] }),
+      ])
+      setFeedback('La cita se canceló y la agenda clínica ya fue actualizada.')
+    },
+    onError: (error) => {
+      Alert.alert('No se pudo cancelar', error instanceof Error ? error.message : 'Intenta nuevamente en unos momentos.')
+    },
+  })
+
+  const confirmarCancelacion = (idCita: number) => {
+    Alert.alert(
+      'Cancelar cita',
+      'Esta acción libera el horario en la agenda clínica. ¿Deseas continuar?',
+      [
+        { text: 'Conservar cita', style: 'cancel' },
+        { text: 'Cancelar cita', style: 'destructive', onPress: () => cancelar.mutate(idCita) },
+      ],
+    )
+  }
 
   return (
     <View style={s.root}>
-      <Header title="Mis Citas" showBack />
+      <Header title="Mis citas" showBack />
       <QueryState
         isLoading={q.isLoading}
         isError={q.isError}
@@ -37,19 +65,33 @@ export function CitasScreen() {
         onRetry={q.refetch}
       >
         <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+          {feedback ? (
+            <FeedbackBanner
+              title="Agenda actualizada"
+              subtitle={feedback}
+              tone="success"
+              style={s.feedback}
+            />
+          ) : null}
           {proxima && (
             <View style={s.proximaCard}>
               <Text style={s.proximaTag}>Próxima cita</Text>
               <Text style={s.proximaFecha}>{fmtLong(proxima.fecha)}</Text>
               <Text style={s.proximaInfo}>{fmtTime(proxima.fecha)} · {proxima.medico} · {proxima.motivo}</Text>
-              <View style={s.btnRow}>
-                <TouchableOpacity style={s.btnConfirmar} onPress={() => Alert.alert('Confirmado', 'Asistencia confirmada.')}>
-                  <Text style={s.btnConfirmarText}>Confirmar asistencia</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={s.btnCancelar} onPress={() => Alert.alert('Cancelar', '¿Seguro que quieres cancelar?')}>
-                  <Text style={s.btnCancelarText}>Cancelar</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                accessibilityRole="button"
+                accessibilityLabel="Cancelar próxima cita"
+                style={[s.btnCancelar, cancelar.isPending && s.btnDisabled]}
+                disabled={cancelar.isPending}
+                onPress={() => confirmarCancelacion(proxima.id_cita)}
+              >
+                {cancelar.isPending ? (
+                  <ActivityIndicator size="small" color={s.btnCancelarText.color} />
+                ) : (
+                  <Ionicons name="calendar-x" size={17} color={s.btnCancelarText.color} />
+                )}
+                <Text style={s.btnCancelarText}>{cancelar.isPending ? 'Cancelando…' : 'Cancelar cita'}</Text>
+              </TouchableOpacity>
             </View>
           )}
 
@@ -57,7 +99,7 @@ export function CitasScreen() {
             <>
               <Text style={s.sectionTitle}>Próximas citas</Text>
               {resto.map((c) => (
-                <Card key={c.id_consulta} style={s.histItem}>
+                <Card key={c.id_cita} style={s.histItem}>
                   <View style={{ flex: 1 }}>
                     <Text style={s.histFecha}>{fmtLong(c.fecha)}</Text>
                     <Text style={s.histDoc}>{c.medico} · {c.motivo}</Text>
@@ -84,15 +126,14 @@ export function CitasScreen() {
 const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
   content: { padding: spacing.md, paddingBottom: 32 },
+  feedback: { marginBottom: spacing.md },
   proximaCard: { backgroundColor: colors.infoBg, borderRadius: radius.md, padding: spacing.lg, marginBottom: spacing.md, borderWidth: 1, borderColor: colors.border },
   proximaTag: { ...typography.overline, color: colors.primary, marginBottom: 4 },
   proximaFecha: { ...typography.title, color: colors.textPrimary, textTransform: 'capitalize' },
   proximaInfo: { ...typography.caption, color: colors.textSecondary, marginTop: 4, marginBottom: 16 },
-  btnRow: { flexDirection: 'row', gap: 12 },
-  btnConfirmar: { backgroundColor: colors.primary, borderRadius: radius.md, paddingHorizontal: 16, paddingVertical: 10 },
-  btnConfirmarText: { ...typography.caption, color: colors.surface },
-  btnCancelar: { borderRadius: radius.md, paddingHorizontal: 16, paddingVertical: 10 },
-  btnCancelarText: { ...typography.caption, color: colors.error },
+  btnCancelar: { alignSelf: 'flex-start', minHeight: 44, borderRadius: radius.md, paddingHorizontal: 14, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.errorText },
+  btnCancelarText: { ...typography.caption, color: colors.errorText },
+  btnDisabled: { opacity: 0.6 },
   sectionTitle: { ...typography.bodyMedium, color: colors.textPrimary, marginBottom: spacing.sm },
   histItem: { flexDirection: 'row', alignItems: 'center' },
   histFecha: { ...typography.caption, color: colors.textPrimary, textTransform: 'capitalize' },

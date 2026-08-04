@@ -58,16 +58,18 @@ export function ExpedienteScreen() {
 
   return (
     <View style={s.root}>
-      <Header title="Mi Expediente Clínico" showBack />
+      <Header title="Mi expediente" subtitle="Historia clínica personal" showBack />
       <QueryState isLoading={q.isLoading} isError={q.isError} error={q.error} onRetry={q.refetch}>
         <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.tabsWrap} contentContainerStyle={s.tabs}>
+          <View style={s.tabsWrap}>
+            <View style={s.tabs}>
             {TABS.map((t) => (
-              <TouchableOpacity key={t} onPress={() => setTab(t)} style={[s.tab, tab === t && s.tabActive]}>
+              <TouchableOpacity accessibilityRole="button" accessibilityState={{ selected: tab === t }} key={t} onPress={() => setTab(t)} style={[s.tab, tab === t && s.tabActive]}>
                 <Text style={[s.tabText, tab === t && s.tabTextActive]}>{t}</Text>
               </TouchableOpacity>
             ))}
-          </ScrollView>
+            </View>
+          </View>
 
           <View style={s.content}>
             <View style={s.patientCard}>
@@ -100,9 +102,9 @@ export function ExpedienteScreen() {
 
 const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  tabsWrap: { backgroundColor: colors.background },
-  tabs: { paddingHorizontal: spacing.md, paddingVertical: 10, gap: 8 },
-  tab: { paddingHorizontal: 14, paddingVertical: 8, borderRadius: radius.full, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
+  tabsWrap: { backgroundColor: colors.background, paddingHorizontal: spacing.md, paddingVertical: 10 },
+  tabs: { flexDirection: 'row', gap: 4 },
+  tab: { flex: 1, minHeight: 44, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
   tabActive: { backgroundColor: colors.primary },
   tabText: { ...typography.caption, color: colors.textSecondary },
   tabTextActive: { color: colors.surface },

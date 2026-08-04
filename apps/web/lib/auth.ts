@@ -37,6 +37,17 @@ export interface JWTPayload {
   nombre_completo: string
 }
 
+function isStaffTokenPayload(payload: unknown): payload is JWTPayload {
+  if (!payload || typeof payload !== "object") return false
+  const value = payload as Partial<JWTPayload> & { tipo?: unknown }
+  return value.tipo !== "paciente"
+    && Number.isInteger(value.id_usuario)
+    && typeof value.username === "string"
+    && value.username.length > 0
+    && typeof value.rol === "string"
+    && value.rol.length > 0
+}
+
 export interface AuthResult {
   success: boolean
   user?: JWTPayload
@@ -103,10 +114,11 @@ export function generateToken(payload: JWTPayload): string {
 // Verificar JWT
 export function verifyToken(token: string): JWTPayload | null {
   try {
-    return jwt.verify(token, JWT_SECRET as string, {
+    const payload = jwt.verify(token, JWT_SECRET as string, {
       issuer: JWT_ISSUER,
       audience: JWT_AUDIENCE,
-    }) as JWTPayload
+    })
+    return isStaffTokenPayload(payload) ? payload : null
   } catch (error) {
     console.error("Token verification failed:", error)
     return null

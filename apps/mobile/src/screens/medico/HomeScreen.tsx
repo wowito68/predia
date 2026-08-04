@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Pressable, useWindowDimensions } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import { api, type ClinicalAlert, type PacienteListItem } from '@/services/api'
@@ -34,6 +34,7 @@ export function HomeScreen() {
   const { colors } = useTheme()
   const s = useThemedStyles(makeStyles)
   const user = useAuthStore((state) => state.user)
+  const compact = useWindowDimensions().width < 360
   const isNurse = user?.rol === 'ENFERMERO'
   const firstName = (user?.nombre ?? 'Profesional').split(' ')[0]
 
@@ -67,7 +68,7 @@ export function HomeScreen() {
     <View style={s.root}>
       <ScreenHeader
         eyebrow={isNurse ? 'Puesto de enfermería' : 'Centro de control clínico'}
-        title={`${greeting()}, ${firstName}`}
+        title={compact ? `Hola, ${firstName}` : `${greeting()}, ${firstName}`}
         subtitle={new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })}
       />
       <Screen scroll padded refreshing={agendaQ.isFetching || alertsQ.isFetching} onRefresh={refetchAll}>
@@ -106,7 +107,7 @@ export function HomeScreen() {
         <View style={s.shortcuts}>
           <Shortcut icon="search" label="Buscar" color={colors.accent} onPress={() => nav.navigate('Pacientes')} />
           <Shortcut icon="calendar" label="Agenda" color={colors.info} onPress={() => nav.navigate('Agenda')} />
-          {!isNurse ? <Shortcut icon="activity" label="Validar IA" color={colors.indigo} onPress={() => nav.navigate('Alertas')} /> : null}
+          {!isNurse ? <Shortcut icon="activity" label="Validar IA" color={colors.indigo} onPress={() => nav.navigate('ValidacionIA')} /> : null}
           <Shortcut icon="alert-triangle" label="Alertas" color={colors.coral} onPress={() => nav.navigate('Alertas')} />
         </View>
 

@@ -62,7 +62,7 @@ export function DashboardScreen() {
         title={`Hola, ${user?.nombre?.split(' ')[0] ?? ''}`}
         subtitle={new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })}
         right={
-          <TouchableOpacity onPress={confirmLogout} activeOpacity={0.75} style={s.logoutBtn} hitSlop={8}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Cerrar sesión" onPress={confirmLogout} activeOpacity={0.75} style={s.logoutBtn}>
             <Ionicons name="log-out-outline" size={22} color={colors.error} />
           </TouchableOpacity>
         }
@@ -236,6 +236,6 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   exploreAction: { flex: 1, minHeight: 92, alignItems: 'center', justifyContent: 'center', gap: spacing.xs, backgroundColor: colors.surface, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border },
   exploreIcon: { width: 40, height: 40, borderRadius: radius.full, alignItems: 'center', justifyContent: 'center' },
   exploreTitle: { ...typography.overline, color: colors.textSecondary },
-  logoutBtn: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.errorBg },
+  logoutBtn: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.errorBg },
   pressed: { opacity: 0.72 },
 })

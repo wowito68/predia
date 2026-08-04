@@ -9,6 +9,7 @@ import { PerfilScreen } from '../screens/medico/PerfilScreen'
 import { PacienteDetalleScreen } from '../screens/medico/PacienteDetalleScreen'
 import { SignosVitalesScreen } from '../screens/medico/SignosVitalesScreen'
 import { HistorialClinicoScreen } from '../screens/medico/HistorialClinicoScreen'
+import { CamaraClinicaScreen } from '../screens/medico/CamaraClinicaScreen'
 import { useColors } from '../theme/context'
 import { View } from 'react-native'
 
@@ -59,6 +60,7 @@ export function EnfermeroNavigator() {
       <Stack.Screen name="PacienteDetalle" component={PacienteDetalleScreen} />
       <Stack.Screen name="SignosVitales" component={SignosVitalesScreen} />
       <Stack.Screen name="HistorialClinico" component={HistorialClinicoScreen} />
+      <Stack.Screen name="CamaraClinica" component={CamaraClinicaScreen} />
     </Stack.Navigator>
   )
 }

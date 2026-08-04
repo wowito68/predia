@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { serialize } from "cookie"
+import { serialize } from "@/lib/cookies"
 import { refreshSession } from "@/lib/auth"
 import { getClientIp } from "@/lib/rate-limit"
 
@@ -60,4 +60,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: "Error interno" }, { status: 500 })
   }
 }
-

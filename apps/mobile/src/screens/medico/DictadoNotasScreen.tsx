@@ -5,7 +5,7 @@ import { useRoute, useNavigation } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/services/api'
 import { Screen, ScreenHeader } from '@/components/Screen'
-import { FeedbackBanner, PremiumCard, PrimaryButton } from '@/components/ui'
+import { FeedbackBanner, Ionicons, PremiumCard, PrimaryButton } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
@@ -118,8 +118,8 @@ export function DictadoNotasScreen() {
           <FeedbackBanner title="Nota guardada" subtitle="La transcripción se agregó al expediente clínico." tone="success" />
         ) : null}
         <View style={s.recWrap}>
-          <TouchableOpacity onPress={grabando ? detener : iniciar} style={[s.recCircle, grabando && s.recCircleActive]} disabled={procesando}>
-            <Text style={s.recIcon}>{grabando ? '■' : '●'}</Text>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel={grabando ? 'Detener dictado' : 'Iniciar dictado'} onPress={grabando ? detener : iniciar} style={[s.recCircle, grabando && s.recCircleActive]} disabled={procesando}>
+            <Ionicons name={grabando ? 'square' : 'mic'} size={42} color={colors.error} />
           </TouchableOpacity>
           {grabando && (
             <View style={s.recStatus}>
@@ -137,7 +137,7 @@ export function DictadoNotasScreen() {
             <ActivityIndicator color={colors.primary} />
           ) : (
             <Text style={s.transcripcionText}>
-              {texto || (grabando ? 'Escuchando... pulsa ■ para detener y transcribir.' : 'Pulsa ● para comenzar a dictar.')}
+              {texto || (grabando ? 'Escuchando... detén la grabación para transcribir.' : 'Pulsa el micrófono para comenzar a dictar.')}
             </Text>
           )}
         </PremiumCard>
@@ -159,7 +159,6 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   recWrap: { alignItems: 'center', marginBottom: 24, marginTop: 16 },
   recCircle: { width: 120, height: 120, borderRadius: 60, backgroundColor: colors.errorBg, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: colors.errorBg },
   recCircleActive: { borderColor: colors.error, backgroundColor: colors.errorBg },
-  recIcon: { fontSize: 40, color: colors.error },
   recStatus: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12 },
   redDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.error },
   recStatusText: { ...typography.caption, color: colors.error },

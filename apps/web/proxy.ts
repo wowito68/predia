@@ -1,17 +1,20 @@
-// middleware.ts
+// proxy.ts
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 // Importar función de verificación JWT
-// Nota: No se puede usar verifyToken directamente en middleware por limitaciones de Next.js
+// Nota: no se puede usar verifyToken directamente aqui por las restricciones del proxy de Next.js.
 // Se usará validación básica
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const origin = request.headers.get("origin")
   const corsHeaders = getCorsHeaders(origin)
 
   if (pathname.startsWith("/api") && request.method === "OPTIONS") {
+    if (origin && !corsHeaders["Access-Control-Allow-Origin"]) {
+      return NextResponse.json({ error: "Origen no permitido" }, { status: 403 })
+    }
     return new NextResponse(null, { status: 204, headers: corsHeaders })
   }
 
@@ -19,7 +22,7 @@ export function middleware(request: NextRequest) {
     response.headers.set("X-Content-Type-Options", "nosniff")
     response.headers.set("X-Frame-Options", "DENY")
     response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
-    response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    response.headers.set("Permissions-Policy", "camera=(self), microphone=(self), geolocation=()")
     response.headers.set("X-PREDIA-Instance", process.env.PREDIA_INSTANCE_ID || process.env.HOSTNAME || "local-dev")
     if (pathname.startsWith("/api")) {
       Object.entries(corsHeaders).forEach(([key, value]) => response.headers.set(key, value))
@@ -47,7 +50,7 @@ export function middleware(request: NextRequest) {
 
   // Para rutas protegidas de frontend
   if (!pathname.startsWith("/api")) {
-    const token = request.cookies.get("auth-token")?.value || request.headers.get("x-token") // localStorage is not available in middleware
+    const token = request.cookies.get("auth-token")?.value || request.headers.get("x-token") // localStorage no esta disponible en el proxy.
 
     if (!token && !publicRoutes.includes(pathname)) {
       return NextResponse.redirect(new URL("/login", request.url))
@@ -81,15 +84,16 @@ function getCorsHeaders(origin: string | null) {
     .map((item) => item.trim())
     .filter(Boolean)
   const localOrigin = origin && /^(http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?)$/.test(origin)
-  const allowedOrigin = origin && (configured.includes(origin) || localOrigin) ? origin : "http://localhost:8082"
+  const allowedOrigin = origin && (configured.includes(origin) || localOrigin) ? origin : null
 
-  return {
-    "Access-Control-Allow-Origin": allowedOrigin,
+  const headers: Record<string, string> = {
     "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Max-Age": "86400",
     "Vary": "Origin",
   }
+  if (allowedOrigin) headers["Access-Control-Allow-Origin"] = allowedOrigin
+  return headers
 }
 
 export const config = {

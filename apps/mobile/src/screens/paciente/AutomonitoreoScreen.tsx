@@ -5,7 +5,7 @@ import { useAuthStore } from '@/store/authStore'
 import { api } from '@/services/api'
 import type { AutomonitoreoInput, AutomonitoreoRegistro, TipoAutomonitoreo } from '@predia/shared'
 import { Header } from '@/components/Header'
-import { FeedbackBanner } from '@/components/ui'
+import { FeedbackBanner, Ionicons } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
@@ -72,9 +72,10 @@ export function AutomonitoreoScreen() {
 
   return (
     <View style={s.root}>
-      <Header title="Automonitoreo de Salud" showBack />
+      <Header title="Automonitoreo" subtitle="Registra tus indicadores de salud" showBack />
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         {success ? <FeedbackBanner title="Registro guardado" subtitle={success} tone="success" /> : null}
+        {recent.isError ? <FeedbackBanner title="Sin historial reciente" subtitle={(recent.error as Error)?.message ?? 'No se pudieron consultar las mediciones previas.'} tone="warning" /> : null}
         <View style={s.dayCard}>
           <View>
             <Text style={s.dayTitle}>Registro del día</Text>
@@ -83,6 +84,7 @@ export function AutomonitoreoScreen() {
         </View>
 
         {TIPOS.map((m) => {
+          const savingThis = mut.isPending && mut.variables?.tipo === m.tipo
           const last = lastOf(rows, m.tipo)
           const lastTxt = last
             ? m.tipo === 'presion'
@@ -107,8 +109,8 @@ export function AutomonitoreoScreen() {
                   value={values[m.tipo] ?? ''}
                   onChangeText={(v) => setValues((prev) => ({ ...prev, [m.tipo]: v }))}
                 />
-                <TouchableOpacity style={s.regBtn} onPress={() => registrar(m.tipo, m.unidad)} disabled={mut.isPending}>
-                  {mut.isPending ? <ActivityIndicator color={colors.surface} /> : <Text style={s.regBtnText}>+ Registrar</Text>}
+                <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Registrar ${m.label}`} style={s.regBtn} onPress={() => registrar(m.tipo, m.unidad)} disabled={mut.isPending}>
+                  {savingThis ? <ActivityIndicator color={colors.surface} /> : <><Ionicons name="add" size={17} color={colors.surface} /><Text style={s.regBtnText}>Registrar</Text></>}
                 </TouchableOpacity>
               </View>
             </View>
@@ -138,7 +140,7 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   medLabel: { ...typography.bodyMedium, color: colors.textPrimary },
   medUltimo: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
   inputRow: { flexDirection: 'row', gap: 8 },
-  input: { flex: 1, borderRadius: radius.md, backgroundColor: colors.background, color: colors.textPrimary, paddingHorizontal: 14, paddingVertical: 10, ...typography.caption, borderWidth: 1, borderColor: colors.border },
-  regBtn: { backgroundColor: colors.primary, borderRadius: radius.md, paddingHorizontal: 14, paddingVertical: 10, justifyContent: 'center', minWidth: 110, alignItems: 'center' },
+  input: { flex: 1, minWidth: 0, borderRadius: radius.md, backgroundColor: colors.background, color: colors.textPrimary, paddingHorizontal: 14, paddingVertical: 10, ...typography.caption, borderWidth: 1, borderColor: colors.border },
+  regBtn: { backgroundColor: colors.primary, borderRadius: radius.md, paddingHorizontal: 12, minHeight: 44, justifyContent: 'center', minWidth: 108, alignItems: 'center', flexDirection: 'row', gap: 5 },
   regBtnText: { ...typography.caption, color: '#fff' },
 })

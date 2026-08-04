@@ -5,6 +5,13 @@ const WebSocket = require('ws')
 const BASE = process.env.PREDIA_MOBILE_URL || 'http://127.0.0.1:8082'
 const CDP = process.env.PREDIA_CDP_URL || 'http://127.0.0.1:9222'
 const OUT = process.env.PREDIA_MOBILE_OUT || '/tmp/predia-mobile-qa'
+const CLINICAL_USERNAME = process.env.PREDIA_QA_CLINICAL_USERNAME || 'dr_juan'
+const CLINICAL_PASSWORD = process.env.PREDIA_QA_CLINICAL_PASSWORD || 'password123'
+const PATIENT_CURP = process.env.PREDIA_QA_PATIENT_CURP || 'ROGJ850515HMCRRN08'
+const PATIENT_PIN = process.env.PREDIA_QA_PATIENT_PIN || '123456'
+const VIEWPORT_WIDTH = Number(process.env.PREDIA_VIEWPORT_WIDTH || 390)
+const VIEWPORT_HEIGHT = Number(process.env.PREDIA_VIEWPORT_HEIGHT || 844)
+const COLOR_SCHEME = process.env.PREDIA_COLOR_SCHEME
 fs.mkdirSync(OUT, { recursive: true })
 
 async function openTab(url) {
@@ -21,8 +28,9 @@ function client(wsUrl) {
   ws.on('message', (raw) => {
     const msg = JSON.parse(raw.toString())
     if (msg.id && pending.has(msg.id)) {
-      const { resolve, reject } = pending.get(msg.id)
+      const { resolve, reject, timeout } = pending.get(msg.id)
       pending.delete(msg.id)
+      clearTimeout(timeout)
       msg.error ? reject(new Error(msg.error.message)) : resolve(msg.result)
       return
     }
@@ -37,13 +45,13 @@ function client(wsUrl) {
     const msgId = ++id
     ws.send(JSON.stringify({ id: msgId, method, params }))
     return new Promise((resolve, reject) => {
-      pending.set(msgId, { resolve, reject })
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         if (pending.has(msgId)) {
           pending.delete(msgId)
           reject(new Error(`Timeout ${method}`))
         }
       }, 60000)
+      pending.set(msgId, { resolve, reject, timeout })
     })
   }
   async function evalJs(expression) {
@@ -88,11 +96,17 @@ async function fill(c, selector, value) {
 async function clickText(c, text) {
   return c.evalJs(`(() => {
     const needle = ${JSON.stringify(text)}
-    const visible = [...document.querySelectorAll('[role="button"], button, a, div, span')]
-      .filter((el) => el.offsetParent !== null)
+    const visible = [...document.querySelectorAll('[role="button"], button, a, [tabindex="0"], div, span')]
+      .filter((el) => {
+        if (el.offsetParent === null || el.closest('[aria-hidden="true"]')) return false
+        const rect = el.getBoundingClientRect()
+        const style = getComputedStyle(el)
+        return rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth
+          && style.visibility !== 'hidden' && style.pointerEvents !== 'none'
+      })
     const exact = visible.filter((el) => (el.innerText || el.textContent || '').trim() === needle)
     const matches = exact.length ? exact : visible.filter((el) => (el.innerText || el.textContent || '').trim().includes(needle))
-    const all = [...new Set(matches.map((el) => el.closest('[role="button"], button, a') || el))]
+    const all = [...new Set(matches.map((el) => el.closest('[role="button"], button, a, [tabindex="0"]') || el))]
       .sort((a, b) => {
         const ar = a.getBoundingClientRect()
         const br = b.getBoundingClientRect()
@@ -126,6 +140,56 @@ async function clickTab(c, label) {
   if (!point) return false
   await tap(c, point.x, point.y)
   return true
+}
+
+async function listTabs() {
+  const res = await fetch(`${CDP}/json/list`)
+  if (!res.ok) throw new Error(`CDP list tabs failed: ${res.status}`)
+  return res.json()
+}
+
+async function verifyPrintPopup(c, actionLabel, expectedTitle, expectedFragments) {
+  const before = new Set((await listTabs()).map((tab) => tab.id))
+  const clicked = await clickText(c, actionLabel)
+  if (!clicked) throw new Error(`No pude ejecutar ${actionLabel}`)
+
+  const startedAt = Date.now()
+  let target
+  while (Date.now() - startedAt < 15000) {
+    const tabs = await listTabs()
+    target = tabs.find((tab) => tab.type === 'page' && tab.webSocketDebuggerUrl && !before.has(tab.id))
+    if (target) break
+    await wait(250)
+  }
+  if (!target) throw new Error(`${actionLabel} no abrió la vista de impresión`)
+
+  const popup = client(target.webSocketDebuggerUrl)
+  try {
+    await popup.send('Page.enable')
+    await popup.send('Runtime.enable')
+    await waitFor(popup, "document.readyState === 'complete' && document.body", 15000)
+    const document = await popup.evalJs(`(() => ({
+      title: document.title,
+      text: document.body.innerText,
+    }))()`)
+    if (!document.title.includes(expectedTitle)) {
+      throw new Error(`Título inesperado en ${actionLabel}: ${document.title}`)
+    }
+    for (const fragment of expectedFragments) {
+      if (!document.text.includes(fragment)) {
+        throw new Error(`${actionLabel} no contiene: ${fragment}`)
+      }
+    }
+    await popup.evalJs('window.close()').catch(() => undefined)
+    return {
+      action: actionLabel,
+      title: document.title,
+      textLength: document.text.length,
+      validatedFragments: expectedFragments,
+    }
+  } finally {
+    popup.close()
+  }
 }
 
 function extractIssues(events) {
@@ -162,8 +226,44 @@ async function summarize(c, name) {
     name: ${JSON.stringify(name)},
     path: location.pathname,
     text: document.body.innerText.slice(0, 800),
-    buttons: [...document.querySelectorAll('[role="button"], button')].map((el) => (el.innerText || el.textContent || '').trim()).filter(Boolean).slice(0, 30),
+    buttons: [...new Set([...document.querySelectorAll('[role="button"], button, [tabindex="0"]')])].filter((el) => {
+      if (el.offsetParent === null || el.closest('[aria-hidden="true"]')) return false
+      const rect = el.getBoundingClientRect()
+      const style = getComputedStyle(el)
+      return rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth
+        && style.visibility !== 'hidden' && style.pointerEvents !== 'none'
+    }).map((el) => (el.innerText || el.textContent || '').trim()).filter(Boolean).slice(0, 30),
     inputs: [...document.querySelectorAll('input, textarea')].map((el) => el.placeholder || el.type || 'input'),
+    layout: (() => {
+      const visible = [...document.querySelectorAll('*')].filter((el) => {
+        const rect = el.getBoundingClientRect()
+        const style = getComputedStyle(el)
+        return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < innerHeight
+          && rect.right > 0 && rect.left < innerWidth && !el.closest('[aria-hidden="true"]')
+          && style.display !== 'none' && style.visibility !== 'hidden'
+      })
+      const describe = (el) => ({
+        tag: el.tagName.toLowerCase(),
+        role: el.getAttribute('role'),
+        text: (el.innerText || el.textContent || '').trim().replace(/\\s+/g, ' ').slice(0, 80),
+        rect: (() => { const r = el.getBoundingClientRect(); return { left: Math.round(r.left), right: Math.round(r.right), top: Math.round(r.top), width: Math.round(r.width), height: Math.round(r.height) } })(),
+      })
+      const outOfBounds = visible.filter((el) => {
+        const rect = el.getBoundingClientRect()
+        return rect.left < -1 || rect.right > innerWidth + 1
+      }).map(describe).slice(0, 20)
+      const smallTargets = visible.filter((el) => {
+        if (!el.matches('[role="button"], button, a, [tabindex="0"]')) return false
+        const rect = el.getBoundingClientRect()
+        return rect.width < 44 || rect.height < 44
+      }).map(describe).slice(0, 20)
+      return {
+        viewport: { width: innerWidth, height: innerHeight },
+        documentWidth: document.documentElement.scrollWidth,
+        outOfBounds,
+        smallTargets,
+      }
+    })(),
   }))()`)
   summary.screenshot = await shot(c, name)
   return summary
@@ -177,11 +277,14 @@ async function main() {
   await c.send('Network.enable')
   await c.send('Log.enable')
   await c.send('Emulation.setDeviceMetricsOverride', {
-    width: 390,
-    height: 844,
+    width: VIEWPORT_WIDTH,
+    height: VIEWPORT_HEIGHT,
     deviceScaleFactor: 2,
     mobile: true,
   })
+  if (COLOR_SCHEME === 'light' || COLOR_SCHEME === 'dark') {
+    await c.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: COLOR_SCHEME }] })
+  }
 
   await c.send('Page.navigate', { url: BASE })
   await waitFor(c, "document.body")
@@ -189,12 +292,13 @@ async function main() {
   await c.send('Page.navigate', { url: BASE })
   await waitFor(c, "document.body && document.body.innerText.includes('PREDIA')")
   const report = []
+  const documents = []
   report.push(await summarize(c, '01-login'))
 
   await clickText(c, 'Personal clínico')
   await waitFor(c, 'document.querySelector(\'input[placeholder="dr_juan"]\')')
-  await fill(c, 'input[placeholder="dr_juan"]', 'dr_juan')
-  await fill(c, 'input[placeholder="••••••••"]', 'password123')
+  await fill(c, 'input[placeholder="dr_juan"]', CLINICAL_USERNAME)
+  await fill(c, 'input[placeholder="••••••••"]', CLINICAL_PASSWORD)
   await clickText(c, 'Ingresar')
   await waitFor(c, "document.body.innerText.includes('Inicio') || document.body.innerText.includes('Buenos')")
   report.push(await summarize(c, '02-inicio'))
@@ -215,10 +319,13 @@ async function main() {
     report.push(await summarize(c, name))
     if (label === 'Pacientes') {
       await waitFor(c, "document.body.innerText.includes('Juan') || document.body.innerText.includes('Sin resultados') || document.body.innerText.includes('No se pudieron cargar')")
-      await clickText(c, 'Juan')
+      await clickText(c, 'Juan Rodríguez')
       await waitFor(c, "document.body.innerText.includes('Resumen clínico') || document.body.innerText.includes('No se pudo')")
       await waitFor(c, "document.body.innerText.includes('Acciones clínicas') || document.body.innerText.includes('No se pudo')")
       report.push(await summarize(c, '05-paciente-detalle'))
+      if (await c.evalJs("document.body.innerText.includes('Exportar PDF')")) {
+        documents.push(await verifyPrintPopup(c, 'Exportar PDF', 'Resumen clínico', ['PREDIA', 'Juan Rodríguez']))
+      }
       await c.send('Page.navigate', { url: BASE })
       await waitFor(c, "document.body.innerText.includes('Inicio') || document.body.innerText.includes('Buenos')")
     }
@@ -229,8 +336,8 @@ async function main() {
   await waitFor(c, "document.body && document.body.innerText.includes('PREDIA')")
   await clickText(c, 'Paciente')
   await waitFor(c, 'document.querySelector(\'input[placeholder="ROGJ850515HMCRRN08"]\')')
-  await fill(c, 'input[placeholder="ROGJ850515HMCRRN08"]', 'ROGJ850515HMCRRN08')
-  await fill(c, 'input[placeholder="••••••"]', '123456')
+  await fill(c, 'input[placeholder="ROGJ850515HMCRRN08"]', PATIENT_CURP)
+  await fill(c, 'input[placeholder="••••••"]', PATIENT_PIN)
   await clickText(c, 'Ingresar')
   await waitFor(c, "document.body.innerText.includes('Tu panorama clínico') || document.body.innerText.includes('No pudimos cargar tu resumen')", 45000)
   report.push(await summarize(c, '08-paciente-inicio'))
@@ -249,6 +356,9 @@ async function main() {
     }
     if (label === 'Recetas') {
       await waitFor(c, "document.body.innerText.includes('Metformina') || document.body.innerText.includes('No tienes recetas') || document.body.innerText.includes('No se pudo')", 45000)
+      if (await c.evalJs("document.body.innerText.includes('Metformina')")) {
+        documents.push(await verifyPrintPopup(c, 'PDF', 'Receta médica', ['PREDIA', 'Metformina']))
+      }
     }
     if (label === 'Consejos') {
       await waitFor(c, "document.body.innerText.includes('Qué puedes hacer ahora') || document.body.innerText.includes('Sin indicaciones registradas') || document.body.innerText.includes('No se pudieron cargar tus recomendaciones')", 45000)
@@ -257,13 +367,29 @@ async function main() {
   }
 
   const issues = extractIssues(c.events)
-  const result = { baseUrl: BASE, out: OUT, report, issues }
+  const result = { baseUrl: BASE, out: OUT, report, documents, issues }
   fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(result, null, 2))
   console.log(JSON.stringify(result, null, 2))
   c.close()
 }
 
-main().catch((e) => {
-  console.error(e)
-  process.exit(1)
-})
+if (require.main === module) {
+  main().catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+}
+
+module.exports = {
+  openTab,
+  client,
+  wait,
+  waitFor,
+  shot,
+  fill,
+  clickText,
+  clickTab,
+  listTabs,
+  summarize,
+  extractIssues,
+}

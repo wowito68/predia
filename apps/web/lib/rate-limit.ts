@@ -6,6 +6,13 @@ interface RateLimitStore {
 
 const store: RateLimitStore = {}
 
+export function resetRateLimit(identifier: string): void {
+    const prefix = `${identifier}:`
+    for (const key of Object.keys(store)) {
+        if (key.startsWith(prefix)) delete store[key]
+    }
+}
+
 export function checkRateLimit(
     identifier: string,
     limit: number = 60,

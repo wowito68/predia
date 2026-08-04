@@ -6,11 +6,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api, RecetaInput } from '@/services/api'
 import { Badge } from '@/components/Badge'
 import { Screen, ScreenHeader } from '@/components/Screen'
-import { EmptyState, FeedbackBanner, PremiumCard, PrimaryButton } from '@/components/ui'
+import { EmptyState, FeedbackBanner, Ionicons, PremiumCard, PrimaryButton } from '@/components/ui'
 import { spacing, radius, typography, type AppColors } from '@/theme'
 import { useTheme, useThemedStyles } from '@/theme/context'
 
-interface MedRow { nombre: string; dosis: string; frecuencia: string }
+interface MedRow { nombre: string; dosis: string; frecuencia: string; duracion: string }
 
 export function FirmaScreen() {
   const route = useRoute<any>()
@@ -22,7 +22,7 @@ export function FirmaScreen() {
   const nombre: string = route.params?.nombre ?? 'Paciente'
 
   const [meds, setMeds] = useState<MedRow[]>([])
-  const [draft, setDraft] = useState<MedRow>({ nombre: '', dosis: '', frecuencia: '' })
+  const [draft, setDraft] = useState<MedRow>({ nombre: '', dosis: '', frecuencia: '', duracion: '' })
   const [instrucciones, setInstrucciones] = useState('')
   const [saved, setSaved] = useState(false)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -36,7 +36,7 @@ export function FirmaScreen() {
   const addMed = () => {
     if (!draft.nombre.trim()) { Alert.alert('Falta nombre', 'Indica el medicamento.'); return }
     setMeds((m) => [...m, draft])
-    setDraft({ nombre: '', dosis: '', frecuencia: '' })
+    setDraft({ nombre: '', dosis: '', frecuencia: '', duracion: '' })
   }
 
   const emitir = () => {
@@ -91,10 +91,10 @@ export function FirmaScreen() {
             <PremiumCard key={i} style={s.medCard}>
               <View style={{ flex: 1 }}>
                 <Text style={s.medName}>{m.nombre}</Text>
-                <Text style={s.medMeta}>{[m.dosis, m.frecuencia].filter(Boolean).join(' · ')}</Text>
+                <Text style={s.medMeta}>{[m.dosis, m.frecuencia, m.duracion].filter(Boolean).join(' · ')}</Text>
               </View>
-              <TouchableOpacity onPress={() => setMeds((arr) => arr.filter((_, j) => j !== i))}>
-                <Text style={s.remove}>x</Text>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Eliminar ${m.nombre}`} style={s.removeButton} onPress={() => setMeds((arr) => arr.filter((_, j) => j !== i))}>
+                <Ionicons name="trash-2" size={18} color={colors.error} />
               </TouchableOpacity>
             </PremiumCard>
           ))
@@ -103,10 +103,11 @@ export function FirmaScreen() {
         <PremiumCard style={s.draftCard}>
           <TextInput style={s.input} placeholder="Medicamento (ej. Metformina)" placeholderTextColor={colors.textMuted} value={draft.nombre} onChangeText={(v) => setDraft((d) => ({ ...d, nombre: v }))} />
           <View style={s.draftRow}>
-            <TextInput style={[s.input, { flex: 1 }]} placeholder="Dosis (850 mg)" placeholderTextColor={colors.textMuted} value={draft.dosis} onChangeText={(v) => setDraft((d) => ({ ...d, dosis: v }))} />
-            <TextInput style={[s.input, { flex: 1 }]} placeholder="Frecuencia (c/12h)" placeholderTextColor={colors.textMuted} value={draft.frecuencia} onChangeText={(v) => setDraft((d) => ({ ...d, frecuencia: v }))} />
+            <TextInput style={s.input} placeholder="Dosis (850 mg)" placeholderTextColor={colors.textMuted} value={draft.dosis} onChangeText={(v) => setDraft((d) => ({ ...d, dosis: v }))} />
+            <TextInput style={s.input} placeholder="Frecuencia (c/12h)" placeholderTextColor={colors.textMuted} value={draft.frecuencia} onChangeText={(v) => setDraft((d) => ({ ...d, frecuencia: v }))} />
           </View>
-          <TouchableOpacity style={s.addBtn} onPress={addMed}><Text style={s.addBtnText}>+ Agregar medicamento</Text></TouchableOpacity>
+          <TextInput style={s.input} placeholder="Duración (30 días)" placeholderTextColor={colors.textMuted} value={draft.duracion} onChangeText={(v) => setDraft((d) => ({ ...d, duracion: v }))} />
+          <TouchableOpacity accessibilityRole="button" style={s.addBtn} onPress={addMed}><Ionicons name="plus" size={17} color={colors.primary} /><Text style={s.addBtnText}>Agregar medicamento</Text></TouchableOpacity>
         </PremiumCard>
 
         <Text style={s.sectionTitle}>Instrucciones</Text>
@@ -129,11 +130,11 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   medCard: { marginBottom: spacing.xs, flexDirection: 'row', alignItems: 'center' },
   medName: { ...typography.bodyMedium, color: colors.textPrimary },
   medMeta: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
-  remove: { color: colors.error, fontSize: 18, paddingHorizontal: 8 },
+  removeButton: { width: 44, height: 44, borderRadius: radius.full, backgroundColor: colors.errorBg, alignItems: 'center', justifyContent: 'center' },
   draftCard: { marginBottom: spacing.md, gap: 8 },
-  draftRow: { flexDirection: 'row', gap: 8 },
-  input: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, padding: 12, ...typography.body, color: colors.textPrimary, backgroundColor: colors.background },
-  addBtn: { backgroundColor: colors.infoBg, borderRadius: radius.md, padding: 12, alignItems: 'center' },
+  draftRow: { gap: 8 },
+  input: { width: '100%', minWidth: 0, borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, padding: 12, ...typography.body, color: colors.textPrimary, backgroundColor: colors.background },
+  addBtn: { minHeight: 44, backgroundColor: colors.infoBg, borderRadius: radius.md, padding: 12, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 6 },
   addBtnText: { ...typography.caption, color: colors.primary },
   firmaInfo: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.lg, marginBottom: spacing.sm },
   firmaRequerida: { ...typography.overline, color: colors.textMuted },

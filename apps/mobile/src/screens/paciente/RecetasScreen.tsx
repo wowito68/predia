@@ -18,6 +18,8 @@ const estadoVariant = (e: string) =>
 
 type PdfBusy = { id: number; action: 'print' | 'share' } | null
 
+const readableInstructions = (value: string) => value.replace(/([.!?])\s+(?=[A-ZÁÉÍÓÚÑ])/g, '$1\n')
+
 export function RecetasScreen() {
   const { colors } = useTheme()
   const s = useThemedStyles(makeStyles)
@@ -86,17 +88,17 @@ export function RecetasScreen() {
                   </View>
                 ))}
 
-                {r.instrucciones ? <Text style={s.instr}>Indicaciones: {r.instrucciones}</Text> : null}
+                {r.instrucciones ? <Text style={s.instr}>Indicaciones: {readableInstructions(r.instrucciones)}</Text> : null}
 
                 <View style={s.divider} />
                 <View style={s.footerRow}>
-                  <Text style={s.footerLabel}>{r.estado === 'Activa' ? 'Tratamiento activo' : `Estado: ${r.estado}`}</Text>
+                  <Text style={s.footerLabel}>DOCUMENTO DE TRATAMIENTO</Text>
                   <View style={s.pdfActions}>
-                    <Pressable style={({ pressed }) => [s.pdfButton, pressed && s.pressed]} onPress={() => runPdf(r, 'print')} disabled={!!pdfBusy}>
+                    <Pressable accessibilityRole="button" accessibilityLabel="Imprimir receta" style={({ pressed }) => [s.pdfButton, pressed && s.pressed]} onPress={() => runPdf(r, 'print')} disabled={!!pdfBusy}>
                       {printing ? <ActivityIndicator size="small" color={colors.textSecondary} /> : <Ionicons name="printer" size={15} color={colors.textSecondary} />}
                       <Text style={s.pdfButtonText}>Imprimir</Text>
                     </Pressable>
-                    <Pressable style={({ pressed }) => [s.pdfButton, s.pdfPrimary, pressed && s.pressed]} onPress={() => runPdf(r, 'share')} disabled={!!pdfBusy}>
+                    <Pressable accessibilityRole="button" accessibilityLabel="Generar PDF de receta" style={({ pressed }) => [s.pdfButton, s.pdfPrimary, pressed && s.pressed]} onPress={() => runPdf(r, 'share')} disabled={!!pdfBusy}>
                       {sharing ? <ActivityIndicator size="small" color="#FFFFFF" /> : <Ionicons name="share-2" size={15} color="#FFFFFF" />}
                       <Text style={s.pdfPrimaryText}>PDF</Text>
                     </Pressable>
@@ -124,10 +126,10 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   medItemDetail: { ...typography.overline, color: colors.textSecondary, marginTop: 1 },
   instr: { ...typography.caption, color: colors.textSecondary, marginTop: 8 },
   divider: { height: 1, backgroundColor: colors.border, marginVertical: 12 },
-  footerLabel: { ...typography.caption, color: colors.textSecondary },
-  footerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
+  footerLabel: { ...typography.overline, color: colors.textMuted },
+  footerRow: { gap: spacing.xs },
   pdfActions: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
-  pdfButton: { minHeight: 34, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong, paddingHorizontal: spacing.sm, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  pdfButton: { flex: 1, minHeight: 44, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong, paddingHorizontal: spacing.sm, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
   pdfPrimary: { backgroundColor: colors.primary, borderColor: colors.primary },
   pdfButtonText: { ...typography.caption, color: colors.textSecondary },
   pdfPrimaryText: { ...typography.caption, color: '#FFFFFF' },

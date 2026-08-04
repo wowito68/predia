@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { serialize } from "cookie"
+import { serialize } from "@/lib/cookies"
 import { revokeRefreshToken } from "@/lib/auth"
 
 export async function POST(request: NextRequest) {

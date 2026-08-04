@@ -2,8 +2,8 @@
 import { NextResponse, NextRequest } from "next/server"
 import { z } from "zod"
 import { authenticateUser, issueRefreshToken } from "@/lib/auth"
-import { serialize } from "cookie"
-import { checkRateLimit, getClientIp } from "@/lib/rate-limit"
+import { serialize } from "@/lib/cookies"
+import { checkRateLimit, getClientIp, resetRateLimit } from "@/lib/rate-limit"
 import { recordAuthAttempt } from "@/lib/metrics"
 
 const loginSchema = z.object({
@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
       recordAuthAttempt("usuario", false)
       return NextResponse.json({ error: result.message || "Autenticación fallida" }, { status: 401 })
     }
+    resetRateLimit(clientIp)
     recordAuthAttempt("usuario", true)
 
     const refreshToken = await issueRefreshToken(

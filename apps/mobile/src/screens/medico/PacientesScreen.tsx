@@ -49,7 +49,7 @@ export function PacientesScreen() {
     const nombre = `${item.nombre} ${item.apellido_paterno}`
     const ultima = item.ultima_consulta ? new Date(item.ultima_consulta).toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Sin consultas'
     return (
-      <Pressable style={({ pressed }) => [s.row, index === 0 && s.rowFirst, index === data.length - 1 && s.rowLast, index > 0 && s.rowDivider, pressed && s.pressed]} onPress={() => nav.navigate('PacienteDetalle', { idPaciente: item.id_paciente, nombre })}>
+      <Pressable accessibilityRole="button" accessibilityLabel={`Abrir expediente de ${nombre}`} style={({ pressed }) => [s.row, index === 0 && s.rowFirst, index === data.length - 1 && s.rowLast, index > 0 && s.rowDivider, pressed && s.pressed]} onPress={() => nav.navigate('PacienteDetalle', { idPaciente: item.id_paciente, nombre })}>
         <Avatar nombre={item.nombre} apellido={item.apellido_paterno} />
         <View style={{ flex: 1 }}>
           <Text style={s.name}>{nombre}</Text>
@@ -88,7 +88,7 @@ export function PacientesScreen() {
         </View>
         <View style={s.chips}>
           {FILTROS.map((f) => (
-            <Pressable key={f.key} style={[s.chip, filtro === f.key && s.chipActive]} onPress={() => setFiltro(f.key)}>
+            <Pressable accessibilityRole="button" accessibilityState={{ selected: filtro === f.key }} key={f.key} style={[s.chip, filtro === f.key && s.chipActive]} onPress={() => setFiltro(f.key)}>
               <Text style={[s.chipText, filtro === f.key && s.chipTextActive]}>{f.label}</Text>
             </Pressable>
           ))}
@@ -130,7 +130,7 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   search: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, backgroundColor: colors.surface, borderRadius: radius.sm, paddingHorizontal: spacing.sm, height: 48, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong },
   input: { flex: 1, ...typography.body, color: colors.textPrimary, paddingVertical: 0 },
   chips: { flexDirection: 'row', gap: spacing.xs, marginTop: spacing.sm },
-  chip: { paddingHorizontal: 14, paddingVertical: 8, borderRadius: radius.full, backgroundColor: colors.surfaceMuted, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border },
+  chip: { minHeight: 44, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center', borderRadius: radius.full, backgroundColor: colors.surfaceMuted, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border },
   chipActive: { backgroundColor: colors.primaryDark, borderColor: colors.primaryDark },
   chipText: { ...typography.overline, color: colors.textSecondary },
   chipTextActive: { color: colors.surface },

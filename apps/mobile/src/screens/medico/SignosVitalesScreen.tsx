@@ -94,7 +94,7 @@ export function SignosVitalesScreen() {
         <PremiumCard style={s.card}>
           <Text style={s.fieldLabel}>Observaciones</Text>
           <TextInput
-            style={[s.input, { minHeight: 60 }]}
+            style={[s.input, s.notesInput]}
             value={obs}
             onChangeText={setObs}
             placeholder="Notas adicionales..."
@@ -116,4 +116,5 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   fieldLabel: { ...typography.bodyMedium, color: colors.textPrimary, marginBottom: 8 },
   unidad: { ...typography.caption, color: colors.textSecondary },
   input: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, padding: 12, ...typography.title, color: colors.textPrimary, backgroundColor: colors.background },
+  notesInput: { minHeight: 96, ...typography.body, textAlignVertical: 'top' },
 })

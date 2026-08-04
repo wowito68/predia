@@ -133,6 +133,13 @@ export function PacienteDetalleScreen() {
             <SectionTitle>Documentos</SectionTitle>
             <PremiumCard style={s.documentPanel}>
               <DocumentAction
+                icon="camera"
+                title="Adjuntar foto clínica"
+                subtitle="Guardar evidencia visual en el expediente"
+                onPress={() => go('CamaraClinica')}
+              />
+              <View style={s.documentDivider} />
+              <DocumentAction
                 icon="printer"
                 title="Imprimir resumen"
                 subtitle="Expediente clínico monocromático"
@@ -382,7 +389,7 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   vitalValue: { fontFamily: typography.family.bold, fontSize: fontSize.md, color: colors.textPrimary, marginTop: 2 },
   vitalLabel: { ...typography.overline, color: colors.textMuted },
   riskHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  validateButton: { minHeight: 38, paddingHorizontal: spacing.sm },
+  validateButton: { minHeight: 44, paddingHorizontal: spacing.sm },
   riskTitle: { ...typography.bodyMedium, color: colors.textPrimary, marginTop: spacing.xs },
   riskDescription: { ...typography.caption, color: colors.textSecondary, marginTop: spacing.md },
   riskAction: { ...typography.bodyMedium, color: colors.textPrimary, marginTop: spacing.sm },

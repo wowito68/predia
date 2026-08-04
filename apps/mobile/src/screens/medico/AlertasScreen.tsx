@@ -83,7 +83,7 @@ export function AlertasScreen() {
       />
       <View style={s.filters}>
         {FILTERS.map((item) => (
-          <Pressable key={item} style={[s.filter, filter === item && s.filterActive]} onPress={() => setFilter(item)}>
+          <Pressable accessibilityRole="button" accessibilityState={{ selected: filter === item }} key={item} style={[s.filter, filter === item && s.filterActive]} onPress={() => setFilter(item)}>
             <Text style={[s.filterText, filter === item && s.filterTextActive]}>{item}</Text>
           </Pressable>
         ))}
@@ -119,7 +119,7 @@ export function AlertasScreen() {
 const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
   filters: { flexDirection: 'row', gap: spacing.xs, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, backgroundColor: colors.background },
-  filter: { flex: 1, height: 36, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },
+  filter: { flex: 1, minHeight: 44, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },
   filterActive: { backgroundColor: colors.primary, borderColor: colors.primary },
   filterText: { ...typography.overline, color: colors.textSecondary },
   filterTextActive: { color: colors.surface },

@@ -15,12 +15,12 @@ if [ -z "${ADMIN_CIDR}" ]; then
 fi
 
 apt-get update
-apt-get install -y ufw fail2ban
+DEBIAN_FRONTEND=noninteractive apt-get install -y ufw fail2ban
 
 ufw --force reset
 ufw default deny incoming
 ufw default allow outgoing
-ufw logging on
+ufw logging low
 
 ufw allow from "${ADMIN_CIDR}" to any port "${SSH_PORT}" proto tcp comment "SSH administracion PREDIA"
 ufw allow 80/tcp comment "HTTP ACME/redirect"
@@ -30,6 +30,9 @@ ufw deny 3306/tcp comment "MySQL privado"
 ufw deny 3000/tcp comment "Backend privado"
 ufw deny 9090/tcp comment "Prometheus privado"
 ufw deny 3001/tcp comment "Grafana privado"
+ufw deny 8080/tcp comment "Mobile web privado"
+ufw deny 9100/tcp comment "Node exporter privado"
+ufw deny 20241/tcp comment "Cloudflared metrics privado"
 
 install -m 0644 infra/firewall/fail2ban-sshd.conf /etc/fail2ban/jail.d/predia-sshd.conf
 systemctl enable --now fail2ban
@@ -37,4 +40,3 @@ ufw --force enable
 
 echo "Firewall PREDIA aplicado."
 ufw status verbose
-

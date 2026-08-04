@@ -66,7 +66,8 @@ export interface RecetaResumen {
 
 // ---- PACIENTE: Citas (RF06) ----
 export interface CitaResumen {
-  id_consulta: number
+  id_cita: number
+  id_consulta: number | null
   fecha: string
   motivo: string
   medico: string

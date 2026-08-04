@@ -32,7 +32,7 @@ export function ResultadosScreen() {
 
   return (
     <View style={s.root}>
-      <Header title="Mis Resultados IA" subtitle={fecha ? `Última actualización: ${fecha}` : undefined} showBack />
+      <Header title="Mis resultados IA" subtitle={fecha ? `Última actualización: ${fecha}` : undefined} showBack />
       <QueryState
         isLoading={q.isLoading}
         isError={q.isError}

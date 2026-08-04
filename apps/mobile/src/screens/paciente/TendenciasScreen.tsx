@@ -69,7 +69,7 @@ export function TendenciasScreen() {
           {PERIODS.map((item) => {
             const active = period.days === item.days
             return (
-              <Pressable key={item.days} style={[s.periodButton, active && s.periodButtonActive]} onPress={() => setPeriod(item)}>
+              <Pressable accessibilityRole="button" accessibilityState={{ selected: active }} key={item.days} style={[s.periodButton, active && s.periodButtonActive]} onPress={() => setPeriod(item)}>
                 <Text style={[s.periodText, active && s.periodTextActive]}>{item.label}</Text>
               </Pressable>
             )
@@ -193,7 +193,7 @@ function Stat({ label, value, emphasis }: { label: string; value: number; emphas
 const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
   periodControl: { flexDirection: 'row', backgroundColor: colors.surfaceMuted, borderRadius: radius.sm, padding: 4, marginBottom: spacing.sm },
-  periodButton: { flex: 1, minHeight: 38, alignItems: 'center', justifyContent: 'center', borderRadius: radius.xs },
+  periodButton: { flex: 1, minHeight: 44, alignItems: 'center', justifyContent: 'center', borderRadius: radius.xs },
   periodButtonActive: { backgroundColor: colors.surface, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong },
   periodText: { ...typography.caption, color: colors.textSecondary },
   periodTextActive: { color: colors.textPrimary, fontFamily: typography.family.semibold },

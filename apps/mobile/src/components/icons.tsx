@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons'
+import Feather from '@expo/vector-icons/Feather'
 import type { TextStyle } from 'react-native'
 
 type FeatherName = keyof typeof Feather.glyphMap
@@ -9,22 +9,28 @@ const map: Record<string, FeatherName> = {
   'alert-circle': 'alert-circle',
   'alert-circle-outline': 'alert-circle',
   'analytics-outline': 'bar-chart-2',
+  add: 'plus',
   'barbell-outline': 'activity',
   'body-outline': 'user',
   calendar: 'calendar',
+  'calendar-x': 'calendar',
   'calendar-clear-outline': 'calendar',
   'calendar-outline': 'calendar',
   call: 'phone',
+  'camera-outline': 'camera',
   'checkmark-circle-outline': 'check-circle',
   'chevron-back': 'chevron-left',
   'chevron-forward': 'chevron-right',
   'close-circle': 'x-circle',
   'cloud-offline-outline': 'cloud-off',
+  'cloud-upload-outline': 'upload-cloud',
   'document-text': 'file-text',
   'document-text-outline': 'file-text',
   'file-tray-outline': 'archive',
   'finger-print': 'shield',
   fitness: 'activity',
+  'fitness-outline': 'activity',
+  'folder-outline': 'folder',
   'folder-open-outline': 'folder',
   'heart-outline': 'heart',
   'information-circle-outline': 'info',
@@ -40,6 +46,7 @@ const map: Record<string, FeatherName> = {
   medkit: 'briefcase',
   'medkit-outline': 'briefcase',
   pulse: 'activity',
+  'pulse-outline': 'activity',
   remove: 'minus',
   search: 'search',
   'search-outline': 'search',
@@ -72,7 +79,9 @@ interface IconProps {
 }
 
 export function Icon({ name, size = 20, color = '#334155', style }: IconProps) {
-  return <Feather name={map[name] ?? (name as FeatherName) ?? 'circle'} size={size} color={color} style={style} />
+  const candidate = map[name] ?? name
+  const glyph = Object.prototype.hasOwnProperty.call(Feather.glyphMap, candidate) ? candidate as FeatherName : 'circle'
+  return <Feather name={glyph} size={size} color={color} style={style} />
 }
 
 export const Ionicons = Icon

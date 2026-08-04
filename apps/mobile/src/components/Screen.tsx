@@ -26,13 +26,13 @@ export function ScreenHeader({
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
       <View style={s.headerRow}>
         {onBack ? (
-          <Pressable onPress={onBack} hitSlop={12} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Volver" onPress={onBack} hitSlop={12} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
             <Ionicons name="chevron-back" size={22} color={colors.textPrimary} />
           </Pressable>
         ) : null}
         <View style={s.headerCopy}>
           {eyebrow ? <Text style={s.eyebrow}>{eyebrow}</Text> : null}
-          <Text style={s.title} numberOfLines={1}>{title}</Text>
+          <Text style={s.title} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{title}</Text>
           {subtitle ? <Text style={s.subtitle} numberOfLines={1}>{subtitle}</Text> : null}
         </View>
         {right ? <View style={s.right}>{right}</View> : null}
@@ -93,9 +93,9 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   headerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   headerCopy: { flex: 1 },
   backBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.surface,

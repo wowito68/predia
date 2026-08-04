@@ -1,4 +1,4 @@
-import { Alert } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import * as Print from 'expo-print'
 import * as Sharing from 'expo-sharing'
 import type { Medicamento, RecetaResumen } from '@predia/shared'
@@ -151,6 +151,8 @@ const documentShell = (title: string, body: string) => `
 
 export function recetaHtml(receta: RecetaResumen, pacienteNombre?: string) {
   const meds = parseMedicamentos(receta.medicamentos)
+  const instructions = (receta.instrucciones || 'Sin indicaciones adicionales.')
+    .replace(/([.!?])(?=[A-ZÁÉÍÓÚÑ])/g, '$1 ')
   return documentShell('Receta médica', `
     <div class="section">
       <div class="section-title">Datos generales</div>
@@ -179,7 +181,7 @@ export function recetaHtml(receta: RecetaResumen, pacienteNombre?: string) {
     </div>
     <div class="section">
       <div class="section-title">Indicaciones</div>
-      <div class="note">${escapeHtml(receta.instrucciones || 'Sin indicaciones adicionales.')}</div>
+      <div class="note">${escapeHtml(instructions)}</div>
     </div>
   `)
 }
@@ -235,11 +237,31 @@ export function clinicalSummaryHtml(snapshot: ClinicalSnapshot) {
   `)
 }
 
+function printHtmlInBrowser(html: string) {
+  const popup = window.open('', '_blank', 'width=900,height=720')
+  if (!popup) throw new Error('El navegador bloqueó la ventana de impresión. Habilita las ventanas emergentes para PREDIA.')
+
+  popup.document.open()
+  popup.document.write(html)
+  popup.document.close()
+  popup.focus()
+  window.setTimeout(() => popup.print(), 250)
+}
+
 export async function printHtml(html: string) {
+  if (Platform.OS === 'web') {
+    printHtmlInBrowser(html)
+    return
+  }
   await Print.printAsync({ html })
 }
 
 export async function sharePdf(title: string, html: string) {
+  if (Platform.OS === 'web') {
+    printHtmlInBrowser(html)
+    return
+  }
+
   const { uri } = await Print.printToFileAsync({ html, base64: false })
   const canShare = await Sharing.isAvailableAsync()
   if (!canShare) {

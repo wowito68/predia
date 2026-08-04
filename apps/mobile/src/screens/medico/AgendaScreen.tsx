@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  useWindowDimensions,
   View,
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -155,7 +156,7 @@ export function AgendaScreen() {
         title="Agenda"
         subtitle={`${appointments.length} ${appointments.length === 1 ? 'cita activa' : 'citas activas'}`}
         right={
-          <Pressable accessibilityLabel="Agendar cita" style={({ pressed }) => [s.addButton, pressed && s.pressed]} onPress={() => setCreateOpen(true)}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Agendar cita" style={({ pressed }) => [s.addButton, pressed && s.pressed]} onPress={() => setCreateOpen(true)}>
             <Ionicons name="plus" size={21} color={colors.surface} />
           </Pressable>
         }
@@ -180,7 +181,7 @@ export function AgendaScreen() {
                 <View style={s.summaryDivider} />
                 <SummaryMetric label="En curso" value={inProgress} color={colors.coral} />
                 <View style={s.summaryDivider} />
-                <SummaryMetric label="Programadas" value={appointments.length - inProgress} color={colors.accent} />
+                <SummaryMetric label="Agendadas" value={appointments.length - inProgress} color={colors.accent} />
               </View>
             </View>
           }
@@ -291,6 +292,7 @@ function AppointmentRow({
 }) {
   const { colors } = useTheme()
   const s = useThemedStyles(makeStyles)
+  const compact = useWindowDimensions().width < 360
   const time = new Date(appointment.fecha_cita).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: false })
   const inProgress = appointment.estado === 'EN_CURSO'
   const canManage = appointment.estado === 'PROGRAMADA'
@@ -302,28 +304,46 @@ function AppointmentRow({
           <View style={[s.timelineDot, inProgress && { backgroundColor: colors.coral }]} />
         </View>
         <Avatar nombre={appointment.paciente.nombre} apellido={appointment.paciente.apellido_paterno} size={42} color={inProgress ? colors.coral : colors.accent} />
-        <Pressable style={({ pressed }) => [s.patientCopy, pressed && s.pressed]} onPress={onPatient}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Abrir expediente de ${appointmentPerson(appointment)}`}
+          style={({ pressed }) => [s.patientCopy, pressed && s.pressed]}
+          onPress={onPatient}
+        >
           <View style={s.patientLine}>
             <Text style={s.patientName} numberOfLines={1}>{appointment.paciente.nombre} {appointment.paciente.apellido_paterno}</Text>
-            <StatusBadge label={inProgress ? 'EN CURSO' : 'PROGRAMADA'} tone={inProgress ? 'danger' : 'info'} />
+            {!compact ? <StatusBadge label={inProgress ? 'EN CURSO' : 'PROGRAMADA'} tone={inProgress ? 'danger' : 'info'} /> : null}
           </View>
+          {compact ? <StatusBadge label={inProgress ? 'EN CURSO' : 'PROGRAMADA'} tone={inProgress ? 'danger' : 'info'} style={s.compactStatus} /> : null}
           <Text style={s.reason} numberOfLines={2}>{appointment.motivo}</Text>
           <Text style={s.doctor}>Dr. {appointment.usuario.nombre} {appointment.usuario.apellido_paterno}</Text>
         </Pressable>
       </View>
-      <View style={s.rowActions}>
-        <Pressable style={({ pressed }) => [s.secondaryAction, pressed && s.pressed]} onPress={onPatient}>
+      <View style={[s.rowActions, compact && s.rowActionsCompact]}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Abrir expediente de ${appointmentPerson(appointment)}`}
+          style={({ pressed }) => [s.secondaryAction, compact && s.secondaryActionCompact, pressed && s.pressed]}
+          onPress={onPatient}
+        >
           <Ionicons name="file-text" size={16} color={colors.textSecondary} />
           <Text style={s.secondaryActionText}>Expediente</Text>
         </Pressable>
         {canManage ? (
-          <Pressable style={({ pressed }) => [s.secondaryAction, pressed && s.pressed]} onPress={onManage}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`Gestionar cita de ${appointmentPerson(appointment)}`}
+            style={({ pressed }) => [s.secondaryAction, compact && s.secondaryActionCompact, pressed && s.pressed]}
+            onPress={onManage}
+          >
             <Ionicons name="more-horizontal" size={16} color={colors.textSecondary} />
             <Text style={s.secondaryActionText}>Gestionar</Text>
           </Pressable>
         ) : null}
         <Pressable
-          style={({ pressed }) => [s.primaryAction, inProgress && s.finishAction, pressed && s.pressed]}
+          accessibilityRole="button"
+          accessibilityLabel={`${inProgress ? 'Finalizar' : 'Iniciar'} cita de ${appointmentPerson(appointment)}`}
+          style={({ pressed }) => [s.primaryAction, compact && s.primaryActionCompact, inProgress && s.finishAction, pressed && s.pressed]}
           onPress={inProgress ? onFinish : onStart}
           disabled={busy}
         >
@@ -392,7 +412,7 @@ function CreateAppointmentModal({
           <View style={s.sheetHandle} />
           <View style={s.sheetHeader}>
             <View><Text style={s.sheetOverline}>NUEVA ATENCIÓN</Text><Text style={s.sheetTitle}>Agendar cita</Text></View>
-            <Pressable style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
+            <Pressable accessibilityRole="button" accessibilityLabel="Cerrar formulario de cita" style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
           </View>
 
           <Text style={s.fieldLabel}>Paciente</Text>
@@ -400,14 +420,14 @@ function CreateAppointmentModal({
             <View style={s.selectedPatient}>
               <Avatar nombre={patient.nombre} apellido={patient.apellido_paterno} size={40} />
               <View style={{ flex: 1 }}><Text style={s.selectedName}>{patient.nombre} {patient.apellido_paterno}</Text><Text style={s.selectedMeta}>Cédula {patient.cedula}</Text></View>
-              <Pressable onPress={() => setPatient(null)}><Text style={s.changeText}>Cambiar</Text></Pressable>
+              <Pressable accessibilityRole="button" accessibilityLabel="Cambiar paciente" onPress={() => setPatient(null)}><Text style={s.changeText}>Cambiar</Text></Pressable>
             </View>
           ) : (
             <>
               <View style={s.searchField}><Ionicons name="search" size={17} color={colors.textMuted} /><TextInput value={search} onChangeText={setSearch} placeholder="Buscar paciente" placeholderTextColor={colors.textMuted} style={s.searchInput} /></View>
               <View style={s.patientResults}>
                 {patientsQuery.isLoading ? <ActivityIndicator color={colors.accent} style={s.resultLoader} /> : (patientsQuery.data ?? []).slice(0, 4).map((item, index) => (
-                  <Pressable key={item.id_paciente} style={[s.patientOption, index > 0 && s.optionDivider]} onPress={() => setPatient(item)}>
+                  <Pressable accessibilityRole="button" accessibilityLabel={`Seleccionar a ${item.nombre} ${item.apellido_paterno}`} key={item.id_paciente} style={[s.patientOption, index > 0 && s.optionDivider]} onPress={() => setPatient(item)}>
                     <Avatar nombre={item.nombre} apellido={item.apellido_paterno} size={34} />
                     <Text style={s.optionName}>{item.nombre} {item.apellido_paterno}</Text>
                     <Ionicons name="chevron-right" size={16} color={colors.textMuted} />
@@ -431,8 +451,8 @@ function CreateAppointmentModal({
           <TextInput value={reason} onChangeText={setReason} placeholder="Ej. Revisión de resultados" placeholderTextColor={colors.textMuted} style={[s.textField, s.reasonField]} multiline />
 
           <View style={s.sheetActions}>
-            <Pressable style={s.cancelButton} onPress={onClose}><Text style={s.cancelText}>Cancelar</Text></Pressable>
-            <Pressable style={s.submitButton} onPress={() => createAppointment.mutate()} disabled={createAppointment.isPending}>
+            <Pressable accessibilityRole="button" style={s.cancelButton} onPress={onClose}><Text style={s.cancelText}>Cancelar</Text></Pressable>
+            <Pressable accessibilityRole="button" style={s.submitButton} onPress={() => createAppointment.mutate()} disabled={createAppointment.isPending}>
               {createAppointment.isPending ? <ActivityIndicator color="#FFFFFF" /> : <><Ionicons name="calendar" size={17} color="#FFFFFF" /><Text style={s.submitText}>Programar cita</Text></>}
             </Pressable>
           </View>
@@ -469,7 +489,7 @@ function ManageAppointmentModal({
               <Text style={s.sheetOverline}>GESTIÓN DE CITA</Text>
               <Text style={s.sheetTitle}>{appointment ? appointmentPerson(appointment) : 'Cita'}</Text>
             </View>
-            <Pressable style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
+            <Pressable accessibilityRole="button" accessibilityLabel="Cerrar gestión de cita" style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
           </View>
           {appointment ? (
             <View style={s.manageSummary}>
@@ -481,7 +501,7 @@ function ManageAppointmentModal({
             </View>
           ) : null}
 
-          <Pressable style={({ pressed }) => [s.manageOption, pressed && s.pressed]} onPress={onEdit}>
+          <Pressable accessibilityRole="button" style={({ pressed }) => [s.manageOption, pressed && s.pressed]} onPress={onEdit}>
             <View style={[s.manageIcon, { backgroundColor: colors.infoBg }]}><Ionicons name="edit-2" size={18} color={colors.infoText} /></View>
             <View style={{ flex: 1 }}>
               <Text style={s.manageTitle}>Editar datos</Text>
@@ -489,7 +509,7 @@ function ManageAppointmentModal({
             </View>
             <Ionicons name="chevron-right" size={17} color={colors.textMuted} />
           </Pressable>
-          <Pressable style={({ pressed }) => [s.manageOption, pressed && s.pressed]} onPress={onReschedule}>
+          <Pressable accessibilityRole="button" style={({ pressed }) => [s.manageOption, pressed && s.pressed]} onPress={onReschedule}>
             <View style={[s.manageIcon, { backgroundColor: colors.successBg }]}><Ionicons name="refresh-cw" size={18} color={colors.successText} /></View>
             <View style={{ flex: 1 }}>
               <Text style={s.manageTitle}>Reagendar</Text>
@@ -497,7 +517,7 @@ function ManageAppointmentModal({
             </View>
             <Ionicons name="chevron-right" size={17} color={colors.textMuted} />
           </Pressable>
-          <Pressable style={({ pressed }) => [s.manageOption, s.manageDanger, pressed && s.pressed]} onPress={onCancel}>
+          <Pressable accessibilityRole="button" style={({ pressed }) => [s.manageOption, s.manageDanger, pressed && s.pressed]} onPress={onCancel}>
             <View style={[s.manageIcon, { backgroundColor: colors.errorBg }]}><Ionicons name="x-circle" size={18} color={colors.errorText} /></View>
             <View style={{ flex: 1 }}>
               <Text style={[s.manageTitle, { color: colors.errorText }]}>Cancelar cita</Text>
@@ -562,7 +582,7 @@ function EditAppointmentModal({
               <Text style={s.sheetOverline}>{mode === 'REAGENDAR' ? 'REAGENDAR ATENCIÓN' : 'EDITAR ATENCIÓN'}</Text>
               <Text style={s.sheetTitle}>{appointment ? appointmentPerson(appointment) : 'Cita'}</Text>
             </View>
-            <Pressable style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
+            <Pressable accessibilityRole="button" accessibilityLabel="Cerrar edición de cita" style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
           </View>
           <View style={s.dateRow}>
             <View style={{ flex: 1 }}><Text style={s.fieldLabel}>Fecha</Text><TextInput value={date} onChangeText={setDate} placeholder="AAAA-MM-DD" placeholderTextColor={colors.textMuted} style={s.textField} /></View>
@@ -580,8 +600,8 @@ function EditAppointmentModal({
             <Text style={s.validationText}>PREDIA validará conflictos del paciente y del médico antes de guardar.</Text>
           </View>
           <View style={s.sheetActions}>
-            <Pressable style={s.cancelButton} onPress={onClose}><Text style={s.cancelText}>Cerrar</Text></Pressable>
-            <Pressable style={s.submitButton} onPress={submit} disabled={pending}>
+            <Pressable accessibilityRole="button" style={s.cancelButton} onPress={onClose}><Text style={s.cancelText}>Cerrar</Text></Pressable>
+            <Pressable accessibilityRole="button" style={s.submitButton} onPress={submit} disabled={pending}>
               {pending ? <ActivityIndicator color="#FFFFFF" /> : <><Ionicons name="save" size={17} color="#FFFFFF" /><Text style={s.submitText}>{mode === 'REAGENDAR' ? 'Reagendar' : 'Guardar'}</Text></>}
             </Pressable>
           </View>
@@ -621,7 +641,7 @@ function CancelAppointmentModal({
               <Text style={s.sheetOverline}>CANCELACIÓN</Text>
               <Text style={s.sheetTitle}>Cancelar cita</Text>
             </View>
-            <Pressable style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
+            <Pressable accessibilityRole="button" accessibilityLabel="Cerrar cancelación de cita" style={s.closeButton} onPress={onClose}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
           </View>
           <Text style={s.finishPatient}>{appointment ? appointmentPerson(appointment) : ''}</Text>
           <Text style={s.finishReason}>{appointment?.motivo}</Text>
@@ -639,8 +659,8 @@ function CancelAppointmentModal({
             <Text style={s.validationText}>Esta acción libera el horario y la cita deja de mostrarse como activa.</Text>
           </View>
           <View style={s.sheetActions}>
-            <Pressable style={s.cancelButton} onPress={onClose}><Text style={s.cancelText}>Conservar</Text></Pressable>
-            <Pressable style={[s.submitButton, s.cancelSubmit]} onPress={() => onSubmit(note.trim())} disabled={pending}>
+            <Pressable accessibilityRole="button" style={s.cancelButton} onPress={onClose}><Text style={s.cancelText}>Conservar</Text></Pressable>
+            <Pressable accessibilityRole="button" style={[s.submitButton, s.cancelSubmit]} onPress={() => onSubmit(note.trim())} disabled={pending}>
               {pending ? <ActivityIndicator color="#FFFFFF" /> : <><Ionicons name="x-circle" size={17} color="#FFFFFF" /><Text style={s.submitText}>Cancelar cita</Text></>}
             </Pressable>
           </View>
@@ -652,7 +672,7 @@ function CancelAppointmentModal({
 
 function DateChip({ label, onPress }: { label: string; onPress: () => void }) {
   const s = useThemedStyles(makeStyles)
-  return <Pressable style={({ pressed }) => [s.dateChip, pressed && s.pressed]} onPress={onPress}><Text style={s.dateChipText}>{label}</Text></Pressable>
+  return <Pressable accessibilityRole="button" style={({ pressed }) => [s.dateChip, pressed && s.pressed]} onPress={onPress}><Text style={s.dateChipText}>{label}</Text></Pressable>
 }
 
 type FinishValues = { observaciones: string; diagnostico: string; tratamiento: string }
@@ -683,7 +703,7 @@ function FinishAppointmentModal({
           <View style={s.sheetHandle} />
           <View style={s.sheetHeader}>
             <View><Text style={s.sheetOverline}>CIERRE CLÍNICO</Text><Text style={s.sheetTitle}>Finalizar consulta</Text></View>
-            <Pressable style={s.closeButton} onPress={close}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
+            <Pressable accessibilityRole="button" accessibilityLabel="Cerrar finalización de consulta" style={s.closeButton} onPress={close}><Ionicons name="x" size={20} color={colors.textSecondary} /></Pressable>
           </View>
           <Text style={s.finishPatient}>{appointment?.paciente.nombre} {appointment?.paciente.apellido_paterno}</Text>
           <Text style={s.finishReason}>{appointment?.motivo}</Text>
@@ -694,8 +714,8 @@ function FinishAppointmentModal({
           <Text style={s.fieldLabel}>Nota de cierre</Text>
           <TextInput style={[s.textField, s.reasonField]} value={values.observaciones} onChangeText={(observaciones) => setValues((current) => ({ ...current, observaciones }))} placeholder="Evolución, acuerdos o indicaciones" placeholderTextColor={colors.textMuted} multiline />
           <View style={s.sheetActions}>
-            <Pressable style={s.cancelButton} onPress={close}><Text style={s.cancelText}>Seguir atendiendo</Text></Pressable>
-            <Pressable style={[s.submitButton, s.finishSubmit]} onPress={() => onSubmit(values)} disabled={pending}>
+            <Pressable accessibilityRole="button" style={s.cancelButton} onPress={close}><Text style={s.cancelText}>Seguir atendiendo</Text></Pressable>
+            <Pressable accessibilityRole="button" style={[s.submitButton, s.finishSubmit]} onPress={() => onSubmit(values)} disabled={pending}>
               {pending ? <ActivityIndicator color="#FFFFFF" /> : <><Ionicons name="check" size={17} color="#FFFFFF" /><Text style={s.submitText}>Finalizar</Text></>}
             </Pressable>
           </View>
@@ -708,7 +728,7 @@ function FinishAppointmentModal({
 const makeStyles = (colors: AppColors) => StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
   loading: { padding: spacing.md },
-  addButton: { width: 42, height: 42, borderRadius: radius.full, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
+  addButton: { width: 44, height: 44, borderRadius: radius.full, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
   list: { paddingHorizontal: spacing.md, paddingBottom: spacing.xxxl },
   feedbackBanner: { marginTop: spacing.xs },
   summary: { flexDirection: 'row', alignItems: 'stretch', backgroundColor: colors.primaryDark, borderRadius: radius.sm, padding: spacing.md, marginTop: spacing.xs },
@@ -730,12 +750,16 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   patientCopy: { flex: 1 },
   patientLine: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.xs },
   patientName: { flex: 1, ...typography.bodyMedium, color: colors.textPrimary },
+  compactStatus: { alignSelf: 'flex-start', marginTop: 4 },
   reason: { ...typography.caption, color: colors.textSecondary, marginTop: 3 },
   doctor: { ...typography.overline, color: colors.textMuted, marginTop: 5 },
   rowActions: { flexDirection: 'row', gap: spacing.xs, marginTop: spacing.md, paddingTop: spacing.sm, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border },
-  secondaryAction: { flex: 1, minHeight: 40, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  rowActionsCompact: { flexWrap: 'wrap' },
+  secondaryAction: { flex: 1, minHeight: 44, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  secondaryActionCompact: { flexBasis: '45%' },
   secondaryActionText: { ...typography.caption, color: colors.textSecondary },
-  primaryAction: { flex: 1, minHeight: 40, borderRadius: radius.sm, backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  primaryAction: { flex: 1, minHeight: 44, borderRadius: radius.sm, backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  primaryActionCompact: { flexBasis: '100%' },
   finishAction: { backgroundColor: colors.coral },
   primaryActionText: { ...typography.caption, color: '#FFFFFF' },
   modalOverlay: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(4, 18, 22, 0.62)' },
@@ -744,7 +768,7 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   sheetHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.lg },
   sheetOverline: { ...typography.overline, color: colors.accent },
   sheetTitle: { ...typography.title, color: colors.textPrimary, marginTop: 2 },
-  closeButton: { width: 38, height: 38, borderRadius: radius.full, backgroundColor: colors.surfaceMuted, alignItems: 'center', justifyContent: 'center' },
+  closeButton: { width: 44, height: 44, borderRadius: radius.full, backgroundColor: colors.surfaceMuted, alignItems: 'center', justifyContent: 'center' },
   fieldLabel: { ...typography.overline, color: colors.textSecondary, textTransform: 'uppercase', marginBottom: 6, marginTop: spacing.sm },
   selectedPatient: { minHeight: 62, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, padding: spacing.sm },
   selectedName: { ...typography.bodyMedium, color: colors.textPrimary },
@@ -770,7 +794,7 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   textField: { minHeight: 46, borderRadius: radius.sm, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.borderStrong, backgroundColor: colors.surface, paddingHorizontal: spacing.sm, ...typography.body, color: colors.textPrimary },
   reasonField: { minHeight: 72, paddingTop: spacing.sm, textAlignVertical: 'top' },
   quickDates: { flexDirection: 'row', gap: spacing.xs, marginTop: spacing.xs },
-  dateChip: { minHeight: 32, paddingHorizontal: spacing.sm, borderRadius: radius.full, backgroundColor: colors.surfaceMuted, alignItems: 'center', justifyContent: 'center' },
+  dateChip: { minHeight: 44, paddingHorizontal: spacing.sm, borderRadius: radius.full, backgroundColor: colors.surfaceMuted, alignItems: 'center', justifyContent: 'center' },
   dateChipText: { ...typography.overline, color: colors.textSecondary },
   validationNote: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.xs, borderRadius: radius.md, padding: spacing.sm, backgroundColor: colors.surfaceMuted, marginTop: spacing.sm },
   validationText: { flex: 1, ...typography.caption, color: colors.textSecondary },

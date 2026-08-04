@@ -29,18 +29,29 @@ export function ValidacionIAScreen() {
   const pendientes = (q.data ?? []).filter((p) => !p.validado)
 
   const decidir = (id: number, nombre: string, confirmar: boolean) => {
-    mut.mutate(
-      { id, input: { diagnostico_confirmado: confirmar ? 'Confirmado' : 'Descartado', notas_medicas: notas[id] ?? '', validado: true } },
-      {
-        onSuccess: () => setFeedback(`${confirmar ? 'Diagnóstico confirmado' : 'Predicción descartada'} para ${nombre}.`),
-        onError: (e: any) => Alert.alert('Error', e?.message ?? 'No se pudo validar'),
-      },
+    Alert.alert(
+      confirmar ? 'Confirmar diagnóstico' : 'Descartar predicción',
+      `¿Registrar esta decisión clínica para ${nombre}?`,
+      [
+        { text: 'Volver', style: 'cancel' },
+        {
+          text: confirmar ? 'Confirmar' : 'Descartar',
+          style: confirmar ? 'default' : 'destructive',
+          onPress: () => mut.mutate(
+            { id, input: { diagnostico_confirmado: confirmar ? 'Confirmado' : 'Descartado', notas_medicas: notas[id] ?? '', validado: true } },
+            {
+              onSuccess: () => setFeedback(`${confirmar ? 'Diagnóstico confirmado' : 'Predicción descartada'} para ${nombre}.`),
+              onError: (e: any) => Alert.alert('Error', e?.message ?? 'No se pudo validar'),
+            },
+          ),
+        },
+      ],
     )
   }
 
   return (
     <View style={s.root}>
-      <Header title="Validar Predicciones IA" />
+      <Header title="Validar IA" subtitle="Revisión clínica asistida por IA" showBack />
       <QueryState isLoading={q.isLoading} isError={q.isError} error={q.error} onRetry={q.refetch}>
         <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
           {feedback ? <FeedbackBanner title="Validación registrada" subtitle={feedback} tone="success" /> : null}

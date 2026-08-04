@@ -80,7 +80,7 @@ export function SectionTitle({ children, action, onAction }: { children: ReactNo
     <View style={s.sectionRow}>
       <Text style={s.sectionTitle}>{children}</Text>
       {action ? (
-        <Pressable onPress={onAction} hitSlop={10} style={({ pressed }) => pressed && s.pressed}>
+        <Pressable accessibilityRole="button" onPress={onAction} style={({ pressed }) => [s.sectionActionButton, pressed && s.pressed]}>
           <Text style={s.sectionAction}>{action}</Text>
         </Pressable>
       ) : null}
@@ -361,6 +361,7 @@ const makeStyles = (colors: AppColors) => StyleSheet.create({
   pressed: { opacity: 0.72 },
   sectionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.sm, marginTop: spacing.xl },
   sectionTitle: { fontFamily: typography.family.semibold, fontSize: 18, lineHeight: 24, color: colors.textPrimary },
+  sectionActionButton: { minHeight: 44, paddingHorizontal: spacing.xs, alignItems: 'center', justifyContent: 'center' },
   sectionAction: { ...typography.caption, color: colors.accent },
   card: { backgroundColor: colors.surface, borderRadius: radius.sm, padding: spacing.md, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border },
   stat: { flex: 1, backgroundColor: colors.surface, borderRadius: radius.sm, padding: spacing.md, gap: 6, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border, minHeight: 118 },

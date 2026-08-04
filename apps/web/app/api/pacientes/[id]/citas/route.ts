@@ -10,7 +10,8 @@ export const GET = requirePacienteSelf(async (_request: NextRequest, { params })
 
   try {
     const rows = await query<any>(
-      `SELECT COALESCE(c.id_consulta, c.id_cita) AS id_consulta,
+      `SELECT c.id_cita,
+              c.id_consulta,
               c.fecha_cita AS proxima_cita,
               c.motivo AS motivo_consulta,
               CONCAT(u.nombre, ' ', u.apellido_paterno) AS medico
@@ -23,6 +24,7 @@ export const GET = requirePacienteSelf(async (_request: NextRequest, { params })
     )
 
     const data = rows.map((c) => ({
+      id_cita: c.id_cita,
       id_consulta: c.id_consulta,
       fecha: c.proxima_cita,
       motivo: c.motivo_consulta,
