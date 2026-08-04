@@ -1,0 +1,59 @@
+# Changelog de rubrica PREDIA
+
+## 2026-07-28
+
+- Creada matriz de cumplimiento final en `docs/RUBRICA_CUMPLIMIENTO.md`.
+- Creado plan de implementacion ejecutado en `docs/PLAN_IMPLEMENTACION_RUBRICA.md`.
+- Registradas acciones humanas para firewall, SSL/DNS, telefono y ensayo en `HUMAN_ACTIONS.md`.
+- Registradas decisiones tecnicas en `docs/DECISIONES_TECNICAS.md`.
+- Endurecida autenticacion JWT:
+  - Expiracion corta.
+  - `issuer` y `audience`.
+  - Refresh tokens opacos, rotables y revocables.
+  - Cookies `httpOnly`, `sameSite=lax` y `secure` en produccion.
+- Agregadas pruebas de seguridad:
+  - Hash bcrypt correcto/incorrecto.
+  - AES-256-GCM cifra/descifra.
+  - Token JWT valido, alterado y expirado.
+- Agregado cifrado reversible AES-256-GCM en `apps/web/lib/crypto.ts`.
+- Agregado modelo Prisma `RefreshToken` y migracion `20260728090000_add_refresh_tokens`.
+- Agregados endpoints `/api/auth/refresh`, `/api/health`, `/api/ready` y `/api/metrics`.
+- Agregada instrumentacion Prometheus para disponibilidad, memoria, requests, latencia y autenticacion.
+- Agregado stack de monitoreo:
+  - `monitoring/prometheus.yml`
+  - `monitoring/alert_rules.yml`
+  - dashboard Grafana provisionado.
+- Agregada infraestructura de rubrica:
+  - `docker-compose.production.yml`
+  - `docker-compose.rubric.yml`
+  - Nginx reverse proxy con TLS, headers y balanceo.
+- Agregados scripts de firewall UFW/Fail2ban y verificacion.
+- Agregados scripts operativos:
+  - `scripts/start-demo.sh`
+  - `scripts/stop-demo.sh`
+  - `scripts/verify-system.sh`
+  - `scripts/rubric-check.sh`
+  - `scripts/test-load-balancer.sh`
+  - `scripts/backup/mysql-backup.sh`
+  - `scripts/restore/mysql-restore.sh`
+- Corregido `scripts/start-demo.sh` para dejar vivos Web/API y Expo Web mediante `tmux`; `setsid` queda como fallback sin tmux.
+- Corregido `scripts/stop-demo.sh` para detener grupos de proceso completos.
+- Agregado objetivo `rubric-check` en `Makefile` y `package.json`.
+- Endurecidos endpoints clinicos con Zod/rangos:
+  - Mediciones.
+  - Automonitoreo.
+  - Recetas.
+  - Consultas.
+  - Imagenes.
+  - Agenda.
+- Continuadas mejoras moviles:
+  - CRUD ampliado de agenda.
+  - Editar, cancelar y reagendar citas.
+  - Validacion de conflictos de horario.
+  - PDFs/impresion de recetas y resumen clinico.
+  - Estados de exito y empty states.
+  - Microinteracciones con `FeedbackBanner`.
+  - Persistencia y renovacion de sesion movil con refresh token.
+- Ajustado build web para no ignorar errores TypeScript.
+- Alineadas versiones locales de React/React DOM a `19.2.0`.
+- Actualizado CI para usar `prisma migrate deploy`, `prisma generate`, Jest reproducible y build web estricto.

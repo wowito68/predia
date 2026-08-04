@@ -1,0 +1,92 @@
+groups:
+  - name: predia-basic-alerts
+    rules:
+      - alert: PrediaApiDown
+        expr: up{job="predia-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Una instancia de PREDIA API no responde"
+          description: "Prometheus no puede recolectar metricas de {{ $labels.instance }}."
+
+      - alert: PrediaHighAuthFailures
+        expr: increase(predia_auth_attempts_total{result="failure"}[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Demasiados intentos fallidos de autenticacion"
+          description: "Se detectaron mas de 10 fallos de autenticacion en 5 minutos."
+
+      - alert: PrediaHighMemory
+        expr: predia_process_memory_bytes{type="rss"} > 800000000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Uso de memoria alto en PREDIA"
+          description: "RSS supera 800 MB durante mas de 5 minutos."
+
+      - alert: PrediaMysqlDown
+        expr: up{job="mysql"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "MySQL no responde al monitoreo"
+          description: "El exporter de MySQL no puede consultar la base privada."
+
+      - alert: PrediaNginxDown
+        expr: up{job="nginx"} == 0 or nginx_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Nginx no responde al monitoreo"
+          description: "El proxy inverso o su exporter no estan disponibles."
+
+      - alert: PrediaElevatedServerErrors
+        expr: sum(increase(predia_http_response_count_total{status=~"5.."}[5m])) > 10
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PREDIA registra errores HTTP 5xx elevados"
+          description: "Nginx observo mas de 10 respuestas 5xx durante 5 minutos."
+
+      - alert: PrediaPublicEndpointDown
+        expr: probe_success{job="blackbox-https"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PREDIA no esta disponible por HTTPS"
+          description: "La sonda publica fallo para {{ $labels.instance }}."
+
+      - alert: PrediaCertificateExpiringSoon
+        expr: probe_ssl_earliest_cert_expiry{job="blackbox-https"} - time() < 1209600
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "El certificado TLS vence en menos de 14 dias"
+          description: "Renueva o revisa Certbot para {{ $labels.instance }}."
+
+      - alert: PrediaDiskLow
+        expr: node_filesystem_avail_bytes{fstype!~"tmpfs|overlay|squashfs"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay|squashfs"} < 0.15
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Espacio en disco bajo"
+          description: "Queda menos de 15% libre en {{ $labels.mountpoint }}."
+
+      - alert: PrediaHostMemoryHigh
+        expr: 1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) > 0.90
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Memoria del VPS por encima de 90%"
+          description: "El uso sostenido de memoria requiere revision."

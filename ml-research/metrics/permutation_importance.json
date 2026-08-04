@@ -1,0 +1,122 @@
+[
+  {
+    "feature": "family_history_diabetes",
+    "importance_mean": 0.0815711497,
+    "importance_std": 0.0023896433
+  },
+  {
+    "feature": "age",
+    "importance_mean": 0.033991056,
+    "importance_std": 0.001308931
+  },
+  {
+    "feature": "physical_activity_minutes_per_week",
+    "importance_mean": 0.0179381823,
+    "importance_std": 0.0016142898
+  },
+  {
+    "feature": "bmi",
+    "importance_mean": 0.0037423919,
+    "importance_std": 0.0004775629
+  },
+  {
+    "feature": "diet_score",
+    "importance_mean": 0.0022615521,
+    "importance_std": 0.0005348874
+  },
+  {
+    "feature": "hdl_cholesterol",
+    "importance_mean": 0.001268026,
+    "importance_std": 0.0004885943
+  },
+  {
+    "feature": "screen_time_hours_per_day",
+    "importance_mean": 0.0012211732,
+    "importance_std": 0.000261844
+  },
+  {
+    "feature": "triglycerides",
+    "importance_mean": 0.0007842695,
+    "importance_std": 0.000222271
+  },
+  {
+    "feature": "cholesterol_total",
+    "importance_mean": 0.0003202201,
+    "importance_std": 0.0001071033
+  },
+  {
+    "feature": "cardiovascular_history",
+    "importance_mean": 0.0002081289,
+    "importance_std": 0.0001336693
+  },
+  {
+    "feature": "education_level",
+    "importance_mean": 0.0001851719,
+    "importance_std": 6.71161e-05
+  },
+  {
+    "feature": "ldl_cholesterol",
+    "importance_mean": 8.44128e-05,
+    "importance_std": 0.0001191279
+  },
+  {
+    "feature": "diastolic_bp",
+    "importance_mean": 5.27565e-05,
+    "importance_std": 7.60358e-05
+  },
+  {
+    "feature": "gender",
+    "importance_mean": 5.16706e-05,
+    "importance_std": 6.61934e-05
+  },
+  {
+    "feature": "hypertension_history",
+    "importance_mean": 1.61888e-05,
+    "importance_std": 1.29179e-05
+  },
+  {
+    "feature": "heart_rate",
+    "importance_mean": 1.13073e-05,
+    "importance_std": 4.18537e-05
+  },
+  {
+    "feature": "smoking_status",
+    "importance_mean": -6.2917e-06,
+    "importance_std": 7.8338e-06
+  },
+  {
+    "feature": "alcohol_consumption_per_week",
+    "importance_mean": -1.82148e-05,
+    "importance_std": 3.06658e-05
+  },
+  {
+    "feature": "sleep_hours_per_day",
+    "importance_mean": -1.9082e-05,
+    "importance_std": 2.83095e-05
+  },
+  {
+    "feature": "ethnicity",
+    "importance_mean": -4.46667e-05,
+    "importance_std": 0.0001133451
+  },
+  {
+    "feature": "waist_to_hip_ratio",
+    "importance_mean": -4.63138e-05,
+    "importance_std": 7.98882e-05
+  },
+  {
+    "feature": "income_level",
+    "importance_mean": -8.59766e-05,
+    "importance_std": 9.04741e-05
+  },
+  {
+    "feature": "systolic_bp",
+    "importance_mean": -9.47865e-05,
+    "importance_std": 0.0001017719
+  },
+  {
+    "feature": "employment_status",
+    "importance_mean": -9.74154e-05,
+    "importance_std": 8.08916e-05
+  }
+]

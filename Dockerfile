@@ -1,81 +1,87 @@
 # ── Etapa 1: Dependencias ─────────────────────────────────────────
-FROM node:18-alpine AS deps
+FROM node:22-alpine AS deps
 
 WORKDIR /app
 
-# Instalar pnpm
-RUN npm install -g pnpm
+RUN apk add --no-cache openssl
+RUN corepack enable && corepack prepare pnpm@10.23.0 --activate
 
-# Copiar solo archivos de dependencias para cachear la capa
-COPY package.json pnpm-lock.yaml* package-lock.json* ./
+# Copiar archivos de workspace para cachear dependencias
+COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
+COPY apps/web/package.json ./apps/web/package.json
+COPY apps/web/prisma/schema.prisma ./apps/web/prisma/schema.prisma
+COPY packages/shared/package.json ./packages/shared/package.json
 
-# Instalar dependencias
-RUN pnpm install --no-frozen-lockfile
+RUN pnpm install --frozen-lockfile --filter @predia/web --filter @predia/shared
 
 
 # ── Etapa 2: Build ────────────────────────────────────────────────
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# OpenSSL necesario para Prisma
 RUN apk add --no-cache openssl
+RUN corepack enable && corepack prepare pnpm@10.23.0 --activate
 
-# Instalar pnpm
-RUN npm install -g pnpm
-
-# Copiar dependencias desde la etapa anterior
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
 
-# Copiar todo el proyecto (respeta .dockerignore)
 COPY . .
 
-# Generar Prisma Client
-RUN npx prisma generate
+RUN pnpm --filter @predia/web exec prisma generate
 
-# Variables de entorno necesarias para el build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-
-# Placeholders para que `next build` pueda compilar páginas API
-# (los valores reales se inyectan en runtime via env_file)
-ENV JWT_SECRET=build-placeholder-not-used-at-runtime
+ENV PREDIA_BUILD_PHASE=true
 ENV JWT_EXPIRES_IN=7d
 ENV DATABASE_URL=mysql://placeholder:placeholder@localhost:3306/placeholder
-ENV NEXT_PUBLIC_API_URL=http://localhost:3000/api
+ARG NEXT_PUBLIC_API_URL=http://localhost:3000/api
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
-# Build de producción (standalone output)
-RUN pnpm build
+RUN pnpm --filter @predia/web build
 
 
-# ── Etapa 3: Producción (imagen mínima) ──────────────────────────
-FROM node:18-alpine AS runner
+# ── Etapa para migraciones y seed controlado ─────────────────────
+FROM node:22-alpine AS migrator
 
 WORKDIR /app
 
-# Create user + install wget for healthcheck + openssl for Prisma
+RUN apk add --no-cache openssl
+RUN corepack enable && corepack prepare pnpm@10.23.0 --activate
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/web/package.json ./apps/web/package.json
+COPY apps/web/prisma ./apps/web/prisma
+COPY packages/shared/package.json ./packages/shared/package.json
+
+ENV NODE_ENV=production
+
+CMD ["pnpm", "--filter", "@predia/web", "exec", "prisma", "migrate", "deploy"]
+
+
+# ── Etapa 3: Producción ───────────────────────────────────────────
+FROM node:22-alpine AS runner
+
+WORKDIR /app
+
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs && \
     apk add --no-cache wget openssl
 
-# Variables de entorno de producción
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Copiar archivos públicos
-COPY --from=builder /app/public ./public
-
-# Copiar build standalone con permisos correctos
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-# Copiar Prisma schema (por si se necesita para migraciones)
-COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/apps/web/public ./apps/web/public
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder /app/apps/web/prisma ./apps/web/prisma
 
 USER nextjs
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["node", "apps/web/server.js"]

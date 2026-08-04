@@ -1,0 +1,65 @@
+{
+  "expo": {
+    "name": "PREDIA",
+    "slug": "predia-mobile",
+    "version": "1.0.0",
+    "scheme": "predia",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#123F4A"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "mx.edu.upq.predia",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "PREDIA necesita acceso a la cámara para fotografiar documentos clínicos.",
+        "NSMicrophoneUsageDescription": "PREDIA necesita el micrófono para dictado de notas clínicas.",
+        "NSFaceIDUsageDescription": "PREDIA usa Face ID para autenticación segura.",
+        "NSHealthShareUsageDescription": "PREDIA puede leer datos de salud para el automonitoreo."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundColor": "#123F4A"
+      },
+      "package": "mx.edu.upq.predia",
+      "versionCode": 1,
+      "allowBackup": false,
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-local-authentication",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "PREDIA necesita la cámara para fotos clínicas."
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "PREDIA usa el micrófono para el dictado de notas clínicas."
+        }
+      ],
+      "expo-font"
+    ]
+  }
+}

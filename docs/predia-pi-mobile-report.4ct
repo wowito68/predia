@@ -1,0 +1,42 @@
+\expandafter\ifx\csname doTocEntry\endcsname\relax \expandafter\endinput\fi 
+\doTocEntry\toclikechapter{}{\csname a:TocLink\endcsname{1}{x1-1000}{QQ2-1-1}{Resumen}}{2}\relax 
+\doTocEntry\tocchapter{}{\csname a:TocLink\endcsname{1}{Q1-1-2}{}{Resumen}}{ii}\relax 
+\doTocEntry\toclikechapter{}{\csname a:TocLink\endcsname{1}{x1-2000}{QQ2-1-3}{\bbl@ensure@spanish  {\'Indice}}}{3}\relax 
+\doTocEntry\tocchapter{1}{\csname a:TocLink\endcsname{1}{x1-30001}{QQ2-1-4}{Antecedentes}}{2}\relax 
+\doTocEntry\tocsection{1.1}{\csname a:TocLink\endcsname{1}{x1-40001.1}{QQ2-1-5}{Tema del proyecto}}{2}\relax 
+\doTocEntry\toclof{1.1}{\csname a:TocLink\endcsname{1}{x1-4001r1}{}{\ignorespaces Logo del proyecto PREDIA utilizado en la aplicación móvil.}}{figure}\relax 
+\doTocEntry\tocsection{1.2}{\csname a:TocLink\endcsname{1}{x1-50001.2}{QQ2-1-7}{Contexto clínico y tecnológico}}{5}\relax 
+\doTocEntry\tocsection{1.3}{\csname a:TocLink\endcsname{1}{x1-60001.3}{QQ2-1-8}{Situación previa de PREDIA}}{5}\relax 
+\doTocEntry\tocsection{1.4}{\csname a:TocLink\endcsname{1}{x1-70001.4}{QQ2-1-9}{Antecedente de requisitos móviles}}{6}\relax 
+\doTocEntry\tocchapter{2}{\csname a:TocLink\endcsname{1}{x1-80002}{QQ2-1-10}{Definición del proyecto}}{8}\relax 
+\doTocEntry\tocsection{2.1}{\csname a:TocLink\endcsname{1}{x1-90002.1}{QQ2-1-11}{Planteamiento del problema}}{8}\relax 
+\doTocEntry\tocsection{2.2}{\csname a:TocLink\endcsname{1}{x1-100002.2}{QQ2-1-12}{Justificación}}{8}\relax 
+\doTocEntry\tocsubsection{2.2.1}{\csname a:TocLink\endcsname{1}{x1-110002.2.1}{QQ2-1-13}{Valor para el paciente}}{9}\relax 
+\doTocEntry\tocsubsection{2.2.2}{\csname a:TocLink\endcsname{1}{x1-120002.2.2}{QQ2-1-14}{Valor para el personal médico}}{9}\relax 
+\doTocEntry\tocsubsection{2.2.3}{\csname a:TocLink\endcsname{1}{x1-130002.2.3}{QQ2-1-15}{Aprovechamiento de capacidades nativas}}{9}\relax 
+\doTocEntry\tocsubsection{2.2.4}{\csname a:TocLink\endcsname{1}{x1-140002.2.4}{QQ2-1-16}{Reutilización de la inversión tecnológica}}{9}\relax 
+\doTocEntry\tocsubsection{2.2.5}{\csname a:TocLink\endcsname{1}{x1-150002.2.5}{QQ2-1-17}{Continuidad clínica y prevención}}{10}\relax 
+\doTocEntry\tocsection{2.3}{\csname a:TocLink\endcsname{1}{x1-160002.3}{QQ2-1-18}{Alcances y restricciones}}{10}\relax 
+\doTocEntry\tocsubsection{2.3.1}{\csname a:TocLink\endcsname{1}{x1-170002.3.1}{QQ2-1-19}{Alcances}}{10}\relax 
+\doTocEntry\tocsubsection{2.3.2}{\csname a:TocLink\endcsname{1}{x1-180002.3.2}{QQ2-1-20}{Restricciones}}{12}\relax 
+\doTocEntry\tocsection{2.4}{\csname a:TocLink\endcsname{1}{x1-190002.4}{QQ2-1-21}{Objetivo general}}{14}\relax 
+\doTocEntry\tocsection{2.5}{\csname a:TocLink\endcsname{1}{x1-200002.5}{QQ2-1-22}{Objetivos específicos}}{14}\relax 
+\doTocEntry\tocchapter{3}{\csname a:TocLink\endcsname{1}{x1-210003}{QQ2-1-23}{Desarrollo de las etapas}}{16}\relax 
+\doTocEntry\tocsection{3.1}{\csname a:TocLink\endcsname{1}{x1-220003.1}{QQ2-1-24}{Primera etapa del proyecto}}{16}\relax 
+\doTocEntry\tocsubsection{3.1.1}{\csname a:TocLink\endcsname{1}{x1-230003.1.1}{QQ2-1-25}{Análisis de la solución existente}}{16}\relax 
+\doTocEntry\tocsubsection{3.1.2}{\csname a:TocLink\endcsname{1}{x1-240003.1.2}{QQ2-1-26}{Definición de roles y requisitos}}{16}\relax 
+\doTocEntry\toclot{3.1}{\csname a:TocLink\endcsname{1}{x1-24001r1}{}{\ignorespaces Resumen de requisitos priorizados en la primera etapa.}}{table}\relax 
+\doTocEntry\tocsubsection{3.1.3}{\csname a:TocLink\endcsname{1}{x1-250003.1.3}{QQ2-1-28}{Arquitectura tecnológica}}{19}\relax 
+\doTocEntry\tocsubsection{3.1.4}{\csname a:TocLink\endcsname{1}{x1-260003.1.4}{QQ2-1-29}{Diseño de interfaces y navegación}}{19}\relax 
+\doTocEntry\tocsubsection{3.1.5}{\csname a:TocLink\endcsname{1}{x1-270003.1.5}{QQ2-1-30}{Entregables de la primera etapa}}{19}\relax 
+\doTocEntry\tocsection{3.2}{\csname a:TocLink\endcsname{1}{x1-280003.2}{QQ2-1-31}{Segunda etapa del proyecto}}{20}\relax 
+\doTocEntry\tocsubsection{3.2.1}{\csname a:TocLink\endcsname{1}{x1-290003.2.1}{QQ2-1-32}{Construcción del proyecto móvil}}{21}\relax 
+\doTocEntry\tocsubsection{3.2.2}{\csname a:TocLink\endcsname{1}{x1-300003.2.2}{QQ2-1-33}{Integración de autenticación}}{21}\relax 
+\doTocEntry\tocsubsection{3.2.3}{\csname a:TocLink\endcsname{1}{x1-310003.2.3}{QQ2-1-34}{Flujo del médico}}{21}\relax 
+\doTocEntry\tocsubsection{3.2.4}{\csname a:TocLink\endcsname{1}{x1-320003.2.4}{QQ2-1-35}{Flujo del paciente}}{22}\relax 
+\doTocEntry\tocsubsection{3.2.5}{\csname a:TocLink\endcsname{1}{x1-330003.2.5}{QQ2-1-36}{Pruebas realizadas}}{23}\relax 
+\doTocEntry\tocsubsection{3.2.6}{\csname a:TocLink\endcsname{1}{x1-340003.2.6}{QQ2-1-37}{Estado de cumplimiento al cierre de la segunda etapa}}{23}\relax 
+\doTocEntry\tocsection{3.3}{\csname a:TocLink\endcsname{1}{x1-350003.3}{QQ2-1-38}{Resultado de las dos primeras etapas}}{25}\relax 
+\doTocEntry\toclikechapter{}{\csname a:TocLink\endcsname{1}{x1-36000}{QQ2-1-39}{Referencias}}{26}\relax 
+\doTocEntry\tocchapter{}{\csname a:TocLink\endcsname{1}{Q1-1-40}{}{Referencias}}{26}\relax 
+\par 

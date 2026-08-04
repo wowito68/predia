@@ -1,0 +1,262 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[provide=*,spanish]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{float}
+
+\geometry{margin=2.4cm}
+\graphicspath{{docs/env-report-assets/}{env-report-assets/}}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=prediaSlate,
+  urlcolor=prediaBlue,
+  pdftitle={PREDIA - Configuración de variables de entorno},
+  pdfauthor={Equipo PREDIA}
+}
+
+\definecolor{prediaSlate}{HTML}{334155}
+\definecolor{prediaBlue}{HTML}{2563EB}
+\definecolor{prediaGray}{HTML}{667085}
+\definecolor{prediaLight}{HTML}{F7F8FB}
+\definecolor{prediaBorder}{HTML}{E4E7EC}
+\definecolor{prediaRose}{HTML}{BE123C}
+
+\lstdefinestyle{envstyle}{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{prediaLight},
+  frame=single,
+  rulecolor=\color{prediaBorder},
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false
+}
+
+\newcommand{\captura}[3]{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.96\linewidth]{#1}
+    \caption{#2}
+    \label{#3}
+  \end{figure}
+}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  {\Large Universidad Politécnica de Querétaro\par}
+  \vspace{0.35cm}
+  {\large Programa Educativo:\par}
+  {\large Ingeniería en Sistemas Computacionales\par}
+  \vspace{1.2cm}
+
+  {\Huge\bfseries PREDIA\par}
+  \vspace{0.25cm}
+  {\Large Plataforma Clínica Inteligente para la Detección Temprana de Diabetes\par}
+  \vspace{0.9cm}
+
+  {\Large\bfseries REPORTE DE PROYECTO INTEGRADOR\par}
+  \vspace{0.35cm}
+  {\large Integración móvil para autogestión del paciente y atención clínica en movilidad\par}
+  \vspace{1.1cm}
+
+  \begin{tcolorbox}[colback=prediaLight,colframe=prediaBorder,width=0.86\linewidth,arc=2mm,boxrule=0.6pt]
+    \centering
+    {\large\bfseries Informe técnico:\par}
+    \vspace{0.15cm}
+    {\large Configuración de variables de entorno del proyecto PREDIA\par}
+  \end{tcolorbox}
+
+  \vfill
+  {\large\bfseries Presentan:\par}
+  \vspace{0.25cm}
+  Arianna Valentina Giannoccaro Quiñonez\par
+  Álvarez Sánchez Guillermo\par
+  Muñoz Prado Cristopher Yanhyu\par
+  Villafuerte Armenta Gabriel Iván\par
+  \vfill
+
+  {\large Asignatura: S203-9 | Seguridad Informática | MA2026\par}
+  \vspace{0.2cm}
+  {\large Junio de 2026\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Objetivo}
+
+Documentar de forma clara y verificable cómo se configuraron las variables de entorno del proyecto PREDIA, explicando su propósito, los archivos utilizados, los pasos de configuración, las medidas de seguridad aplicadas y la validación técnica realizada para comprobar que el backend web, la aplicación móvil y la base de datos pueden comunicarse correctamente.
+
+El informe se enfoca en la configuración necesaria para trabajar con PREDIA en un entorno local de desarrollo. Por seguridad, las credenciales reales, contraseñas, tokens y secretos se muestran censurados en las capturas y ejemplos.
+
+\begin{tcolorbox}[colback=prediaLight,colframe=prediaBorder,arc=2mm,boxrule=0.6pt,title={Nota de seguridad}]
+Las capturas incluidas documentan los pasos realizados y muestran únicamente valores seguros o censurados. No se exponen contraseñas reales, cadenas completas con credenciales ni el valor original de \texttt{JWT\_SECRET}.
+\end{tcolorbox}
+
+\section{Apuntes}
+
+\subsection{¿Qué son las variables de entorno?}
+
+Las variables de entorno son valores externos al código fuente que permiten configurar una aplicación sin modificar sus archivos internos. En PREDIA se usan para definir la conexión a MySQL, los secretos de autenticación JWT, URLs de API, parámetros de ejecución y direcciones que necesita Expo para consumir el backend desde la app móvil.
+
+Este enfoque permite separar el código de los datos sensibles. Así, el repositorio puede compartirse con plantillas como \texttt{.env.example}, mientras que cada integrante conserva sus credenciales reales en archivos locales como \texttt{.env.local} o \texttt{apps/mobile/.env}.
+
+\subsection{Archivos de entorno identificados}
+
+Durante la revisión del proyecto se localizaron los siguientes archivos:
+
+\begin{longtable}{p{0.32\linewidth}p{0.58\linewidth}}
+\toprule
+\textbf{Archivo} & \textbf{Uso dentro del proyecto} \\
+\midrule
+\texttt{.env.example} & Plantilla general compartible. Contiene nombres de variables y valores de ejemplo sin credenciales reales. \\
+\texttt{.env.local} & Archivo local para desarrollo. Contiene variables reales del equipo, por lo que no debe compartirse públicamente. \\
+\texttt{.env.production} & Archivo destinado a despliegue productivo, con URLs y secretos propios de producción. \\
+\texttt{apps/web/.env} & Variables específicas del backend Next.js y Prisma. \\
+\texttt{apps/mobile/.env} & Variables que Expo expone al bundle móvil, principalmente \texttt{EXPO\_PUBLIC\_API\_URL}. \\
+\texttt{apps/mobile/.env.example} & Plantilla para configurar la URL de API según emulador, navegador o dispositivo físico. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Variables principales}
+
+\begin{longtable}{p{0.30\linewidth}p{0.19\linewidth}p{0.41\linewidth}}
+\toprule
+\textbf{Variable} & \textbf{Módulo} & \textbf{Propósito} \\
+\midrule
+\texttt{DATABASE\_URL} & Backend / Prisma & Cadena de conexión MySQL usada por Prisma y servicios de base de datos. \\
+\texttt{DATABASE\_HOST} & Backend & Host alternativo cuando se configura la base por variables separadas. \\
+\texttt{DATABASE\_PORT} & Backend & Puerto de MySQL, normalmente \texttt{3306}. \\
+\texttt{DATABASE\_NAME} & Backend & Nombre de la base de datos, en este caso \texttt{predia}. \\
+\texttt{DATABASE\_USER} & Backend & Usuario con permisos sobre la base. \\
+\texttt{DATABASE\_PASSWORD} & Backend & Contraseña del usuario de base de datos. Debe permanecer privada. \\
+\texttt{JWT\_SECRET} & Seguridad & Llave secreta para firmar y verificar tokens de sesión. \\
+\texttt{JWT\_EXPIRES\_IN} & Seguridad & Tiempo de expiración del token de acceso. \\
+\texttt{NEXT\_PUBLIC\_API\_URL} & Web & URL pública usada por el frontend web para consumir API. \\
+\texttt{ML\_API\_URL} & Integración IA & Dirección del servicio de Machine Learning si se ejecuta separado. \\
+\texttt{EXPO\_PUBLIC\_API\_URL} & Móvil & URL que la app Expo usa para comunicarse con el backend. \\
+\texttt{NODE\_ENV} & Web & Define si el entorno es desarrollo o producción. \\
+\bottomrule
+\end{longtable}
+
+\section{Desarrollo de la configuración}
+
+\subsection{Paso 1: localizar los archivos de entorno}
+
+Primero se identificaron los archivos \texttt{.env} existentes en la raíz del repositorio y dentro de las aplicaciones \texttt{apps/web} y \texttt{apps/mobile}. Esto permitió distinguir qué variables corresponden al backend, cuáles son de la app móvil y cuáles son plantillas.
+
+\captura{01-localizar-env.png}{Localización de archivos de entorno dentro del repositorio PREDIA.}{fig:localizar-env}
+
+\subsection{Paso 2: crear el archivo local a partir de la plantilla}
+
+La configuración local se preparó tomando como referencia \texttt{.env.example}. La plantilla documenta las variables esperadas y evita que el equipo tenga que adivinar nombres o formatos.
+
+\begin{lstlisting}[style=envstyle,caption={Comando base para preparar el archivo local.}]
+cp .env.example .env.local
+\end{lstlisting}
+
+Después se editó \texttt{.env.local} para establecer el puerto de desarrollo y la URL local de API.
+
+\captura{02-crear-env-local.png}{Creación del archivo \texttt{.env.local} desde la plantilla del proyecto.}{fig:crear-env}
+
+\subsection{Paso 3: configurar backend y base de datos}
+
+PREDIA utiliza MySQL como base de datos y Prisma como capa de acceso a datos. Por ello, la variable más importante para persistencia es \texttt{DATABASE\_URL}. Además, el proyecto incluye variables separadas como \texttt{DATABASE\_HOST}, \texttt{DATABASE\_PORT}, \texttt{DATABASE\_USER}, \texttt{DATABASE\_PASSWORD} y \texttt{DATABASE\_NAME}, que sirven como respaldo cuando se desea configurar la conexión por partes.
+
+\begin{lstlisting}[style=envstyle,caption={Ejemplo censurado de variables de base de datos.}]
+DATABASE_HOST="127.0.0.1"
+DATABASE_PORT="3306"
+DATABASE_NAME="predia"
+DATABASE_USER="predia_user"
+DATABASE_PASSWORD="********"
+DATABASE_URL="mysql://predia_user:********@127.0.0.1:3306/predia"
+\end{lstlisting}
+
+\captura{03-backend-env.png}{Configuración censurada de variables de backend y base de datos.}{fig:backend-env}
+
+\subsection{Paso 4: configurar variables de seguridad}
+
+Para la autenticación de usuarios, PREDIA utiliza tokens JWT. La variable \texttt{JWT\_SECRET} debe ser larga, aleatoria y privada. Se generó con un comando criptográficamente seguro y se almacenó únicamente en el archivo local.
+
+\begin{lstlisting}[style=envstyle,caption={Generación recomendada de un secreto JWT.}]
+openssl rand -base64 32
+\end{lstlisting}
+
+Además, \texttt{JWT\_EXPIRES\_IN} se configuró para controlar la duración de la sesión. En desarrollo se puede usar un valor cómodo, pero en producción debe mantenerse una expiración razonable para reducir riesgos.
+
+\captura{04-jwt-security.png}{Configuración de variables de seguridad y token JWT.}{fig:jwt}
+
+\subsection{Paso 5: configurar la app móvil Expo}
+
+La aplicación móvil necesita saber en qué URL se encuentra el backend. Para Expo, las variables que deben estar disponibles en el bundle del cliente utilizan el prefijo \texttt{EXPO\_PUBLIC\_}. Por eso se configuró:
+
+\begin{lstlisting}[style=envstyle,caption={Variable móvil principal.}]
+EXPO_PUBLIC_API_URL="http://192.168.0.13:3002/api"
+\end{lstlisting}
+
+La URL cambia según el entorno de prueba:
+
+\begin{itemize}[leftmargin=1.3cm]
+  \item \textbf{Expo Web:} puede usar \texttt{http://127.0.0.1:3002/api}.
+  \item \textbf{Emulador Android:} debe usar \texttt{http://10.0.2.2:3002/api}, porque \texttt{localhost} apunta al emulador.
+  \item \textbf{Dispositivo físico:} debe usar la IP LAN del equipo, por ejemplo \texttt{http://192.168.0.13:3002/api}.
+\end{itemize}
+
+\captura{05-mobile-env.png}{Configuración de \texttt{EXPO\_PUBLIC\_API\_URL} para la aplicación móvil.}{fig:mobile-env}
+
+\subsection{Paso 6: validar la configuración}
+
+Después de configurar las variables, se validó que Prisma pudiera leer el esquema y que la base estuviera sincronizada con sus migraciones. También se ejecutó TypeScript en la app móvil para confirmar que la configuración no rompiera el build.
+
+\begin{lstlisting}[style=envstyle,caption={Comandos de validación ejecutados.}]
+npm exec -- prisma validate --schema apps/web/prisma/schema.prisma
+npm exec -- prisma migrate status --schema apps/web/prisma/schema.prisma
+npx tsc -p apps/mobile/tsconfig.json --noEmit
+\end{lstlisting}
+
+\captura{06-validacion.png}{Validación técnica de Prisma, migraciones y TypeScript.}{fig:validacion}
+
+\subsection{Paso 7: aplicar buenas prácticas}
+
+Finalmente se revisaron reglas básicas de seguridad para evitar exponer información sensible. El punto más importante es que \texttt{.env.example} sí puede compartirse porque contiene valores de ejemplo, pero los archivos con credenciales reales no deben subirse ni pegarse en reportes sin censura.
+
+\captura{07-buenas-practicas.png}{Checklist de buenas prácticas aplicadas para variables de entorno.}{fig:buenas-practicas}
+
+\section{Resultado final}
+
+La configuración final permite que PREDIA funcione como sistema integrado:
+
+\begin{itemize}[leftmargin=1.3cm]
+  \item El backend Next.js puede leer sus variables de base de datos, seguridad y URL pública.
+  \item Prisma puede conectarse a MySQL mediante \texttt{DATABASE\_URL}.
+  \item La app móvil Expo puede consumir la API mediante \texttt{EXPO\_PUBLIC\_API\_URL}.
+  \item Los secretos reales permanecen fuera del código fuente y se documentan solamente con valores censurados.
+  \item El proyecto conserva plantillas compartibles para que otros integrantes puedan configurar su propio entorno.
+\end{itemize}
+
+\begin{tcolorbox}[colback=prediaLight,colframe=prediaBorder,arc=2mm,boxrule=0.6pt,title={Resumen de validación}]
+Las pruebas de configuración reportaron esquema Prisma válido, base de datos sincronizada con migraciones y compilación TypeScript móvil sin errores. Esto confirma que las variables de entorno configuradas son suficientes para ejecutar el flujo local de PREDIA.
+\end{tcolorbox}
+
+\section{Conclusión}
+
+La configuración de variables de entorno en PREDIA es una parte crítica del proyecto porque conecta tres elementos principales: backend web, base de datos y aplicación móvil. Al separar las credenciales del código fuente, el sistema se vuelve más seguro, portable y fácil de ejecutar en distintos equipos.
+
+El uso de \texttt{.env.example} facilita que nuevos integrantes conozcan qué variables deben configurar, mientras que \texttt{.env.local}, \texttt{apps/web/.env} y \texttt{apps/mobile/.env} permiten adaptar el proyecto al entorno real de desarrollo. La validación posterior con Prisma y TypeScript confirma que la configuración no solo está escrita, sino que funciona técnicamente.
+
+Como práctica recomendada, ningún secreto debe mostrarse en reportes, capturas públicas o repositorios. Por esa razón, este informe documenta nombres, propósito y formato de las variables, pero censura valores sensibles como contraseñas, cadenas de conexión completas y claves JWT.
+
+\end{document}

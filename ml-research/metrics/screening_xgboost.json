@@ -1,0 +1,29 @@
+{
+  "name": "xgboost",
+  "mode": "screening",
+  "best_params": {
+    "clf__colsample_bytree": 0.7468055921327309,
+    "clf__learning_rate": 0.01699897838270077,
+    "clf__max_depth": 5,
+    "clf__n_estimators": 352,
+    "clf__subsample": 0.9598528437324805
+  },
+  "cv_roc_auc": 0.6587255812159636,
+  "fit_time_sec": 40.0,
+  "subsampled": false,
+  "n_train_used": 80000,
+  "test_metrics": {
+    "accuracy": 0.62885,
+    "balanced_accuracy": 0.5781458333333334,
+    "precision": 0.6487681206526685,
+    "recall_sensitivity": 0.8316666666666667,
+    "specificity": 0.324625,
+    "f1": 0.7289194025490268,
+    "mcc": 0.18170671694019846,
+    "tn": 2597,
+    "fp": 5403,
+    "fn": 2020,
+    "tp": 9980,
+    "roc_auc": 0.6572672395833333
+  }
+}

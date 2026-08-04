@@ -1,0 +1,8 @@
+# PREDIA — Framework de estratificación de riesgo BRFSS 2015 (Python 3.12)
+# Reutiliza el venv de ml-research/ (mismas versiones). Dependencia extra:
+#   .venv/bin/pip install kagglehub
+#
+# Heredadas de ../requirements.txt:
+#   numpy, scipy, pandas, scikit-learn, xgboost, lightgbm, shap, matplotlib,
+#   seaborn, joblib, nbformat, nbconvert, ipykernel
+kagglehub>=0.3.0

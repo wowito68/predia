@@ -1,0 +1,15 @@
+# Intermedios de compilación LaTeX (se regeneran con pdflatex/bibtex)
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+# Los PDF en la raíz de paper/ son intermedios; el entregable está en pdf/
+/main.pdf
+/main_es.pdf

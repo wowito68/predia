@@ -1,0 +1,228 @@
+{
+  "risk_model": "xgboost",
+  "shap_model": "xgboost",
+  "top_drivers": [
+    {
+      "feature": "GenHlth",
+      "mean_abs_shap": 0.58394,
+      "label": "Salud general percibida",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "HighBP",
+      "mean_abs_shap": 0.45887,
+      "label": "Hipertensión arterial",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "BMI",
+      "mean_abs_shap": 0.39509,
+      "label": "Índice de masa corporal (IMC)",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "Age",
+      "mean_abs_shap": 0.35878,
+      "label": "Grupo etario",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "HighChol",
+      "mean_abs_shap": 0.26328,
+      "label": "Colesterol alto",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "Income",
+      "mean_abs_shap": 0.11465,
+      "label": "Nivel de ingreso",
+      "direction": "protector"
+    },
+    {
+      "feature": "Sex",
+      "mean_abs_shap": 0.09535,
+      "label": "Sexo (0=mujer, 1=hombre)",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "HeartDiseaseorAttack",
+      "mean_abs_shap": 0.05411,
+      "label": "Cardiopatía coronaria o infarto",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "CholCheck",
+      "mean_abs_shap": 0.04987,
+      "label": "Chequeo de colesterol en 5 años",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "DiffWalk",
+      "mean_abs_shap": 0.04893,
+      "label": "Dificultad para caminar/subir escaleras",
+      "direction": "riesgo"
+    }
+  ],
+  "protective_factors": [
+    {
+      "feature": "Income",
+      "mean_abs_shap": 0.11465,
+      "label": "Nivel de ingreso",
+      "direction": "protector"
+    },
+    {
+      "feature": "HvyAlcoholConsump",
+      "mean_abs_shap": 0.04597,
+      "label": "Consumo elevado de alcohol",
+      "direction": "protector"
+    },
+    {
+      "feature": "MentHlth",
+      "mean_abs_shap": 0.02935,
+      "label": "Días de mala salud mental (30d)",
+      "direction": "protector"
+    },
+    {
+      "feature": "Education",
+      "mean_abs_shap": 0.01726,
+      "label": "Nivel educativo",
+      "direction": "protector"
+    },
+    {
+      "feature": "Fruits",
+      "mean_abs_shap": 0.01149,
+      "label": "Consume fruta ≥1/día",
+      "direction": "protector"
+    },
+    {
+      "feature": "PhysActivity",
+      "mean_abs_shap": 0.00838,
+      "label": "Actividad física (últimos 30 días)",
+      "direction": "protector"
+    },
+    {
+      "feature": "Smoker",
+      "mean_abs_shap": 0.00333,
+      "label": "Fumador (≥100 cigarrillos de por vida)",
+      "direction": "protector"
+    },
+    {
+      "feature": "Veggies",
+      "mean_abs_shap": 0.00169,
+      "label": "Consume verdura ≥1/día",
+      "direction": "protector"
+    }
+  ],
+  "risk_factors": [
+    {
+      "feature": "GenHlth",
+      "mean_abs_shap": 0.58394,
+      "label": "Salud general percibida",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "HighBP",
+      "mean_abs_shap": 0.45887,
+      "label": "Hipertensión arterial",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "BMI",
+      "mean_abs_shap": 0.39509,
+      "label": "Índice de masa corporal (IMC)",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "Age",
+      "mean_abs_shap": 0.35878,
+      "label": "Grupo etario",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "HighChol",
+      "mean_abs_shap": 0.26328,
+      "label": "Colesterol alto",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "Sex",
+      "mean_abs_shap": 0.09535,
+      "label": "Sexo (0=mujer, 1=hombre)",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "HeartDiseaseorAttack",
+      "mean_abs_shap": 0.05411,
+      "label": "Cardiopatía coronaria o infarto",
+      "direction": "riesgo"
+    },
+    {
+      "feature": "CholCheck",
+      "mean_abs_shap": 0.04987,
+      "label": "Chequeo de colesterol en 5 años",
+      "direction": "riesgo"
+    }
+  ],
+  "permutation_top": [
+    {
+      "feature": "GenHlth",
+      "importance_mean": 0.04803,
+      "importance_std": 0.00254,
+      "label": "Salud general percibida"
+    },
+    {
+      "feature": "BMI",
+      "importance_mean": 0.0374,
+      "importance_std": 0.00136,
+      "label": "Índice de masa corporal (IMC)"
+    },
+    {
+      "feature": "Age",
+      "importance_mean": 0.02975,
+      "importance_std": 0.00209,
+      "label": "Grupo etario"
+    },
+    {
+      "feature": "HighBP",
+      "importance_mean": 0.01688,
+      "importance_std": 0.00113,
+      "label": "Hipertensión arterial"
+    },
+    {
+      "feature": "HighChol",
+      "importance_mean": 0.01002,
+      "importance_std": 0.00087,
+      "label": "Colesterol alto"
+    },
+    {
+      "feature": "CholCheck",
+      "importance_mean": 0.00357,
+      "importance_std": 0.00067,
+      "label": "Chequeo de colesterol en 5 años"
+    },
+    {
+      "feature": "HvyAlcoholConsump",
+      "importance_mean": 0.00355,
+      "importance_std": 0.00077,
+      "label": "Consumo elevado de alcohol"
+    },
+    {
+      "feature": "Sex",
+      "importance_mean": 0.00291,
+      "importance_std": 0.00018,
+      "label": "Sexo (0=mujer, 1=hombre)"
+    },
+    {
+      "feature": "Income",
+      "importance_mean": 0.0025,
+      "importance_std": 0.00037,
+      "label": "Nivel de ingreso"
+    },
+    {
+      "feature": "HeartDiseaseorAttack",
+      "importance_mean": 0.00172,
+      "importance_std": 0.0004,
+      "label": "Cardiopatía coronaria o infarto"
+    }
+  ]
+}
