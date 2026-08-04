@@ -1,5 +1,10 @@
 import { randomBytes } from "crypto"
-import { decryptSensitiveField, encryptSensitiveField } from "@/lib/crypto"
+import {
+  decryptSensitiveField,
+  decryptSensitiveFieldIfNeeded,
+  encryptSensitiveField,
+  isEncryptedSensitiveField,
+} from "@/lib/crypto"
 import { hashPassword, verifyPassword } from "@/lib/auth"
 
 describe("Seguridad criptografica", () => {
@@ -26,5 +31,15 @@ describe("Seguridad criptografica", () => {
     const encrypted = encryptSensitiveField("dato clinico", key)
 
     expect(() => decryptSensitiveField(encrypted, wrongKey)).toThrow()
+  })
+
+  it("mantiene compatibilidad de lectura y detecta campos cifrados", () => {
+    const key = randomBytes(32).toString("base64")
+    const encrypted = encryptSensitiveField("nota de automonitoreo", key)
+
+    expect(isEncryptedSensitiveField(encrypted)).toBe(true)
+    expect(isEncryptedSensitiveField("nota historica")).toBe(false)
+    expect(decryptSensitiveFieldIfNeeded(encrypted, key)).toBe("nota de automonitoreo")
+    expect(decryptSensitiveFieldIfNeeded("nota historica", key)).toBe("nota historica")
   })
 })

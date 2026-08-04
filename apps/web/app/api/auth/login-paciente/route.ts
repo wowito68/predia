@@ -8,15 +8,19 @@ import { serialize } from "@/lib/cookies"
 import { recordAuthAttempt } from "@/lib/metrics"
 
 const loginPacienteSchema = z.object({
-  curp: z.string().trim().min(8, "CURP inválido").max(18).transform((v) => v.toUpperCase()),
-  pin: z.string().min(4, "El PIN debe tener al menos 4 dígitos").max(12),
-})
+  curp: z.string()
+    .trim()
+    .transform((value) => value.toUpperCase())
+    .pipe(z.string().regex(/^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d$/, "CURP inválida")),
+  pin: z.string().regex(/^\d{6,12}$/, "El PIN debe contener entre 6 y 12 dígitos"),
+}).strict()
 
 export async function POST(req: NextRequest) {
   try {
     const clientIp = getClientIp(req)
     const userAgent = req.headers.get("user-agent")
-    const { allowed, resetIn } = checkRateLimit(clientIp, 5, 15 * 60 * 1000)
+    const rateLimitKey = `login-patient:${clientIp}`
+    const { allowed, resetIn } = checkRateLimit(rateLimitKey, 5, 15 * 60 * 1000)
     if (!allowed) {
       recordAuthAttempt("paciente", false)
       return NextResponse.json(
@@ -42,7 +46,7 @@ export async function POST(req: NextRequest) {
       recordAuthAttempt("paciente", false)
       return NextResponse.json({ success: false, error: result.message || "Autenticación fallida" }, { status: 401 })
     }
-    resetRateLimit(clientIp)
+    resetRateLimit(rateLimitKey)
     recordAuthAttempt("paciente", true)
 
     const refreshToken = await issueRefreshToken(

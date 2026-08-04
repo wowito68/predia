@@ -85,6 +85,7 @@ const required = [
   "MYSQL_DATABASE",
   "MYSQL_USER",
   "MYSQL_PASSWORD",
+  "MYSQL_EXPORTER_PASSWORD",
   "DATABASE_URL",
   "JWT_SECRET",
   "JWT_EXPIRES_IN",
@@ -113,11 +114,18 @@ if (env.SECURE_COOKIES && env.SECURE_COOKIES !== "true") {
 
 validateSecret(env, "MYSQL_ROOT_PASSWORD", 20)
 validateSecret(env, "MYSQL_PASSWORD", 20)
+validateSecret(env, "MYSQL_EXPORTER_PASSWORD", 20)
 validateSecret(env, "JWT_SECRET", 32)
 validateSecret(env, "GRAFANA_ADMIN_PASSWORD", 20)
 
 if (env.MYSQL_ROOT_PASSWORD && env.MYSQL_ROOT_PASSWORD === env.MYSQL_PASSWORD) {
   addSecretError("MYSQL_ROOT_PASSWORD y MYSQL_PASSWORD deben ser diferentes")
+}
+if (env.MYSQL_EXPORTER_PASSWORD && !/^[A-Za-z0-9_-]+$/.test(env.MYSQL_EXPORTER_PASSWORD)) {
+  addSecretError("MYSQL_EXPORTER_PASSWORD solo puede contener letras, numeros, guion y guion bajo")
+}
+if ([env.MYSQL_ROOT_PASSWORD, env.MYSQL_PASSWORD].includes(env.MYSQL_EXPORTER_PASSWORD)) {
+  addSecretError("MYSQL_EXPORTER_PASSWORD debe ser independiente de las otras claves MySQL")
 }
 
 if (env.PREDIA_ENCRYPTION_KEY && !isValidEncryptionKey(env.PREDIA_ENCRYPTION_KEY)) {

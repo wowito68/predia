@@ -1,0 +1,18 @@
+[Unit]
+Description=Respaldo verificado de la base de datos PREDIA
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=@PREDIA_ROOT@
+Environment=PREDIA_ENV_FILE=@PREDIA_ENV_FILE@
+Environment=BACKUP_DIR=@BACKUP_DIR@
+Environment=BACKUP_RETENTION_DAYS=14
+UMask=0077
+ExecStart=@PREDIA_ROOT@/scripts/backup/production-backup.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -33,9 +33,10 @@ export function useDictation({ onTranscriptionComplete }: UseDictationProps = {}
                 formData.append("file", audioBlob, "recording.webm");
 
                 try {
-                    // In a real app, check if we have an API key or mock it
+                    const token = localStorage.getItem("token");
                     const response = await fetch("/api/voice/transcribe", {
                         method: "POST",
+                        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
                         body: formData,
                     });
 

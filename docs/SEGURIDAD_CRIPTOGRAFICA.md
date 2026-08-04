@@ -11,7 +11,8 @@
 |---|---|---|
 | Contrasena de personal | bcrypt | `hashPassword`, `verifyPassword` en `apps/web/lib/auth.ts` |
 | PIN de paciente | bcrypt | `authenticatePaciente` contra `pin_hash` |
-| Datos sensibles recuperables | AES-256-GCM | `encryptSensitiveField`, `decryptSensitiveField` |
+| Notas nuevas de automonitoreo | AES-256-GCM | Cifrado antes de escribir y descifrado despues de autorizar la lectura |
+| Otros datos sensibles recuperables | AES-256-GCM disponible | `encryptSensitiveField`, `decryptSensitiveField` |
 | Refresh token | SHA-256 del token opaco | tabla `refresh_token` |
 
 ## Llaves y secretos
@@ -34,6 +35,7 @@ Cobertura:
 - Contrasena incorrecta rechaza.
 - AES-256-GCM cifra/descifra con llave correcta.
 - Descifrado con llave incorrecta falla por autenticacion GCM.
+- Compatibilidad de lectura con notas historicas y cifrado de notas nuevas.
 
 ## Demo para exposicion
 

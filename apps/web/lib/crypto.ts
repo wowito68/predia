@@ -50,3 +50,12 @@ export function decryptSensitiveField(payload: string, explicitKey?: string): st
   return decrypted.toString("utf8")
 }
 
+export function isEncryptedSensitiveField(payload: string): boolean {
+  return payload.startsWith(`${VERSION}:`)
+}
+
+export function decryptSensitiveFieldIfNeeded(payload: string, explicitKey?: string): string {
+  return isEncryptedSensitiveField(payload)
+    ? decryptSensitiveField(payload, explicitKey)
+    : payload
+}

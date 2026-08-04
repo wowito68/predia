@@ -1,6 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
 import { prisma } from "@/lib/prisma"
 import { verifyToken } from "@/lib/auth"
+
+const createCitaSchema = z.object({
+  id_paciente: z.coerce.number().int().positive(),
+  fecha: z.string().datetime(),
+  motivo: z.string().trim().min(3).max(500),
+}).strict()
+
+function canManageAgenda(role: string) {
+  return role === "Médico" || role === "Administrador"
+}
 
 function serializeCita(cita: any) {
   return {
@@ -81,18 +92,20 @@ export async function POST(request: NextRequest) {
   try {
     const user = await authenticatedUser(request)
     if (!user) return NextResponse.json({ success: false, error: "No autorizado" }, { status: 401 })
+    if (!canManageAgenda(user.rol)) {
+      return NextResponse.json({ success: false, error: "Acceso denegado" }, { status: 403 })
+    }
 
-    const body = await request.json()
-    const idPaciente = Number(body.id_paciente)
-    const fecha = new Date(body.fecha)
-    const motivo = String(body.motivo ?? "").trim()
-
-    if (!Number.isInteger(idPaciente) || Number.isNaN(fecha.getTime()) || !motivo) {
+    const validation = createCitaSchema.safeParse(await request.json())
+    if (!validation.success) {
       return NextResponse.json(
-        { success: false, error: "Faltan datos válidos: id_paciente, fecha y motivo" },
+        { success: false, error: "Datos inválidos", details: validation.error.errors },
         { status: 400 },
       )
     }
+    const idPaciente = validation.data.id_paciente
+    const fecha = new Date(validation.data.fecha)
+    const motivo = validation.data.motivo
     if (fecha.getTime() < Date.now() - 60_000) {
       return NextResponse.json({ success: false, error: "La cita debe programarse en el futuro" }, { status: 400 })
     }

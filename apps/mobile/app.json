@@ -3,17 +3,19 @@
     "name": "PREDIA",
     "slug": "predia-mobile",
     "version": "1.0.0",
+    "scheme": "predia",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#1565C0"
+      "backgroundColor": "#123F4A"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "mx.edu.upq.predia",
+      "buildNumber": "1",
       "infoPlist": {
         "NSCameraUsageDescription": "PREDIA necesita acceso a la cámara para fotografiar documentos clínicos.",
         "NSMicrophoneUsageDescription": "PREDIA necesita el micrófono para dictado de notas clínicas.",
@@ -24,9 +26,11 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundColor": "#1565C0"
+        "backgroundColor": "#123F4A"
       },
       "package": "mx.edu.upq.predia",
+      "versionCode": 1,
+      "allowBackup": false,
       "permissions": [
         "CAMERA",
         "RECORD_AUDIO",

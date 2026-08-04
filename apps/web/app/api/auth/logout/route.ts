@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
 import { serialize } from "@/lib/cookies"
 import { revokeRefreshToken } from "@/lib/auth"
+
+const refreshTokenSchema = z.string().min(32).max(256)
 
 export async function POST(request: NextRequest) {
   let bodyRefreshToken: string | undefined
@@ -10,7 +13,9 @@ export async function POST(request: NextRequest) {
   } catch {
     bodyRefreshToken = undefined
   }
-  await revokeRefreshToken(bodyRefreshToken || request.cookies.get("refresh-token")?.value)
+  const refreshToken = bodyRefreshToken || request.cookies.get("refresh-token")?.value
+  const validation = refreshTokenSchema.safeParse(refreshToken)
+  if (validation.success) await revokeRefreshToken(validation.data)
 
   const response = NextResponse.json({ success: true, message: "Sesión cerrada" })
   const secureCookies = process.env.SECURE_COOKIES === "true" || process.env.NODE_ENV === "production"

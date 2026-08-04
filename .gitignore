@@ -18,6 +18,7 @@ apps/web/public/fallback-*.js
 # runtime/local evidence helpers
 .tmp/
 backups/
+.deploy/
 **/metro-cache/
 **/v8-compile-cache/
 **/.expo/

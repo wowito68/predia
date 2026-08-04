@@ -1,41 +1,296 @@
 {
-  "uid": "predia-overview",
-  "title": "PREDIA - Salud del sistema",
-  "schemaVersion": 39,
-  "version": 1,
-  "refresh": "15s",
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": { "type": "grafana", "uid": "-- Grafana --" },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(245, 158, 11, 1)",
+        "name": "Alerts and annotations",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "graphTooltip": 1,
   "panels": [
     {
       "type": "stat",
-      "title": "API up",
-      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
-      "targets": [{ "expr": "sum(predia_app_up)", "refId": "A" }]
+      "title": "API replicas disponibles",
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "orange", "value": 1 },
+              { "color": "green", "value": 2 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        { "expr": "sum(up{job=\"predia-api\"})", "refId": "A" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Disponibilidad publica",
+      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "red", "text": "CAIDA" },
+                "1": { "color": "green", "text": "OPERATIVA" }
+              },
+              "type": "value"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        { "expr": "min(probe_success{job=\"blackbox-https\"})", "refId": "A" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "MySQL",
+      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "red", "text": "NO DISPONIBLE" },
+                "1": { "color": "green", "text": "DISPONIBLE" }
+              },
+              "type": "value"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "targets": [
+        { "expr": "max(up{job=\"mysql\"})", "refId": "A" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "TLS restante",
+      "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "unit": "d",
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "orange", "value": 14 },
+              { "color": "green", "value": 30 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "min((probe_ssl_earliest_cert_expiry{job=\"blackbox-https\"} - time()) / 86400)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Disco libre minimo",
+      "gridPos": { "x": 16, "y": 0, "w": 4, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "unit": "percentunit",
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "orange", "value": 0.15 },
+              { "color": "green", "value": 0.3 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "min(node_filesystem_avail_bytes{fstype!~\"tmpfs|overlay|squashfs\"} / node_filesystem_size_bytes{fstype!~\"tmpfs|overlay|squashfs\"})",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Memoria del VPS",
+      "gridPos": { "x": 20, "y": 0, "w": 4, "h": 4 },
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "unit": "percentunit",
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 0.75 },
+              { "color": "red", "value": 0.9 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)",
+          "refId": "A"
+        }
+      ]
     },
     {
       "type": "timeseries",
-      "title": "HTTP requests",
-      "gridPos": { "x": 6, "y": 0, "w": 9, "h": 8 },
-      "targets": [{ "expr": "sum by (route,status) (rate(predia_http_requests_total[5m]))", "refId": "A" }]
+      "title": "Solicitudes procesadas por Nginx",
+      "gridPos": { "x": 0, "y": 4, "w": 8, "h": 8 },
+      "fieldConfig": {
+        "defaults": { "unit": "reqps" },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "rate(nginx_http_requests_total[5m])",
+          "legendFormat": "solicitudes/s",
+          "refId": "A"
+        }
+      ]
     },
     {
       "type": "timeseries",
-      "title": "Auth failures",
-      "gridPos": { "x": 15, "y": 0, "w": 9, "h": 8 },
-      "targets": [{ "expr": "sum by (role) (increase(predia_auth_attempts_total{result=\"failure\"}[5m]))", "refId": "A" }]
+      "title": "Latencia de endpoints publicos",
+      "gridPos": { "x": 8, "y": 4, "w": 8, "h": 8 },
+      "fieldConfig": {
+        "defaults": { "unit": "s" },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "probe_duration_seconds{job=\"blackbox-https\"}",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ]
     },
     {
       "type": "timeseries",
-      "title": "Memory RSS",
-      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
-      "targets": [{ "expr": "predia_process_memory_bytes{type=\"rss\"}", "refId": "A" }]
+      "title": "Respuestas HTTP 4xx y 5xx",
+      "gridPos": { "x": 16, "y": 4, "w": 8, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum by (status) (rate(predia_http_response_count_total{status=~\"4..|5..\"}[5m]))",
+          "legendFormat": "HTTP {{status}}",
+          "refId": "A"
+        }
+      ]
     },
     {
       "type": "timeseries",
-      "title": "Container CPU",
-      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
-      "targets": [{ "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{name=~\"predia.*\"}[5m]))", "refId": "A" }]
+      "title": "CPU por contenedor PREDIA",
+      "gridPos": { "x": 0, "y": 12, "w": 8, "h": 8 },
+      "fieldConfig": {
+        "defaults": { "unit": "percentunit" },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{name=~\"predia.*\"}[5m]))",
+          "legendFormat": "{{name}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Memoria por contenedor PREDIA",
+      "gridPos": { "x": 8, "y": 12, "w": 8, "h": 8 },
+      "fieldConfig": {
+        "defaults": { "unit": "bytes" },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "container_memory_working_set_bytes{name=~\"predia.*\"}",
+          "legendFormat": "{{name}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Conexiones MySQL",
+      "gridPos": { "x": 16, "y": 12, "w": 8, "h": 8 },
+      "targets": [
+        {
+          "expr": "mysql_global_status_threads_connected",
+          "legendFormat": "conexiones activas",
+          "refId": "A"
+        },
+        {
+          "expr": "mysql_global_status_max_used_connections",
+          "legendFormat": "maximo utilizado",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Latencia HTTP total p95",
+      "gridPos": { "x": 0, "y": 20, "w": 12, "h": 8 },
+      "fieldConfig": {
+        "defaults": { "unit": "s" },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(predia_http_response_time_seconds_hist_bucket[5m])))",
+          "legendFormat": "p95",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Fallos de autenticacion",
+      "gridPos": { "x": 12, "y": 20, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum by (role) (increase(predia_auth_attempts_total{result=\"failure\"}[5m]))",
+          "legendFormat": "{{role}}",
+          "refId": "A"
+        }
+      ]
     }
   ],
-  "time": { "from": "now-30m", "to": "now" }
+  "refresh": "15s",
+  "schemaVersion": 39,
+  "tags": ["predia", "produccion", "salud"],
+  "templating": { "list": [] },
+  "time": { "from": "now-30m", "to": "now" },
+  "timezone": "browser",
+  "title": "PREDIA - Salud del sistema",
+  "uid": "predia-overview",
+  "version": 2
 }
-

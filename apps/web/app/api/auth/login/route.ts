@@ -7,15 +7,20 @@ import { checkRateLimit, getClientIp, resetRateLimit } from "@/lib/rate-limit"
 import { recordAuthAttempt } from "@/lib/metrics"
 
 const loginSchema = z.object({
-  username: z.string().min(3, "Usuario debe tener al menos 3 caracteres"),
-  password: z.string().min(6, "Contraseña debe tener al menos 6 caracteres"),
-})
+  username: z.string()
+    .trim()
+    .min(3, "Usuario debe tener al menos 3 caracteres")
+    .max(100, "Usuario demasiado largo")
+    .regex(/^[A-Za-z0-9._-]+$/, "Usuario inválido"),
+  password: z.string().min(6, "Contraseña debe tener al menos 6 caracteres").max(128),
+}).strict()
 
 export async function POST(req: NextRequest) {
   try {
     const clientIp = getClientIp(req)
     const userAgent = req.headers.get("user-agent")
-    const { allowed, remaining, resetIn } = checkRateLimit(clientIp, 5, 15 * 60 * 1000) // 5 intentos cada 15 minutos
+    const rateLimitKey = `login-staff:${clientIp}`
+    const { allowed, resetIn } = checkRateLimit(rateLimitKey, 5, 15 * 60 * 1000)
     if (!allowed) {
       recordAuthAttempt("usuario", false)
       return NextResponse.json(
@@ -52,7 +57,7 @@ export async function POST(req: NextRequest) {
       recordAuthAttempt("usuario", false)
       return NextResponse.json({ error: result.message || "Autenticación fallida" }, { status: 401 })
     }
-    resetRateLimit(clientIp)
+    resetRateLimit(rateLimitKey)
     recordAuthAttempt("usuario", true)
 
     const refreshToken = await issueRefreshToken(

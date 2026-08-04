@@ -27,16 +27,13 @@ env:
   DATABASE_URL: mysql://predia_ci:predia_ci_password@127.0.0.1:3306/predia_ci
   NEXT_PUBLIC_API_URL: http://127.0.0.1:3000/api
   EXPO_PUBLIC_API_URL: http://127.0.0.1:3000/api
-  JWT_SECRET: predia_ci_jwt_secret_32_bytes_min
   JWT_EXPIRES_IN: 15m
   JWT_ISSUER: predia-ci
   JWT_AUDIENCE: predia-ci-clients
-  PREDIA_ENCRYPTION_KEY: cHJlZGlhLWNpLWVuY3J5cHRpb24ta2V5LTMyLWJ5ISE=
   MYSQL_ROOT_PASSWORD: root
   MYSQL_DATABASE: predia_ci
   MYSQL_USER: predia_ci
   MYSQL_PASSWORD: predia_ci_password
-  GRAFANA_ADMIN_PASSWORD: predia-ci-grafana-password
 
 defaults:
   run:
@@ -52,6 +49,16 @@ jobs:
 
       - name: Validate workflow syntax
         run: docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12
+
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Scan repository tree with Gitleaks
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.30.1 dir /repo --redact --no-banner --timeout 120
 
   quality:
     name: Lint and typecheck
@@ -216,6 +223,11 @@ jobs:
       - name: Generate Prisma client
         run: pnpm prisma:generate
 
+      - name: Generate ephemeral build secrets
+        run: |
+          echo "JWT_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+          echo "PREDIA_ENCRYPTION_KEY=$(openssl rand -base64 32 | tr -d '\n')" >> "$GITHUB_ENV"
+
       - name: Build web app
         env:
           NODE_ENV: production
@@ -282,16 +294,25 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v4
 
+      - name: Generate ephemeral compose secrets
+        run: |
+          {
+            echo "JWT_SECRET=$(openssl rand -hex 32)"
+            echo "PREDIA_ENCRYPTION_KEY=$(openssl rand -base64 32 | tr -d '\n')"
+            echo "MYSQL_EXPORTER_PASSWORD=$(openssl rand -hex 24)"
+            echo "GRAFANA_ADMIN_PASSWORD=$(openssl rand -hex 24)"
+          } >> "$GITHUB_ENV"
+
       - name: Create CI env files for compose validation
         run: |
-          cat > .env.local <<'EOF'
+          cat > .env.local <<EOF
           DATABASE_URL=mysql://predia_ci:predia_ci_password@db:3306/predia_ci
-          JWT_SECRET=predia_ci_jwt_secret_32_bytes_min
+          JWT_SECRET=${JWT_SECRET}
           JWT_EXPIRES_IN=15m
-          PREDIA_ENCRYPTION_KEY=cHJlZGlhLWNpLWVuY3J5cHRpb24ta2V5LTMyLWJ5ISE=
+          PREDIA_ENCRYPTION_KEY=${PREDIA_ENCRYPTION_KEY}
           NEXT_PUBLIC_API_URL=http://localhost:3000/api
           EOF
-          cat > .env.production <<'EOF'
+          cat > .env.production <<EOF
           NODE_ENV=production
           PREDIA_DOMAIN=predia-ci.example.com
           APP_URL=https://predia-ci.example.com
@@ -302,18 +323,19 @@ jobs:
           MYSQL_DATABASE=predia_ci
           MYSQL_USER=predia_ci
           MYSQL_PASSWORD=Ci-App-Password-Only-2026
-          JWT_SECRET=predia_ci_jwt_secret_32_bytes_min
+          MYSQL_EXPORTER_PASSWORD=${MYSQL_EXPORTER_PASSWORD}
+          JWT_SECRET=${JWT_SECRET}
           JWT_EXPIRES_IN=15m
           JWT_REFRESH_EXPIRES_IN=7d
           JWT_ISSUER=predia-ci
           JWT_AUDIENCE=predia-ci-clients
-          PREDIA_ENCRYPTION_KEY=cHJlZGlhLWNpLWVuY3J5cHRpb24ta2V5LTMyLWJ5ISE=
+          PREDIA_ENCRYPTION_KEY=${PREDIA_ENCRYPTION_KEY}
           ALLOWED_ORIGINS=https://predia-ci.example.com
           SECURE_COOKIES=true
           COOKIE_DOMAIN=predia-ci.example.com
           LETSENCRYPT_EMAIL=ci@example.com
           SEED_DEMO_DATA=false
-          GRAFANA_ADMIN_PASSWORD=Ci-Grafana-Password-Only-2026
+          GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
           EOF
 
       - name: Validate production environment contract
@@ -432,6 +454,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - actionlint
+      - secret-scan
       - quality
       - tests
       - database

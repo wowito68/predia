@@ -2,13 +2,13 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import { query, queryOne } from "@/lib/db"
-import { hashPassword, verifyToken } from "@/lib/auth"
+import { hashPassword, verificarPermiso, verifyToken } from "@/lib/auth"
+import { PUBLIC_USER_SELECT, type PublicUsuario } from "@/lib/public-user"
 import type { NextRequest } from "next/server"
-import type { Usuario } from "@/types/database"
 
 // Schema para actualizar usuario
 const updateUserSchema = z.object({
-  password: z.string().min(6).optional(),
+  password: z.string().min(12).max(128).optional(),
   nombre: z.string().min(2).max(100).optional(),
   apellido_paterno: z.string().min(2).max(100).optional(),
   apellido_materno: z.string().max(100).optional(),
@@ -18,7 +18,7 @@ const updateUserSchema = z.object({
   especialidad: z.string().optional(),
   id_rol: z.number().int().positive().optional(),
   activo: z.boolean().optional(),
-})
+}).strict()
 
 interface RouteParams {
   params: Promise<{ id: string }>
@@ -39,15 +39,18 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
     if (!user) {
       return NextResponse.json({ error: "Token inválido" }, { status: 401 })
     }
+    if (!verificarPermiso(user.rol, "listar_usuarios")) {
+      return NextResponse.json({ error: "Acceso denegado" }, { status: 403 })
+    }
 
     const userId = parseInt(id)
     if (isNaN(userId)) {
       return NextResponse.json({ error: "ID de usuario inválido" }, { status: 400 })
     }
 
-    const usuario = await queryOne<Usuario & { nombre_rol: string }>(
+    const usuario = await queryOne<PublicUsuario>(
       `
-      SELECT u.*, r.nombre_rol
+      SELECT ${PUBLIC_USER_SELECT}
       FROM usuario u
       LEFT JOIN rol r ON u.id_rol = r.id_rol
       WHERE u.id_usuario = ?
@@ -87,6 +90,9 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     if (!user) {
       return NextResponse.json({ error: "Token inválido" }, { status: 401 })
     }
+    if (!verificarPermiso(user.rol, "editar_usuario")) {
+      return NextResponse.json({ error: "Acceso denegado" }, { status: 403 })
+    }
 
     const userId = parseInt(id)
     if (isNaN(userId)) {
@@ -105,6 +111,13 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     }
 
     const data = validation.data
+
+    if (user.id_usuario === userId && (data.activo === false || data.id_rol !== undefined)) {
+      return NextResponse.json(
+        { error: "No puedes desactivar tu propia cuenta ni cambiar tu propio rol" },
+        { status: 409 },
+      )
+    }
 
     // Verificar que el usuario existe
     const existingUser = await queryOne("SELECT id_usuario FROM usuario WHERE id_usuario = ?", [
@@ -133,6 +146,13 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
       )
       if (cedulaExists) {
         return NextResponse.json({ error: "La cédula profesional ya está en uso" }, { status: 409 })
+      }
+    }
+
+    if (data.id_rol) {
+      const roleExists = await queryOne("SELECT id_rol FROM rol WHERE id_rol = ? AND activo = TRUE", [data.id_rol])
+      if (!roleExists) {
+        return NextResponse.json({ error: "El rol especificado no existe" }, { status: 400 })
       }
     }
 
@@ -199,9 +219,9 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     )
 
     // Obtener usuario actualizado
-    const updatedUser = await queryOne<Usuario & { nombre_rol: string }>(
+    const updatedUser = await queryOne<PublicUsuario>(
       `
-      SELECT u.*, r.nombre_rol
+      SELECT ${PUBLIC_USER_SELECT}
       FROM usuario u
       LEFT JOIN rol r ON u.id_rol = r.id_rol
       WHERE u.id_usuario = ?
@@ -238,10 +258,16 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
     if (!user) {
       return NextResponse.json({ error: "Token inválido" }, { status: 401 })
     }
+    if (!verificarPermiso(user.rol, "eliminar_usuario")) {
+      return NextResponse.json({ error: "Acceso denegado" }, { status: 403 })
+    }
 
     const userId = parseInt(id)
     if (isNaN(userId)) {
       return NextResponse.json({ error: "ID de usuario inválido" }, { status: 400 })
+    }
+    if (user.id_usuario === userId) {
+      return NextResponse.json({ error: "No puedes eliminar tu propia cuenta" }, { status: 409 })
     }
 
     // Verificar que el usuario existe
@@ -252,13 +278,13 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 })
     }
 
-    // Eliminar usuario
-    await query("DELETE FROM usuario WHERE id_usuario = ?", [userId])
+    // Baja lógica: conserva trazabilidad clínica y relaciones de auditoría.
+    await query("UPDATE usuario SET activo = FALSE, fecha_modificacion = NOW() WHERE id_usuario = ?", [userId])
 
     return NextResponse.json(
       {
         success: true,
-        message: "Usuario eliminado exitosamente",
+        message: "Usuario desactivado exitosamente",
       },
       { status: 200 },
     )

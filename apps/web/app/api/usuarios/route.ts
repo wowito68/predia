@@ -2,14 +2,14 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import { query, queryOne } from "@/lib/db"
-import { hashPassword, verifyToken } from "@/lib/auth"
+import { hashPassword, verificarPermiso, verifyToken } from "@/lib/auth"
+import { PUBLIC_USER_SELECT, type PublicUsuario } from "@/lib/public-user"
 import type { NextRequest } from "next/server"
-import type { Usuario } from "@/types/database"
 
 // Schema para crear usuario
 const createUserSchema = z.object({
   username: z.string().min(3, "Username debe tener al menos 3 caracteres").max(100),
-  password: z.string().min(6, "Contraseña debe tener al menos 6 caracteres"),
+  password: z.string().min(12, "Contraseña debe tener al menos 12 caracteres").max(128),
   nombre: z.string().min(2, "Nombre requerido").max(100),
   apellido_paterno: z.string().min(2, "Apellido paterno requerido").max(100),
   apellido_materno: z.string().optional(),
@@ -18,7 +18,7 @@ const createUserSchema = z.object({
   cedula_profesional: z.string().optional(),
   especialidad: z.string().optional(),
   id_rol: z.number().int().positive("Rol debe ser un número positivo"),
-})
+}).strict()
 
 // GET - Listar todos los usuarios
 export async function GET(req: NextRequest) {
@@ -34,6 +34,9 @@ export async function GET(req: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: "Token inválido" }, { status: 401 })
     }
+    if (!verificarPermiso(user.rol, "listar_usuarios")) {
+      return NextResponse.json({ error: "Acceso denegado" }, { status: 403 })
+    }
 
     // Obtener parámetros de query
     const searchParams = req.nextUrl.searchParams
@@ -45,9 +48,9 @@ export async function GET(req: NextRequest) {
     const safeOffset = Number.isFinite(offset) && offset >= 0 ? offset : 0
 
     // Obtener usuarios con rol
-    const usuarios = await query<Usuario & { nombre_rol: string }>(
+    const usuarios = await query<PublicUsuario>(
       `
-      SELECT u.*, r.nombre_rol
+      SELECT ${PUBLIC_USER_SELECT}
       FROM usuario u
       LEFT JOIN rol r ON u.id_rol = r.id_rol
       ORDER BY u.fecha_registro DESC
@@ -67,10 +70,10 @@ export async function GET(req: NextRequest) {
         success: true,
         data: usuarios,
         pagination: {
-          page,
-          limit,
+          page: Number.isFinite(page) && page > 0 ? page : 1,
+          limit: safeLimit,
           total: countResult?.total || 0,
-          pages: Math.ceil((countResult?.total || 0) / limit),
+          pages: Math.ceil((countResult?.total || 0) / safeLimit),
         },
       },
       { status: 200 },
@@ -94,6 +97,9 @@ export async function POST(req: NextRequest) {
     const user = verifyToken(token)
     if (!user) {
       return NextResponse.json({ error: "Token inválido" }, { status: 401 })
+    }
+    if (!verificarPermiso(user.rol, "crear_usuario")) {
+      return NextResponse.json({ error: "Acceso denegado" }, { status: 403 })
     }
 
     // Parsear cuerpo de la solicitud
@@ -175,9 +181,9 @@ export async function POST(req: NextRequest) {
     )
 
     // Obtener el usuario creado
-    const newUser = await queryOne<Usuario & { nombre_rol: string }>(
+    const newUser = await queryOne<PublicUsuario>(
       `
-      SELECT u.*, r.nombre_rol
+      SELECT ${PUBLIC_USER_SELECT}
       FROM usuario u
       LEFT JOIN rol r ON u.id_rol = r.id_rol
       WHERE u.id_usuario = ?

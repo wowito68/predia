@@ -1,10 +1,33 @@
 // proxy.ts
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
+import jwt from "jsonwebtoken"
 
-// Importar función de verificación JWT
-// Nota: no se puede usar verifyToken directamente aqui por las restricciones del proxy de Next.js.
-// Se usará validación básica
+function hasValidToken(token: string | undefined): boolean {
+  const secret = process.env.JWT_SECRET
+  if (!token || !secret || Buffer.byteLength(secret, "utf8") < 32) return false
+
+  try {
+    const payload = jwt.verify(token, secret, {
+      algorithms: ["HS256"],
+      issuer: process.env.JWT_ISSUER || "predia-api",
+      audience: process.env.JWT_AUDIENCE || "predia-clients",
+    })
+    if (!payload || typeof payload !== "object") return false
+
+    if (payload.tipo === "staff") {
+      return Number.isInteger(payload.id_usuario)
+        && typeof payload.username === "string"
+        && typeof payload.rol === "string"
+    }
+    if (payload.tipo === "paciente") {
+      return Number.isInteger(payload.id_paciente) && payload.rol === "PACIENTE"
+    }
+    return false
+  } catch {
+    return false
+  }
+}
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
@@ -50,9 +73,9 @@ export function proxy(request: NextRequest) {
 
   // Para rutas protegidas de frontend
   if (!pathname.startsWith("/api")) {
-    const token = request.cookies.get("auth-token")?.value || request.headers.get("x-token") // localStorage no esta disponible en el proxy.
+    const token = request.cookies.get("auth-token")?.value || request.headers.get("x-token") || undefined
 
-    if (!token && !publicRoutes.includes(pathname)) {
+    if (!hasValidToken(token) && !publicRoutes.includes(pathname)) {
       return NextResponse.redirect(new URL("/login", request.url))
     }
   }
@@ -66,10 +89,10 @@ export function proxy(request: NextRequest) {
       return withCors(NextResponse.next())
     }
 
-    // Verificar que hay token
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    const bearerToken = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : undefined
+    if (!hasValidToken(bearerToken)) {
       return withCors(NextResponse.json(
-        { error: "No autorizado - token faltante" },
+        { error: "No autorizado - token inválido o faltante" },
         { status: 401 }
       ))
     }
@@ -83,7 +106,9 @@ function getCorsHeaders(origin: string | null) {
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean)
-  const localOrigin = origin && /^(http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?)$/.test(origin)
+  const localOrigin = process.env.NODE_ENV !== "production"
+    && origin
+    && /^(http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?)$/.test(origin)
   const allowedOrigin = origin && (configured.includes(origin) || localOrigin) ? origin : null
 
   const headers: Record<string, string> = {

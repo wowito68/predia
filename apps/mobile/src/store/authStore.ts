@@ -5,6 +5,7 @@ import type { AuthUser } from '@predia/shared'
 
 // RNF: la sesión expira tras 15 min de inactividad.
 export const SESSION_TIMEOUT_MS = 15 * 60 * 1000
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000/api'
 
 interface AuthState {
   user: AuthUser | null
@@ -100,8 +101,26 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   // Cierra sesión por completo (borra credenciales almacenadas).
   logout: async () => {
+    const refreshToken = get().refreshToken
     await clearStoredSession()
     set({ user: null, token: null, refreshToken: null, pendingUser: null, hasStoredSession: false })
+
+    if (refreshToken) {
+      const controller = new AbortController()
+      const timeout = setTimeout(() => controller.abort(), 2500)
+      try {
+        await fetch(`${API_BASE_URL}/auth/logout`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken }),
+          signal: controller.signal,
+        })
+      } catch {
+        // La sesión local ya está cerrada; la expiración corta limita una revocación sin red.
+      } finally {
+        clearTimeout(timeout)
+      }
+    }
   },
 
   // Al abrir la app: si hay sesión guardada, queda BLOQUEADA hasta desbloqueo biométrico.

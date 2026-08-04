@@ -1,6 +1,30 @@
 import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
 import { prisma } from "@/lib/prisma"
 import { verifyToken } from "@/lib/auth"
+
+const patchCitaSchema = z.object({
+  action: z.preprocess(
+    (value) => typeof value === "string" ? value.toUpperCase() : value,
+    z.enum(["INICIAR", "FINALIZAR", "EDITAR", "REAGENDAR", "CANCELAR"]),
+  ),
+  fecha: z.string().datetime().optional(),
+  motivo: z.string().trim().min(3).max(500).optional(),
+  observaciones: z.string().trim().max(2000).optional(),
+  diagnostico: z.string().trim().max(2000).optional(),
+  tratamiento: z.string().trim().max(2000).optional(),
+}).strict().superRefine((value, ctx) => {
+  if (value.action === "REAGENDAR" && !value.fecha) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["fecha"], message: "La nueva fecha es obligatoria" })
+  }
+  if (value.action === "EDITAR" && !value.fecha && !value.motivo) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Indica fecha o motivo para editar" })
+  }
+})
+
+function canManageAgenda(role: string) {
+  return role === "Médico" || role === "Administrador"
+}
 
 const agendaInclude = {
   paciente: {
@@ -65,14 +89,18 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   try {
     const user = await authenticatedUser(request)
     if (!user) return NextResponse.json({ success: false, error: "No autorizado" }, { status: 401 })
+    if (!canManageAgenda(user.rol)) {
+      return NextResponse.json({ success: false, error: "Acceso denegado" }, { status: 403 })
+    }
 
     const { id } = await params
     const idCita = Number(id)
-    const body = await request.json()
-    const action = String(body.action ?? "").toUpperCase()
-    if (!Number.isInteger(idCita) || !["INICIAR", "FINALIZAR", "EDITAR", "REAGENDAR", "CANCELAR"].includes(action)) {
+    const validation = patchCitaSchema.safeParse(await request.json())
+    if (!Number.isInteger(idCita) || !validation.success) {
       return NextResponse.json({ success: false, error: "Acción o cita inválida" }, { status: 400 })
     }
+    const body = validation.data
+    const action = body.action
 
     const cita = await prisma.cita.findUnique({
       where: { id_cita: idCita },
@@ -89,6 +117,9 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       },
     })
     if (!cita) return NextResponse.json({ success: false, error: "Cita no encontrada" }, { status: 404 })
+    if (user.rol === "Médico" && cita.id_usuario !== user.id_usuario) {
+      return NextResponse.json({ success: false, error: "La cita pertenece a otro médico" }, { status: 403 })
+    }
 
     if (action === "EDITAR" || action === "REAGENDAR") {
       if (cita.estado !== "PROGRAMADA") {
@@ -96,7 +127,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       }
 
       const fecha = body.fecha ? new Date(body.fecha) : cita.fecha_cita
-      const motivo = body.motivo !== undefined ? String(body.motivo ?? "").trim() : cita.motivo
+      const motivo = body.motivo !== undefined ? body.motivo : cita.motivo
       if (Number.isNaN(fecha.getTime())) {
         return NextResponse.json({ success: false, error: "La fecha de la cita no es válida" }, { status: 400 })
       }
@@ -131,7 +162,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       if (cita.estado !== "PROGRAMADA") {
         return NextResponse.json({ success: false, error: "Solo se pueden cancelar citas programadas" }, { status: 409 })
       }
-      const observaciones = String(body.observaciones ?? "").trim()
+      const observaciones = body.observaciones ?? ""
       await prisma.cita.update({
         where: { id_cita: idCita },
         data: {
@@ -180,9 +211,9 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       return NextResponse.json({ success: false, error: "La cita debe estar en curso para finalizarla" }, { status: 409 })
     }
 
-    const observaciones = String(body.observaciones ?? "").trim()
-    const diagnostico = String(body.diagnostico ?? "").trim()
-    const tratamiento = String(body.tratamiento ?? "").trim()
+    const observaciones = body.observaciones ?? ""
+    const diagnostico = body.diagnostico ?? ""
+    const tratamiento = body.tratamiento ?? ""
     const now = new Date()
     const updated = await prisma.$transaction(async (tx) => {
       await tx.consultaMedica.update({

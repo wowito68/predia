@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
 import { serialize } from "@/lib/cookies"
 import { refreshSession } from "@/lib/auth"
-import { getClientIp } from "@/lib/rate-limit"
+import { checkRateLimit, getClientIp, resetRateLimit } from "@/lib/rate-limit"
+
+const refreshTokenSchema = z.string().min(32).max(256)
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,18 +17,30 @@ export async function POST(request: NextRequest) {
     }
 
     const refreshToken = bodyRefreshToken || request.cookies.get("refresh-token")?.value
-    if (!refreshToken) {
+    const validatedToken = refreshTokenSchema.safeParse(refreshToken)
+    if (!validatedToken.success) {
       return NextResponse.json({ success: false, error: "Refresh token faltante" }, { status: 401 })
     }
 
-    const result = await refreshSession(refreshToken, {
-      ip: getClientIp(request),
+    const clientIp = getClientIp(request)
+    const rateLimitKey = `refresh:${clientIp}`
+    const { allowed, resetIn } = checkRateLimit(rateLimitKey, 30, 15 * 60 * 1000)
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: "Demasiados intentos de renovación" },
+        { status: 429, headers: { "Retry-After": Math.ceil(resetIn / 1000).toString() } },
+      )
+    }
+
+    const result = await refreshSession(validatedToken.data, {
+      ip: clientIp,
       userAgent: request.headers.get("user-agent"),
     })
 
     if (!result.success || !result.token || !result.refreshToken) {
       return NextResponse.json({ success: false, error: result.message || "Refresh token inválido" }, { status: 401 })
     }
+    resetRateLimit(rateLimitKey)
 
     const secureCookies = process.env.SECURE_COOKIES === "true" || process.env.NODE_ENV === "production"
     const response = NextResponse.json({

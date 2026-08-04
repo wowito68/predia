@@ -1,3 +1,9 @@
+x-logging: &predia-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
 services:
   predia-proxy:
     image: nginx:1.27-alpine
@@ -9,9 +15,13 @@ services:
         condition: service_healthy
       predia-mobile-web:
         condition: service_healthy
+      nginxlog-exporter:
+        condition: service_started
     ports:
       - "80:80"
       - "443:443"
+    expose:
+      - "8080"
     volumes:
       - ./infra/reverse-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./infra/reverse-proxy/conf.d/predia.conf:/etc/nginx/conf.d/default.conf:ro
@@ -20,6 +30,7 @@ services:
     networks:
       - predia-public
       - predia-private
+    logging: *predia-logging
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "wget --no-check-certificate --header='Host: prediaa.duckdns.org' -qO- https://127.0.0.1/api/ready >/dev/null 2>&1 || exit 1"]
@@ -44,6 +55,7 @@ services:
       - "3000"
     networks:
       - predia-private
+    logging: *predia-logging
     depends_on:
       db:
         condition: service_healthy
@@ -72,6 +84,7 @@ services:
       - "3000"
     networks:
       - predia-private
+    logging: *predia-logging
     depends_on:
       db:
         condition: service_healthy
@@ -94,6 +107,7 @@ services:
       - "8080"
     networks:
       - predia-private
+    logging: *predia-logging
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/healthz >/dev/null 2>&1 || exit 1"]
@@ -115,6 +129,7 @@ services:
       - predia_db_data_prod:/var/lib/mysql
     networks:
       - predia-private
+    logging: *predia-logging
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD} --silent"]
       interval: 10s
@@ -136,6 +151,7 @@ services:
       DATABASE_URL: ${DATABASE_URL:?set DATABASE_URL}
     networks:
       - predia-private
+    logging: *predia-logging
     depends_on:
       db:
         condition: service_healthy
@@ -155,6 +171,7 @@ services:
     command: ["pnpm", "--filter", "@predia/web", "exec", "tsx", "prisma/seed.ts"]
     networks:
       - predia-private
+    logging: *predia-logging
     depends_on:
       db:
         condition: service_healthy
@@ -176,6 +193,7 @@ services:
       - predia-private
       - predia-monitoring
       - predia-admin
+    logging: *predia-logging
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:9090/-/ready >/dev/null 2>&1 || exit 1"]
@@ -200,6 +218,7 @@ services:
     networks:
       - predia-monitoring
       - predia-admin
+    logging: *predia-logging
     depends_on:
       - prometheus
     restart: unless-stopped
@@ -220,6 +239,7 @@ services:
       - "/:/host:ro,rslave"
     networks:
       - predia-monitoring
+    logging: *predia-logging
     restart: unless-stopped
 
   cadvisor:
@@ -235,6 +255,65 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     networks:
       - predia-monitoring
+    logging: *predia-logging
+    restart: unless-stopped
+
+  mysql-exporter:
+    image: prom/mysqld-exporter:v0.19.0
+    container_name: predia-mysql-exporter
+    command:
+      - "--mysqld.address=db:3306"
+      - "--mysqld.username=predia_exporter"
+    environment:
+      MYSQLD_EXPORTER_PASSWORD: ${MYSQL_EXPORTER_PASSWORD:?set MYSQL_EXPORTER_PASSWORD}
+    networks:
+      - predia-private
+      - predia-monitoring
+    logging: *predia-logging
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.5.1
+    container_name: predia-nginx-exporter
+    command:
+      - "--nginx.scrape-uri=http://predia-proxy:8080/stub_status"
+    networks:
+      - predia-private
+      - predia-monitoring
+    logging: *predia-logging
+    depends_on:
+      predia-proxy:
+        condition: service_healthy
+    restart: unless-stopped
+
+  nginxlog-exporter:
+    image: quay.io/martinhelmich/prometheus-nginxlog-exporter:v1.11.0
+    container_name: predia-nginxlog-exporter
+    command:
+      - "-config-file"
+      - "/etc/nginxlog-exporter/config.yml"
+    volumes:
+      - ./monitoring/nginxlog-exporter.yml:/etc/nginxlog-exporter/config.yml:ro
+    networks:
+      - predia-private
+      - predia-monitoring
+    logging: *predia-logging
+    restart: unless-stopped
+
+  blackbox-exporter:
+    image: quay.io/prometheus/blackbox-exporter:v0.28.0
+    container_name: predia-blackbox-exporter
+    command:
+      - "--config.file=/etc/blackbox/blackbox.yml"
+    volumes:
+      - ./monitoring/blackbox.yml:/etc/blackbox/blackbox.yml:ro
+    networks:
+      - predia-monitoring
+      - predia-admin
+    logging: *predia-logging
     restart: unless-stopped
 
 networks:

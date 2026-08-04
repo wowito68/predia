@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { createHash, randomBytes } from "crypto"
 import { NextRequest } from "next/server"
-import { query, queryOne } from "./db"
+import { query, queryOne, transaction } from "./db"
 import type { Usuario } from "@/types/database"
 
 const JWT_SECRET: string = process.env.JWT_SECRET || (process.env.NODE_ENV === "production" ? "" : "DEV_ONLY_CHANGE_ME_32_BYTES_MINIMUM_SECRET")
@@ -24,23 +24,33 @@ if (!process.env.JWT_SECRET) {
     console.warn("⚠️ ADVERTENCIA: JWT_SECRET no configurado. Se usa una clave solo para desarrollo.")
   }
 }
+if (JWT_SECRET && Buffer.byteLength(JWT_SECRET, "utf8") < 32 && !IS_BUILD_PHASE) {
+  if (IS_PRODUCTION) {
+    throw new Error("JWT_SECRET debe tener al menos 32 bytes en producción")
+  }
+  console.warn("⚠️ ADVERTENCIA: JWT_SECRET debe tener al menos 32 bytes.")
+}
 if (!process.env.JWT_EXPIRES_IN) {
   console.warn("⚠️ ADVERTENCIA: JWT_EXPIRES_IN no configurado. Usando 15m por defecto.")
 }
 
 // Tipos
 export interface JWTPayload {
+  tipo: "staff"
   id_usuario: number
   username: string
-  email: string
   rol: string
+}
+
+export interface AuthenticatedStaffUser extends JWTPayload {
+  email: string
   nombre_completo: string
 }
 
 function isStaffTokenPayload(payload: unknown): payload is JWTPayload {
   if (!payload || typeof payload !== "object") return false
-  const value = payload as Partial<JWTPayload> & { tipo?: unknown }
-  return value.tipo !== "paciente"
+  const value = payload as Partial<JWTPayload>
+  return value.tipo === "staff"
     && Number.isInteger(value.id_usuario)
     && typeof value.username === "string"
     && value.username.length > 0
@@ -50,7 +60,7 @@ function isStaffTokenPayload(payload: unknown): payload is JWTPayload {
 
 export interface AuthResult {
   success: boolean
-  user?: JWTPayload
+  user?: AuthenticatedStaffUser
   token?: string
   refreshToken?: string
   message?: string
@@ -105,6 +115,7 @@ export async function verifyPassword(password: string, hashedPassword: string): 
 // Generar JWT
 export function generateToken(payload: JWTPayload): string {
   return jwt.sign(payload, JWT_SECRET as string, {
+    algorithm: "HS256",
     expiresIn: JWT_EXPIRES_IN as string,
     issuer: JWT_ISSUER,
     audience: JWT_AUDIENCE,
@@ -115,12 +126,12 @@ export function generateToken(payload: JWTPayload): string {
 export function verifyToken(token: string): JWTPayload | null {
   try {
     const payload = jwt.verify(token, JWT_SECRET as string, {
+      algorithms: ["HS256"],
       issuer: JWT_ISSUER,
       audience: JWT_AUDIENCE,
     })
     return isStaffTokenPayload(payload) ? payload : null
-  } catch (error) {
-    console.error("Token verification failed:", error)
+  } catch {
     return null
   }
 }
@@ -149,6 +160,43 @@ export async function issueRefreshToken(
   )
 
   return rawToken
+}
+
+async function rotateRefreshToken(
+  currentHash: string,
+  subject: RefreshSubject,
+  meta: { ip?: string | null; userAgent?: string | null } = {},
+): Promise<string | null> {
+  const rawToken = randomBytes(48).toString("base64url")
+  const nextHash = refreshHash(rawToken)
+  const expiresAt = new Date(Date.now() + parseDurationMs(JWT_REFRESH_EXPIRES_IN))
+
+  return transaction(async (connection) => {
+    const [claim] = await connection.execute(
+      `UPDATE refresh_token
+       SET revoked = TRUE, revoked_at = NOW(), replaced_by_hash = ?
+       WHERE token_hash = ? AND revoked = FALSE AND expires_at > NOW()`,
+      [nextHash, currentHash],
+    )
+    if ((claim as { affectedRows?: number }).affectedRows !== 1) return null
+
+    await connection.execute(
+      `INSERT INTO refresh_token
+        (token_hash, subject_type, id_usuario, id_paciente, expires_at, ip_address, user_agent)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        nextHash,
+        subject.subject_type,
+        subject.subject_type === "usuario" ? subject.id_usuario : null,
+        subject.subject_type === "paciente" ? subject.id_paciente : null,
+        expiresAt,
+        trimHeader(meta.ip, 64),
+        trimHeader(meta.userAgent),
+      ],
+    )
+
+    return rawToken
+  })
 }
 
 export async function revokeRefreshToken(rawToken: string | null | undefined): Promise<void> {
@@ -185,21 +233,25 @@ export async function refreshSession(
     )
     if (!user) return { success: false, message: "Usuario no encontrado" }
 
-    const newRefreshToken = await issueRefreshToken({ subject_type: "usuario", id_usuario: user.id_usuario }, meta)
-    await query(
-      `UPDATE refresh_token SET revoked = TRUE, revoked_at = NOW(), replaced_by_hash = ?
-       WHERE token_hash = ?`,
-      [refreshHash(newRefreshToken), oldHash],
+    const newRefreshToken = await rotateRefreshToken(
+      oldHash,
+      { subject_type: "usuario", id_usuario: user.id_usuario },
+      meta,
     )
+    if (!newRefreshToken) return { success: false, message: "Refresh token ya utilizado" }
 
     const payload: JWTPayload = {
+      tipo: "staff",
       id_usuario: user.id_usuario,
       username: user.username,
-      email: user.email,
       rol: user.nombre_rol,
+    }
+    const sessionUser: AuthenticatedStaffUser = {
+      ...payload,
+      email: user.email,
       nombre_completo: `${user.nombre} ${user.apellido_paterno}`,
     }
-    return { success: true, user: payload, token: generateToken(payload), refreshToken: newRefreshToken }
+    return { success: true, user: sessionUser, token: generateToken(payload), refreshToken: newRefreshToken }
   }
 
   if (row.subject_type === "paciente" && row.id_paciente) {
@@ -217,18 +269,16 @@ export async function refreshSession(
     if (!paciente || !paciente.curp) return { success: false, message: "Paciente no encontrado" }
 
     const nombre = [paciente.nombre, paciente.apellido_paterno, paciente.apellido_materno].filter(Boolean).join(" ")
-    const newRefreshToken = await issueRefreshToken({ subject_type: "paciente", id_paciente: paciente.id_paciente }, meta)
-    await query(
-      `UPDATE refresh_token SET revoked = TRUE, revoked_at = NOW(), replaced_by_hash = ?
-       WHERE token_hash = ?`,
-      [refreshHash(newRefreshToken), oldHash],
+    const newRefreshToken = await rotateRefreshToken(
+      oldHash,
+      { subject_type: "paciente", id_paciente: paciente.id_paciente },
+      meta,
     )
+    if (!newRefreshToken) return { success: false, message: "Refresh token ya utilizado" }
 
     const payload: PacienteJWTPayload = {
       tipo: "paciente",
       id_paciente: paciente.id_paciente,
-      curp: paciente.curp,
-      nombre_completo: nombre,
       rol: "PACIENTE",
     }
     return {
@@ -259,7 +309,7 @@ export async function authenticateUser(username: string, password: string): Prom
     if (!user) {
       return {
         success: false,
-        message: "Usuario no encontrado",
+        message: "Usuario o contraseña incorrectos",
       }
     }
 
@@ -268,7 +318,7 @@ export async function authenticateUser(username: string, password: string): Prom
     if (!isValid) {
       return {
         success: false,
-        message: "Contraseña incorrecta",
+        message: "Usuario o contraseña incorrectos",
       }
     }
 
@@ -277,10 +327,14 @@ export async function authenticateUser(username: string, password: string): Prom
 
     // Crear payload del token
     const payload: JWTPayload = {
+      tipo: "staff",
       id_usuario: user.id_usuario,
       username: user.username,
-      email: user.email,
       rol: user.nombre_rol,
+    }
+    const sessionUser: AuthenticatedStaffUser = {
+      ...payload,
+      email: user.email,
       nombre_completo: `${user.nombre} ${user.apellido_paterno}`,
     }
 
@@ -289,7 +343,7 @@ export async function authenticateUser(username: string, password: string): Prom
 
     return {
       success: true,
-      user: payload,
+      user: sessionUser,
       token,
     }
   } catch (error) {
@@ -533,8 +587,6 @@ export async function registrarAuditoria(
 export interface PacienteJWTPayload {
   tipo: "paciente"
   id_paciente: number
-  curp: string
-  nombre_completo: string
   rol: "PACIENTE"
 }
 
@@ -556,6 +608,7 @@ export interface PacienteAuthResult {
 // Generar JWT para un paciente
 export function generatePacienteToken(payload: PacienteJWTPayload): string {
   return jwt.sign(payload, JWT_SECRET as string, {
+    algorithm: "HS256",
     expiresIn: JWT_EXPIRES_IN as string,
     issuer: JWT_ISSUER,
     audience: JWT_AUDIENCE,
@@ -595,8 +648,6 @@ export async function authenticatePaciente(curp: string, pin: string): Promise<P
     const payload: PacienteJWTPayload = {
       tipo: "paciente",
       id_paciente: paciente.id_paciente,
-      curp: paciente.curp as string,
-      nombre_completo,
       rol: "PACIENTE",
     }
 
@@ -625,10 +676,14 @@ export function getAnyTokenFromRequest(
   const authHeader = request.headers.get("authorization")
   if (!authHeader || !authHeader.startsWith("Bearer ")) return null
   try {
-    return jwt.verify(authHeader.substring(7), JWT_SECRET as string, {
+    const payload = jwt.verify(authHeader.substring(7), JWT_SECRET as string, {
+      algorithms: ["HS256"],
       issuer: JWT_ISSUER,
       audience: JWT_AUDIENCE,
-    }) as JWTPayload | PacienteJWTPayload
+    })
+    if (isStaffTokenPayload(payload)) return payload
+    if (isPacienteTokenPayload(payload)) return payload
+    return null
   } catch {
     return null
   }
@@ -637,7 +692,15 @@ export function getAnyTokenFromRequest(
 export function isPacienteToken(
   token: JWTPayload | PacienteJWTPayload,
 ): token is PacienteJWTPayload {
-  return (token as PacienteJWTPayload).tipo === "paciente"
+  return isPacienteTokenPayload(token)
+}
+
+function isPacienteTokenPayload(payload: unknown): payload is PacienteJWTPayload {
+  if (!payload || typeof payload !== "object") return false
+  const value = payload as Partial<PacienteJWTPayload>
+  return value.tipo === "paciente"
+    && Number.isInteger(value.id_paciente)
+    && value.rol === "PACIENTE"
 }
 
 // Middleware para rutas /pacientes/[id]/* accesibles por:

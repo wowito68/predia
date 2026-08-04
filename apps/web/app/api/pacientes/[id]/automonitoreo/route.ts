@@ -4,6 +4,24 @@ import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { query } from "@/lib/db"
 import { requirePacienteSelf } from "@/lib/auth"
+import { decryptSensitiveFieldIfNeeded, encryptSensitiveField } from "@/lib/crypto"
+
+type AutomonitoreoRow = {
+  id_automonitoreo: number
+  tipo: string
+  valor: number
+  valor_secundario: number | null
+  unidad: string | null
+  notas: string | null
+  fecha_registro: Date | string
+}
+
+function decryptAutomonitoreo(row: AutomonitoreoRow): AutomonitoreoRow {
+  return {
+    ...row,
+    notas: row.notas ? decryptSensitiveFieldIfNeeded(row.notas) : null,
+  }
+}
 
 // GET ?tipo=glucosa|peso|presion&dias=7|30|90
 export const GET = requirePacienteSelf(async (request: NextRequest, { params }) => {
@@ -26,8 +44,8 @@ export const GET = requirePacienteSelf(async (request: NextRequest, { params }) 
     }
     sql += ` ORDER BY fecha_registro ASC`
 
-    const rows = await query<any>(sql, p)
-    return NextResponse.json({ success: true, data: rows })
+    const rows = await query<AutomonitoreoRow>(sql, p)
+    return NextResponse.json({ success: true, data: rows.map(decryptAutomonitoreo) })
   } catch (error) {
     console.error("Error automonitoreo GET:", error)
     return NextResponse.json({ success: false, error: "Error al obtener automonitoreo" }, { status: 500 })
@@ -72,21 +90,25 @@ export const POST = requirePacienteSelf(async (request: NextRequest, { params })
       )
     }
     const { tipo, valor, valor_secundario, unidad, notas } = validation.data
+    const encryptedNotes = notas ? encryptSensitiveField(notas) : null
 
     const result = await query(
       `INSERT INTO automonitoreo (id_paciente, tipo, valor, valor_secundario, unidad, notas)
        VALUES (?, ?, ?, ?, ?, ?)`,
-      [id, tipo, valor, valor_secundario ?? null, unidad ?? null, notas ?? null],
+      [id, tipo, valor, valor_secundario ?? null, unidad ?? null, encryptedNotes],
     )
     const id_automonitoreo = (result as any).insertId
 
-    const [created] = await query<any>(
+    const [created] = await query<AutomonitoreoRow>(
       `SELECT id_automonitoreo, tipo, valor, valor_secundario, unidad, notas, fecha_registro
        FROM automonitoreo WHERE id_automonitoreo = ?`,
       [id_automonitoreo],
     )
 
-    return NextResponse.json({ success: true, message: "Medición registrada", data: created }, { status: 201 })
+    return NextResponse.json(
+      { success: true, message: "Medición registrada", data: decryptAutomonitoreo(created) },
+      { status: 201 },
+    )
   } catch (error) {
     console.error("Error automonitoreo POST:", error)
     return NextResponse.json({ success: false, error: "Error al registrar medición" }, { status: 500 })

@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
 import { requirePacienteSelf } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+
+const cancelCitaSchema = z.object({
+  action: z.literal("CANCELAR"),
+  motivo: z.string().trim().min(3).max(500).optional(),
+}).strict()
 
 export const PATCH = requirePacienteSelf(async (request: NextRequest, { params }) => {
   const idPaciente = Number(params?.id)
@@ -9,8 +15,8 @@ export const PATCH = requirePacienteSelf(async (request: NextRequest, { params }
     return NextResponse.json({ success: false, error: "Cita inválida" }, { status: 400 })
   }
 
-  const body = await request.json().catch(() => ({}))
-  if (String(body.action ?? "").toUpperCase() !== "CANCELAR") {
+  const validation = cancelCitaSchema.safeParse(await request.json().catch(() => ({})))
+  if (!validation.success) {
     return NextResponse.json({ success: false, error: "Acción no permitida" }, { status: 400 })
   }
 
@@ -23,7 +29,7 @@ export const PATCH = requirePacienteSelf(async (request: NextRequest, { params }
     return NextResponse.json({ success: false, error: "Sólo se pueden cancelar citas programadas" }, { status: 409 })
   }
 
-  const reason = String(body.motivo ?? "Cancelada por el paciente desde PREDIA móvil").trim()
+  const reason = validation.data.motivo ?? "Cancelada por el paciente desde PREDIA móvil"
   const updated = await prisma.cita.update({
     where: { id_cita: idCita },
     data: {

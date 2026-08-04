@@ -13,11 +13,10 @@ describe("aislamiento de tokens por tipo de usuario", () => {
   it("acepta un token de personal en endpoints internos", () => {
     const { generateToken, verifyToken } = require("@/lib/auth")
     const token = generateToken({
+      tipo: "staff",
       id_usuario: 7,
       username: "dr_test",
-      email: "doctor@example.test",
       rol: "Médico",
-      nombre_completo: "Doctor Prueba",
     })
 
     expect(verifyToken(token)).toMatchObject({ id_usuario: 7, rol: "Médico" })
@@ -28,8 +27,6 @@ describe("aislamiento de tokens por tipo de usuario", () => {
     const token = generatePacienteToken({
       tipo: "paciente",
       id_paciente: 23,
-      curp: "TEST900101HQTXXX01",
-      nombre_completo: "Paciente Prueba",
       rol: "PACIENTE",
     })
 

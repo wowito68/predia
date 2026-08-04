@@ -1,9 +1,10 @@
+import jwt from "jsonwebtoken"
+
 const payload = {
+  tipo: "staff" as const,
   id_usuario: 1,
   username: "dr_juan",
-  email: "juan@example.com",
   rol: "Médico",
-  nombre_completo: "Juan García",
 }
 
 describe("JWT", () => {
@@ -22,6 +23,8 @@ describe("JWT", () => {
 
     expect(decoded?.id_usuario).toBe(1)
     expect(decoded?.username).toBe("dr_juan")
+    expect(decoded).not.toHaveProperty("email")
+    expect(decoded).not.toHaveProperty("nombre_completo")
   })
 
   it("rechaza un token manipulado", async () => {
@@ -37,6 +40,18 @@ describe("JWT", () => {
     const { generateToken, verifyToken } = await import("@/lib/auth")
     const token = generateToken(payload)
     await new Promise((resolve) => setTimeout(resolve, 10))
+
+    expect(verifyToken(token)).toBeNull()
+  })
+
+  it("rechaza algoritmos JWT distintos de HS256", async () => {
+    const token = jwt.sign(payload, process.env.JWT_SECRET!, {
+      algorithm: "HS384",
+      issuer: process.env.JWT_ISSUER,
+      audience: process.env.JWT_AUDIENCE,
+      expiresIn: "15m",
+    })
+    const { verifyToken } = await import("@/lib/auth")
 
     expect(verifyToken(token)).toBeNull()
   })

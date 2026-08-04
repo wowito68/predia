@@ -1,5 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import prisma from "@/lib/prisma";
+import { verifyToken } from "@/lib/auth";
 
 // Mapeo seguro de los nombres de catálogos permitidos a los modelos de Prisma
 const catalogMap: Record<string, string> = {
@@ -9,8 +11,20 @@ const catalogMap: Record<string, string> = {
   alergias: "catalogoAlergia",
 };
 
-export async function GET(request: Request, context: { params: Promise<{ tipo: string }> }) {
+const createCatalogEntrySchema = z.object({
+  nombre: z.string().trim().min(2).max(200),
+}).strict();
+
+function authenticate(request: NextRequest) {
+  const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+  return token ? verifyToken(token) : null;
+}
+
+export async function GET(request: NextRequest, context: { params: Promise<{ tipo: string }> }) {
   try {
+    if (!authenticate(request)) {
+      return NextResponse.json({ success: false, error: "No autorizado" }, { status: 401 });
+    }
     const params = await context.params;
     const { tipo } = params;
     const modelName = catalogMap[tipo.toLowerCase()];
@@ -32,8 +46,11 @@ export async function GET(request: Request, context: { params: Promise<{ tipo: s
   }
 }
 
-export async function POST(request: Request, context: { params: Promise<{ tipo: string }> }) {
+export async function POST(request: NextRequest, context: { params: Promise<{ tipo: string }> }) {
   try {
+    if (!authenticate(request)) {
+      return NextResponse.json({ success: false, error: "No autorizado" }, { status: 401 });
+    }
     const params = await context.params;
     const { tipo } = params;
     const modelName = catalogMap[tipo.toLowerCase()];
@@ -42,17 +59,15 @@ export async function POST(request: Request, context: { params: Promise<{ tipo: 
       return NextResponse.json({ success: false, error: "Catálogo no encontrado" }, { status: 404 });
     }
 
-    const body = await request.json();
-    
-    // Extraer la primera key del body para saber qué campo estamos insertando
-    // Ej: { nombre: 'paracetamol' } o { alergeno: 'Polen' }
-    const keys = Object.keys(body);
-    if (keys.length === 0) {
-        return NextResponse.json({ success: false, error: "Cuerpo vacío" }, { status: 400 });
+    const validation = createCatalogEntrySchema.safeParse(await request.json());
+    if (!validation.success) {
+        return NextResponse.json(
+          { success: false, error: "Datos inválidos", details: validation.error.errors },
+          { status: 400 },
+        );
     }
-    
-    const targetKey = keys[0];
-    const originalValue = String(body[targetKey]).trim();
+    const targetKey = "nombre";
+    const originalValue = validation.data.nombre;
     
     // Normalización: Capitalizar primera letra de cada palabra
     const normalizedValue = originalValue

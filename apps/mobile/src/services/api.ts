@@ -148,9 +148,12 @@ interface RequestOpts {
   multipart?: boolean
 }
 
-async function refreshAccessToken() {
-  const { refreshToken, login, logout } = useAuthStore.getState()
-  if (!refreshToken) return false
+type RefreshOutcome = 'refreshed' | 'invalid' | 'offline'
+let refreshInFlight: Promise<RefreshOutcome> | null = null
+
+async function performRefresh(): Promise<RefreshOutcome> {
+  const { refreshToken, login } = useAuthStore.getState()
+  if (!refreshToken) return 'invalid'
 
   try {
     const res = await fetch(`${BASE_URL}/auth/refresh`, {
@@ -160,15 +163,22 @@ async function refreshAccessToken() {
     })
     const json = await res.json().catch(() => null)
     if (!res.ok || !json?.token || !json?.user) {
-      await logout()
-      return false
+      return 'invalid'
     }
     await login(json.user, json.token, json.refreshToken)
-    return true
+    return 'refreshed'
   } catch {
-    await logout()
-    return false
+    return 'offline'
   }
+}
+
+async function refreshAccessToken(): Promise<RefreshOutcome> {
+  if (!refreshInFlight) {
+    refreshInFlight = performRefresh().finally(() => {
+      refreshInFlight = null
+    })
+  }
+  return refreshInFlight
 }
 
 async function request<T>(path: string, options: RequestInit = {}, opts: RequestOpts = {}): Promise<T> {
@@ -195,17 +205,23 @@ async function request<T>(path: string, options: RequestInit = {}, opts: Request
   }
 
   if (res.status === 401 && auth) {
-    const refreshed = await refreshAccessToken()
-    if (refreshed) {
+    const refreshOutcome = await refreshAccessToken()
+    if (refreshOutcome === 'refreshed') {
       const retryHeaders = { ...headers, Authorization: `Bearer ${useAuthStore.getState().token}` }
-      res = await fetch(`${BASE_URL}${path}`, { ...options, headers: retryHeaders })
+      try {
+        res = await fetch(`${BASE_URL}${path}`, { ...options, headers: retryHeaders })
+      } catch {
+        throw new Error('No se pudo conectar con el servidor. Revisa tu conexión.')
+      }
       try {
         json = await res.json()
       } catch {
         json = null
       }
-    } else {
+    } else if (refreshOutcome === 'invalid') {
       await useAuthStore.getState().logout()
+    } else {
+      throw new Error('No se pudo renovar la sesión. Revisa tu conexión.')
     }
   }
 
@@ -237,7 +253,7 @@ export const api = {
 
     loginMedico: async (username: string, password: string): Promise<LoginResult> => {
       // /auth/login devuelve user como JWTPayload (id_usuario, nombre_completo, rol en español)
-      const raw = await request<{ token: string; user: any }>('/auth/login', {
+      const raw = await request<{ token: string; refreshToken?: string; user: any }>('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
       }, { auth: false })
@@ -248,7 +264,7 @@ export const api = {
         email: u.email ?? '',
         rol: normalizeRol(u.rol),
       }
-      return { token: raw.token, user }
+      return { token: raw.token, refreshToken: raw.refreshToken, user }
     },
   },
 
