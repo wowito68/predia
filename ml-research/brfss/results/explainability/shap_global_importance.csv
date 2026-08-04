@@ -1,0 +1,22 @@
+feature,mean_abs_shap,label,direction
+GenHlth,0.58394,Salud general percibida,riesgo
+HighBP,0.45887,Hipertensión arterial,riesgo
+BMI,0.39509,Índice de masa corporal (IMC),riesgo
+Age,0.35878,Grupo etario,riesgo
+HighChol,0.26328,Colesterol alto,riesgo
+Income,0.11465,Nivel de ingreso,protector
+Sex,0.09535,"Sexo (0=mujer, 1=hombre)",riesgo
+HeartDiseaseorAttack,0.05411,Cardiopatía coronaria o infarto,riesgo
+CholCheck,0.04987,Chequeo de colesterol en 5 años,riesgo
+DiffWalk,0.04893,Dificultad para caminar/subir escaleras,riesgo
+HvyAlcoholConsump,0.04597,Consumo elevado de alcohol,protector
+MentHlth,0.02935,Días de mala salud mental (30d),protector
+Education,0.01726,Nivel educativo,protector
+Stroke,0.0161,Antecedente de ictus,riesgo
+Fruits,0.01149,Consume fruta ≥1/día,protector
+PhysHlth,0.01079,Días de mala salud física (30d),riesgo
+PhysActivity,0.00838,Actividad física (últimos 30 días),protector
+Smoker,0.00333,Fumador (≥100 cigarrillos de por vida),protector
+AnyHealthcare,0.0024,Tiene cobertura sanitaria,riesgo
+Veggies,0.00169,Consume verdura ≥1/día,protector
+NoDocbcCost,0.001,No fue al médico por costo (últimos 12m),protector

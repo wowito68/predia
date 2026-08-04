@@ -1,0 +1,87 @@
+{
+  "reported_accuracy_seed_metadata": 0.9789473684210527,
+  "note_conflicting_metric_in_code": "ml-predict.ts comenta 98.42% / precision 100% / AUC 99.75% (conflicto)",
+  "current_model_features": [
+    "Gender",
+    "AGE",
+    "Urea",
+    "Cr",
+    "HbA1c",
+    "Chol",
+    "TG",
+    "HDL",
+    "LDL",
+    "VLDL",
+    "BMI"
+  ],
+  "current_model_train_samples": 947,
+  "pkl_inspection": {
+    "loaded": true,
+    "estimator_class": "LogisticRegression",
+    "n_features_in": 11,
+    "classes": [
+      0,
+      1
+    ],
+    "coef_shape": [
+      1,
+      11
+    ],
+    "intercept": [
+      7.577719514661116
+    ],
+    "feature_names_in": null
+  },
+  "feature_mismatch": {
+    "mapping": {
+      "Gender": "gender",
+      "AGE": "age",
+      "BMI": "bmi",
+      "HbA1c": "hba1c",
+      "Chol": "cholesterol_total",
+      "TG": "triglycerides",
+      "HDL": "hdl_cholesterol",
+      "LDL": "ldl_cholesterol",
+      "VLDL": null,
+      "Urea": null,
+      "Cr": null
+    },
+    "present_in_dataset": {
+      "Gender": "gender",
+      "AGE": "age",
+      "HbA1c": "hba1c",
+      "Chol": "cholesterol_total",
+      "TG": "triglycerides",
+      "HDL": "hdl_cholesterol",
+      "LDL": "ldl_cholesterol",
+      "BMI": "bmi"
+    },
+    "absent_in_dataset": [
+      "Urea",
+      "Cr",
+      "VLDL"
+    ]
+  },
+  "leakage_demonstration_cv5": {
+    "hba1c_only": {
+      "accuracy": 0.852,
+      "roc_auc": 0.9325
+    },
+    "glucose_fasting_only": {
+      "accuracy": 0.7307,
+      "roc_auc": 0.8082
+    },
+    "diagnostic_labs": {
+      "accuracy": 0.8567,
+      "roc_auc": 0.9337
+    },
+    "leaky_stage_plus_score": {
+      "accuracy": 0.9979,
+      "roc_auc": 0.9974
+    },
+    "screening_numeric_safe": {
+      "accuracy": 0.6163,
+      "roc_auc": 0.6121
+    }
+  }
+}

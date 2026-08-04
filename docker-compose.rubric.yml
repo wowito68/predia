@@ -1,0 +1,96 @@
+services:
+  predia-proxy-demo:
+    image: nginx:1.27-alpine
+    container_name: predia-proxy-demo
+    depends_on:
+      predia-api-demo-1:
+        condition: service_healthy
+      predia-api-demo-2:
+        condition: service_healthy
+    ports:
+      - "8088:80"
+    volumes:
+      - ./infra/reverse-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/reverse-proxy/conf.d/demo.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - predia-rubric-public
+      - predia-rubric-private
+    restart: unless-stopped
+
+  predia-api-demo-1:
+    build: .
+    container_name: predia-api-demo-1
+    env_file:
+      - .env.local
+    environment:
+      NODE_ENV: production
+      PREDIA_INSTANCE_ID: predia-api-demo-1
+      PORT: 3000
+      DATABASE_URL: mysql://predia_app:${MYSQL_PASSWORD:-SecurePassword123!}@db-demo:3306/predia
+    expose:
+      - "3000"
+    networks:
+      - predia-rubric-private
+    depends_on:
+      db-demo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  predia-api-demo-2:
+    build: .
+    container_name: predia-api-demo-2
+    env_file:
+      - .env.local
+    environment:
+      NODE_ENV: production
+      PREDIA_INSTANCE_ID: predia-api-demo-2
+      PORT: 3000
+      DATABASE_URL: mysql://predia_app:${MYSQL_PASSWORD:-SecurePassword123!}@db-demo:3306/predia
+    expose:
+      - "3000"
+    networks:
+      - predia-rubric-private
+    depends_on:
+      db-demo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  db-demo:
+    image: mysql:8.0
+    container_name: predia-db-rubric
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: predia
+      MYSQL_USER: predia_app
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-SecurePassword123!}
+    volumes:
+      - predia_rubric_db:/var/lib/mysql
+    networks:
+      - predia-rubric-private
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+networks:
+  predia-rubric-public:
+    driver: bridge
+  predia-rubric-private:
+    driver: bridge
+    internal: true
+
+volumes:
+  predia_rubric_db:
+

@@ -1,0 +1,1126 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xml:lang="es" xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title></title> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- xhtml,charset=utf-8,html --> 
+<meta name="src" content="predia-pi-mobile-report.tex" /> 
+<link rel="stylesheet" type="text/css" href="predia-pi-mobile-report.css" /> 
+</head><body 
+>
+<!--l. 57--><p class="noindent" >
+                                                                                       
+                                                                                       
+</p>
+<div class="center" 
+>
+<!--l. 59--><p class="noindent" >
+</p><!--l. 60--><p class="noindent" ><span 
+class="ec-lmssbx-10x-x-172">UNIVERSIDAD POLIT</span><span 
+class="ec-lmssbx-10x-x-172">ÉCNICA DE QUER</span><span 
+class="ec-lmssbx-10x-x-172">ÉTARO</span><br />
+<span 
+class="ec-lmss-12x-x-120">Ingenier</span><span 
+class="ec-lmss-12x-x-120">ía en Sistemas Computacionales</span><br />
+<span 
+class="ec-lmss-12">Programaci</span><span 
+class="ec-lmss-12">ón M</span><span 
+class="ec-lmss-12">óvil</span><br /><br />
+<img 
+src="../apps/mobile/assets/icon.png" alt="PIC"  
+width="88" height="88"  /><br />
+<span 
+class="ec-lmssbx-10x-x-248">PREDIA</span><br />
+<span 
+class="ec-lmss-12x-x-120">Plataforma Cl</span><span 
+class="ec-lmss-12x-x-120">ínica Inteligente para la Detecci</span><span 
+class="ec-lmss-12x-x-120">ón Temprana de Diabetes</span><br /><br />
+________________________________________________________________________<br /><br />
+<span 
+class="ec-lmssbx-10x-x-172">REPORTE DE PROYECTO INTEGRADOR</span><br />
+<span 
+class="ec-lmss-12">Integraci</span><span 
+class="ec-lmss-12">ón m</span><span 
+class="ec-lmss-12">óvil para autogesti</span><span 
+class="ec-lmss-12">ón del paciente y atenci</span><span 
+class="ec-lmss-12">ón cl</span><span 
+class="ec-lmss-12">ínica en movilidad</span><br /><br />
+________________________________________________________________________<br /><br />
+<span 
+class="ec-lmssbx-10x-x-120">PRESENTAN</span><br />
+Arianna Valentina Giannoccaro Quiñonez<br />
+Álvarez Sánchez Guillermo<br />
+Muñoz Prado Cristopher Yanhyu<br />
+Villafuerte Armenta Gabriel Iván<br /><br />
+<span 
+class="ec-lmssbx-10x-x-120">DOCENTE</span><br />
+Iván Isay Guerra López<br /><br />
+<span 
+class="ec-lmssbx-10x-x-120">ASESORES UPQ</span><br />
+José Javier Moya Moya    |    Jairo Pacindo Piña
+</p><!--l. 85--><p class="noindent" ><span 
+class="ec-lmss-12">El Marqu</span><span 
+class="ec-lmss-12">és, Quer</span><span 
+class="ec-lmss-12">étaro                                                                       Junio de 2026</span></p></div>
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+       <h2 class="likechapterHead"><a 
+ id="x1-1000"></a>Resumen</h2>
+<a 
+ id="Q1-1-2"></a>
+<!--l. 97--><p class="noindent" >El presente reporte documenta la ampliación móvil de PREDIA, una plataforma clínica
+orientada a la gestión de expedientes y al apoyo para la detección temprana del riesgo de
+diabetes tipo 2. La solución web existente centraliza información de pacientes, consultas, signos
+vitales, recetas y predicciones de Inteligencia Artificial; sin embargo, su contexto principal de uso
+corresponde al escritorio y a sesiones clínicas prolongadas. La nueva integración móvil atiende
+necesidades diferentes: permitir al paciente consultar y registrar información de salud desde
+casa, y facilitar al médico la consulta y captura de datos durante rondas o atención al pie de
+cama.
+</p><!--l. 99--><p class="indent" >       La propuesta contempla dos roles diferenciados. El portal del paciente integra acceso a su
+resumen de salud, expediente en modo de lectura, citas, recetas, resultados de riesgo,
+automonitoreo y tendencias. La experiencia del médico prioriza agenda diaria, búsqueda rápida
+de pacientes, resumen clínico, alertas, registro de signos vitales, dictado de notas, captura de
+imágenes, validación de predicciones y firma de recetas. La aplicación se desarrolla con
+React Native y Expo, reutiliza la API de la plataforma web y mantiene autenticación,
+persistencia y control de acceso acordes con la naturaleza sensible de la información
+clínica.
+</p><!--l. 101--><p class="indent" >       Las dos primeras etapas abarcan el análisis de la brecha entre web y móvil, la definición
+de requisitos funcionales y no funcionales, el diseño de arquitectura e interfaces, y la
+construcción de un prototipo funcional conectado al backend de PREDIA. El resultado es una
+base móvil complementaria a la plataforma web, orientada a reducir tiempos de consulta,
+mejorar el seguimiento del paciente y acercar la información clínica al momento en que se
+requiere tomar una decisión.
+</p><!--l. 103--><p class="noindent" ><span 
+class="ec-lmbx-12">Palabras clave: </span>salud móvil, expediente clínico, React Native, atención clínica,
+automonitoreo, diabetes, Inteligencia Artificial.
+                                                                                       
+                                                                                       
+</p>
+       <h2 class="likechapterHead"><a 
+ id="x1-2000"></a>Índice</h2>
+       <div class="tableofcontents">
+       <span class="chapterToc" > <a 
+href="#Q1-1-2">Resumen</a></span>
+<br />       <span class="chapterToc" >1 <a 
+href="#x1-30001" id="QQ2-1-4">Antecedentes</a></span>
+<br />       <span class="sectionToc" >1.1 <a 
+href="#x1-40001.1" id="QQ2-1-5">Tema del proyecto</a></span>
+<br />       <span class="sectionToc" >1.2 <a 
+href="#x1-50001.2" id="QQ2-1-7">Contexto clínico y tecnológico</a></span>
+<br />       <span class="sectionToc" >1.3 <a 
+href="#x1-60001.3" id="QQ2-1-8">Situación previa de PREDIA</a></span>
+<br />       <span class="sectionToc" >1.4 <a 
+href="#x1-70001.4" id="QQ2-1-9">Antecedente de requisitos móviles</a></span>
+<br />       <span class="chapterToc" >2 <a 
+href="#x1-80002" id="QQ2-1-10">Definición del proyecto</a></span>
+<br />       <span class="sectionToc" >2.1 <a 
+href="#x1-90002.1" id="QQ2-1-11">Planteamiento del problema</a></span>
+<br />       <span class="sectionToc" >2.2 <a 
+href="#x1-100002.2" id="QQ2-1-12">Justificación</a></span>
+<br />       <span class="subsectionToc" >2.2.1 <a 
+href="#x1-110002.2.1" id="QQ2-1-13">Valor para el paciente</a></span>
+<br />       <span class="subsectionToc" >2.2.2 <a 
+href="#x1-120002.2.2" id="QQ2-1-14">Valor para el personal médico</a></span>
+<br />       <span class="subsectionToc" >2.2.3 <a 
+href="#x1-130002.2.3" id="QQ2-1-15">Aprovechamiento de capacidades nativas</a></span>
+<br />       <span class="subsectionToc" >2.2.4 <a 
+href="#x1-140002.2.4" id="QQ2-1-16">Reutilización de la inversión tecnológica</a></span>
+<br />       <span class="subsectionToc" >2.2.5 <a 
+href="#x1-150002.2.5" id="QQ2-1-17">Continuidad clínica y prevención</a></span>
+<br />       <span class="sectionToc" >2.3 <a 
+href="#x1-160002.3" id="QQ2-1-18">Alcances y restricciones</a></span>
+<br />       <span class="subsectionToc" >2.3.1 <a 
+href="#x1-170002.3.1" id="QQ2-1-19">Alcances</a></span>
+<br />       <span class="subsectionToc" >2.3.2 <a 
+href="#x1-180002.3.2" id="QQ2-1-20">Restricciones</a></span>
+<br />       <span class="sectionToc" >2.4 <a 
+href="#x1-190002.4" id="QQ2-1-21">Objetivo general</a></span>
+<br />       <span class="sectionToc" >2.5 <a 
+href="#x1-200002.5" id="QQ2-1-22">Objetivos específicos</a></span>
+<br />       <span class="chapterToc" >3 <a 
+href="#x1-210003" id="QQ2-1-23">Desarrollo de las etapas</a></span>
+<br />       <span class="sectionToc" >3.1 <a 
+href="#x1-220003.1" id="QQ2-1-24">Primera etapa del proyecto</a></span>
+<br />       <span class="subsectionToc" >3.1.1 <a 
+href="#x1-230003.1.1" id="QQ2-1-25">Análisis de la solución existente</a></span>
+<br />       <span class="subsectionToc" >3.1.2 <a 
+href="#x1-240003.1.2" id="QQ2-1-26">Definición de roles y requisitos</a></span>
+<br />       <span class="subsectionToc" >3.1.3 <a 
+href="#x1-250003.1.3" id="QQ2-1-28">Arquitectura tecnológica</a></span>
+<br />       <span class="subsectionToc" >3.1.4 <a 
+href="#x1-260003.1.4" id="QQ2-1-29">Diseño de interfaces y navegación</a></span>
+<br />       <span class="subsectionToc" >3.1.5 <a 
+href="#x1-270003.1.5" id="QQ2-1-30">Entregables de la primera etapa</a></span>
+<br />       <span class="sectionToc" >3.2 <a 
+href="#x1-280003.2" id="QQ2-1-31">Segunda etapa del proyecto</a></span>
+                                                                                       
+                                                                                       
+<br />       <span class="subsectionToc" >3.2.1 <a 
+href="#x1-290003.2.1" id="QQ2-1-32">Construcción del proyecto móvil</a></span>
+<br />       <span class="subsectionToc" >3.2.2 <a 
+href="#x1-300003.2.2" id="QQ2-1-33">Integración de autenticación</a></span>
+<br />       <span class="subsectionToc" >3.2.3 <a 
+href="#x1-310003.2.3" id="QQ2-1-34">Flujo del médico</a></span>
+<br />       <span class="subsectionToc" >3.2.4 <a 
+href="#x1-320003.2.4" id="QQ2-1-35">Flujo del paciente</a></span>
+<br />       <span class="subsectionToc" >3.2.5 <a 
+href="#x1-330003.2.5" id="QQ2-1-36">Pruebas realizadas</a></span>
+<br />       <span class="subsectionToc" >3.2.6 <a 
+href="#x1-340003.2.6" id="QQ2-1-37">Estado de cumplimiento al cierre de la segunda etapa</a></span>
+<br />       <span class="sectionToc" >3.3 <a 
+href="#x1-350003.3" id="QQ2-1-38">Resultado de las dos primeras etapas</a></span>
+<br />       <span class="chapterToc" > <a 
+href="#Q1-1-40">Referencias</a></span>
+       </div>
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+       <h2 class="chapterHead"><span class="titlemark">Capítulo&#x00A0;1</span><br /><a 
+ id="x1-30001"></a>Antecedentes</h2>
+       <h3 class="sectionHead"><span class="titlemark">1.1   </span> <a 
+ id="x1-40001.1"></a>Tema del proyecto</h3>
+<!--l. 116--><p class="noindent" >PREDIA&#x00A0;(Plataforma Clínica Inteligente para la Detección Temprana de Diabetes) es un
+proyecto de software clínico que integra la administración de pacientes, historiales
+médicos y herramientas de apoyo basadas en Inteligencia Artificial. Su propósito
+es organizar información clínica estructurada y convertirla en señales útiles para la
+prevención, el seguimiento y la toma de decisiones por parte de profesionales de la
+salud.
+</p><!--l. 118--><p class="indent" >       El proyecto original se implementó como una plataforma web con arquitectura
+cliente&#8211;servidor, API REST, base de datos relacional, autenticación mediante JSON Web
+Tokens y control de acceso por roles. Esta versión permite administrar pacientes,
+consultas, alergias, patologías, vacunas, antecedentes, signos vitales, documentos, recetas y
+predicciones de riesgo. La plataforma constituye el núcleo transaccional y clínico del
+sistema.
+</p><!--l. 120--><p class="indent" >       La evolución del proyecto incorpora una aplicación móvil complementaria. Esta nueva
+integración no pretende duplicar todos los módulos de la web, sino adaptar el producto a
+escenarios en los que el usuario necesita información inmediata, acciones breves y capacidades
+nativas del dispositivo.
+</p>
+       <hr class="figure" /><div class="figure" 
+>
+                                                                                       
+                                                                                       
+                                                                                       
+                                                                                       
+<!--l. 124--><p class="noindent" ><img 
+src="../apps/mobile/assets/icon.png" alt="PIC"  
+width="146" height="146"  /> <a 
+ id="x1-4001r1"></a>
+<br />                                                                                       </p><div class="caption" 
+><span class="id">
+Figura&#x00A0;1.1: </span><span  
+class="content">Logo del proyecto PREDIA utilizado en la aplicación móvil.                </span></div><!--tex4ht:label?: x1-4001r1 -->
+                                                                                       
+                                                                                       
+       </div><hr class="endfigure" />
+<!--l. 129--><p class="indent" >       El símbolo gráfico se construye a partir de una forma geométrica ascendente en color
+azul clínico. La composición comunica tecnología, precisión y evolución, mientras que la paleta
+azul se asocia con confianza, seguridad y atención sanitaria. El logo se utiliza como identificador
+visual común entre las experiencias web y móvil.
+</p>
+       <h3 class="sectionHead"><span class="titlemark">1.2   </span> <a 
+ id="x1-50001.2"></a>Contexto clínico y tecnológico</h3>
+<!--l. 133--><p class="noindent" >La diabetes mellitus tipo 2 representa un problema relevante de salud pública por
+su alta prevalencia, su evolución progresiva y el impacto de sus complicaciones. La
+detección tardía reduce las oportunidades de prevención y aumenta la necesidad de
+intervenciones complejas. Por esta razón, el seguimiento sistemático de factores como peso,
+índice de masa corporal, presión arterial, glucosa y antecedentes familiares resulta
+fundamental.
+</p><!--l. 135--><p class="indent" >       Al mismo tiempo, muchas instituciones y consultorios mantienen información clínica
+distribuida entre documentos físicos, hojas de cálculo y sistemas que no comparten datos. Esta
+fragmentación dificulta reconstruir la evolución del paciente, identificar valores anormales y dar
+continuidad al tratamiento. PREDIA&#x00A0;surgió para centralizar esa información y utilizarla como
+base de un sistema de apoyo a la decisión clínica.
+</p><!--l. 137--><p class="indent" >       La adopción generalizada de teléfonos inteligentes abre un segundo contexto de uso. El
+paciente puede registrar mediciones fuera de la consulta y recibir recordatorios; el médico puede
+revisar datos durante una ronda, capturar una nota por voz o tomar una fotografía
+clínica sin depender de una estación de trabajo. Estas actividades requieren una
+experiencia diseñada para movilidad, interacción táctil, sesiones breves y conectividad
+variable.
+</p><!--l. 139--><p class="noindent" >
+</p>
+       <h3 class="sectionHead"><span class="titlemark">1.3   </span> <a 
+ id="x1-60001.3"></a>Situación previa de PREDIA</h3>
+<!--l. 141--><p class="noindent" >Antes de la integración móvil, la plataforma resolvía principalmente el flujo del personal
+médico, de enfermería y administración desde navegador. El sistema ya contaba con base de
+datos clínica, endpoints de autenticación, pacientes, agenda, mediciones, recetas, documentos y
+predicciones. También existían mecanismos de seguridad, generación de reportes y
+                                                                                       
+                                                                                       
+contenedorización para el entorno de desarrollo.
+</p><!--l. 143--><p class="indent" >       No obstante, se identificaron cinco brechas principales:
+</p><!--l. 145--><p class="indent" >
+      </p><dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+   1. </dt><dd 
+class="enumerate-enumitem">El  paciente  no  disponía  de  una  experiencia  propia  para  consultar  sus  datos  y
+      participar en el seguimiento de su salud.
+      </dd><dt class="enumerate-enumitem">
+   2. </dt><dd 
+class="enumerate-enumitem">La interfaz web no estaba optimizada para consulta rápida durante rondas o atención
+      al pie de cama.
+      </dd><dt class="enumerate-enumitem">
+   3. </dt><dd 
+class="enumerate-enumitem">La captura clínica móvil requería aprovechar micrófono, cámara y autenticación
+      biométrica.
+      </dd><dt class="enumerate-enumitem">
+   4. </dt><dd 
+class="enumerate-enumitem">El automonitoreo entre consultas no contaba con una interfaz específica para registro
+      y visualización de tendencias.
+      </dd><dt class="enumerate-enumitem">
+   5. </dt><dd 
+class="enumerate-enumitem">Los  recordatorios  y  alertas  dependían  de  mecanismos  web  o  correo,  con  menor
+      oportunidad que una notificación móvil nativa.</dd></dl>
+<!--l. 153--><p class="indent" >       Estas brechas justifican una aplicación móvil especializada que consuma los servicios
+existentes, mantenga una fuente única de información y ofrezca funciones coherentes con el
+contexto del dispositivo.
+</p><!--l. 155--><p class="noindent" >
+</p>
+       <h3 class="sectionHead"><span class="titlemark">1.4   </span> <a 
+ id="x1-70001.4"></a>Antecedente de requisitos móviles</h3>
+<!--l. 157--><p class="noindent" >El levantamiento previo definió 17 requisitos funcionales. Ocho corresponden al paciente:
+autenticación, dashboard personal, consulta de riesgo, expediente, recetas, citas, automonitoreo
+y tendencias. Nueve corresponden al médico: autenticación, agenda, resumen rápido, signos
+vitales, dictado, cámara clínica, validación de IA, alertas críticas y firma biométrica.
+</p><!--l. 159--><p class="indent" >       Los requisitos no funcionales consideran rendimiento, disponibilidad offline, protección de
+información, compatibilidad con Android e iOS, usabilidad, consumo de recursos y accesibilidad.
+Esta base permitió pasar de una idea general de &#8220;app móvil&#8221; a una arquitectura con roles,
+                                                                                       
+                                                                                       
+interfaces, prioridades y criterios de aceptación.
+                                                                                       
+                                                                                       
+</p>
+       <h2 class="chapterHead"><span class="titlemark">Capítulo&#x00A0;2</span><br /><a 
+ id="x1-80002"></a>Definición del proyecto</h2>
+       <h3 class="sectionHead"><span class="titlemark">2.1   </span> <a 
+ id="x1-90002.1"></a>Planteamiento del problema</h3>
+<!--l. 168--><p class="noindent" >La plataforma web de PREDIA&#x00A0;centraliza información clínica y ofrece herramientas predictivas,
+pero no cubre por completo las necesidades que aparecen fuera del consultorio o de una
+computadora. El paciente continúa dependiendo del personal médico para conocer
+resultados, revisar indicaciones y dar seguimiento a sus mediciones. A su vez, el médico
+necesita acceder con rapidez al expediente mientras se desplaza, registrar signos vitales,
+documentar hallazgos y atender alertas sin completar flujos extensos diseñados para
+escritorio.
+</p><!--l. 170--><p class="indent" >       Esta separación entre la información disponible y el contexto real de uso provoca retrasos
+y fricción. Un dato de presión o glucosa registrado en casa puede quedar fuera del
+expediente; una alerta de alto riesgo puede no revisarse oportunamente; una nota
+clínica puede posponerse hasta que el médico regrese a una computadora. Además, la
+falta de participación directa del paciente limita la continuidad del seguimiento entre
+consultas.
+</p><!--l. 172--><p class="indent" >       El problema central consiste, por tanto, en que PREDIA&#x00A0;dispone de información y
+servicios clínicos, pero requiere un canal móvil seguro y especializado que los acerque a dos
+momentos críticos: la autogestión cotidiana del paciente y la atención del médico en
+movimiento. Resolverlo exige mantener una sola fuente de datos, adaptar la navegación a tareas
+frecuentes y aprovechar capacidades nativas sin comprometer la confidencialidad del
+expediente.
+</p><!--l. 174--><p class="indent" >       La pregunta que orienta el proyecto es la siguiente: <span 
+class="ec-lmri-12">¿c</span><span 
+class="ec-lmri-12">ómo ampliar PREDIA mediante</span>
+<span 
+class="ec-lmri-12">una aplicaci</span><span 
+class="ec-lmri-12">ón m</span><span 
+class="ec-lmri-12">óvil complementaria que permita al paciente participar en el seguimiento de su</span>
+<span 
+class="ec-lmri-12">salud y al m</span><span 
+class="ec-lmri-12">édico actuar con rapidez durante la atenci</span><span 
+class="ec-lmri-12">ón cl</span><span 
+class="ec-lmri-12">ínica, conservando seguridad,</span>
+<span 
+class="ec-lmri-12">trazabilidad y consistencia con la plataforma web?</span>
+</p><!--l. 176--><p class="noindent" >
+</p>
+       <h3 class="sectionHead"><span class="titlemark">2.2   </span> <a 
+ id="x1-100002.2"></a>Justificación</h3>
+<!--l. 178--><p class="noindent" >
+                                                                                       
+                                                                                       
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">2.2.1   </span> <a 
+ id="x1-110002.2.1"></a>Valor para el paciente</h4>
+<!--l. 180--><p class="noindent" >La integración móvil mejora el acceso del paciente a información que le pertenece y que influye
+en sus decisiones cotidianas. Consultar citas, recetas, recomendaciones y tendencias desde un
+teléfono reduce dependencia administrativa y facilita la comprensión del propio estado de salud.
+El automonitoreo de glucosa, peso y presión permite construir una evolución más continua que
+la obtenida únicamente durante consultas periódicas.
+</p><!--l. 182--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">2.2.2   </span> <a 
+ id="x1-120002.2.2"></a>Valor para el personal médico</h4>
+<!--l. 184--><p class="noindent" >Durante rondas y atención directa, la información crítica debe estar disponible con pocos pasos.
+Una vista rápida con alergias, medicamentos, signos recientes, riesgo y alertas reduce el tiempo
+dedicado a buscar datos dispersos. El registro móvil de mediciones, notas y fotografías
+disminuye la duplicidad de captura y mejora la oportunidad con la que la información llega al
+expediente.
+</p><!--l. 186--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">2.2.3   </span> <a 
+ id="x1-130002.2.3"></a>Aprovechamiento de capacidades nativas</h4>
+<!--l. 188--><p class="noindent" >La aplicación móvil puede utilizar autenticación biométrica, cámara, micrófono y
+notificaciones. Estas capacidades permiten desbloqueo seguro, evidencia clínica, dictado de
+notas y avisos oportunos. Aunque algunas funciones podrían simularse en navegador,
+su integración nativa ofrece una experiencia más directa y adecuada para sesiones
+breves.
+</p><!--l. 190--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">2.2.4   </span> <a 
+ id="x1-140002.2.4"></a>Reutilización de la inversión tecnológica</h4>
+<!--l. 192--><p class="noindent" >La solución no crea un backend independiente. La aplicación consume la API y la base de datos
+ya desarrolladas para la plataforma web, lo que reduce duplicidad y mantiene consistencia.
+React Native y Expo también reutilizan conocimientos del equipo en React, TypeScript,
+Zustand y TanStack Query. De esta forma, la ampliación móvil aprovecha la inversión previa y
+                                                                                       
+                                                                                       
+conserva una arquitectura mantenible.
+</p><!--l. 194--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">2.2.5   </span> <a 
+ id="x1-150002.2.5"></a>Continuidad clínica y prevención</h4>
+<!--l. 196--><p class="noindent" >La combinación de información web y móvil permite registrar eventos en distintos momentos del
+proceso clínico. El médico genera indicaciones y valida riesgos; el paciente consulta esas
+indicaciones y aporta mediciones entre visitas. Esta continuidad fortalece el carácter preventivo
+de PREDIA&#x00A0;y transforma la plataforma de un repositorio de información a una herramienta de
+seguimiento y apoyo a decisiones.
+</p><!--l. 198--><p class="noindent" >
+</p>
+       <h3 class="sectionHead"><span class="titlemark">2.3   </span> <a 
+ id="x1-160002.3"></a>Alcances y restricciones</h3>
+<!--l. 200--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">2.3.1   </span> <a 
+ id="x1-170002.3.1"></a>Alcances</h4>
+<!--l. 202--><p class="noindent" >El proyecto contempla los siguientes alcances para la integración móvil:
+</p>
+      <ul class="itemize1">
+      <li class="itemize">
+      <!--l. 205--><p class="noindent" >Aplicación multiplataforma desarrollada con React Native y Expo, con base común
+      para Android, iOS y validación web del prototipo.
+      </p></li>
+      <li class="itemize">
+      <!--l. 206--><p class="noindent" >Autenticación diferenciada para médico y paciente, persistencia segura de sesión y
+      base para desbloqueo biométrico.
+      </p></li>
+      <li class="itemize">
+                                                                                       
+                                                                                       
+      <!--l. 207--><p class="noindent" >Navegación médica mediante Inicio, Agenda, Pacientes, Alertas y Perfil.
+      </p></li>
+      <li class="itemize">
+      <!--l. 208--><p class="noindent" >Dashboard médico con citas del día, pacientes de alto riesgo, acciones rápidas y
+      acceso al resumen clínico.
+      </p></li>
+      <li class="itemize">
+      <!--l. 209--><p class="noindent" >Resumen móvil del paciente con identidad, contacto, riesgo estratificado, alergias,
+      signos vitales, consultas y recetas.
+      </p></li>
+      <li class="itemize">
+      <!--l. 210--><p class="noindent" >Registro rápido de signos vitales conectado a la API de PREDIA.
+      </p></li>
+      <li class="itemize">
+      <!--l. 211--><p class="noindent" >Dictado de notas con captura de audio, transcripción y persistencia de la nota en el
+      expediente.
+      </p></li>
+      <li class="itemize">
+      <!--l. 212--><p class="noindent" >Captura de fotografías clínicas mediante cámara y flujo para adjuntar evidencia.
+      </p></li>
+      <li class="itemize">
+      <!--l. 213--><p class="noindent" >Revisión y validación de predicciones de Inteligencia Artificial por parte del médico.
+      </p></li>
+      <li class="itemize">
+      <!--l. 214--><p class="noindent" >Firma de recetas con autenticación biométrica cuando el dispositivo la soporte y
+      flujo controlado de demostración en emulador.
+      </p></li>
+      <li class="itemize">
+      <!--l. 215--><p class="noindent" >Portal base del paciente con dashboard, expediente, recetas, citas, automonitoreo,
+      resultados y tendencias.
+                                                                                       
+                                                                                       
+      </p></li>
+      <li class="itemize">
+      <!--l. 216--><p class="noindent" >Consumo de la API web mediante TanStack Query, manejo de estados de carga,
+      error y refresco de datos.
+      </p></li>
+      <li class="itemize">
+      <!--l. 217--><p class="noindent" >Integración de objetivos de salud para peso, IMC y presión como base de seguimiento
+      longitudinal.</p></li></ul>
+<!--l. 220--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">2.3.2   </span> <a 
+ id="x1-180002.3.2"></a>Restricciones</h4>
+<!--l. 222--><p class="noindent" >
+<a 
+ id="x1-18001r1"></a></p>       <!--l. 224--><div class="longtable"> <table id="TBL-1" class="longtable" 
+ 
+><colgroup id="TBL-1-1g"><col 
+id="TBL-1-1" /><col 
+id="TBL-1-2" /></colgroup>
+<tr  
+ style="vertical-align:baseline;" id="TBL-1-1-"><td colspan="2" style="white-space:normal; text-align:left;" id="TBL-1-1-1"  
+class="td11"><span class="cmidrule"><!-- enable post-processing of cmidrule--></span>
+</td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-2-"><td  style="white-space:normal; text-align:left;" id="TBL-1-2-1"  
+class="td11">
+ <!--l. 224--><p class="noindent" ><span 
+class="ec-lmbx-12">Categor</span><span 
+class="ec-lmbx-12">ía</span>        </p></td><td  style="white-space:normal; text-align:left;" id="TBL-1-2-2"  
+class="td11">
+ <!--l. 224--><p class="noindent" >Restricción                                                              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-3-"><td colspan="2" style="white-space:normal; text-align:left;" id="TBL-1-3-1"  
+class="td11"><span class="cmidrule"><!-- enable post-processing of cmidrule--></span>
+</td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-4-"><td  style="white-space:normal; text-align:left;" id="TBL-1-4-1"  
+class="td11">
+ <!--l. 226--><p class="noindent" >                </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-5-"><td  style="white-space:normal; text-align:left;" id="TBL-1-5-1"  
+class="td11">                    </td><td  style="white-space:normal; text-align:left;" id="TBL-1-5-2"  
+class="td11"></td></tr>
+<tr  
+ style="vertical-align:baseline;" id="TBL-1-11-"><td  style="white-space:normal; text-align:left;" id="TBL-1-11-1"  
+class="td11">
+ <!--l. 231--><p class="noindent" ><span 
+class="ec-lmbx-12">Dispositivos</span>      </p></td><td  style="white-space:normal; text-align:left;" id="TBL-1-11-2"  
+class="td11">
+ <!--l. 231--><p class="noindent" >La
+  validación funcional actual se ha realizado principalmente
+  en Expo Web y emuladores; el comportamiento final de
+  cámara, biometría, audio y notificaciones debe verificarse
+  en equipos físicos Android e iOS.                                 </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-12-"><td  style="white-space:normal; text-align:left;" id="TBL-1-12-1"  
+class="td11">
+ <!--l. 232--><p class="noindent" ><span 
+class="ec-lmbx-12">Conectividad</span>    </p></td><td  style="white-space:normal; text-align:left;" id="TBL-1-12-2"  
+class="td11">
+ <!--l. 232--><p class="noindent" >La lectura y escritura clínica requieren acceso a la API.
+  La estrategia offline completa, con cifrado local y cola de
+  sincronización, permanece como trabajo posterior.           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-13-"><td  style="white-space:normal; text-align:left;" id="TBL-1-13-1"  
+class="td11">
+ <!--l. 233--><p class="noindent" ><span 
+class="ec-lmbx-12">Notificaciones</span>   </p></td><td  style="white-space:normal; text-align:left;" id="TBL-1-13-2"  
+class="td11">
+ <!--l. 233--><p class="noindent" >La   arquitectura   contempla   Expo   Notifications,   pero
+  el   envío   push   en   producción   requiere   credenciales,
+  configuración  de  proyectos  y  pruebas  con  servicios  de
+  Apple y Google.                                                        </p></td>
+                                                                                       
+                                                                                       
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-14-"><td  style="white-space:normal; text-align:left;" id="TBL-1-14-1"  
+class="td11">
+ <!--l. 234--><p class="noindent" ><span 
+class="ec-lmbx-12">Seguridad</span>         </p></td><td  style="white-space:normal; text-align:left;" id="TBL-1-14-2"  
+class="td11">
+ <!--l. 234--><p class="noindent" >La   información   médica   exige   protección   de   sesión,
+  cifrado, control de permisos y cumplimiento normativo. El
+  prototipo no sustituye una auditoría formal de seguridad
+  ni una certificación clínica.                                         </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-15-"><td  style="white-space:normal; text-align:left;" id="TBL-1-15-1"  
+class="td11">
+ <!--l. 235--><p class="noindent" ><span 
+class="ec-lmbx-12">Interoperabilidad</span> </p> </td><td  style="white-space:normal; text-align:left;" id="TBL-1-15-2"  
+class="td11">
+ <!--l. 235--><p class="noindent" >La primera versión consume la API propia de PREDIA;
+  no incorpora integración productiva con sistemas externos
+  del IMSS, expedientes legados o redes hospitalarias.         </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-16-"><td  style="white-space:normal; text-align:left;" id="TBL-1-16-1"  
+class="td11">
+ <!--l. 236--><p class="noindent" ><span 
+class="ec-lmbx-12">Funciones</span>
+ <span 
+class="ec-lmbx-12">pendientes</span>        </p></td><td  style="white-space:normal; text-align:left;" id="TBL-1-16-2"  
+class="td11">
+ <!--l. 236--><p class="noindent" >Mensajería   clínica   segura,   QR/NFC,   sincronización
+  offline completa y recordatorios avanzados se encuentran
+  fuera de las dos primeras etapas.                                  </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-17-"><td  style="white-space:normal; text-align:left;" id="TBL-1-17-1"  
+class="td11">
+ <!--l. 237--><p class="noindent" ><span 
+class="ec-lmbx-12">Modelo de IA</span>   </p></td><td  style="white-space:normal; text-align:left;" id="TBL-1-17-2"  
+class="td11">
+ <!--l. 237--><p class="noindent" >La  predicción  es  una  herramienta  de  cribado  y  apoyo.
+  No  constituye  diagnóstico  y  requiere  interpretación  y
+  validación médica.                                                     </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-18-"><td  style="white-space:normal; text-align:left;" id="TBL-1-18-1"  
+class="td11">
+ <!--l. 238--><p class="noindent" ><span 
+class="ec-lmbx-12">Datos</span>              </p></td><td  style="white-space:normal; text-align:left;" id="TBL-1-18-2"  
+class="td11">
+ <!--l. 238--><p class="noindent" >El  desempeño  del  modelo  depende  de  la  calidad  y
+  representatividad del conjunto de datos. Los resultados no
+  deben generalizarse sin validación clínica externa.           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-19-"><td  style="white-space:normal; text-align:left;" id="TBL-1-19-1"  
+class="td11">
+ <!--l. 239--><p class="noindent" ><span 
+class="ec-lmbx-12">Tiempo         y</span>
+ <span 
+class="ec-lmbx-12">recursos</span>           </p></td><td  style="white-space:normal; text-align:left;" id="TBL-1-19-2"  
+class="td11">
+ <!--l. 239--><p class="noindent" >El desarrollo se realiza en un contexto académico con un
+  equipo  limitado;  las  pruebas  de  campo,  publicación  en
+  tiendas y operación 24/7 requieren recursos adicionales.    </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-20-"><td colspan="2" style="white-space:normal; text-align:left;" id="TBL-1-20-1"  
+class="td11"><span class="cmidrule"><!-- enable post-processing of cmidrule--></span>
+</td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-21-"><td  style="white-space:normal; text-align:left;" id="TBL-1-21-1"  
+class="td11">                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-22-"><td  style="white-space:normal; text-align:left;" id="TBL-1-22-1"  
+class="td11">                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-23-"><td  style="white-space:normal; text-align:left;" id="TBL-1-23-1"  
+class="td11">
+ <!--l. 241--><p class="noindent" >                </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-24-"><td  style="white-space:normal; text-align:left;" id="TBL-1-24-1"  
+class="td11">
+ <!--l. 241--><p class="noindent" >                </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-25-"><td  style="white-space:normal; text-align:left;" id="TBL-1-25-1"  
+class="td11">
+ <!--l. 241--><p class="noindent" >                </p></td>
+       </tr>
+       </table></div>
+<!--l. 243--><p class="noindent" >
+                                                                                       
+                                                                                       
+</p>
+       <h3 class="sectionHead"><span class="titlemark">2.4   </span> <a 
+ id="x1-190002.4"></a>Objetivo general</h3>
+<!--l. 245--><p class="noindent" >Desarrollar e integrar una aplicación móvil complementaria a la plataforma web PREDIA&#x00A0;que
+proporcione al paciente herramientas de consulta y automonitoreo, y al médico una
+experiencia de atención clínica en movilidad, mediante acceso seguro a la información,
+captura rápida de datos y aprovechamiento de capacidades nativas del dispositivo,
+manteniendo consistencia con el expediente clínico central y apoyo explicable a la toma de
+decisiones.
+</p><!--l. 247--><p class="noindent" >
+</p>
+       <h3 class="sectionHead"><span class="titlemark">2.5   </span> <a 
+ id="x1-200002.5"></a>Objetivos específicos</h3>
+<!--l. 249--><p class="noindent" >
+          </p><dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+   <span 
+class="ec-lmbx-12">OE1.</span> </dt><dd 
+class="enumerate-enumitem">Diseñar  una  arquitectura  móvil  por  roles  que  reutilice  la  API  REST,
+          autenticación y modelo de datos existentes de PREDIA.
+          </dd><dt class="enumerate-enumitem">
+   <span 
+class="ec-lmbx-12">OE2.</span> </dt><dd 
+class="enumerate-enumitem">Implementar autenticación para paciente y médico, almacenamiento seguro de
+          sesión y soporte para desbloqueo biométrico en dispositivos compatibles.
+          </dd><dt class="enumerate-enumitem">
+   <span 
+class="ec-lmbx-12">OE3.</span> </dt><dd 
+class="enumerate-enumitem">Proporcionar al paciente acceso a su resumen de salud, expediente, recetas, citas,
+          resultados de riesgo, automonitoreo y tendencias.
+          </dd><dt class="enumerate-enumitem">
+   <span 
+class="ec-lmbx-12">OE4.</span> </dt><dd 
+class="enumerate-enumitem">Optimizar el flujo del médico mediante agenda diaria, búsqueda de pacientes,
+          resumen  clínico  y  alertas  prioritarias  accesibles  en  un  máximo  de  dos
+          interacciones principales.
+          </dd><dt class="enumerate-enumitem">
+   <span 
+class="ec-lmbx-12">OE5.</span> </dt><dd 
+class="enumerate-enumitem">Implementar  el  registro  móvil  de  signos  vitales  con  validación  de  rangos  y
+          persistencia inmediata en el backend.
+          </dd><dt class="enumerate-enumitem">
+   <span 
+class="ec-lmbx-12">OE6.</span> </dt><dd 
+class="enumerate-enumitem">Incorporar micrófono y cámara para dictado de notas y captura de evidencia
+          clínica asociada al expediente.
+                                                                                       
+                                                                                       
+          </dd><dt class="enumerate-enumitem">
+   <span 
+class="ec-lmbx-12">OE7.</span> </dt><dd 
+class="enumerate-enumitem">Permitir   la   revisión   y   validación   médica   de   resultados   generados   por
+          IA,  mostrando  niveles  de  riesgo,  factores  relacionados  y  recomendaciones
+          comprensibles.
+          </dd><dt class="enumerate-enumitem">
+   <span 
+class="ec-lmbx-12">OE8.</span> </dt><dd 
+class="enumerate-enumitem">Integrar un flujo de firma de recetas respaldado por autenticación biométrica y
+          trazabilidad de la acción.
+          </dd><dt class="enumerate-enumitem">
+   <span 
+class="ec-lmbx-12">OE9.</span> </dt><dd 
+class="enumerate-enumitem">Aplicar  criterios  de  usabilidad  y  accesibilidad  móvil,  con  controles  táctiles
+          legibles, estados de carga y error, y contraste adecuado.
+          </dd><dt class="enumerate-enumitem">
+  <span 
+class="ec-lmbx-12">OE10.</span> </dt><dd 
+class="enumerate-enumitem">Validar la integración mediante pruebas de navegación, consumo de endpoints
+          y  persistencia  de  información  clínica,  documentando  limitaciones  y  trabajo
+          pendiente.</dd></dl>
+                                                                                       
+                                                                                       
+       <h2 class="chapterHead"><span class="titlemark">Capítulo&#x00A0;3</span><br /><a 
+ id="x1-210003"></a>Desarrollo de las etapas</h2>
+       <h3 class="sectionHead"><span class="titlemark">3.1   </span> <a 
+ id="x1-220003.1"></a>Primera etapa del proyecto</h3>
+<!--l. 269--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.1.1   </span> <a 
+ id="x1-230003.1.1"></a>Análisis de la solución existente</h4>
+<!--l. 271--><p class="noindent" >La primera etapa inició con la revisión funcional de la plataforma web para identificar qué
+capacidades podían reutilizarse y cuáles requerían una experiencia móvil específica. Se
+analizaron autenticación, dashboard, agenda, pacientes, expedientes, consultas, recetas,
+mediciones y predicciones. El resultado confirmó que la web debía mantenerse como núcleo
+administrativo y clínico, mientras que la aplicación móvil debía centrarse en tareas breves y
+frecuentes.
+</p><!--l. 273--><p class="indent" >       Se documentó la diferencia entre ambos canales. La web está orientada a sesiones
+prolongadas, captura extensa y administración; la app móvil se enfoca en movimiento, consulta
+inmediata, automonitoreo, notificaciones y hardware del dispositivo. Esta decisión evitó
+construir una copia reducida del sitio web.
+</p><!--l. 275--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.1.2   </span> <a 
+ id="x1-240003.1.2"></a>Definición de roles y requisitos</h4>
+<!--l. 277--><p class="noindent" >Se establecieron dos perfiles. El paciente requiere autogestión y consulta controlada; el médico
+requiere ronda clínica móvil. A partir de estos perfiles se consolidaron RF01 a RF17 y RNF01 a
+RNF07. Las prioridades altas se asignaron a autenticación, dashboard, expediente, recetas, citas,
+automonitoreo, agenda, resumen clínico, signos vitales, validación de IA, alertas y
+firma.
+</p>
+       <div class="table">
+                                                                                       
+                                                                                       
+<!--l. 279--><p class="indent" >       </p><hr class="float" /><div class="float" 
+>
+                                                                                       
+                                                                                       
+<a 
+ id="x1-24001r1"></a>
+                                                                                       <div class="caption" 
+><span class="id">
+Cuadro&#x00A0;3.1: </span><span  
+class="content">Resumen de requisitos priorizados en la primera etapa.                     </span></div><!--tex4ht:label?: x1-24001r1 -->
+
+ <table id="TBL-4" class="tabular" 
+ 
+><colgroup id="TBL-4-1g"><col 
+id="TBL-4-1" /><col 
+id="TBL-4-2" /><col 
+id="TBL-4-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-4-1-"><td  style="white-space:normal; text-align:left;" id="TBL-4-1-1"  
+class="td11"> <!--l. 290--><p class="noindent" ><span 
+class="ec-lmbx-12">Rol</span>            </p></td><td  style="white-space:normal; text-align:left;" id="TBL-4-1-2"  
+class="td11"> <!--l. 290--><p class="noindent" >Capacidades prioritarias                                  </p></td><td  style="white-space:normal; text-align:left;" id="TBL-4-1-3"  
+class="td11"> <!--l. 290--><p class="noindent" >Prioridad    </p></td>
+
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-2-"><td  style="white-space:normal; text-align:left;" id="TBL-4-2-1"  
+class="td11"> <!--l. 290--><p class="noindent" ><span 
+class="ec-lmbx-12">Paciente</span>      </p></td><td  style="white-space:normal; text-align:left;" id="TBL-4-2-2"  
+class="td11"> <!--l. 290--><p class="noindent" >Login,  resumen  de  salud,  riesgo,  expediente,
+  recetas, citas y automonitoreo.                          </p></td><td  style="white-space:normal; text-align:left;" id="TBL-4-2-3"  
+class="td11"> <!--l. 290--><p class="noindent" >Alta           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-3-"><td  style="white-space:normal; text-align:left;" id="TBL-4-3-1"  
+class="td11"> <!--l. 290--><p class="noindent" ><span 
+class="ec-lmbx-12">M</span><span 
+class="ec-lmbx-12">édico</span>        </p></td><td  style="white-space:normal; text-align:left;" id="TBL-4-3-2"  
+class="td11"> <!--l. 290--><p class="noindent" >Login,  agenda,  resumen  clínico,  signos  vitales,
+  validación de IA, alertas y firma.                       </p></td><td  style="white-space:normal; text-align:left;" id="TBL-4-3-3"  
+class="td11"> <!--l. 290--><p class="noindent" >Alta           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-4-"><td  style="white-space:normal; text-align:left;" id="TBL-4-4-1"  
+class="td11"> <!--l. 290--><p class="noindent" ><span 
+class="ec-lmbx-12">Transversal</span>  </p></td><td  style="white-space:normal; text-align:left;" id="TBL-4-4-2"  
+class="td11"> <!--l. 290--><p class="noindent" >Seguridad, usabilidad, rendimiento, accesibilidad
+  y base para modo offline.                                 </p></td><td  style="white-space:normal; text-align:left;" id="TBL-4-4-3"  
+class="td11"> <!--l. 290--><p class="noindent" >Alta/Media </p></td>
+
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-5-"><td  style="white-space:normal; text-align:left;" id="TBL-4-5-1"  
+class="td11"> <!--l. 290--><p class="noindent" >             </p></td></tr></table>
+                                                                                       
+                                                                                       
+       </div><hr class="endfloat" />
+       </div>
+       <h4 class="subsectionHead"><span class="titlemark">3.1.3   </span> <a 
+ id="x1-250003.1.3"></a>Arquitectura tecnológica</h4>
+<!--l. 295--><p class="noindent" >La arquitectura seleccionada utiliza React Native con Expo para compartir una base de código
+entre plataformas. React Navigation organiza flujos por rol; Zustand administra sesión;
+TanStack Query controla obtención, caché e invalidación de datos; SecureStore protege
+credenciales nativas; expo-local-authentication habilita biometría; expo-camera administra
+fotografías y expo-audio permite captura de voz.
+</p><!--l. 297--><p class="indent" >       La aplicación consume los endpoints existentes de Next.js. Para la integración desde
+entornos de desarrollo móvil se definieron variables de URL de API y políticas CORS. La
+persistencia continúa en MySQL mediante los servicios del backend, por lo que web y móvil leen
+la misma información clínica.
+</p><!--l. 299--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.1.4   </span> <a 
+ id="x1-260003.1.4"></a>Diseño de interfaces y navegación</h4>
+<!--l. 301--><p class="noindent" >Se definieron mapas de interfaz por rol. El médico dispone de cinco pestañas inferiores: Inicio,
+Agenda, Pacientes, Alertas y Perfil. Desde el detalle del paciente se accede a signos vitales,
+nueva consulta por dictado, fotografía clínica, validación de IA y receta. El paciente dispone de
+una navegación centrada en su dashboard, expediente, recetas, citas, automonitoreo y
+tendencias.
+</p><!--l. 303--><p class="indent" >       Los criterios de diseño priorizaron jerarquía, contraste, lectura rápida y objetivos táctiles
+amplios. Las alertas y niveles de riesgo se comunican mediante etiquetas clínicas Bajo,
+Moderado, Alto y Muy Alto, evitando que una probabilidad numérica aislada sea interpretada
+como diagnóstico.
+</p><!--l. 305--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.1.5   </span> <a 
+ id="x1-270003.1.5"></a>Entregables de la primera etapa</h4>
+      <ul class="itemize1">
+                                                                                       
+                                                                                       
+      <li class="itemize">
+      <!--l. 308--><p class="noindent" >Matriz de problemas, usuarios y propuesta de valor móvil.
+      </p></li>
+      <li class="itemize">
+      <!--l. 309--><p class="noindent" >Objetivo general y objetivos específicos de la ampliación.
+      </p></li>
+      <li class="itemize">
+      <!--l. 310--><p class="noindent" >Requisitos funcionales RF01&#8211;RF17 y no funcionales RNF01&#8211;RNF07.
+      </p></li>
+      <li class="itemize">
+      <!--l. 311--><p class="noindent" >Diagrama de interfaces para paciente y médico.
+      </p></li>
+      <li class="itemize">
+      <!--l. 312--><p class="noindent" >Diagramas de actividades para autenticación, consulta, captura y validación.
+      </p></li>
+      <li class="itemize">
+      <!--l. 313--><p class="noindent" >Propuesta de ajuste al modelo relacional para automonitoreo y autenticación del
+      paciente.
+      </p></li>
+      <li class="itemize">
+      <!--l. 314--><p class="noindent" >Selección del stack React Native + Expo y librerías nativas.
+      </p></li>
+      <li class="itemize">
+      <!--l. 315--><p class="noindent" >Diseño inicial de navegación y mockups de las pantallas principales.</p></li></ul>
+<!--l. 318--><p class="noindent" >
+</p>
+       <h3 class="sectionHead"><span class="titlemark">3.2   </span> <a 
+ id="x1-280003.2"></a>Segunda etapa del proyecto</h3>
+                                                                                       
+                                                                                       
+<!--l. 320--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.2.1   </span> <a 
+ id="x1-290003.2.1"></a>Construcción del proyecto móvil</h4>
+<!--l. 322--><p class="noindent" >En la segunda etapa se creó la aplicación Expo dentro del repositorio de PREDIA. Se
+configuraron TypeScript, alias de importación, React Navigation, TanStack Query y Zustand.
+También se establecieron recursos de aplicación, permisos para cámara y micrófono, iconografía
+y configuración para Android, iOS y web.
+</p><!--l. 324--><p class="indent" >       La aplicación comparte tipos y contratos con el proyecto principal cuando resulta
+viable, pero conserva componentes y pantallas propios para mantener una experiencia
+móvil. Los componentes reutilizables incluyen pantalla segura, encabezados, tarjetas,
+filas táctiles, estados vacíos, skeletons, avatares, indicadores de riesgo y botones de
+acción.
+</p><!--l. 326--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.2.2   </span> <a 
+ id="x1-300003.2.2"></a>Integración de autenticación</h4>
+<!--l. 328--><p class="noindent" >Se implementó login diferenciado para médico y paciente. El médico utiliza las credenciales
+existentes de la plataforma; el paciente utiliza el flujo de identidad definido para la aplicación.
+En iOS y Android, la sesión se almacena mediante SecureStore y puede quedar pendiente de
+desbloqueo biométrico. En Expo Web se utiliza almacenamiento local como mecanismo de
+compatibilidad del prototipo.
+</p><!--l. 330--><p class="indent" >       La integración requirió habilitar preflight y encabezados CORS en la API para permitir
+consumo desde el servidor de desarrollo móvil. Además, se conserva un timeout de sesión como
+requisito de seguridad y se evita exponer datos clínicos antes de restaurar o validar la
+identidad.
+</p><!--l. 332--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.2.3   </span> <a 
+ id="x1-310003.2.3"></a>Flujo del médico</h4>
+<!--l. 334--><p class="noindent" >El dashboard médico muestra citas del día, total de pacientes, alertas de alto riesgo y accesos
+rápidos. La agenda organiza citas próximas y permite abrir el paciente asociado. El directorio de
+pacientes incorpora búsqueda y acceso al resumen clínico.
+</p><!--l. 336--><p class="indent" >       La vista de paciente concentra datos básicos, contacto, riesgo, alergias, últimos signos,
+consultas y recetas. Desde ahí se puede llamar, abrir WhatsApp, registrar una nueva medición,
+                                                                                       
+                                                                                       
+iniciar una consulta por dictado, tomar una fotografía y generar una receta. Esta estructura
+reduce la navegación entre módulos independientes.
+</p><!--l. 338--><p class="indent" >       Los flujos clínicos conectados incluyen:
+</p>
+      <ul class="itemize1">
+      <li class="itemize">
+      <!--l. 341--><p class="noindent" >Registro de signos vitales y actualización del expediente.
+      </p></li>
+      <li class="itemize">
+      <!--l. 342--><p class="noindent" >Captura de audio, transcripción y guardado de la nota como consulta clínica.
+      </p></li>
+      <li class="itemize">
+      <!--l. 343--><p class="noindent" >Captura de fotografía con observaciones para evidencia clínica.
+      </p></li>
+      <li class="itemize">
+      <!--l. 344--><p class="noindent" >Revisión del nivel de riesgo, validación y registro de observaciones médicas.
+      </p></li>
+      <li class="itemize">
+      <!--l. 345--><p class="noindent" >Firma de receta con biometría cuando exista hardware compatible y alternativa
+      controlada para demostración.</p></li></ul>
+<!--l. 348--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.2.4   </span> <a 
+ id="x1-320003.2.4"></a>Flujo del paciente</h4>
+<!--l. 350--><p class="noindent" >Se construyó la base del portal móvil del paciente con pantallas de dashboard, expediente,
+recetas, citas, resultados, automonitoreo y tendencias. El dashboard presenta próxima cita, nivel
+de riesgo, indicadores y accesos frecuentes. El expediente se mantiene en modo de lectura para
+proteger la integridad de registros clínicos emitidos por profesionales.
+                                                                                       
+                                                                                       
+</p><!--l. 352--><p class="indent" >       El módulo de automonitoreo permite capturar glucosa, peso y presión; las tendencias
+organizan los datos en periodos para facilitar la lectura de evolución. Los objetivos de salud
+sirven como referencia visual y deben ser configurados o validados por el médico, no
+interpretados como prescripción automática.
+</p><!--l. 354--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.2.5   </span> <a 
+ id="x1-330003.2.5"></a>Pruebas realizadas</h4>
+<!--l. 356--><p class="noindent" >La integración se verificó mediante compilación TypeScript y navegación automatizada en Expo
+Web con viewport móvil. Se probaron login, dashboard médico, agenda, pacientes, expediente,
+alertas y perfil, consumiendo datos reales de la API local. La prueba no reportó solicitudes
+fallidas ni excepciones JavaScript en el recorrido principal.
+</p><!--l. 358--><p class="indent" >       También se validó el backend local con autenticación, lectura de pacientes y persistencia
+de consultas. Las pruebas permitieron corregir CORS, restauración de sesión web,
+compatibilidad de Metro con Node 18, acciones sin comportamiento en perfil, persistencia de
+notas dictadas y bloqueo de firma en entornos sin biometría.
+</p><!--l. 360--><p class="noindent" >
+</p>
+       <h4 class="subsectionHead"><span class="titlemark">3.2.6   </span> <a 
+ id="x1-340003.2.6"></a>Estado de cumplimiento al cierre de la segunda etapa</h4>
+<!--l. 362--><p class="noindent" >
+<a 
+ id="x1-34001r2"></a></p>       <!--l. 364--><div class="longtable"> <table id="TBL-5" class="longtable" 
+ 
+><colgroup id="TBL-5-1g"><col 
+id="TBL-5-1" /><col 
+id="TBL-5-2" /><col 
+id="TBL-5-3" /></colgroup>
+<tr  
+ style="vertical-align:baseline;" id="TBL-5-1-"><td colspan="3" style="white-space:normal; text-align:left;" id="TBL-5-1-1"  
+class="td11"><span class="cmidrule"><!-- enable post-processing of cmidrule--></span>
+</td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-2-"><td  style="white-space:normal; text-align:left;" id="TBL-5-2-1"  
+class="td11">
+ <!--l. 364--><p class="noindent" ><span 
+class="ec-lmbx-12">Grupo</span>      </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-2-2"  
+class="td11">
+ <!--l. 364--><p class="noindent" >Resultado                                          </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-2-3"  
+class="td11">
+ <!--l. 364--><p class="noindent" >Estado                   </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-3-"><td colspan="3" style="white-space:normal; text-align:left;" id="TBL-5-3-1"  
+class="td11"><span class="cmidrule"><!-- enable post-processing of cmidrule--></span>
+</td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-4-"><td  style="white-space:normal; text-align:left;" id="TBL-5-4-1"  
+class="td11">
+ <!--l. 366--><p class="noindent" >           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-5-"><td  style="white-space:normal; text-align:left;" id="TBL-5-5-1"  
+class="td11">              </td><td  style="white-space:normal; text-align:left;" id="TBL-5-5-2"  
+class="td11">                                          </td><td  style="white-space:normal; text-align:left;" id="TBL-5-5-3"  
+class="td11"></td></tr>
+<tr  
+ style="vertical-align:baseline;" id="TBL-5-11-"><td  style="white-space:normal; text-align:left;" id="TBL-5-11-1"  
+class="td11">
+ <!--l. 371--><p class="noindent" ><span 
+class="ec-lmbx-12">RF01&#8211;RF08</span> </p> </td><td  style="white-space:normal; text-align:left;" id="TBL-5-11-2"  
+class="td11">
+ <!--l. 371--><p class="noindent" >Base funcional del portal paciente: acceso,
+  dashboard,   expediente,   recetas,   citas,
+  automonitoreo y tendencias.                  </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-11-3"  
+class="td11">
+ <!--l. 371--><p class="noindent" >Implementado
+  como
+  prototipo integrado;
+  recordatorios   push
+  pendientes.             </p></td>
+                                                                                       
+                                                                                       
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-12-"><td  style="white-space:normal; text-align:left;" id="TBL-5-12-1"  
+class="td11">
+ <!--l. 372--><p class="noindent" ><span 
+class="ec-lmbx-12">RF09&#8211;RF12</span> </p> </td><td  style="white-space:normal; text-align:left;" id="TBL-5-12-2"  
+class="td11">
+ <!--l. 372--><p class="noindent" >Login médico, agenda, resumen clínico y
+  captura de signos vitales.                      </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-12-3"  
+class="td11">
+ <!--l. 372--><p class="noindent" >Funcional            e
+  integrado con API.   </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-13-"><td  style="white-space:normal; text-align:left;" id="TBL-5-13-1"  
+class="td11">
+ <!--l. 373--><p class="noindent" ><span 
+class="ec-lmbx-12">RF13&#8211;RF15</span> </p> </td><td  style="white-space:normal; text-align:left;" id="TBL-5-13-2"  
+class="td11">
+ <!--l. 373--><p class="noindent" >Dictado, cámara clínica y validación de
+  IA.                                                   </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-13-3"  
+class="td11">
+ <!--l. 373--><p class="noindent" >Flujo
+  implementado;
+  requiere   validación
+  exhaustiva         en
+  dispositivo físico.     </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-14-"><td  style="white-space:normal; text-align:left;" id="TBL-5-14-1"  
+class="td11">
+ <!--l. 374--><p class="noindent" ><span 
+class="ec-lmbx-12">RF16</span>       </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-14-2"  
+class="td11">
+ <!--l. 374--><p class="noindent" >Alertas críticas.                                  </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-14-3"  
+class="td11">
+ <!--l. 374--><p class="noindent" >Módulo         visual
+  funcional;       push
+  productivo
+  pendiente.              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-15-"><td  style="white-space:normal; text-align:left;" id="TBL-5-15-1"  
+class="td11">
+ <!--l. 375--><p class="noindent" ><span 
+class="ec-lmbx-12">RF17</span>       </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-15-2"  
+class="td11">
+ <!--l. 375--><p class="noindent" >Firma biométrica de recetas.                 </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-15-3"  
+class="td11">
+ <!--l. 375--><p class="noindent" >Flujo
+  base implementado;
+  validación      física
+  y  firma  productiva
+  pendientes.             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-16-"><td  style="white-space:normal; text-align:left;" id="TBL-5-16-1"  
+class="td11">
+ <!--l. 376--><p class="noindent" ><span 
+class="ec-lmbx-12">RNF01/RNF05</span> </p> </td><td  style="white-space:normal; text-align:left;" id="TBL-5-16-2"  
+class="td11">
+ <!--l. 376--><p class="noindent" >Rendimiento y usabilidad.                     </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-16-3"  
+class="td11">
+ <!--l. 376--><p class="noindent" >Estados   de   carga,
+  caché y navegación
+  principal validados.  </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-17-"><td  style="white-space:normal; text-align:left;" id="TBL-5-17-1"  
+class="td11">
+ <!--l. 377--><p class="noindent" ><span 
+class="ec-lmbx-12">RNF02</span>     </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-17-2"  
+class="td11">
+ <!--l. 377--><p class="noindent" >Offline.                                              </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-17-3"  
+class="td11">
+ <!--l. 377--><p class="noindent" >Caché de consultas
+  disponible;       cola
+  offline      completa
+  pendiente.              </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-18-"><td  style="white-space:normal; text-align:left;" id="TBL-5-18-1"  
+class="td11">
+ <!--l. 378--><p class="noindent" ><span 
+class="ec-lmbx-12">RNF03/RNF07</span> </p> </td><td  style="white-space:normal; text-align:left;" id="TBL-5-18-2"  
+class="td11">
+ <!--l. 378--><p class="noindent" >Seguridad y accesibilidad.                     </p></td><td  style="white-space:normal; text-align:left;" id="TBL-5-18-3"  
+class="td11">
+ <!--l. 378--><p class="noindent" >Base implementada;
+  auditoría  formal  y
+  pruebas con lectores
+  de             pantalla
+  pendientes.             </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-19-"><td colspan="3" style="white-space:normal; text-align:left;" id="TBL-5-19-1"  
+class="td11"><span class="cmidrule"><!-- enable post-processing of cmidrule--></span>
+</td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-20-"><td  style="white-space:normal; text-align:left;" id="TBL-5-20-1"  
+class="td11">            </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-21-"><td  style="white-space:normal; text-align:left;" id="TBL-5-21-1"  
+class="td11">            </td>
+                                                                                       
+                                                                                       
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-22-"><td  style="white-space:normal; text-align:left;" id="TBL-5-22-1"  
+class="td11">
+ <!--l. 380--><p class="noindent" >           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-23-"><td  style="white-space:normal; text-align:left;" id="TBL-5-23-1"  
+class="td11">
+ <!--l. 380--><p class="noindent" >           </p></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-24-"><td  style="white-space:normal; text-align:left;" id="TBL-5-24-1"  
+class="td11">
+ <!--l. 380--><p class="noindent" >           </p></td>
+       </tr>
+       </table></div>
+<!--l. 382--><p class="noindent" >
+</p>
+       <h3 class="sectionHead"><span class="titlemark">3.3   </span> <a 
+ id="x1-350003.3"></a>Resultado de las dos primeras etapas</h3>
+<!--l. 384--><p class="noindent" >Las dos primeras etapas permitieron transformar la integración móvil de una propuesta
+conceptual a un prototipo conectado con la plataforma clínica. La primera etapa redujo
+incertidumbre mediante requisitos, arquitectura y diseño por contexto. La segunda etapa
+comprobó que los servicios existentes podían reutilizarse y que los flujos prioritarios podían
+ejecutarse desde una interfaz móvil.
+</p><!--l. 386--><p class="indent" >       El principal resultado es una arquitectura de producto en la que la web y la app cumplen
+funciones complementarias. La web conserva gestión amplia, configuración y operación
+administrativa; la app acerca el expediente y las acciones clínicas al punto de atención, y abre
+un canal de participación para el paciente. Esta división evita duplicidad y proporciona una base
+realista para las siguientes etapas: offline seguro, push, mensajería, QR/NFC, pruebas en
+dispositivos físicos y piloto con usuarios.
+                                                                                       
+                                                                                       
+</p>
+       <h2 class="likechapterHead"><a 
+ id="x1-36000"></a>Referencias</h2>
+<a 
+ id="Q1-1-40"></a>
+      <dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+  [1] </dt><dd 
+class="enumerate-enumitem">Federación   Internacional   de   Diabetes.   <span 
+class="ec-lmri-12">IDF   Diabetes   Atlas</span>.   Información
+      epidemiológica de diabetes mellitus.
+      </dd><dt class="enumerate-enumitem">
+  [2] </dt><dd 
+class="enumerate-enumitem">Secretaría  de  Salud.  <span 
+class="ec-lmri-12">NOM-015-SSA2-2010,  Para  la  prevenci</span><span 
+class="ec-lmri-12">ón,  tratamiento  y</span>
+      <span 
+class="ec-lmri-12">control de la diabetes mellitus</span>.
+      </dd><dt class="enumerate-enumitem">
+  [3] </dt><dd 
+class="enumerate-enumitem">Organización Mundial de la Salud. <span 
+class="ec-lmri-12">Global strategy on digital health 2020&#8211;2025</span>.
+      </dd><dt class="enumerate-enumitem">
+  [4] </dt><dd 
+class="enumerate-enumitem">React Native. <span 
+class="ec-lmri-12">Documentation</span>. Meta Open Source.
+      </dd><dt class="enumerate-enumitem">
+  [5] </dt><dd 
+class="enumerate-enumitem">Expo. <span 
+class="ec-lmri-12">Expo SDK Documentation: SecureStore, Local Authentication, Camera and</span>
+      <span 
+class="ec-lmri-12">Audio</span>.
+      </dd><dt class="enumerate-enumitem">
+  [6] </dt><dd 
+class="enumerate-enumitem">TanStack. <span 
+class="ec-lmri-12">TanStack Query Documentation</span>.
+      </dd><dt class="enumerate-enumitem">
+  [7] </dt><dd 
+class="enumerate-enumitem">Documentación técnica y levantamiento de requisitos de PREDIA, 2026.</dd></dl>
+        
+</body></html> 
+
+                                                                                       
+
+

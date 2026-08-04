@@ -1,0 +1,5 @@
+# PREDIA — Personalized Clinical Decision Support System (FASE 3, Python 3.12)
+# Reutiliza el venv de ml-research/ (incluye statsmodels de FASE 2).
+# Hereda: numpy, scipy, pandas, scikit-learn, xgboost, shap, matplotlib, joblib,
+#         statsmodels, nbformat, nbconvert, ipykernel
+# Depende de los artefactos de ../temporal_clinical_framework/ (cohorte FASE 2).

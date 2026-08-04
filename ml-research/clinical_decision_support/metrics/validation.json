@@ -1,0 +1,28 @@
+{
+  "consistencia": {
+    "spearman_riesgo_priority": 0.953,
+    "spearman_ces_priority": -0.928,
+    "monotonic_risk": true,
+    "ces_inverse": true
+  },
+  "interpretabilidad": {
+    "n_pacientes": 400,
+    "pct_recs_con_razon": 1.0,
+    "pct_con_explicacion": 0.875
+  },
+  "carga_cognitiva": {
+    "acciones_catalogo": 9,
+    "media_acciones_mostradas": 4.62,
+    "reduccion_pct": 48.7
+  },
+  "valor_clinico": {
+    "spearman_priority_time_to_event": -0.06,
+    "priority_medio_con_deterioro": 54.0,
+    "priority_medio_sin_deterioro": 17.6,
+    "separa_grupos": true
+  },
+  "auditabilidad": {
+    "n_pacientes": 400,
+    "pct_auditable": 1.0
+  }
+}

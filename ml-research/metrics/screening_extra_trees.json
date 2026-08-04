@@ -1,0 +1,27 @@
+{
+  "name": "extra_trees",
+  "mode": "screening",
+  "best_params": {
+    "clf__max_depth": 12,
+    "clf__min_samples_leaf": 16,
+    "clf__n_estimators": 226
+  },
+  "cv_roc_auc": 0.6551458110748354,
+  "fit_time_sec": 328.92,
+  "subsampled": false,
+  "n_train_used": 80000,
+  "test_metrics": {
+    "accuracy": 0.61945,
+    "balanced_accuracy": 0.5438125,
+    "precision": 0.6237104684593269,
+    "recall_sensitivity": 0.922,
+    "specificity": 0.165625,
+    "f1": 0.7440734389185918,
+    "mcc": 0.1355653811540208,
+    "tn": 1325,
+    "fp": 6675,
+    "fn": 936,
+    "tp": 11064,
+    "roc_auc": 0.6537574166666666
+  }
+}

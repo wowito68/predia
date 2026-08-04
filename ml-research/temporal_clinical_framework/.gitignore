@@ -1,0 +1,6 @@
+# Cohorte sintética y artefactos reproducibles (regenerar con run_pipeline.sh)
+datasets/*.csv
+
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

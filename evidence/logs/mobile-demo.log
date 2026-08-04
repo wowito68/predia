@@ -1,0 +1,12 @@
+
+> @predia/mobile@0.1.0 web
+> NODE_OPTIONS=--require=./scripts/node18-polyfills.js expo start --web --port 8082 --host localhost
+
+Starting project at /home/wowo/Descargas/predia/apps/mobile
+Starting Metro Bundler
+Waiting on http://localhost:8082
+Logs for your project will appear below.
+Web apps/mobile/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web apps/mobile/index.ts ▓▓▓▓▓▓▓▓░░░░░░░░ 51.6% (437/626)
+Web Bundled 7024ms apps/mobile/index.ts (1247 modules)
+ LOG  [web] Logs will appear in the browser console
