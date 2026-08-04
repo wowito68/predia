@@ -1,0 +1,4 @@
+decision,threshold,sensitivity,specificity,ppv,npv,lr_plus,flagged_pct
+≥ Moderado,0.0909,0.8919,0.5813,0.2564,0.9708,2.13,48.46
+≥ Alto,0.2,0.6538,0.8148,0.3637,0.9356,3.53,25.05
+≥ Muy Alto,0.4,0.3306,0.9421,0.4803,0.8968,5.708,9.59

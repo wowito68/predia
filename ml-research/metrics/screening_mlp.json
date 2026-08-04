@@ -1,0 +1,27 @@
+{
+  "name": "mlp",
+  "mode": "screening",
+  "best_params": {
+    "clf__alpha": 0.0021830968390524606,
+    "clf__hidden_layer_sizes": "(64,)",
+    "clf__learning_rate_init": 0.0002051338263087451
+  },
+  "cv_roc_auc": 0.6555242980452883,
+  "fit_time_sec": 77.21,
+  "subsampled": false,
+  "n_train_used": 80000,
+  "test_metrics": {
+    "accuracy": 0.6244,
+    "balanced_accuracy": 0.5820624999999999,
+    "precision": 0.6540997115780799,
+    "recall_sensitivity": 0.79375,
+    "specificity": 0.370375,
+    "f1": 0.7171899706347413,
+    "mcc": 0.1807091905755933,
+    "tn": 2963,
+    "fp": 5037,
+    "fn": 2475,
+    "tp": 9525,
+    "roc_auc": 0.6529826145833334
+  }
+}

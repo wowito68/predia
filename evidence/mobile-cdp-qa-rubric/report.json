@@ -1,0 +1,109 @@
+{
+  "baseUrl": "http://127.0.0.1:8082",
+  "out": "/tmp/predia-mobile-qa-rubric",
+  "report": [
+    {
+      "name": "01-login",
+      "path": "/",
+      "text": "P\nPREDIA\nHealth intelligence\nTu clínica, clara y conectada.\nExpedientes, alertas y seguimiento en un solo espacio seguro.\n\nPaciente\n\nPersonal clínico\nIniciar sesion\nAcceso para medicos y enfermeria.\nUSUARIO\nCONTRASEÑA\nIngresar\n\nUsar biometria\nSoporte de acceso disponible con tu equipo clinico.",
+      "buttons": [],
+      "inputs": [
+        "dr_juan",
+        "••••••••"
+      ],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/01-login.png"
+    },
+    {
+      "name": "02-inicio",
+      "path": "/",
+      "text": "CENTRO DE CONTROL CLÍNICO\nBuenas tardes, Juan\nmartes, 28 de julio\nJORNADA EN VIVO\nLa operación clínica está bajo control.\nSin seguimientos vencidos en este momento.\n0\nCitas hoy\n0\nCríticas\n0\nAlto riesgo\nBuscar paciente\n\n\nBuscar\n\nAgenda\n\nValidar IA\n\nAlertas\nPrioridad clínica\nAgenda del día\n\n\nInicio\n\n\nAgenda\n\n\nPacientes\n\n\nAlertas\n\n\nPerfil",
+      "buttons": [],
+      "inputs": [],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/02-inicio.png"
+    },
+    {
+      "name": "03-agenda",
+      "path": "/",
+      "text": "CENTRO DE CONTROL CLÍNICO\nBuenas tardes, Juan\nmartes, 28 de julio\nJORNADA EN VIVO\n11 casos requieren decisión prioritaria.\nSin seguimientos vencidos en este momento.\n3\nCitas hoy\n11\nCríticas\n10\nAlto riesgo\nAtender alertas\n\n\nBuscar\n\nAgenda\n\nValidar IA\n\nAlertas\nCARTERA ACTIVA\nDistribución de riesgo\n20\nAlto\n10\nModerado\n4\nBajo\n6\nPrioridad clínica\nVer todas\nJuan Rodríguez\nCrítica\nRiesgo muy alto\nValidar evaluación y programar revisión\n\nRicardo Gutiérrez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nOmar Jiménez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nDiego Ramírez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nAgenda del día\nVer agenda\n09:00 a.m.\nJR\nJuan Rodríguez\nSeguimiento metabólico y revisión de glucosa\n\n10:30 a.m.\nML\nMaría López\nValidación de predicción ",
+      "buttons": [],
+      "inputs": [],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/03-agenda.png"
+    },
+    {
+      "name": "04-pacientes",
+      "path": "/",
+      "text": "CENTRO DE CONTROL CLÍNICO\nBuenas tardes, Juan\nmartes, 28 de julio\nJORNADA EN VIVO\n11 casos requieren decisión prioritaria.\nSin seguimientos vencidos en este momento.\n3\nCitas hoy\n11\nCríticas\n10\nAlto riesgo\nAtender alertas\n\n\nBuscar\n\nAgenda\n\nValidar IA\n\nAlertas\nCARTERA ACTIVA\nDistribución de riesgo\n20\nAlto\n10\nModerado\n4\nBajo\n6\nPrioridad clínica\nVer todas\nJuan Rodríguez\nCrítica\nRiesgo muy alto\nValidar evaluación y programar revisión\n\nRicardo Gutiérrez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nOmar Jiménez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nDiego Ramírez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nAgenda del día\nVer agenda\n09:00 a.m.\nJR\nJuan Rodríguez\nSeguimiento metabólico y revisión de glucosa\n\n10:30 a.m.\nML\nMaría López\nValidación de predicción ",
+      "buttons": [],
+      "inputs": [
+        "Buscar por nombre o cédula…"
+      ],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/04-pacientes.png"
+    },
+    {
+      "name": "05-paciente-detalle",
+      "path": "/",
+      "text": "\nResumen clínico\nJuan Rodríguez García\nEXPEDIENTE SINCRONIZADO\nJR\nEXPEDIENTE ACTIVO\nJuan Rodríguez García\n41 años · M · O+\nMUY ALTO\nCedula 12345678\n\nLlamar\n\nWhatsApp\nAcciones clínicas\n\nNueva medición\n\nNueva consulta\n\nNueva receta\n\nVer historial\nDocumentos\n\nImprimir resumen\nExpediente clínico monocromático\n\n\nExportar PDF\nCompartir o guardar resumen clínico\n\nÚLTIMA CONSULTA\n10 jul 2026\nPRÓXIMA CITA\n28 jul 2026\nAlertas activas\n\nRiesgo Muy Alto\nEvaluación médica prioritaria.\n\nIA pendiente de validación\nEl resultado debe ser revisado y firmado por el médico.\nIndicadores\n\nPeso\n82.5 kg\n\nIMC\n26.1\n\nPresión\n135/85\n\nGlucosa\n128\nRiesgo clínico\nMUY ALTO\nRiesgo Muy Alto\n\nValidar\nRiesgo muy elevado dentro del cohorte. Prioridad clínica.\nReferencia médica prioritaria y evaluación clínica",
+      "buttons": [],
+      "inputs": [
+        "Buscar por nombre o cédula…"
+      ],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/05-paciente-detalle.png"
+    },
+    {
+      "name": "06-alertas",
+      "path": "/",
+      "text": "CENTRO DE CONTROL CLÍNICO\nBuenas tardes, Juan\nmartes, 28 de julio\nJORNADA EN VIVO\n11 casos requieren decisión prioritaria.\nSin seguimientos vencidos en este momento.\n3\nCitas hoy\n11\nCríticas\n10\nAlto riesgo\nAtender alertas\n\n\nBuscar\n\nAgenda\n\nValidar IA\n\nAlertas\nCARTERA ACTIVA\nDistribución de riesgo\n20\nAlto\n10\nModerado\n4\nBajo\n6\nPrioridad clínica\nVer todas\nJuan Rodríguez\nCrítica\nRiesgo muy alto\nValidar evaluación y programar revisión\n\nRicardo Gutiérrez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nOmar Jiménez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nDiego Ramírez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nAgenda del día\nVer agenda\n09:00 a.m.\nJR\nJuan Rodríguez\nSeguimiento metabólico y revisión de glucosa\n\n10:30 a.m.\nML\nMaría López\nValidación de predicción ",
+      "buttons": [],
+      "inputs": [],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/06-alertas.png"
+    },
+    {
+      "name": "07-perfil",
+      "path": "/",
+      "text": "CENTRO DE CONTROL CLÍNICO\nBuenas tardes, Juan\nmartes, 28 de julio\nJORNADA EN VIVO\n11 casos requieren decisión prioritaria.\nSin seguimientos vencidos en este momento.\n3\nCitas hoy\n11\nCríticas\n10\nAlto riesgo\nAtender alertas\n\n\nBuscar\n\nAgenda\n\nValidar IA\n\nAlertas\nCARTERA ACTIVA\nDistribución de riesgo\n20\nAlto\n10\nModerado\n4\nBajo\n6\nPrioridad clínica\nVer todas\nJuan Rodríguez\nCrítica\nRiesgo muy alto\nValidar evaluación y programar revisión\n\nRicardo Gutiérrez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nOmar Jiménez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nDiego Ramírez\nCrítica\nRiesgo muy alto\nRevisar plan de seguimiento\n\nAgenda del día\nVer agenda\n09:00 a.m.\nJR\nJuan Rodríguez\nSeguimiento metabólico y revisión de glucosa\n\n10:30 a.m.\nML\nMaría López\nValidación de predicción ",
+      "buttons": [],
+      "inputs": [],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/07-perfil.png"
+    },
+    {
+      "name": "08-paciente-inicio",
+      "path": "/",
+      "text": "TU ESPACIO DE SALUD\nHola, Juan\nmartes, 28 de julio\n\nSEGUIMIENTO ACTIVO\nTu panorama clínico\nTu equipo clínico revisará cualquier cambio relevante.\n82%\nRIESGO\nEntender mi resultado\n\nGLUCOSA RECIENTE\n128 mg/dL\n7 registros\nMié, 3 De Junio\nVer tendencias\n\nMar, 9 De Junio\nLo más importante\n\nPRÓXIMA CITA\nMar, 28 De Julio\n\nRECETAS ACTIVAS\n1\nRecordatorios\n\nPróxima cita\nmar, 28 de julio · Seguimiento metabólico y revisión de glucosa\n\n\nTratamiento activo\n1 receta requiere seguimiento\n\n\nResultado en revisión\nTu médico aún debe validar la evaluación de riesgo.\n\nExplorar\n\nIndicadores\n\nExpediente\n\nRegistrar\n\n\nInicio\n\n\nIndicadores\n\n\nRecetas\n\n\nConsejos",
+      "buttons": [],
+      "inputs": [],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/08-paciente-inicio.png"
+    },
+    {
+      "name": "09-paciente-indicadores",
+      "path": "/",
+      "text": "TU ESPACIO DE SALUD\nHola, Juan\nmartes, 28 de julio\n\nSEGUIMIENTO ACTIVO\nTu panorama clínico\nTu equipo clínico revisará cualquier cambio relevante.\n82%\nRIESGO\nEntender mi resultado\n\nGLUCOSA RECIENTE\n128 mg/dL\n7 registros\nMié, 3 De Junio\nVer tendencias\n\nMar, 9 De Junio\nLo más importante\n\nPRÓXIMA CITA\nMar, 28 De Julio\n\nRECETAS ACTIVAS\n1\nRecordatorios\n\nPróxima cita\nmar, 28 de julio · Seguimiento metabólico y revisión de glucosa\n\n\nTratamiento activo\n1 receta requiere seguimiento\n\n\nResultado en revisión\nTu médico aún debe validar la evaluación de riesgo.\n\nExplorar\n\nIndicadores\n\nExpediente\n\nRegistrar\nMis indicadores\nTus mediciones recientes\n\nCOBERTURA DE MONITOREO\n3 de 3 indicadores con datos\n100%\n\n9 jun\nGlucosa\n128 mg/dL\n\nBajó 6\n\n9 jun\nPeso\n81 kg\n\nBajó 1\n\n9 jun\nPresión\n122/75 ",
+      "buttons": [],
+      "inputs": [],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/09-paciente-indicadores.png"
+    },
+    {
+      "name": "10-paciente-recetas",
+      "path": "/",
+      "text": "TU ESPACIO DE SALUD\nHola, Juan\nmartes, 28 de julio\n\nSEGUIMIENTO ACTIVO\nTu panorama clínico\nTu equipo clínico revisará cualquier cambio relevante.\n82%\nRIESGO\nEntender mi resultado\n\nGLUCOSA RECIENTE\n128 mg/dL\n7 registros\nMié, 3 De Junio\nVer tendencias\n\nMar, 9 De Junio\nLo más importante\n\nPRÓXIMA CITA\nMar, 28 De Julio\n\nRECETAS ACTIVAS\n1\nRecordatorios\n\nPróxima cita\nmar, 28 de julio · Seguimiento metabólico y revisión de glucosa\n\n\nTratamiento activo\n1 receta requiere seguimiento\n\n\nResultado en revisión\nTu médico aún debe validar la evaluación de riesgo.\n\nExplorar\n\nIndicadores\n\nExpediente\n\nRegistrar\nMis indicadores\nTus mediciones recientes\n\nCOBERTURA DE MONITOREO\n3 de 3 indicadores con datos\n100%\n\n9 jun\nGlucosa\n128 mg/dL\n\nBajó 6\n\n9 jun\nPeso\n81 kg\n\nBajó 1\n\n9 jun\nPresión\n122/75 ",
+      "buttons": [],
+      "inputs": [],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/10-paciente-recetas.png"
+    },
+    {
+      "name": "11-paciente-consejos",
+      "path": "/",
+      "text": "TU ESPACIO DE SALUD\nHola, Juan\nmartes, 28 de julio\n\nSEGUIMIENTO ACTIVO\nTu panorama clínico\nTu equipo clínico revisará cualquier cambio relevante.\n82%\nRIESGO\nEntender mi resultado\n\nGLUCOSA RECIENTE\n128 mg/dL\n7 registros\nMié, 3 De Junio\nVer tendencias\n\nMar, 9 De Junio\nLo más importante\n\nPRÓXIMA CITA\nMar, 28 De Julio\n\nRECETAS ACTIVAS\n1\nRecordatorios\n\nPróxima cita\nmar, 28 de julio · Seguimiento metabólico y revisión de glucosa\n\n\nTratamiento activo\n1 receta requiere seguimiento\n\n\nResultado en revisión\nTu médico aún debe validar la evaluación de riesgo.\n\nExplorar\n\nIndicadores\n\nExpediente\n\nRegistrar\nMis indicadores\nTus mediciones recientes\n\nCOBERTURA DE MONITOREO\n3 de 3 indicadores con datos\n100%\n\n9 jun\nGlucosa\n128 mg/dL\n\nBajó 6\n\n9 jun\nPeso\n81 kg\n\nBajó 1\n\n9 jun\nPresión\n122/75 ",
+      "buttons": [],
+      "inputs": [],
+      "screenshot": "/tmp/predia-mobile-qa-rubric/11-paciente-consejos.png"
+    }
+  ],
+  "issues": {
+    "consoleErrors": [
+      "props.pointerEvents is deprecated. Use style.pointerEvents",
+      "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    ],
+    "failedRequests": [],
+    "exceptions": []
+  }
+}

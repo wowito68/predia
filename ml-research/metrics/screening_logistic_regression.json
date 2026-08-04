@@ -1,0 +1,27 @@
+{
+  "name": "logistic_regression",
+  "mode": "screening",
+  "best_params": {
+    "clf__C": 0.008263688714158009,
+    "clf__class_weight": "balanced",
+    "clf__penalty": "l2"
+  },
+  "cv_roc_auc": 0.6610169144860404,
+  "fit_time_sec": 8.29,
+  "subsampled": false,
+  "n_train_used": 80000,
+  "test_metrics": {
+    "accuracy": 0.6044,
+    "balanced_accuracy": 0.613625,
+    "precision": 0.7144355853965589,
+    "recall_sensitivity": 0.5675,
+    "specificity": 0.65975,
+    "f1": 0.6325469069292217,
+    "mcc": 0.22290285680445154,
+    "tn": 5278,
+    "fp": 2722,
+    "fn": 5190,
+    "tp": 6810,
+    "roc_auc": 0.6591036979166667
+  }
+}
