@@ -1,0 +1,401 @@
+patient_id,archetype,ces,riesgo_slope_m,glucosa_slope_m,deterioration_risk
+101,Deterioro lento,10.0,0.098,15.743,96.2
+213,Deterioro lento,5.7,0.094,13.456,95.9
+227,Deterioro lento,14.6,0.098,16.953,94.8
+374,Deterioro lento,17.3,0.105,16.57,94.8
+94,Deterioro lento,11.7,0.095,15.711,94.5
+372,Deterioro lento,3.2,0.088,9.828,93.7
+44,Deterioro lento,6.0,0.086,16.664,92.6
+45,Deterioro lento,10.6,0.087,10.733,91.6
+315,Deterioro lento,4.9,0.082,13.054,91.3
+334,Deterioro lento,14.8,0.089,16.486,91.2
+375,Deterioro lento,14.1,0.088,16.447,91.0
+155,Deterioro lento,6.4,0.08,11.64,90.1
+151,Deterioro lento,7.7,0.079,10.562,89.3
+36,Deterioro lento,11.8,0.081,12.69,88.9
+303,Deterioro lento,11.0,0.08,16.582,88.7
+266,Deterioro lento,6.8,0.076,11.103,88.4
+233,Deterioro lento,9.4,0.075,9.721,86.3
+298,Deterioro lento,12.2,0.074,12.191,85.9
+239,Deterioro lento,11.1,0.071,10.609,85.1
+66,Deterioro lento,9.0,0.068,11.168,84.5
+275,Estable,28.8,0.075,10.648,81.4
+2,Deterioro lento,4.5,0.056,18.761,81.0
+146,Deterioro lento,7.4,0.058,15.635,81.0
+309,Deterioro lento,8.8,0.055,13.232,79.4
+308,Estable,32.3,0.072,10.376,79.1
+316,Oscilante,15.6,0.059,10.341,78.9
+76,Deterioro lento,5.8,0.078,5.964,77.4
+82,Deterioro lento,9.2,0.048,14.05,76.4
+168,Oscilante,24.8,0.058,11.116,75.8
+121,Deterioro lento,9.7,0.079,5.358,74.8
+130,Deterioro lento,12.7,0.08,5.416,74.4
+278,Deterioro lento,16.7,0.081,5.369,73.5
+378,Deterioro lento,13.7,0.07,6.094,72.2
+353,Deterioro lento,15.1,0.068,6.429,72.0
+180,Deterioro lento,9.2,0.054,7.639,71.8
+216,Deterioro lento,9.0,0.073,5.054,71.7
+314,Deterioro lento,10.0,0.068,5.79,71.6
+174,Deterioro lento,13.3,0.069,5.984,71.6
+354,Deterioro lento,7.9,0.07,5.145,71.1
+232,Deterioro lento,16.2,0.071,5.767,70.8
+12,Deterioro lento,12.4,0.065,5.99,70.2
+75,Deterioro lento,17.1,0.067,6.076,69.9
+181,Deterioro lento,14.9,0.073,5.026,69.8
+380,Deterioro lento,16.8,0.067,5.977,69.7
+231,Oscilante,26.5,0.049,9.288,69.5
+296,Deterioro lento,14.6,0.064,5.952,69.1
+21,Deterioro lento,17.7,0.067,5.716,68.6
+264,Deterioro lento,15.0,0.066,5.497,68.4
+387,Oscilante,21.6,0.037,12.497,68.3
+137,Deterioro lento,16.6,0.066,5.575,68.1
+352,Deterioro lento,22.7,0.064,6.368,67.9
+134,Estable,33.4,0.061,7.718,67.5
+200,Deterioro lento,20.8,0.063,6.1,67.3
+358,Deterioro lento,16.1,0.065,5.391,67.3
+398,Estable,33.8,0.058,7.951,66.9
+289,Deterioro lento,10.1,0.067,4.347,66.8
+342,Deterioro lento,16.5,0.065,5.186,66.6
+291,Deterioro lento,12.3,0.064,4.872,66.5
+333,Deterioro lento,13.6,0.062,5.221,66.4
+363,Deterioro lento,14.6,0.065,4.845,66.2
+71,Deterioro lento,9.7,0.058,5.232,66.0
+106,Deterioro lento,20.1,0.063,5.518,65.7
+318,Deterioro lento,15.9,0.061,5.186,65.2
+26,Deterioro lento,21.4,0.064,5.221,64.8
+238,Deterioro lento,15.0,0.053,6.011,64.7
+297,Deterioro lento,18.2,0.063,4.901,64.4
+119,Deterioro lento,16.4,0.059,5.206,64.3
+77,Deterioro lento,9.0,0.057,4.672,64.1
+129,Deterioro lento,18.9,0.062,4.94,64.0
+360,Deterioro lento,15.3,0.075,2.863,64.0
+277,Deterioro lento,13.4,0.052,5.605,63.6
+80,Deterioro lento,11.7,0.05,5.524,63.1
+189,Deterioro lento,20.7,0.059,5.199,63.0
+34,Deterioro lento,23.4,0.06,5.285,62.8
+382,Deterioro lento,17.7,0.06,4.594,62.5
+300,Estable,34.4,0.049,7.715,62.4
+286,Deterioro lento,11.9,0.053,4.84,62.1
+63,Deterioro lento,20.2,0.058,4.811,61.6
+165,Deterioro lento,23.1,0.061,4.687,61.5
+229,Deterioro lento,15.5,0.055,4.525,60.9
+221,Deterioro lento,19.4,0.056,4.69,60.6
+206,Deterioro lento,11.8,0.053,4.074,59.9
+241,Deterioro lento,14.1,0.053,4.311,59.9
+46,Deterioro lento,23.6,0.054,5.066,59.7
+362,Alto riesgo persistente,15.8,0.011,9.955,59.5
+116,Estable,35.0,0.044,7.468,59.5
+301,Deterioro lento,20.5,0.055,4.539,59.5
+343,Deterioro lento,19.8,0.054,4.494,59.1
+145,Deterioro lento,15.5,0.054,4.005,59.0
+55,Alto riesgo persistente,11.2,0.005,11.553,58.6
+350,Alto riesgo persistente,12.3,0.005,10.861,58.3
+225,Deterioro lento,19.0,0.053,4.219,58.2
+185,Alto riesgo persistente,14.0,0.006,13.028,58.2
+110,Alto riesgo persistente,11.6,0.004,10.374,58.1
+56,Deterioro lento,23.6,0.051,4.88,58.0
+237,Deterioro lento,14.9,0.039,5.524,57.7
+186,Alto riesgo persistente,13.5,0.003,12.304,57.2
+42,Estable,32.7,0.038,6.997,56.4
+290,Deterioro lento,26.4,0.052,4.443,56.2
+88,Oscilante,14.4,0.034,5.632,56.2
+50,Deterioro lento,15.2,0.053,3.072,55.9
+247,Deterioro lento,23.8,0.044,5.109,55.8
+397,Alto riesgo persistente,11.5,0.003,9.237,55.5
+197,Deterioro lento,19.0,0.049,3.45,54.2
+18,Deterioro lento,20.1,0.047,3.805,54.2
+312,Deterioro lento,23.9,0.049,3.824,53.9
+154,Deterioro lento,29.7,0.048,4.458,53.7
+33,Alto riesgo persistente,15.3,0.002,9.168,53.7
+322,Deterioro lento,25.6,0.042,4.604,52.9
+158,Alto riesgo persistente,16.1,0.004,8.611,52.6
+399,Alto riesgo persistente,13.0,0.003,8.297,52.2
+226,Alto riesgo persistente,12.0,0.001,8.199,51.4
+115,Oscilante,23.5,0.027,5.234,49.5
+214,Alto riesgo persistente,13.8,0.002,7.068,47.9
+150,Estable,40.3,0.039,4.705,47.6
+1,Alto riesgo persistente,15.6,0.001,7.267,47.5
+219,Alto riesgo persistente,18.9,0.012,6.136,47.5
+205,Alto riesgo persistente,14.5,0.004,6.001,45.3
+62,Deterioro lento,27.2,0.033,3.165,44.5
+89,Alto riesgo persistente,17.4,0.025,3.223,44.4
+177,Alto riesgo persistente,16.1,0.004,5.845,44.3
+341,Estable,41.3,0.038,3.603,43.6
+135,Alto riesgo persistente,15.3,0.002,5.71,43.3
+159,Oscilante,18.2,0.018,3.814,43.2
+384,Oscilante,17.6,0.02,3.456,43.1
+371,Oscilante,21.0,0.016,4.249,42.8
+23,Deterioro lento,31.3,0.027,3.304,41.3
+40,Alto riesgo persistente,15.3,0.002,4.797,40.6
+104,Alto riesgo persistente,14.6,0.005,4.26,40.4
+167,Alto riesgo persistente,16.4,0.001,4.379,38.6
+201,Oscilante,16.4,0.021,1.621,38.3
+283,Oscilante,29.6,0.018,3.099,37.6
+272,Oscilante,18.2,0.011,2.646,36.9
+204,Alto riesgo persistente,17.4,0.004,2.532,34.0
+126,Estable,45.1,0.038,0.338,32.7
+366,Mejora rápida,46.5,0.002,5.207,32.5
+30,Alto riesgo persistente,15.6,0.007,0.863,30.7
+20,Oscilante,35.0,0.026,0.16,30.4
+349,Oscilante,18.0,0.013,-0.313,29.8
+85,Alto riesgo persistente,23.1,0.002,1.878,29.5
+117,Alto riesgo persistente,14.4,0.006,0.335,29.1
+79,Estable,43.2,0.025,0.619,28.9
+127,Alto riesgo persistente,17.8,0.006,0.441,28.4
+346,Oscilante,25.0,0.013,0.172,28.2
+251,Alto riesgo persistente,22.1,0.007,0.692,28.2
+183,Estable,49.9,0.025,1.008,28.1
+190,Alto riesgo persistente,18.0,0.004,0.643,28.1
+98,Alto riesgo persistente,21.1,0.005,0.709,27.8
+332,Alto riesgo persistente,21.5,0.004,0.814,27.6
+103,Alto riesgo persistente,16.4,0.002,0.478,27.3
+284,Oscilante,29.0,0.005,1.296,27.2
+299,Alto riesgo persistente,24.9,0.006,0.656,26.9
+242,Alto riesgo persistente,21.5,0.001,0.971,26.9
+265,Alto riesgo persistente,20.3,0.002,0.697,26.8
+294,Oscilante,32.5,0.016,-0.082,26.6
+37,Alto riesgo persistente,23.6,0.001,1.093,26.6
+69,Alto riesgo persistente,20.7,0.004,0.37,26.5
+61,Alto riesgo persistente,19.0,0.002,0.454,26.5
+192,Alto riesgo persistente,20.9,0.001,0.761,26.4
+164,Oscilante,24.6,0.007,0.325,26.4
+379,Alto riesgo persistente,21.5,0.002,0.625,26.2
+25,Oscilante,30.1,0.013,-0.152,26.2
+280,Oscilante,24.3,0.006,0.259,25.9
+302,Oscilante,23.2,0.005,0.287,25.9
+260,Alto riesgo persistente,28.4,0.005,0.751,25.7
+29,Alto riesgo persistente,25.3,0.002,0.821,25.7
+74,Alto riesgo persistente,17.7,0.001,0.122,25.5
+178,Oscilante,22.4,-0.002,0.661,25.3
+377,Alto riesgo persistente,23.0,0.001,0.55,25.2
+373,Alto riesgo persistente,20.5,0.0,0.401,25.1
+386,Alto riesgo persistente,22.0,0.001,0.449,25.1
+113,Alto riesgo persistente,22.1,0.0,0.513,24.9
+170,Alto riesgo persistente,24.4,0.002,0.48,24.9
+78,Alto riesgo persistente,22.4,0.001,0.374,24.8
+240,Alto riesgo persistente,21.3,0.002,0.129,24.8
+217,Alto riesgo persistente,25.5,0.001,0.664,24.7
+161,Alto riesgo persistente,25.2,0.001,0.583,24.6
+188,Oscilante,27.3,0.006,0.126,24.6
+8,Alto riesgo persistente,26.5,0.001,0.727,24.6
+49,Oscilante,23.6,0.002,0.255,24.5
+27,Mejora rápida,51.4,-0.011,3.248,24.3
+182,Alto riesgo persistente,21.4,0.001,0.05,24.1
+120,Alto riesgo persistente,21.4,0.001,-0.137,24.0
+259,Alto riesgo persistente,24.9,0.001,0.308,23.9
+328,Alto riesgo persistente,23.0,0.002,-0.173,23.9
+348,Alto riesgo persistente,22.5,0.001,0.043,23.8
+111,Alto riesgo persistente,23.4,0.001,0.038,23.5
+84,Oscilante,32.6,0.008,-0.212,23.4
+345,Estable,49.5,0.014,0.809,23.2
+193,Oscilante,30.3,0.001,0.644,23.2
+157,Alto riesgo persistente,23.0,0.0,0.05,23.2
+31,Oscilante,26.6,-0.001,0.335,23.0
+367,Oscilante,30.8,-0.0,0.742,23.0
+209,Alto riesgo persistente,27.4,0.001,0.278,23.0
+5,Oscilante,36.4,0.007,0.345,22.9
+246,Alto riesgo persistente,27.7,0.002,0.138,22.9
+368,Mejora rápida,55.9,-0.01,3.206,22.8
+394,Alto riesgo persistente,24.8,0.0,-0.237,22.6
+16,Alto riesgo persistente,27.5,0.001,-0.065,22.2
+92,Oscilante,29.2,-0.0,0.312,22.2
+400,Estable,54.1,0.013,0.941,21.8
+336,Estable,47.6,0.014,0.002,21.3
+184,Oscilante,57.6,0.013,1.033,21.0
+198,Oscilante,36.4,0.004,-0.462,20.7
+389,Oscilante,34.0,-0.0,0.21,20.4
+381,Oscilante,31.9,-0.004,-0.476,20.4
+15,Oscilante,38.9,0.002,0.34,20.2
+236,Oscilante,39.8,0.0,0.684,20.1
+306,Mejora rápida,47.9,-0.017,1.434,19.9
+269,Oscilante,34.5,-0.011,-0.669,19.7
+118,Oscilante,39.3,0.003,0.067,19.6
+369,Oscilante,34.8,-0.0,-0.59,19.6
+351,Oscilante,34.7,-0.011,-0.409,19.6
+53,Oscilante,40.8,0.001,0.326,19.1
+142,Oscilante,50.5,0.001,1.244,19.0
+338,Oscilante,36.8,-0.002,-0.178,19.0
+254,Oscilante,43.5,0.004,-0.02,18.6
+208,Estable,53.9,0.006,0.74,18.4
+125,Oscilante,42.7,-0.001,0.298,18.1
+28,Estable,55.3,0.007,0.605,18.0
+376,Estable,61.2,0.009,0.889,17.9
+199,Estable,61.1,0.01,0.688,17.7
+4,Estable,58.6,0.005,1.049,17.6
+326,Estable,54.5,0.005,0.66,17.6
+317,Estable,57.5,0.006,0.828,17.6
+258,Estable,54.3,0.006,0.413,17.3
+388,Oscilante,48.7,-0.003,0.629,17.3
+7,Oscilante,42.4,-0.009,-0.952,17.3
+270,Estable,50.6,0.004,0.237,17.1
+83,Estable,67.9,0.009,1.265,17.0
+356,Estable,59.8,0.007,0.702,17.0
+307,Estable,57.1,0.002,1.065,16.9
+58,Estable,57.5,0.005,0.715,16.9
+267,Oscilante,44.0,-0.003,-0.422,16.8
+281,Estable,55.7,0.003,0.725,16.7
+365,Estable,60.9,0.008,0.551,16.6
+102,Oscilante,46.6,-0.0,0.109,16.3
+140,Estable,54.0,0.006,-0.349,16.2
+355,Estable,57.8,0.005,0.397,15.9
+279,Estable,59.5,0.004,0.676,15.8
+176,Estable,65.0,0.005,1.041,15.6
+173,Estable,56.6,0.001,0.702,15.5
+263,Oscilante,52.9,0.001,0.323,15.5
+211,Mejora rápida,54.1,-0.03,0.468,15.2
+47,Estable,60.3,0.004,0.526,15.1
+175,Estable,62.9,0.005,0.614,15.0
+52,Estable,55.6,0.001,0.389,14.9
+96,Estable,58.8,0.004,0.281,14.8
+6,Oscilante,50.9,-0.007,-0.456,14.7
+39,Estable,68.1,0.006,0.847,14.5
+51,Estable,61.7,0.003,0.607,14.5
+335,Estable,58.3,-0.0,0.633,14.4
+327,Oscilante,54.8,0.002,-0.014,14.4
+90,Estable,64.2,0.007,0.231,14.2
+122,Estable,60.5,0.005,0.115,14.2
+293,Estable,60.2,0.002,0.488,14.2
+364,Estable,60.0,0.001,0.557,14.1
+395,Estable,54.1,-0.003,0.073,14.0
+202,Estable,62.8,0.005,0.296,14.0
+156,Estable,67.7,0.005,0.778,14.0
+392,Estable,66.1,0.007,0.305,13.9
+222,Estable,64.4,0.003,0.663,13.9
+383,Estable,63.9,0.004,0.448,13.8
+330,Estable,62.4,0.002,0.555,13.7
+324,Estable,56.5,-0.001,0.219,13.7
+43,Oscilante,54.7,-0.001,-0.229,13.6
+390,Estable,64.7,0.003,0.567,13.5
+19,Estable,64.1,0.005,0.257,13.5
+230,Estable,64.2,0.002,0.634,13.4
+344,Estable,58.3,-0.001,0.288,13.4
+57,Estable,64.6,0.002,0.62,13.3
+166,Estable,63.3,0.002,0.449,13.2
+357,Oscilante,56.3,-0.005,-0.384,13.1
+114,Estable,61.9,0.003,0.065,12.8
+14,Estable,63.6,0.004,0.083,12.8
+48,Estable,60.5,0.0,0.304,12.8
+268,Estable,62.6,0.002,0.218,12.7
+220,Estable,65.9,0.003,0.381,12.6
+248,Estable,65.1,0.001,0.575,12.6
+13,Estable,60.8,0.001,0.124,12.5
+68,Estable,68.5,0.001,0.893,12.5
+256,Estable,61.7,0.002,0.025,12.4
+370,Estable,61.5,-0.001,0.235,12.3
+81,Estable,65.0,0.002,0.318,12.3
+385,Estable,62.7,0.002,0.109,12.3
+65,Estable,59.1,0.0,-0.236,12.3
+305,Estable,69.2,0.003,0.589,12.2
+147,Estable,66.9,0.003,0.365,12.2
+391,Estable,67.3,0.002,0.527,12.2
+9,Estable,68.2,0.003,0.45,12.1
+252,Estable,59.6,0.0,-0.298,12.1
+323,Estable,66.3,0.001,0.493,12.0
+131,Estable,67.3,0.002,0.438,11.9
+172,Estable,66.5,0.001,0.478,11.9
+72,Estable,62.7,-0.0,0.192,11.8
+54,Estable,64.9,0.001,0.295,11.8
+107,Estable,67.2,0.002,0.36,11.7
+235,Estable,68.5,0.003,0.347,11.7
+243,Estable,68.1,0.005,0.016,11.6
+93,Estable,63.1,0.001,0.06,11.6
+244,Mejora rápida,61.5,-0.083,-6.15,11.5
+339,Oscilante,63.1,0.001,-0.212,11.5
+60,Estable,66.9,-0.0,0.534,11.5
+149,Estable,66.0,0.003,0.002,11.4
+133,Estable,66.2,0.002,0.117,11.3
+250,Estable,68.9,0.001,0.507,11.3
+218,Estable,67.3,0.002,0.226,11.3
+73,Oscilante,62.2,-0.012,-1.015,11.3
+64,Estable,62.7,0.0,-0.049,11.2
+361,Estable,63.3,0.0,0.029,11.1
+191,Estable,66.9,0.0,0.394,11.1
+257,Estable,63.8,-0.0,-0.112,10.9
+162,Estable,70.6,0.003,0.301,10.9
+97,Estable,66.1,-0.0,0.252,10.9
+143,Estable,64.1,-0.0,-0.314,10.8
+138,Estable,66.0,0.0,0.095,10.5
+144,Mejora rápida,65.0,-0.034,-0.791,10.5
+287,Estable,66.2,0.001,-0.21,10.5
+319,Estable,69.3,-0.0,0.436,10.5
+304,Estable,65.8,-0.001,-0.005,10.3
+105,Estable,65.7,-0.002,-0.14,10.3
+271,Estable,66.9,0.001,-0.218,10.3
+282,Estable,68.0,0.0,0.191,10.2
+224,Estable,66.5,0.0,-0.271,10.0
+396,Estable,68.9,0.0,0.18,9.9
+311,Estable,71.8,0.001,0.319,9.8
+196,Estable,69.4,0.0,0.185,9.7
+139,Estable,67.8,-0.004,-0.552,9.7
+152,Estable,69.3,0.001,-0.176,9.6
+187,Estable,69.7,0.0,0.133,9.5
+273,Estable,68.4,0.0,-0.312,9.5
+329,Estable,68.5,-0.001,-0.517,9.4
+261,Estable,70.8,0.001,-0.319,9.2
+109,Mejora rápida,70.1,-0.064,-6.972,9.0
+3,Mejora rápida,70.5,-0.073,-6.868,8.9
+91,Mejora rápida,70.5,-0.067,-7.671,8.9
+249,Mejora rápida,70.7,-0.051,-5.627,8.8
+292,Mejora rápida,72.0,-0.061,-7.396,8.4
+321,Mejora rápida,73.4,-0.076,-7.075,8.0
+24,Mejora rápida,73.4,-0.064,-5.203,8.0
+295,Mejora rápida,73.5,-0.056,-5.956,8.0
+67,Mejora rápida,73.6,-0.05,-5.999,7.9
+393,Mejora rápida,74.3,-0.049,-6.529,7.7
+274,Mejora rápida,74.4,-0.066,-6.167,7.7
+153,Mejora rápida,74.9,-0.07,-6.497,7.5
+310,Mejora rápida,75.4,-0.065,-5.116,7.4
+340,Mejora rápida,75.8,-0.061,-5.962,7.3
+194,Mejora rápida,76.0,-0.059,-6.434,7.2
+41,Mejora rápida,76.4,-0.072,-6.578,7.1
+99,Mejora rápida,76.3,-0.059,-8.175,7.1
+212,Mejora rápida,76.4,-0.071,-4.515,7.1
+228,Mejora rápida,76.4,-0.057,-6.474,7.1
+245,Mejora rápida,76.7,-0.06,-6.743,7.0
+22,Mejora rápida,76.8,-0.018,-5.832,7.0
+325,Mejora rápida,77.3,-0.058,-5.562,6.8
+337,Mejora rápida,77.3,-0.061,-5.985,6.8
+132,Mejora rápida,77.4,-0.073,-7.402,6.8
+87,Mejora rápida,78.2,-0.042,-7.074,6.5
+95,Mejora rápida,78.2,-0.031,-6.723,6.5
+160,Mejora rápida,78.2,-0.075,-7.079,6.5
+276,Mejora rápida,78.7,-0.043,-6.295,6.4
+100,Mejora rápida,78.5,-0.07,-6.111,6.4
+253,Mejora rápida,78.5,-0.055,-6.919,6.4
+234,Mejora rápida,78.5,-0.024,-4.332,6.4
+112,Mejora rápida,78.7,-0.077,-6.649,6.4
+169,Mejora rápida,79.0,-0.043,-7.03,6.3
+195,Mejora rápida,79.1,-0.066,-4.427,6.3
+179,Mejora rápida,79.0,-0.051,-9.789,6.3
+123,Mejora rápida,79.8,-0.041,-6.081,6.1
+35,Mejora rápida,79.8,-0.064,-7.426,6.1
+70,Mejora rápida,79.6,-0.059,-6.193,6.1
+215,Mejora rápida,79.5,-0.048,-5.156,6.1
+10,Mejora rápida,79.5,-0.062,-6.902,6.1
+207,Mejora rápida,80.1,-0.048,-5.151,6.0
+11,Mejora rápida,80.1,-0.078,-8.311,6.0
+32,Mejora rápida,80.3,-0.046,-8.37,5.9
+163,Mejora rápida,80.4,-0.076,-8.258,5.9
+136,Mejora rápida,80.6,-0.055,-7.301,5.8
+255,Mejora rápida,80.8,-0.033,-6.503,5.8
+203,Mejora rápida,80.8,-0.06,-6.907,5.8
+108,Mejora rápida,80.8,-0.067,-7.123,5.8
+171,Mejora rápida,80.8,-0.069,-8.506,5.8
+320,Mejora rápida,80.6,-0.062,-5.388,5.8
+128,Mejora rápida,81.0,-0.059,-7.289,5.7
+288,Mejora rápida,80.9,-0.057,-5.753,5.7
+59,Mejora rápida,81.3,-0.055,-7.61,5.6
+124,Mejora rápida,81.8,-0.062,-3.716,5.5
+38,Mejora rápida,81.7,-0.056,-6.656,5.5
+141,Mejora rápida,81.6,-0.043,-6.899,5.5
+285,Mejora rápida,82.0,-0.061,-6.731,5.4
+313,Mejora rápida,81.9,-0.048,-6.959,5.4
+210,Mejora rápida,81.9,-0.077,-7.019,5.4
+347,Mejora rápida,82.4,-0.045,-4.957,5.3
+86,Mejora rápida,82.6,-0.073,-6.575,5.2
+223,Mejora rápida,82.7,-0.052,-4.794,5.2
+17,Mejora rápida,82.9,-0.065,-6.488,5.1
+262,Mejora rápida,83.7,-0.054,-5.947,4.9
+331,Mejora rápida,83.7,-0.061,-7.277,4.9
+148,Mejora rápida,84.1,-0.085,-7.427,4.8
+359,Mejora rápida,84.1,-0.049,-7.438,4.8

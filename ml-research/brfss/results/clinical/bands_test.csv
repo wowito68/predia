@@ -1,0 +1,5 @@
+band,action,score_range,n,pct_population,observed_prevalence
+Bajo,Seguimiento normal,"[0.0, 0.0909]",26149,51.54,0.0292
+Moderado,Educación y cambios de hábitos,"[0.0909, 0.2]",11877,23.41,0.1417
+Alto,Evaluación clínica prioritaria,"[0.2, 0.4]",7844,15.46,0.2913
+Muy Alto,Referencia médica inmediata,"[0.4, 1.0]",4866,9.59,0.4803

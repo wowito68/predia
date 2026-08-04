@@ -1,0 +1,401 @@
+patient_id,trajectory_type,n_states,route,archetype
+1,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+2,Sin transiciones,1,Muy Alto,Deterioro lento
+3,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+4,Sin transiciones,1,Alto,Estable
+5,Oscila,7,Muy Alto → Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Oscilante
+6,Sin transiciones,1,Muy Alto,Oscilante
+7,Sin transiciones,1,Muy Alto,Oscilante
+8,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+9,Oscila,6,Bajo → Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+10,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+11,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+12,Oscila,4,Alto → Moderado → Alto → Muy Alto,Deterioro lento
+13,Sin transiciones,1,Moderado,Estable
+14,Oscila,4,Moderado → Alto → Moderado → Alto,Estable
+15,Oscila,3,Muy Alto → Alto → Muy Alto,Oscilante
+16,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+17,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+18,Oscila,5,Moderado → Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+19,Oscila,7,Moderado → Alto → Moderado → Alto → Moderado → Alto → Moderado,Estable
+20,Sin transiciones,1,Muy Alto,Oscilante
+21,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+22,Mejora,3,Alto → Moderado → Bajo,Mejora rápida
+23,Oscila,6,Bajo → Moderado → Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+24,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+25,Sin transiciones,1,Muy Alto,Oscilante
+26,Empeora,2,Alto → Muy Alto,Deterioro lento
+27,Oscila,3,Muy Alto → Alto → Muy Alto,Mejora rápida
+28,Empeora,2,Moderado → Alto,Estable
+29,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+30,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+31,Sin transiciones,1,Muy Alto,Oscilante
+32,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+33,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+34,Oscila,4,Alto → Moderado → Alto → Muy Alto,Deterioro lento
+35,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+36,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+37,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+38,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+39,Empeora,2,Bajo → Moderado,Estable
+40,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+41,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+42,Oscila,7,Moderado → Alto → Moderado → Alto → Moderado → Alto → Muy Alto,Estable
+43,Oscila,3,Alto → Muy Alto → Alto,Oscilante
+44,Empeora,2,Alto → Muy Alto,Deterioro lento
+45,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+46,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+47,Sin transiciones,1,Moderado,Estable
+48,Oscila,6,Moderado → Bajo → Moderado → Bajo → Moderado → Bajo,Estable
+49,Sin transiciones,1,Muy Alto,Oscilante
+50,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+51,Oscila,6,Bajo → Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+52,Oscila,3,Alto → Muy Alto → Alto,Estable
+53,Sin transiciones,1,Muy Alto,Oscilante
+54,Sin transiciones,1,Bajo,Estable
+55,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+56,Oscila,3,Muy Alto → Alto → Muy Alto,Deterioro lento
+57,Oscila,5,Bajo → Moderado → Bajo → Moderado → Bajo,Estable
+58,Empeora,2,Moderado → Alto,Estable
+59,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+60,Oscila,3,Moderado → Bajo → Moderado,Estable
+61,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+62,Empeora,4,Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+63,Empeora,2,Alto → Muy Alto,Deterioro lento
+64,Oscila,4,Bajo → Moderado → Bajo → Moderado,Estable
+65,Sin transiciones,1,Alto,Estable
+66,Empeora,2,Alto → Muy Alto,Deterioro lento
+67,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+68,Sin transiciones,1,Bajo,Estable
+69,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+70,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+71,Empeora,2,Alto → Muy Alto,Deterioro lento
+72,Sin transiciones,1,Moderado,Estable
+73,Mejora,3,Muy Alto → Alto → Moderado,Oscilante
+74,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+75,Oscila,5,Moderado → Alto → Muy Alto → Alto → Muy Alto,Deterioro lento
+76,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+77,Empeora,2,Alto → Muy Alto,Deterioro lento
+78,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+79,Oscila,5,Bajo → Moderado → Alto → Muy Alto → Alto,Estable
+80,Empeora,2,Alto → Muy Alto,Deterioro lento
+81,Oscila,7,Bajo → Moderado → Bajo → Moderado → Bajo → Moderado → Bajo,Estable
+82,Sin transiciones,1,Muy Alto,Deterioro lento
+83,Oscila,3,Moderado → Alto → Moderado,Estable
+84,Oscila,5,Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Oscilante
+85,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+86,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+87,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+88,Oscila,5,Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Oscilante
+89,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+90,Oscila,5,Alto → Moderado → Alto → Moderado → Alto,Estable
+91,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+92,Sin transiciones,1,Muy Alto,Oscilante
+93,Oscila,4,Moderado → Alto → Moderado → Alto,Estable
+94,Empeora,4,Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+95,Mejora,3,Alto → Moderado → Bajo,Mejora rápida
+96,Oscila,8,Moderado → Alto → Moderado → Alto → Moderado → Alto → Moderado → Alto,Estable
+97,Sin transiciones,1,Moderado,Estable
+98,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+99,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+100,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+101,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+102,Sin transiciones,1,Muy Alto,Oscilante
+103,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+104,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+105,Oscila,5,Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+106,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+107,Oscila,5,Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+108,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+109,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+110,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+111,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+112,Mejora,3,Muy Alto → Alto → Moderado,Mejora rápida
+113,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+114,Oscila,5,Alto → Moderado → Alto → Moderado → Alto,Estable
+115,Sin transiciones,1,Muy Alto,Oscilante
+116,Oscila,6,Moderado → Bajo → Moderado → Bajo → Alto → Muy Alto,Estable
+117,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+118,Sin transiciones,1,Muy Alto,Oscilante
+119,Empeora,2,Alto → Muy Alto,Deterioro lento
+120,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+121,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+122,Oscila,4,Moderado → Alto → Muy Alto → Alto,Estable
+123,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+124,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+125,Oscila,14,Moderado → Alto → Muy Alto → Alto → Moderado → Alto → Muy Alto → Alto → Moderado → Alto → Muy Alto → Alto → Moderado → Alto,Oscilante
+126,Oscila,4,Alto → Moderado → Alto → Muy Alto,Estable
+127,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+128,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+129,Empeora,2,Alto → Muy Alto,Deterioro lento
+130,Oscila,5,Moderado → Alto → Moderado → Alto → Muy Alto,Deterioro lento
+131,Oscila,3,Bajo → Moderado → Bajo,Estable
+132,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+133,Sin transiciones,1,Bajo,Estable
+134,Oscila,8,Bajo → Moderado → Alto → Moderado → Alto → Moderado → Alto → Muy Alto,Estable
+135,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+136,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+137,Empeora,2,Alto → Muy Alto,Deterioro lento
+138,Sin transiciones,1,Bajo,Estable
+139,Oscila,3,Moderado → Bajo → Moderado,Estable
+140,Empeora,3,Bajo → Moderado → Alto,Estable
+141,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+142,Oscila,5,Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Oscilante
+143,Oscila,9,Alto → Moderado → Alto → Moderado → Alto → Moderado → Alto → Moderado → Alto,Estable
+144,Oscila,6,Muy Alto → Alto → Moderado → Bajo → Moderado → Alto,Mejora rápida
+145,Oscila,5,Moderado → Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+146,Oscila,3,Muy Alto → Alto → Muy Alto,Deterioro lento
+147,Oscila,6,Bajo → Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+148,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+149,Oscila,3,Moderado → Alto → Moderado,Estable
+150,Empeora,3,Moderado → Alto → Muy Alto,Estable
+151,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+152,Sin transiciones,1,Bajo,Estable
+153,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+154,Empeora,4,Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+155,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+156,Oscila,4,Bajo → Moderado → Alto → Moderado,Estable
+157,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+158,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+159,Oscila,3,Muy Alto → Alto → Muy Alto,Oscilante
+160,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+161,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+162,Oscila,3,Bajo → Moderado → Bajo,Estable
+163,Mejora,3,Muy Alto → Alto → Moderado,Mejora rápida
+164,Sin transiciones,1,Muy Alto,Oscilante
+165,Empeora,2,Alto → Muy Alto,Deterioro lento
+166,Oscila,3,Moderado → Alto → Moderado,Estable
+167,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+168,Oscila,3,Muy Alto → Alto → Muy Alto,Oscilante
+169,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+170,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+171,Oscila,6,Muy Alto → Alto → Moderado → Alto → Moderado → Bajo,Mejora rápida
+172,Sin transiciones,1,Bajo,Estable
+173,Oscila,4,Moderado → Alto → Moderado → Alto,Estable
+174,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+175,Oscila,6,Moderado → Alto → Moderado → Alto → Moderado → Alto,Estable
+176,Oscila,6,Bajo → Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+177,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+178,Sin transiciones,1,Muy Alto,Oscilante
+179,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+180,Sin transiciones,1,Muy Alto,Deterioro lento
+181,Empeora,4,Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+182,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+183,Oscila,4,Moderado → Bajo → Moderado → Alto,Estable
+184,Oscila,9,Bajo → Moderado → Bajo → Moderado → Alto → Moderado → Alto → Moderado → Alto,Oscilante
+185,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+186,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+187,Sin transiciones,1,Bajo,Estable
+188,Sin transiciones,1,Muy Alto,Oscilante
+189,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+190,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+191,Oscila,5,Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+192,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+193,Sin transiciones,1,Muy Alto,Oscilante
+194,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+195,Mejora,3,Muy Alto → Alto → Moderado,Mejora rápida
+196,Sin transiciones,1,Bajo,Estable
+197,Empeora,2,Alto → Muy Alto,Deterioro lento
+198,Sin transiciones,1,Muy Alto,Oscilante
+199,Oscila,4,Moderado → Alto → Moderado → Alto,Estable
+200,Empeora,2,Alto → Muy Alto,Deterioro lento
+201,Sin transiciones,1,Muy Alto,Oscilante
+202,Oscila,3,Alto → Moderado → Alto,Estable
+203,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+204,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+205,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+206,Empeora,2,Alto → Muy Alto,Deterioro lento
+207,Oscila,6,Muy Alto → Alto → Moderado → Bajo → Moderado → Bajo,Mejora rápida
+208,Sin transiciones,1,Alto,Estable
+209,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+210,Oscila,6,Muy Alto → Alto → Moderado → Alto → Moderado → Bajo,Mejora rápida
+211,Oscila,6,Muy Alto → Alto → Moderado → Bajo → Moderado → Alto,Mejora rápida
+212,Mejora,3,Muy Alto → Alto → Moderado,Mejora rápida
+213,Oscila,5,Moderado → Alto → Moderado → Alto → Muy Alto,Deterioro lento
+214,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+215,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+216,Empeora,2,Alto → Muy Alto,Deterioro lento
+217,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+218,Sin transiciones,1,Bajo,Estable
+219,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+220,Oscila,7,Moderado → Alto → Moderado → Alto → Moderado → Alto → Moderado,Estable
+221,Oscila,5,Moderado → Alto → Moderado → Alto → Muy Alto,Deterioro lento
+222,Sin transiciones,1,Moderado,Estable
+223,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+224,Oscila,8,Muy Alto → Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto → Alto,Estable
+225,Empeora,2,Alto → Muy Alto,Deterioro lento
+226,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+227,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+228,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+229,Empeora,2,Alto → Muy Alto,Deterioro lento
+230,Oscila,3,Moderado → Bajo → Moderado,Estable
+231,Sin transiciones,1,Muy Alto,Oscilante
+232,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+233,Empeora,4,Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+234,Mejora,3,Alto → Moderado → Bajo,Mejora rápida
+235,Oscila,7,Bajo → Moderado → Bajo → Moderado → Bajo → Moderado → Bajo,Estable
+236,Oscila,4,Muy Alto → Alto → Muy Alto → Alto,Oscilante
+237,Sin transiciones,1,Muy Alto,Deterioro lento
+238,Sin transiciones,1,Muy Alto,Deterioro lento
+239,Empeora,2,Alto → Muy Alto,Deterioro lento
+240,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+241,Empeora,2,Alto → Muy Alto,Deterioro lento
+242,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+243,Sin transiciones,1,Alto,Estable
+244,Mejora,3,Muy Alto → Alto → Moderado,Mejora rápida
+245,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+246,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+247,Oscila,5,Moderado → Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+248,Oscila,5,Moderado → Alto → Moderado → Bajo → Moderado,Estable
+249,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+250,Sin transiciones,1,Bajo,Estable
+251,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+252,Sin transiciones,1,Alto,Estable
+253,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+254,Oscila,4,Muy Alto → Alto → Muy Alto → Alto,Oscilante
+255,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+256,Sin transiciones,1,Moderado,Estable
+257,Sin transiciones,1,Alto,Estable
+258,Oscila,3,Alto → Muy Alto → Alto,Estable
+259,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+260,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+261,Oscila,8,Bajo → Moderado → Bajo → Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+262,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+263,Sin transiciones,1,Muy Alto,Oscilante
+264,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+265,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+266,Empeora,2,Alto → Muy Alto,Deterioro lento
+267,Sin transiciones,1,Muy Alto,Oscilante
+268,Oscila,8,Moderado → Alto → Moderado → Alto → Moderado → Alto → Moderado → Alto,Estable
+269,Oscila,5,Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Oscilante
+270,Oscila,8,Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Estable
+271,Oscila,3,Alto → Moderado → Alto,Estable
+272,Sin transiciones,1,Muy Alto,Oscilante
+273,Sin transiciones,1,Bajo,Estable
+274,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+275,Oscila,5,Moderado → Alto → Moderado → Alto → Muy Alto,Estable
+276,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+277,Empeora,2,Alto → Muy Alto,Deterioro lento
+278,Empeora,4,Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+279,Oscila,3,Moderado → Alto → Moderado,Estable
+280,Empeora,2,Alto → Muy Alto,Oscilante
+281,Oscila,3,Alto → Muy Alto → Alto,Estable
+282,Sin transiciones,1,Bajo,Estable
+283,Sin transiciones,1,Muy Alto,Oscilante
+284,Oscila,4,Alto → Muy Alto → Alto → Muy Alto,Oscilante
+285,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+286,Empeora,2,Alto → Muy Alto,Deterioro lento
+287,Sin transiciones,1,Bajo,Estable
+288,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+289,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+290,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+291,Empeora,2,Alto → Muy Alto,Deterioro lento
+292,Oscila,5,Muy Alto → Alto → Muy Alto → Alto → Moderado,Mejora rápida
+293,Oscila,7,Moderado → Bajo → Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+294,Sin transiciones,1,Muy Alto,Oscilante
+295,Mejora,3,Muy Alto → Alto → Moderado,Mejora rápida
+296,Empeora,2,Alto → Muy Alto,Deterioro lento
+297,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+298,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+299,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+300,Empeora,2,Alto → Muy Alto,Estable
+301,Oscila,4,Alto → Moderado → Alto → Muy Alto,Deterioro lento
+302,Sin transiciones,1,Muy Alto,Oscilante
+303,Oscila,4,Alto → Moderado → Alto → Muy Alto,Deterioro lento
+304,Oscila,6,Moderado → Bajo → Moderado → Bajo → Moderado → Bajo,Estable
+305,Sin transiciones,1,Bajo,Estable
+306,Oscila,6,Muy Alto → Alto → Moderado → Bajo → Alto → Muy Alto,Mejora rápida
+307,Oscila,4,Bajo → Moderado → Bajo → Moderado,Estable
+308,Empeora,3,Moderado → Alto → Muy Alto,Estable
+309,Sin transiciones,1,Muy Alto,Deterioro lento
+310,Mejora,3,Muy Alto → Alto → Moderado,Mejora rápida
+311,Sin transiciones,1,Bajo,Estable
+312,Empeora,4,Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+313,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+314,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+315,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+316,Oscila,5,Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Oscilante
+317,Oscila,4,Bajo → Moderado → Alto → Moderado,Estable
+318,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+319,Oscila,6,Moderado → Bajo → Moderado → Bajo → Moderado → Bajo,Estable
+320,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+321,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+322,Sin transiciones,1,Muy Alto,Deterioro lento
+323,Oscila,3,Moderado → Alto → Moderado,Estable
+324,Sin transiciones,1,Bajo,Estable
+325,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+326,Oscila,4,Moderado → Bajo → Moderado → Alto,Estable
+327,Oscila,10,Muy Alto → Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto → Alto,Oscilante
+328,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+329,Sin transiciones,1,Moderado,Estable
+330,Oscila,5,Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+331,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+332,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+333,Empeora,2,Alto → Muy Alto,Deterioro lento
+334,Empeora,2,Alto → Muy Alto,Deterioro lento
+335,Oscila,7,Muy Alto → Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Estable
+336,Empeora,2,Moderado → Alto,Estable
+337,Oscila,6,Muy Alto → Alto → Moderado → Alto → Moderado → Bajo,Mejora rápida
+338,Oscila,4,Muy Alto → Alto → Muy Alto → Alto,Oscilante
+339,Oscila,3,Alto → Moderado → Alto,Oscilante
+340,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+341,Empeora,2,Alto → Muy Alto,Estable
+342,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+343,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+344,Sin transiciones,1,Moderado,Estable
+345,Oscila,4,Alto → Muy Alto → Alto → Muy Alto,Estable
+346,Sin transiciones,1,Muy Alto,Oscilante
+347,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+348,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+349,Sin transiciones,1,Muy Alto,Oscilante
+350,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+351,Sin transiciones,1,Muy Alto,Oscilante
+352,Empeora,2,Alto → Muy Alto,Deterioro lento
+353,Empeora,2,Alto → Muy Alto,Deterioro lento
+354,Empeora,2,Alto → Muy Alto,Deterioro lento
+355,Oscila,7,Moderado → Alto → Moderado → Alto → Moderado → Alto → Moderado,Estable
+356,Oscila,6,Moderado → Alto → Moderado → Alto → Moderado → Alto,Estable
+357,Oscila,4,Alto → Muy Alto → Alto → Muy Alto,Oscilante
+358,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+359,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+360,Empeora,2,Alto → Muy Alto,Deterioro lento
+361,Oscila,6,Bajo → Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+362,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+363,Oscila,4,Alto → Moderado → Alto → Muy Alto,Deterioro lento
+364,Oscila,5,Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+365,Oscila,3,Alto → Moderado → Alto,Estable
+366,Oscila,5,Muy Alto → Alto → Moderado → Alto → Muy Alto,Mejora rápida
+367,Oscila,6,Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Oscilante
+368,Oscila,3,Muy Alto → Alto → Muy Alto,Mejora rápida
+369,Sin transiciones,1,Muy Alto,Oscilante
+370,Sin transiciones,1,Alto,Estable
+371,Oscila,5,Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Oscilante
+372,Empeora,4,Bajo → Moderado → Alto → Muy Alto,Deterioro lento
+373,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+374,Empeora,3,Bajo → Moderado → Muy Alto,Deterioro lento
+375,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+376,Oscila,5,Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Estable
+377,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+378,Empeora,3,Moderado → Alto → Muy Alto,Deterioro lento
+379,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+380,Empeora,2,Alto → Muy Alto,Deterioro lento
+381,Sin transiciones,1,Muy Alto,Oscilante
+382,Empeora,2,Alto → Muy Alto,Deterioro lento
+383,Oscila,3,Moderado → Alto → Moderado,Estable
+384,Sin transiciones,1,Muy Alto,Oscilante
+385,Sin transiciones,1,Alto,Estable
+386,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+387,Sin transiciones,1,Muy Alto,Oscilante
+388,Mejora,2,Muy Alto → Alto,Oscilante
+389,Sin transiciones,1,Muy Alto,Oscilante
+390,Oscila,3,Moderado → Alto → Moderado,Estable
+391,Sin transiciones,1,Alto,Estable
+392,Oscila,6,Moderado → Alto → Moderado → Alto → Moderado → Alto,Estable
+393,Mejora,4,Muy Alto → Alto → Moderado → Bajo,Mejora rápida
+394,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+395,Oscila,3,Alto → Muy Alto → Alto,Estable
+396,Oscila,5,Moderado → Bajo → Moderado → Bajo → Moderado,Estable
+397,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+398,Oscila,5,Bajo → Moderado → Bajo → Alto → Muy Alto,Estable
+399,Sin transiciones,1,Muy Alto,Alto riesgo persistente
+400,Oscila,6,Alto → Muy Alto → Alto → Muy Alto → Alto → Muy Alto,Estable

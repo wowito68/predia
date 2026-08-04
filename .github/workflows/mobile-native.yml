@@ -1,0 +1,78 @@
+name: PREDIA Mobile Native Build
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "mobile-v*"
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "22"
+  PNPM_VERSION: "10.23.0"
+  EXPO_PUBLIC_API_URL: https://prediaa.duckdns.org/api
+  EXPO_NO_TELEMETRY: "1"
+
+jobs:
+  android-preview:
+    name: Build installable Android APK/AAB
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate mobile types and Expo config
+        run: |
+          pnpm typecheck:mobile
+          pnpm --filter @predia/mobile exec expo config --type public
+
+      - name: Generate native Android project
+        run: pnpm --filter @predia/mobile exec expo prebuild --platform android --clean --no-install
+
+      - name: Build release artifacts
+        working-directory: apps/mobile/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease bundleRelease --no-daemon
+
+      - name: Stage artifacts
+        run: |
+          mkdir -p artifacts
+          cp apps/mobile/android/app/build/outputs/apk/release/app-release.apk artifacts/PREDIA-evaluacion.apk
+          cp apps/mobile/android/app/build/outputs/bundle/release/app-release.aab artifacts/PREDIA-evaluacion.aab
+          sha256sum artifacts/* > artifacts/SHA256SUMS.txt
+
+      - name: Upload Android artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: predia-android-${{ github.ref_name }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,19 @@
+   ▲ Next.js 15.2.4
+   - Local:        http://localhost:3002
+   - Network:      http://192.168.1.95:3002
+   - Environments: .env
+
+ ✓ Starting...
+> [PWA] PWA support is disabled
+> [PWA] PWA support is disabled
+ ✓ Ready in 12.6s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 1682ms (101 modules)
+ ○ Compiling /api/health ...
+ ✓ Compiled /api/health in 4.8s (359 modules)
+ GET /api/health 200 in 5831ms
+ GET /api/health 200 in 98ms
+ ○ Compiling /api/metrics ...
+ ✓ Compiled /api/metrics in 1433ms (362 modules)
+ GET /api/metrics 200 in 1698ms
+Node.js[40761]: ../src/node.cc:701:void node::ResetStdio(): Assertion `!(err != 0) || (err == -1 && (*__errno_location ()) == 1)' failed.

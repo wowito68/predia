@@ -1,0 +1,22 @@
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.2}
+\caption{Variables más influyentes del modelo de cribado seleccionado, por
+importancia de permutación (caída en ROC-AUC) y por valor SHAP absoluto medio.}
+\label{tab:importance}
+\centering
+\begin{tabular}{l c | l c}
+\toprule
+\multicolumn{2}{c|}{\textbf{Importancia por permutación}} & \multicolumn{2}{c}{\textbf{SHAP (\(|\phi|\) medio)}} \\
+Variable & $\Delta$AUC & Variable & $|\phi|$ \\
+\midrule
+family\_history\_diabetes & 0.0816 & age & 0.0539 \\
+age & 0.0340 & family\_history\_diabetes & 0.0536 \\
+physical\_activity & 0.0179 & physical\_activity & 0.0362 \\
+bmi & 0.0037 & bmi & 0.0220 \\
+diet\_score & 0.0023 & diet\_score & 0.0126 \\
+hdl\_cholesterol & 0.0013 & hdl\_cholesterol & 0.0125 \\
+screen\_time & 0.0012 & triglycerides & 0.0082 \\
+triglycerides & 0.0008 & screen\_time & 0.0076 \\
+\bottomrule
+\end{tabular}
+\end{table}
