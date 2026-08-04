@@ -1,0 +1,13 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Dependencias, builds y artefactos binarios no versionables"
+paths = [
+  '''(^|/)node_modules/''',
+  '''(^|/)\.git/''',
+  '''(^|/)\.next/''',
+  '''(^|/)\.tmp/''',
+  '''(^|/)dist-web/''',
+  '''\.(png|jpe?g|gif|pdf|dvi|docx|zip|csv|ipynb)$''',
+]

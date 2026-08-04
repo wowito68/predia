@@ -1,0 +1,98 @@
+[
+  {
+    "id": "R01",
+    "name": "Hiperglucemia + obesidad",
+    "severity": "warning",
+    "action": "revisar_tratamiento",
+    "message": "Glucosa e IMC elevados de forma simultánea",
+    "priority_flag": false
+  },
+  {
+    "id": "R02",
+    "name": "PA elevada persistente (3 consultas)",
+    "severity": "warning",
+    "action": "programar_consulta",
+    "message": "Presión arterial elevada en las últimas 3 consultas → seguimiento prioritario",
+    "priority_flag": true
+  },
+  {
+    "id": "R03",
+    "name": "Riesgo muy alto sin consulta reciente",
+    "severity": "critical",
+    "action": "contacto_preventivo",
+    "message": "Riesgo muy alto y sin consulta reciente → sugerir contacto preventivo",
+    "priority_flag": true
+  },
+  {
+    "id": "R04",
+    "name": "Glucosa muy alta",
+    "severity": "critical",
+    "action": "revisar_tratamiento",
+    "message": "Glucosa en rango muy alto: revisar tratamiento y reconfirmar medición",
+    "priority_flag": false
+  },
+  {
+    "id": "R05",
+    "name": "Crisis hipertensiva",
+    "severity": "critical",
+    "action": "derivar_especialista",
+    "message": "Presión arterial en rango de crisis",
+    "priority_flag": true
+  },
+  {
+    "id": "R06",
+    "name": "Baja adherencia con tratamiento activo",
+    "severity": "warning",
+    "action": "reforzar_adherencia",
+    "message": "Adherencia por debajo del umbral con medicación activa",
+    "priority_flag": false
+  },
+  {
+    "id": "R07",
+    "name": "Evolución desfavorable (CES bajo)",
+    "severity": "warning",
+    "action": "evaluar_factores",
+    "message": "Clinical Evolution Score bajo: deterioro de la evolución",
+    "priority_flag": true
+  },
+  {
+    "id": "R08",
+    "name": "Tendencia glucémica creciente",
+    "severity": "warning",
+    "action": "revisar_tratamiento",
+    "message": "Glucosa con pendiente creciente sostenida",
+    "priority_flag": false
+  },
+  {
+    "id": "R09",
+    "name": "Sedentarismo",
+    "severity": "info",
+    "action": "educacion_habitos",
+    "message": "Actividad física por debajo de lo recomendado",
+    "priority_flag": false
+  },
+  {
+    "id": "R10",
+    "name": "Datos clínicos desactualizados",
+    "severity": "info",
+    "action": "actualizar_glucosa",
+    "message": "Sin registros recientes: actualizar glucosa/signos vitales",
+    "priority_flag": false
+  },
+  {
+    "id": "R11",
+    "name": "Multicomorbilidad con riesgo alto",
+    "severity": "warning",
+    "action": "derivar_especialista",
+    "message": "Dos o más comorbilidades con riesgo elevado",
+    "priority_flag": true
+  },
+  {
+    "id": "R12",
+    "name": "Aumento rápido de peso",
+    "severity": "warning",
+    "action": "evaluar_factores",
+    "message": "Peso con pendiente creciente relevante",
+    "priority_flag": false
+  }
+]

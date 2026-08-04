@@ -1,0 +1,28 @@
+{
+  "name": "lightgbm",
+  "mode": "screening",
+  "best_params": {
+    "clf__learning_rate": 0.012184186502221764,
+    "clf__n_estimators": 237,
+    "clf__num_leaves": 72,
+    "clf__subsample": 0.8803345035229626
+  },
+  "cv_roc_auc": 0.6573991665531488,
+  "fit_time_sec": 46.67,
+  "subsampled": false,
+  "n_train_used": 80000,
+  "test_metrics": {
+    "accuracy": 0.62795,
+    "balanced_accuracy": 0.5752708333333334,
+    "precision": 0.6464127432718865,
+    "recall_sensitivity": 0.8386666666666667,
+    "specificity": 0.311875,
+    "f1": 0.7300953970038812,
+    "mcc": 0.17758697192179534,
+    "tn": 2495,
+    "fp": 5505,
+    "fn": 1936,
+    "tp": 10064,
+    "roc_auc": 0.6558084635416667
+  }
+}

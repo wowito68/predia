@@ -1,0 +1,27 @@
+{
+  "name": "svm",
+  "mode": "screening",
+  "best_params": {
+    "clf__C": 0.14936568554617632,
+    "clf__gamma": "auto",
+    "clf__kernel": "rbf"
+  },
+  "cv_roc_auc": 0.6360194029621485,
+  "fit_time_sec": 244.11,
+  "subsampled": true,
+  "n_train_used": 8000,
+  "test_metrics": {
+    "accuracy": 0.6123,
+    "balanced_accuracy": 0.5253749999999999,
+    "precision": 0.6129615834840907,
+    "recall_sensitivity": 0.96,
+    "specificity": 0.09075,
+    "f1": 0.748197700850815,
+    "mcc": 0.10444517885806516,
+    "tn": 726,
+    "fp": 7274,
+    "fn": 480,
+    "tp": 11520,
+    "roc_auc": 0.6327885416666666
+  }
+}

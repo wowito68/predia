@@ -54,7 +54,7 @@ curl http://localhost:3000
 ```bash
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"admin_luis","password":"password123"}'
+  -d '{"username":"<USUARIO_DEMO>","password":"<PASSWORD_DEMO>"}'
 ```
 
 Respuesta esperada:
@@ -70,7 +70,7 @@ Respuesta esperada:
 ```bash
 TOKEN=$(curl -s -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"admin_luis","password":"password123"}' | \
+  -d '{"username":"<USUARIO_DEMO>","password":"<PASSWORD_DEMO>"}' | \
   grep -oP '(?<="token":")[^"]+')
 
 curl -H "Authorization: Bearer $TOKEN" \
@@ -138,7 +138,7 @@ EOF
 
 ### Con Bearer Token
 ```bash
-curl -H "Authorization: Bearer eyJhbGci..."
+curl -H "Authorization: Bearer ${TOKEN}"
 ```
 
 ### Alternativa con Basic Auth (NO RECOMENDADO)
