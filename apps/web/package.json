@@ -24,7 +24,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@predia/shared": "workspace:*",
     "@radix-ui/react-dialog": "1.1.4",
-    "@radix-ui/react-label": "2.1.1",
+    "@radix-ui/react-label": "2.1.15",
     "@radix-ui/react-progress": "1.1.1",
     "@radix-ui/react-select": "2.1.4",
     "@radix-ui/react-slot": "1.1.1",
