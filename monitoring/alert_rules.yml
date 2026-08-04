@@ -1,0 +1,30 @@
+groups:
+  - name: predia-basic-alerts
+    rules:
+      - alert: PrediaApiDown
+        expr: up{job="predia-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Una instancia de PREDIA API no responde"
+          description: "Prometheus no puede recolectar metricas de {{ $labels.instance }}."
+
+      - alert: PrediaHighAuthFailures
+        expr: increase(predia_auth_attempts_total{result="failure"}[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Demasiados intentos fallidos de autenticacion"
+          description: "Se detectaron mas de 10 fallos de autenticacion en 5 minutos."
+
+      - alert: PrediaHighMemory
+        expr: predia_process_memory_bytes{type="rss"} > 800000000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Uso de memoria alto en PREDIA"
+          description: "RSS supera 800 MB durante mas de 5 minutos."
+

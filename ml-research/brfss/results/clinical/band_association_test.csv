@@ -1,0 +1,5 @@
+band,action,n,cases,observed_prevalence,odds_ratio_vs_bajo,or_ci95,relative_risk_vs_bajo,rr_ci95
+Bajo,Seguimiento normal,26149,764,0.0292,1.0,"[1.0, 1.0]",1.0,"[1.0, 1.0]"
+Moderado,Educación y cambios de hábitos,11877,1683,0.1417,5.486,"[5.021, 5.993]",4.85,"[4.465, 5.268]"
+Alto,Evaluación clínica prioritaria,7844,2285,0.2913,13.658,"[12.521, 14.898]",9.97,"[9.223, 10.778]"
+Muy Alto,Referencia médica inmediata,4866,2337,0.4803,30.704,"[28.024, 33.64]",16.438,"[15.239, 17.731]"

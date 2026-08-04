@@ -1,0 +1,8 @@
+# PREDIA — Temporal Clinical Evolution Framework (FASE 2, Python 3.12)
+# Reutiliza el venv de ml-research/. Dependencia extra:
+#   ../.venv/bin/pip install statsmodels
+#
+# Heredadas de ../requirements.txt: numpy, scipy, pandas, scikit-learn, xgboost,
+# lightgbm, matplotlib, seaborn, joblib, nbformat, nbconvert, ipykernel
+statsmodels>=0.14
+# Extensión opcional (no requerida; forecasting documentado): prophet, torch

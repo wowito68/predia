@@ -1,0 +1,22 @@
+feature,importance_mean,importance_std,label
+GenHlth,0.04803,0.00254,Salud general percibida
+BMI,0.0374,0.00136,Índice de masa corporal (IMC)
+Age,0.02975,0.00209,Grupo etario
+HighBP,0.01688,0.00113,Hipertensión arterial
+HighChol,0.01002,0.00087,Colesterol alto
+CholCheck,0.00357,0.00067,Chequeo de colesterol en 5 años
+HvyAlcoholConsump,0.00355,0.00077,Consumo elevado de alcohol
+Sex,0.00291,0.00018,"Sexo (0=mujer, 1=hombre)"
+Income,0.0025,0.00037,Nivel de ingreso
+HeartDiseaseorAttack,0.00172,0.0004,Cardiopatía coronaria o infarto
+DiffWalk,0.00099,0.00026,Dificultad para caminar/subir escaleras
+MentHlth,0.00053,0.0001,Días de mala salud mental (30d)
+Stroke,0.00041,0.00013,Antecedente de ictus
+Education,0.00024,7e-05,Nivel educativo
+Smoker,0.00011,2e-05,Fumador (≥100 cigarrillos de por vida)
+PhysHlth,0.0001,0.00012,Días de mala salud física (30d)
+Fruits,5e-05,5e-05,Consume fruta ≥1/día
+Veggies,4e-05,2e-05,Consume verdura ≥1/día
+AnyHealthcare,4e-05,2e-05,Tiene cobertura sanitaria
+NoDocbcCost,1e-05,1e-05,No fue al médico por costo (últimos 12m)
+PhysActivity,1e-05,5e-05,Actividad física (últimos 30 días)

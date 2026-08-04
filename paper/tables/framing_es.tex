@@ -1,0 +1,21 @@
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.2}
+\caption{Efecto de incluir variables de laboratorio diagnósticas: marco honesto
+de \emph{cribado} vs.\ marco \emph{clínico} (con HbA1c, glucosa e insulina). La
+brecha de ROC-AUC cuantifica la contribución de la fuga de información.}
+\label{tab:framing}
+\centering
+\begin{tabular}{l c c c c}
+\toprule
+& \multicolumn{2}{c}{\textbf{Cribado}} & \multicolumn{2}{c}{\textbf{Clínico}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+\textbf{Modelo} & Exa. & ROC-AUC & Exa. & ROC-AUC \\
+\midrule
+Regresión Logística & 0.6044 & 0.6591 & 0.8878 & 0.9339 \\
+Random Forest       & 0.6244 & 0.6549 & 0.9196 & 0.9417 \\
+XGBoost             & 0.6289 & 0.6573 & 0.9199 & 0.9444 \\
+\midrule
+\multicolumn{1}{l}{\textbf{Media $\Delta$ ROC-AUC}} & \multicolumn{4}{c}{$+0.285$ (contribución de la fuga)} \\
+\bottomrule
+\end{tabular}
+\end{table}

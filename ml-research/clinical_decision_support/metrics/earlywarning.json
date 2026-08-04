@@ -1,0 +1,52 @@
+{
+ "n": 400,
+ "event_rate": 0.72,
+ "median_followup": 51.5,
+ "cox": [
+  {
+   "covariate": "imc_baseline",
+   "hazard_ratio": 1.752,
+   "ci95": [
+    1.451,
+    2.116
+   ],
+   "p_value": 0.0
+  },
+  {
+   "covariate": "glucosa_baseline",
+   "hazard_ratio": 1.582,
+   "ci95": [
+    1.335,
+    1.875
+   ],
+   "p_value": 0.0
+  },
+  {
+   "covariate": "n_comorbilidades",
+   "hazard_ratio": 1.468,
+   "ci95": [
+    1.241,
+    1.735
+   ],
+   "p_value": 0.0
+  },
+  {
+   "covariate": "age",
+   "hazard_ratio": 1.09,
+   "ci95": [
+    0.967,
+    1.229
+   ],
+   "p_value": 0.1572
+  },
+  {
+   "covariate": "adherencia",
+   "hazard_ratio": 0.762,
+   "ci95": [
+    0.644,
+    0.902
+   ],
+   "p_value": 0.0016
+  }
+ ]
+}
