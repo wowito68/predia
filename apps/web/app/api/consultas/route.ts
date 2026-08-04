@@ -1,0 +1,130 @@
+import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
+import { prisma } from "@/lib/prisma"
+import { verifyToken } from "@/lib/auth"
+
+const consultaSchema = z.object({
+    id_paciente: z.coerce.number().int().positive(),
+    motivo_consulta: z.string().trim().min(3).max(1000),
+    sintomas: z.string().trim().max(2000).optional().nullable(),
+    exploracion_fisica: z.string().trim().max(2000).optional().nullable(),
+    diagnostico: z.string().trim().max(2000).optional().nullable(),
+    tratamiento: z.string().trim().max(2000).optional().nullable(),
+    receta: z.string().trim().max(2000).optional().nullable(),
+    proxima_cita: z.string().datetime().optional().nullable(),
+    observaciones: z.string().trim().max(3000).optional().nullable(),
+}).strict()
+
+// GET - Listar consultas médicas
+export async function GET(request: NextRequest) {
+    try {
+        const token = request.headers.get("authorization")?.replace("Bearer ", "")
+        if (!token) {
+            return NextResponse.json({ success: false, error: "No autorizado" }, { status: 401 })
+        }
+
+        const user = await verifyToken(token)
+        if (!user) {
+            return NextResponse.json({ success: false, error: "Token inválido" }, { status: 401 })
+        }
+
+        const { searchParams } = new URL(request.url)
+        const id_paciente = searchParams.get("id_paciente")
+
+        const where = id_paciente ? { id_paciente: parseInt(id_paciente) } : {}
+
+        const consultas = await prisma.consultaMedica.findMany({
+            where,
+            include: {
+                paciente: {
+                    select: { nombre: true, apellido_paterno: true, cedula: true }
+                },
+                usuario: {
+                    select: { nombre: true, apellido_paterno: true, especialidad: true }
+                }
+            },
+            orderBy: { fecha_consulta: "desc" }
+        })
+
+        return NextResponse.json({ success: true, data: consultas })
+    } catch (error) {
+        console.error("Error al obtener consultas:", error)
+        return NextResponse.json({ success: false, error: "Error interno" }, { status: 500 })
+    }
+}
+
+// POST - Registrar nueva consulta médica
+export async function POST(request: NextRequest) {
+    try {
+        const token = request.headers.get("authorization")?.replace("Bearer ", "")
+        if (!token) {
+            return NextResponse.json({ success: false, error: "No autorizado" }, { status: 401 })
+        }
+
+        const user = await verifyToken(token)
+        if (!user) {
+            return NextResponse.json({ success: false, error: "Token inválido" }, { status: 401 })
+        }
+
+        const validation = consultaSchema.safeParse(await request.json())
+        if (!validation.success) {
+            return NextResponse.json(
+                { success: false, error: "Datos inválidos", details: validation.error.errors },
+                { status: 400 },
+            )
+        }
+        const {
+            id_paciente,
+            motivo_consulta,
+            sintomas,
+            exploracion_fisica,
+            diagnostico,
+            tratamiento,
+            receta,
+            proxima_cita,
+            observaciones,
+        } = validation.data
+
+        const paciente = await prisma.paciente.findUnique({
+            where: { id_paciente },
+            select: { nombre: true, apellido_paterno: true, cedula: true, fecha_nacimiento: true, genero: true }
+        });
+        if (!paciente) {
+            return NextResponse.json({ success: false, error: "Paciente no encontrado" }, { status: 404 })
+        }
+
+        const datos_paciente = JSON.stringify(paciente || {});
+        const datos_medico = JSON.stringify({
+            nombre: (user as any).nombre,
+            apellido_paterno: (user as any).apellido_paterno,
+            especialidad: (user as any).especialidad,
+            cedula_profesional: (user as any).cedula_profesional
+        });
+
+        const consulta = await prisma.consultaMedica.create({
+            data: {
+                id_paciente,
+                id_usuario: user.id_usuario,
+                motivo_consulta,
+                sintomas: sintomas || null,
+                exploracion_fisica: exploracion_fisica || null,
+                diagnostico: diagnostico || null,
+                tratamiento: tratamiento || null,
+                receta: receta || null,
+                proxima_cita: proxima_cita ? new Date(proxima_cita) : null,
+                observaciones: observaciones || null,
+                datos_medico,
+                datos_paciente
+            },
+            include: {
+                paciente: { select: { nombre: true, apellido_paterno: true } },
+                usuario: { select: { nombre: true, apellido_paterno: true } }
+            }
+        })
+
+        return NextResponse.json({ success: true, data: consulta }, { status: 201 })
+    } catch (error) {
+        console.error("Error al registrar consulta:", error)
+        return NextResponse.json({ success: false, error: "Error interno" }, { status: 500 })
+    }
+}

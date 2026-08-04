@@ -6,15 +6,36 @@
 # next.js
 /.next/
 /out/
+apps/web/public/sw.js
+apps/web/public/workbox-*.js
+apps/web/public/worker-*.js
+apps/web/public/fallback-*.js
 
 # production
 /build
+**/dist-web/
+
+# runtime/local evidence helpers
+.tmp/
+backups/
+**/metro-cache/
+**/v8-compile-cache/
+**/.expo/
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.zip
+*.aux
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
 
 # env files
 .env*
@@ -25,3 +46,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# monorepo: dependencias y builds anidados
+**/node_modules/
+**/.next/
+**/__pycache__/
+*.pyc
+
+# secretos / llaves (NUNCA commitear)
+*.pem

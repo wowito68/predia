@@ -1,0 +1,21 @@
+\begin{table}[!t]
+\renewcommand{\arraystretch}{1.2}
+\caption{Effect of including diagnostic laboratory features: honest
+\emph{screening} framing vs.\ \emph{clinical} framing (with HbA1c, glucose and
+insulin). The ROC-AUC gap quantifies the contribution of information leakage.}
+\label{tab:framing}
+\centering
+\begin{tabular}{l c c c c}
+\toprule
+& \multicolumn{2}{c}{\textbf{Screening}} & \multicolumn{2}{c}{\textbf{Clinical}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+\textbf{Model} & Acc. & ROC-AUC & Acc. & ROC-AUC \\
+\midrule
+Logistic Regression & 0.6044 & 0.6591 & 0.8878 & 0.9339 \\
+Random Forest       & 0.6244 & 0.6549 & 0.9196 & 0.9417 \\
+XGBoost             & 0.6289 & 0.6573 & 0.9199 & 0.9444 \\
+\midrule
+\multicolumn{1}{l}{\textbf{Mean $\Delta$ ROC-AUC}} & \multicolumn{4}{c}{$+0.285$ (leakage contribution)} \\
+\bottomrule
+\end{tabular}
+\end{table}

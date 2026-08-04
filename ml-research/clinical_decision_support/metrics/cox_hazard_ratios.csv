@@ -1,0 +1,6 @@
+covariate,hazard_ratio,ci95,p_value
+imc_baseline,1.752,"[1.451, 2.116]",0.0
+glucosa_baseline,1.582,"[1.335, 1.875]",0.0
+n_comorbilidades,1.468,"[1.241, 1.735]",0.0
+age,1.09,"[0.967, 1.229]",0.1572
+adherencia,0.762,"[0.644, 0.902]",0.0016

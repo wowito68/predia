@@ -1,0 +1,27 @@
+{
+  "name": "knn",
+  "mode": "screening",
+  "best_params": {
+    "clf__n_neighbors": 33,
+    "clf__p": 1,
+    "clf__weights": "uniform"
+  },
+  "cv_roc_auc": 0.5872098575441773,
+  "fit_time_sec": 6.31,
+  "subsampled": true,
+  "n_train_used": 8000,
+  "test_metrics": {
+    "accuracy": 0.6003,
+    "balanced_accuracy": 0.5441041666666666,
+    "precision": 0.6268042542415801,
+    "recall_sensitivity": 0.8250833333333333,
+    "specificity": 0.263125,
+    "f1": 0.7124046625413729,
+    "mcc": 0.10605723893271947,
+    "tn": 2105,
+    "fp": 5895,
+    "fn": 2099,
+    "tp": 9901,
+    "roc_auc": 0.5845271458333332
+  }
+}
