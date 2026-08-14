@@ -22,7 +22,8 @@ run_ufw_status() {
 
   section "UFW activo - ${label}"
   printf 'Servidor: %s@%s\n\n' "${user}" "${host}"
-  ssh \
+  ssh_log="$(mktemp /tmp/predia-ufw-ssh.XXXXXX.log)"
+  if ! ssh \
     -i "${PREDIA_DEMO_SSH_KEY}" \
     -o BatchMode=yes \
     -o IdentitiesOnly=yes \
@@ -30,7 +31,13 @@ run_ufw_status() {
     -o ServerAliveInterval=15 \
     -o ServerAliveCountMax=2 \
     "${user}@${host}" \
-    'sudo ufw status verbose && sudo ufw status | grep -q "^Status: active"'
+    'sudo ufw status verbose && sudo ufw status | grep -q "^Status: active"' 2>"${ssh_log}"; then
+    cat "${ssh_log}" >&2
+    rm -f "${ssh_log}"
+    ssh_access_hint "${user}@${host}"
+    die "No se pudo consultar UFW en ${label}."
+  fi
+  rm -f "${ssh_log}"
 }
 
 case "${MODE}" in

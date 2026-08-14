@@ -22,7 +22,7 @@ El panel permite demostrar por separado:
 8. Validaciones de servidor que rechazan datos clinicos invalidos.
 9. Reglas activas de UFW con `sudo ufw status verbose`.
 
-La opcion `A` ejecuta el recorrido completo. Cada evidencia aprobada queda marcada en el menu durante la sesion.
+La opcion `A` ejecuta el recorrido completo. La opcion `P` ejecuta solo evidencias publicas cuando todavia no tienes SSH por cambio de IP. La opcion `D` diagnostica tu IP publica actual y el acceso SSH cuando cambias de red. Cada evidencia aprobada queda marcada en el menu durante la sesion.
 
 ## Por que las evidencias son reales
 
@@ -56,6 +56,51 @@ Para validar el acceso sin abrir el navegador:
 bash scripts/demo/open-grafana.sh --check
 ```
 
+Si cambiaste de red y Grafana no abre, primero ejecuta:
+
+```bash
+bash scripts/demo/ssh-access-doctor.sh check
+```
+
+El diagnostico imprime tu IP publica actual. Si tienes AWS CLI configurado, puedes autorizar temporalmente esa IP para SSH al servidor privado con:
+
+```bash
+bash scripts/demo/ssh-access-doctor.sh allow-private
+```
+
+Si durante la evaluacion te moveras de red y no puedes actualizar la IP en tiempo real, existe un modo temporal de demo:
+
+```bash
+bash scripts/demo/ssh-access-doctor.sh allow-private-anywhere
+```
+
+Esto abre SSH `22` desde `0.0.0.0/0` en el Security Group privado. Debe usarse solo mientras presentas, con SSH por llave, `PasswordAuthentication no`, `PermitRootLogin no`, UFW y Fail2ban activos. Si UFW dentro del VPS tambien limita por IP, entra una vez al servidor y ejecuta:
+
+Si no tienes AWS CLI, el cambio equivalente en consola AWS es:
+
+```text
+EC2 > Security Groups > sg-0cfbdcb57a224f9a5 > Edit inbound rules
+Add rule: SSH | TCP | 22 | Source 0.0.0.0/0
+Description: PREDIA demo SSH temporal any network
+```
+
+```bash
+sudo bash infra/firewall/demo-anywhere-ssh.sh enable
+```
+
+Despues de presentar, revoca la misma IP:
+
+```bash
+bash scripts/demo/ssh-access-doctor.sh revoke-private
+```
+
+Si activaste el modo abierto, revocalo tambien:
+
+```bash
+bash scripts/demo/ssh-access-doctor.sh revoke-private-anywhere
+sudo bash infra/firewall/demo-anywhere-ssh.sh disable
+```
+
 ## Modo no interactivo
 
 ```bash
@@ -63,6 +108,12 @@ bash scripts/demo/predia-live-demo.sh --all
 ```
 
 Este modo devuelve codigo `0` solamente cuando todas las evidencias se aprueban, por lo que tambien sirve como preflight antes de presentar.
+
+Si cambiaste de IP y aun no autorizaste SSH para Grafana/UFW remoto, usa el recorrido publico:
+
+```bash
+bash scripts/demo/predia-live-demo.sh --public
+```
 
 ## Scripts utilizados
 
@@ -76,6 +127,8 @@ Este modo devuelve codigo `0` solamente cuando todas las evidencias se aprueban,
 | `grafana-live-pulse.sh` | Cambio visible de CPU en Grafana | Carga temporal limitada a 85% de un CPU durante 50 s |
 | `data-validation-demo.sh` | Peso fuera de rango y cita pasada | Dos POST invalidos y lecturas de comprobacion |
 | `ufw-status-demo.sh` | Reglas UFW activas | Consulta remota de `sudo ufw status verbose`; acepta `--private`, `--public` o `--both` |
+| `ssh-access-doctor.sh` | Cambio de IP y Grafana | Detecta IP publica, prueba SSH y puede autorizar/revocar SSH temporal con AWS CLI |
+| `infra/firewall/demo-anywhere-ssh.sh` | UFW temporal para demo | Permite o retira SSH desde cualquier red con rate limit |
 | `start-observability-tunnel.sh` | Grafana y Prometheus privados | Reenvio SSH local |
 | `stop-observability-tunnel.sh` | Cierre del acceso administrativo | Ningun cambio remoto |
 

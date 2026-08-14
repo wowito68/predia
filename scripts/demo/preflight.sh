@@ -49,8 +49,12 @@ if [ "$((10#${mode} % 100))" -ne 0 ]; then
   die "La llave SSH permite acceso a grupo/otros (modo ${mode}). Usa chmod 400 o 600."
 fi
 ok "Permisos de llave SSH: ${mode}"
-ssh_demo 'true'
-ok "Conexion SSH BatchMode disponible"
+if ssh_demo 'true'; then
+  ok "Conexion SSH BatchMode disponible"
+else
+  ssh_access_hint "${PREDIA_DEMO_SSH_TARGET}"
+  warn "Se continuara con pruebas publicas; las evidencias de Grafana/firewall remoto requieren autorizar la IP actual."
+fi
 
 section "Disponibilidad publica"
 http_code="$(curl -sS -o /dev/null -w '%{http_code}' "http://${PREDIA_DEMO_DOMAIN}/")"

@@ -10,3 +10,8 @@ export PREDIA_DEMO_REMOTE_DIR="/home/ubuntu/predia-private"
 export PREDIA_DEMO_GRAFANA_PORT="3001"
 export PREDIA_DEMO_PROMETHEUS_PORT="9090"
 export PREDIA_DEMO_TMUX_SESSION="predia-demo"
+export PREDIA_DEMO_PRIVATE_SECURITY_GROUP="sg-0cfbdcb57a224f9a5"
+export PREDIA_DEMO_AWS_REGION="us-east-2"
+# Configura este valor si quieres que ssh-access-doctor.sh tambien actualice
+# automaticamente el Security Group del servidor publico.
+export PREDIA_DEMO_PUBLIC_SECURITY_GROUP=""

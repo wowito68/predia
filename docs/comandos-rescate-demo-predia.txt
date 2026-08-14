@@ -38,6 +38,10 @@ chmod 400 "$HOME/Descargas/PREDIA.pem"
 bash scripts/demo/predia-live-demo.sh --all
 # Ejecuta todas las evidencias de golpe. Sirve como preflight antes de exponer.
 
+bash scripts/demo/predia-live-demo.sh --public
+# Ejecuta solo evidencias que no dependen de SSH: cripto, JWT, SSL,
+# balanceador y validacion API. Util si cambiaste de red.
+
 bash scripts/demo/data-validation-demo.sh
 # Demuestra que la API rechaza un peso de 999 kg y una cita en fecha pasada.
 # Despues consulta de nuevo para comprobar que esos datos NO quedaron guardados.
@@ -52,6 +56,41 @@ bash scripts/demo/ufw-status-demo.sh --both
 
 bash scripts/demo/open-grafana.sh
 # Abre Grafana rapidamente por tunel SSH, sin publicar Grafana en Internet.
+
+bash scripts/demo/ssh-access-doctor.sh check
+# Si cambiaste de red, revisa tu IP publica actual y si SSH al servidor
+# privado/publico responde. Es el primer comando cuando Grafana no abre.
+
+bash scripts/demo/ssh-access-doctor.sh allow-private
+# Si tienes AWS CLI configurado, autoriza temporalmente tu IP actual /32 para
+# entrar por SSH al servidor privado y poder abrir el tunel de Grafana.
+
+bash scripts/demo/ssh-access-doctor.sh allow-private-anywhere
+# MODO DEMO URGENTE: abre SSH 22 desde cualquier red en el Security Group
+# privado. Usalo solo si te estaras moviendo de IP y no puedes modificarlo
+# en tiempo real.
+#
+# Si no tienes AWS CLI, hazlo en consola AWS:
+# EC2 > Security Groups > sg-0cfbdcb57a224f9a5 > Edit inbound rules
+# Add rule: SSH | TCP | 22 | Source 0.0.0.0/0
+# Description: PREDIA demo SSH temporal any network
+
+bash scripts/demo/ssh-access-doctor.sh revoke-private
+# Cierra la regla temporal de SSH para tu IP actual despues de presentar.
+
+bash scripts/demo/ssh-access-doctor.sh revoke-private-anywhere
+# Cierra la regla 0.0.0.0/0 del Security Group privado al terminar la demo.
+#
+# En consola AWS:
+# EC2 > Security Groups > sg-0cfbdcb57a224f9a5 > Edit inbound rules
+# Borra la regla SSH 22 con Source 0.0.0.0/0.
+
+sudo bash infra/firewall/demo-anywhere-ssh.sh enable
+# Ejecutar dentro del VPS si UFW tambien estaba limitado a una IP vieja.
+# Permite SSH desde cualquier red con rate limit, manteniendo password/root off.
+
+sudo bash infra/firewall/demo-anywhere-ssh.sh disable
+# Ejecutar dentro del VPS despues de la demo para retirar la regla temporal UFW.
 
 bash scripts/demo/grafana-live-pulse.sh
 # Genera una carga temporal controlada para ver cambiar una grafica en vivo.
@@ -333,6 +372,10 @@ ssh -i "$HOME/Descargas/PREDIA.pem" "$PREDIA_PRIVATE_SSH" "cd ~/predia-private &
 
 bash scripts/demo/open-grafana.sh --check
 # Confirma que el tunel a Grafana funciona sin abrir navegador.
+
+bash scripts/demo/ssh-access-doctor.sh check
+# Si este comando dice que el puerto 22 no responde, el bloqueo esta en AWS
+# Security Group, UFW o red actual; te muestra la IP exacta a autorizar.
 
 git status --short
 # Verifica si hay cambios locales sin commit antes de mover cosas.

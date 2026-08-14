@@ -116,6 +116,8 @@ menu() {
   printf "  %b  ${C_BOLD}9  UFW verbose${C_RESET}         reglas activas del firewall\n" "$(result_badge ufw_verbose)"
   printf '\n'
   printf "  ${C_BLUE}${C_BOLD}A${C_RESET}  Ejecutar todas las evidencias\n"
+  printf "  ${C_BLUE}${C_BOLD}P${C_RESET}  Ejecutar evidencias publicas sin SSH\n"
+  printf "  ${C_BLUE}${C_BOLD}D${C_RESET}  Diagnosticar IP/SSH para Grafana\n"
   printf "  ${C_BLUE}${C_BOLD}G${C_RESET}  Abrir dashboard de Grafana\n"
   printf "  ${C_DIM}Q  Salir${C_RESET}\n\n"
   printf "${C_TEAL}Selecciona una opcion:${C_RESET} "
@@ -220,9 +222,40 @@ all_evidence() {
   return "${result}"
 }
 
+public_evidence() {
+  local failures=0
+  local result=0
+
+  clear_screen
+  banner
+  printf "${C_BLUE}${C_BOLD}RECORRIDO PUBLICO SIN SSH${C_RESET}\n\n"
+  printf "${C_DIM}Usalo si cambiaste de red y todavia no autorizaste tu IP para Grafana/UFW remoto.${C_RESET}\n\n"
+  BATCH_MODE=1
+  crypto || failures=$((failures + 1))
+  jwt || failures=$((failures + 1))
+  tls || failures=$((failures + 1))
+  balance || failures=$((failures + 1))
+  validation || failures=$((failures + 1))
+  BATCH_MODE=0
+
+  printf '\n'
+  if [ "${failures}" -eq 0 ]; then
+    printf "${C_GREEN}${C_BOLD}EVIDENCIAS PUBLICAS APROBADAS${C_RESET}\n"
+  else
+    printf "${C_RED}${C_BOLD}%d EVIDENCIA(S) PUBLICA(S) REQUIEREN REVISION${C_RESET}\n" "${failures}" >&2
+    result=1
+  fi
+  pause_demo
+  return "${result}"
+}
+
 case "${1:-interactive}" in
   --all)
     all_evidence
+    exit $?
+    ;;
+  --public)
+    public_evidence
     exit $?
     ;;
   --check-grafana)
@@ -230,7 +263,7 @@ case "${1:-interactive}" in
     exit $?
     ;;
   interactive) ;;
-  *) die "Uso: bash scripts/demo/predia-live-demo.sh [--all|--check-grafana]" ;;
+  *) die "Uso: bash scripts/demo/predia-live-demo.sh [--all|--public|--check-grafana]" ;;
 esac
 
 while true; do
@@ -250,6 +283,8 @@ while true; do
     8) validation; pause_demo ;;
     9) ufw_verbose; pause_demo ;;
     A) all_evidence ;;
+    P) public_evidence ;;
+    D) "${DEMO_DIR}/ssh-access-doctor.sh" check; pause_demo ;;
     G) "${DEMO_DIR}/open-grafana.sh"; pause_demo ;;
     Q) clear_screen; exit 0 ;;
     *) printf "\n${C_AMBER}Opcion no reconocida.${C_RESET}\n"; sleep 1 ;;

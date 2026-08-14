@@ -10,7 +10,11 @@ case "${MODE}" in
   *) die "Uso: bash scripts/demo/open-grafana.sh [--check]" ;;
 esac
 
-"${DEMO_DIR}/start-observability-tunnel.sh"
+if ! "${DEMO_DIR}/start-observability-tunnel.sh"; then
+  warn "Grafana no se pudo abrir porque el tunel SSH no esta disponible desde esta IP."
+  printf 'Ejecuta primero: bash scripts/demo/ssh-access-doctor.sh check\n'
+  exit 1
+fi
 
 dashboard_url="http://127.0.0.1:${PREDIA_DEMO_GRAFANA_PORT}/d/predia-overview/predia-salud-del-sistema?orgId=1&refresh=5s&from=now-5m&to=now"
 curl -fsS "http://127.0.0.1:${PREDIA_DEMO_GRAFANA_PORT}/api/health" >/dev/null
