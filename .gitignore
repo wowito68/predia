@@ -60,3 +60,6 @@ next-env.d.ts
 
 # secretos / llaves (NUNCA commitear)
 *.pem
+
+# Local document rendering previews
+/tmp/
