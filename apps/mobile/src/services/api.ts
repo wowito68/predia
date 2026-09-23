@@ -75,6 +75,42 @@ export interface MedicionClinica {
   imc: number | null
   presion_sistolica: number | null
   presion_diastolica: number | null
+  circunferencia_cintura: number | null
+  circunferencia_cadera: number | null
+}
+
+export interface EnsanutScreeningInput {
+  id_paciente: number
+  age: number
+  female: 0 | 1
+  parent_diabetes: 0 | 1 | null
+  diagnosed_hypertension: 0 | 1 | null
+  bmi: number
+  waist_cm: number
+}
+
+export interface EnsanutScreeningResult {
+  patientId: number
+  evaluatedAt: string
+  persisted: false
+  modelVersion: string
+  studyFingerprint: string
+  outcome: string
+  screeningIndex: number
+  rawModelProbability: number
+  threshold: number
+  screenPositive: boolean
+  classification: 'PRIORIZAR_CONFIRMACION' | 'NO_PRIORIZADO'
+  recommendation: string
+  factors: string[]
+  evidence: {
+    testWave: number
+    rocAuc: number
+    rocAucCi95: [number, number]
+    sensitivity: number
+    specificity: number
+  }
+  warning: string
 }
 
 // Entrada para crear receta (/api/recetas POST)
@@ -333,6 +369,12 @@ export const api = {
     validarPrediccion: (id: number, input: ValidarPrediccionInput) =>
       request<unknown>(`/predicciones/${id}`, {
         method: 'PUT',
+        body: JSON.stringify(input),
+      }),
+
+    tamizajeEnsanut: (input: EnsanutScreeningInput) =>
+      request<EnsanutScreeningResult>('/predicciones/ensanut', {
+        method: 'POST',
         body: JSON.stringify(input),
       }),
 

@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "modelVersion": "ensanut-temporal-core-spline-v1",
+  "studyFingerprint": "cc911791bad871aca43e0ac677c4f44ccfa05343af94c07cf8faf5438c592b8f",
+  "lockedAtUtc": "2026-09-11T22:29:00.529031+00:00",
+  "artifactSha256": "c0d26e3175f76f539bff0e669c484f600e1e17c815d79e7f3ba8d43254bd6fb3",
+  "outcome": {
+    "id": "dysglycemia_fpg",
+    "label": "Disglucemia no diagnosticada",
+    "definition": "Glucosa plasm\u00e1tica en ayuno >= 100 mg/dL sin diagn\u00f3stico previo de diabetes"
+  },
+  "threshold": 0.23834601402384176,
+  "trainingWaves": [
+    2012,
+    2016
+  ],
+  "validationWave": 2018,
+  "testWave": 2021,
+  "continuous": {
+    "features": [
+      "age",
+      "bmi",
+      "waist_cm"
+    ],
+    "imputerStatistics": [
+      40.0,
+      27.700242042541497,
+      92.9000015258789
+    ],
+    "splines": [
+      {
+        "knots": [
+          -20.0,
+          0.0,
+          20.0,
+          40.0,
+          104.0,
+          168.0,
+          232.0
+        ],
+        "degree": 2,
+        "basisCount": 4,
+        "lowerBound": 20.0,
+        "upperBound": 104.0
+      },
+      {
+        "knots": [
+          -19.00720374036584,
+          -3.4380551460633946,
+          12.131093448239051,
+          27.700242042541497,
+          72.22876843979826,
+          116.75729483705501,
+          161.28582123431178
+        ],
+        "degree": 2,
+        "basisCount": 4,
+        "lowerBound": 12.131093448239051,
+        "upperBound": 72.22876843979826
+      },
+      {
+        "knots": [
+          -34.30000305175781,
+          8.099998474121094,
+          50.5,
+          92.9000015258789,
+          173.0,
+          253.0999984741211,
+          333.1999969482422
+        ],
+        "degree": 2,
+        "basisCount": 4,
+        "lowerBound": 50.5,
+        "upperBound": 173.0
+      }
+    ],
+    "scalerMean": [
+      0.07744716258944916,
+      0.5978376594334689,
+      0.29752254813928664,
+      0.01933895090234585,
+      0.7003469507817033,
+      0.27514441345153073,
+      0.017955480624503996,
+      0.6243613081677334,
+      0.3502568360945275
+    ],
+    "scalerScale": [
+      0.13353519449668114,
+      0.22304493289061816,
+      0.23753470833208304,
+      0.03956064673451615,
+      0.13099294502787137,
+      0.14032580827322405,
+      0.03823528892905692,
+      0.14735426805430524,
+      0.15537394200723326
+    ]
+  },
+  "binary": {
+    "features": [
+      "female",
+      "parent_diabetes",
+      "diagnosed_hypertension"
+    ],
+    "imputerStatistics": [
+      1.0,
+      0.0,
+      0.0
+    ],
+    "indicatorFeatures": [
+      "parent_diabetes"
+    ],
+    "scalerMean": [
+      0.6238142785821268,
+      0.29697120985188885,
+      0.13571309702113496,
+      0.08387418871692462
+    ],
+    "scalerScale": [
+      0.48442752235931796,
+      0.45692374677947556,
+      0.3424836526289495,
+      0.2771990425380331
+    ]
+  },
+  "classifier": {
+    "intercept": -1.055915630925889,
+    "coefficients": [
+      0.2129638069666029,
+      0.5940771874843186,
+      1.1019855587583431,
+      0.03862085369345752,
+      -0.005725466552972686,
+      0.39943252812573005,
+      -0.04572369858098593,
+      -0.18732515867087707,
+      -0.08627959554486056,
+      -0.034952990975989556,
+      0.1089492011195432,
+      0.006529582260297645,
+      0.05934017922168327
+    ]
+  },
+  "externalTest": {
+    "wave": 2021,
+    "rocAuc": 0.693778,
+    "rocAucCi95": [
+      0.657444,
+      0.729366
+    ],
+    "sensitivity": 0.782388,
+    "specificity": 0.441198,
+    "calibrationIntercept": -0.440265,
+    "calibrationSlope": 0.986834
+  },
+  "clinicalUse": {
+    "status": "research_prototype",
+    "intendedUse": "Priorizar confirmaci\u00f3n bioqu\u00edmica en adultos sin diagn\u00f3stico previo de diabetes",
+    "warning": "No diagnostica diabetes ni sustituye el juicio cl\u00ednico. Requiere recalibraci\u00f3n y validaci\u00f3n prospectiva antes de uso asistencial."
+  },
+  "goldenVectors": [
+    {
+      "input": {
+        "age": 24.0,
+        "female": 1.0,
+        "parent_diabetes": 0.0,
+        "diagnosed_hypertension": 0.0,
+        "bmi": 22.0,
+        "waist_cm": 72.0
+      },
+      "probability": 0.07143446896841149
+    },
+    {
+      "input": {
+        "age": 45.0,
+        "female": 0.0,
+        "parent_diabetes": 1.0,
+        "diagnosed_hypertension": 0.0,
+        "bmi": 30.0,
+        "waist_cm": 102.0
+      },
+      "probability": 0.4064273013241401
+    },
+    {
+      "input": {
+        "age": 66.0,
+        "female": 1.0,
+        "parent_diabetes": 1.0,
+        "diagnosed_hypertension": 1.0,
+        "bmi": 35.0,
+        "waist_cm": 112.0
+      },
+      "probability": 0.6109386212800186
+    },
+    {
+      "input": {
+        "age": 84.0,
+        "female": 0.0,
+        "parent_diabetes": null,
+        "diagnosed_hypertension": null,
+        "bmi": 27.5,
+        "waist_cm": 96.0
+      },
+      "probability": 0.3425989802438198
+    },
+    {
+      "input": {
+        "age": 20.0,
+        "female": 1.0,
+        "parent_diabetes": 0.0,
+        "diagnosed_hypertension": 0.0,
+        "bmi": 12.2,
+        "waist_cm": 50.5
+      },
+      "probability": 0.0644689551271854
+    },
+    {
+      "input": {
+        "age": 104.0,
+        "female": 0.0,
+        "parent_diabetes": 1.0,
+        "diagnosed_hypertension": 1.0,
+        "bmi": 72.0,
+        "waist_cm": 173.0
+      },
+      "probability": 0.4445034331142494
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import { CamaraClinicaScreen } from '../screens/medico/CamaraClinicaScreen'
 import { ValidacionIAScreen } from '../screens/medico/ValidacionIAScreen'
 import { FirmaScreen } from '../screens/medico/FirmaScreen'
 import { HistorialClinicoScreen } from '../screens/medico/HistorialClinicoScreen'
+import { TamizajeEnsanutScreen } from '../screens/medico/TamizajeEnsanutScreen'
 import { useColors } from '../theme/context'
 import { View } from 'react-native'
 
@@ -67,6 +68,7 @@ export function MedicoNavigator() {
       <Stack.Screen name="ValidacionIA" component={ValidacionIAScreen} />
       <Stack.Screen name="Firma" component={FirmaScreen} />
       <Stack.Screen name="HistorialClinico" component={HistorialClinicoScreen} />
+      <Stack.Screen name="TamizajeEnsanut" component={TamizajeEnsanutScreen} />
     </Stack.Navigator>
   )
 }

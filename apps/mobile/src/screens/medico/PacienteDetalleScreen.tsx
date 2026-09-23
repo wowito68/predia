@@ -18,6 +18,7 @@ import {
   PremiumCard,
   PrimaryButton,
   StatusBadge,
+  ActionRow,
   type IconName,
 } from '@/components/ui'
 import { spacing, fontSize, radius, typography, type AppColors } from '@/theme'
@@ -129,6 +130,19 @@ export function PacienteDetalleScreen() {
               {!isNurse ? <QuickAction icon="document-text" label="Nueva receta" tint={colors.success} onPress={() => go('Firma')} /> : null}
               <QuickAction icon="time" label="Ver historial" tint={colors.textSecondary} onPress={() => go('HistorialClinico')} />
             </PremiumCard>
+
+            {!isNurse ? (
+              <>
+                <SectionTitle>Investigación clínica</SectionTitle>
+                <ActionRow
+                  icon="target"
+                  title="Tamizaje ENSANUT"
+                  subtitle="Modelo temporal mexicano con seis variables, sin laboratorios"
+                  tint={colors.indigo}
+                  onPress={() => go('TamizajeEnsanut')}
+                />
+              </>
+            ) : null}
 
             <SectionTitle>Documentos</SectionTitle>
             <PremiumCard style={s.documentPanel}>

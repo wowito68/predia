@@ -94,8 +94,8 @@ export const GET = requireAuth(async (_request: NextRequest, { params }: Dynamic
         [id],
       ),
       query<any>(
-        `SELECT id_medicion, fecha_medicion, peso, altura, imc, presion_sistolica,
-                presion_diastolica, observaciones
+        `SELECT id_medicion, fecha_medicion, peso, altura, imc, circunferencia_cintura,
+                circunferencia_cadera, presion_sistolica, presion_diastolica, observaciones
          FROM medicion_antropometrica
          WHERE id_paciente = ? AND activo = TRUE
          ORDER BY fecha_medicion DESC

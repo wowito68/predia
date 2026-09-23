@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "publisher": "Instituto Nacional de Salud Publica (INSP), Mexico",
+  "license_note": "Los microdatos no se redistribuyen. Deben obtenerse desde el portal oficial de ENSANUT y conservar sus terminos de uso.",
+  "waves": {
+    "2012": {
+      "landing_page": "https://ensanut.insp.mx/encuestas/ensanut2012/descargas.php",
+      "archives": [
+        {
+          "filename": "2012-adultos.zip",
+          "sha256": "da2b46b50395499ef81eca16f1595cdd5aff32d9afa5c7700b49ac6fbabf8f03",
+          "required_members": ["Adultos.csv", "Adultos_valores.csv", "Adultos_variables.csv"]
+        },
+        {
+          "filename": "2012-antropometria.zip",
+          "sha256": "19bece8643db1e370dad325728f793c1f1c8ff9fe5e6f45306644dbdbeaba195",
+          "required_members": ["adultos_antropometria_2012.csv", "adultos_antropometria_2012_valores.csv", "adultos_antropometria_2012_variables.csv"]
+        },
+        {
+          "filename": "2012-glucosa.zip",
+          "sha256": "fa7c2a00ff8be7e883639bcbca71c071cee23af1f8f5d93df204ce8aeecb0c09",
+          "required_members": ["med_gluc_2012.csv", "med_gluc_2012_valores.csv", "med_gluc_2012_variables.csv"]
+        }
+      ]
+    },
+    "2016": {
+      "landing_page": "https://ensanut.insp.mx/encuestas/ensanut2016/descargas.php",
+      "archives": [
+        {
+          "filename": "2016-adultos-cronicas.zip",
+          "sha256": "3b60cee02078070929d03f5bd825dfcd4f1572be6937f710036d368507501de0",
+          "required_members": ["adultos_cronicas.csv", "adultos_cronicas_valores.csv", "adultos_cronicas_variables.csv"]
+        },
+        {
+          "filename": "2016-antropometria.zip",
+          "sha256": "34757392b332c49b926131928f981b2250596921cc6c1e1636294df417d2fc1e",
+          "required_members": ["antro_adul.csv", "antro_adul_valores.csv", "antro_adul_variables.csv"]
+        },
+        {
+          "filename": "2016-bioquimica.zip",
+          "sha256": "9f8c2fa03df88408a017597dd05cfba9385cfee819323c26e930ca84a5c72a96",
+          "required_members": ["ensanut_det_bio_2016.csv", "ensanut_det_bio_2016_valores.csv", "ensanut_det_bio_2016_variables.csv"]
+        }
+      ]
+    },
+    "2018": {
+      "landing_page": "https://ensanut.insp.mx/encuestas/ensanut2018/descargas.php",
+      "archives": [
+        {
+          "filename": "2018-adultos.zip",
+          "sha256": "a108063285d1db9043c01d08ff3ecb8428e83f9250420e193100c175c90c2314",
+          "required_members": ["CS_ADULTOS.csv", "CS_ADULTOS_valores.csv", "CS_ADULTOS_variables.csv"]
+        },
+        {
+          "filename": "2018-antropometria.zip",
+          "sha256": "7bc6bab8c2cbfa6952c3e301713f925fbd508a23c1085cf571be87f48f3d29bc",
+          "required_members": ["CN_ANTROPOMETRIA.csv", "CN_ANTROPOMETRIA_valores.csv", "CN_ANTROPOMETRIA_variables.csv"]
+        },
+        {
+          "filename": "2018-bioquimica.zip",
+          "sha256": "852b7352c7b714fd0b757edae4471bb12ca0f882413b5675c25ea26b98d3608f",
+          "required_members": ["DetBioCronicosAdultos.csv", "DetBioCronicosAdultos_valores.csv", "DetBioCronicosAdultos_variables.csv"]
+        }
+      ]
+    },
+    "2021": {
+      "landing_page": "https://ensanut.insp.mx/encuestas/ensanutcontinua2021/descargas.php",
+      "archives": [
+        {
+          "filename": "2021-adultos.zip",
+          "sha256": "40c50fb8cdee8ef8d729403965abecc0e53ee57c71bcf2e771b8d07eab9c2f89",
+          "required_members": ["ensadul2021_entrega_w_15_12_2021.csv", "ensadul2021_entrega_w_15_12_2021_valores.csv", "ensadul2021_entrega_w_15_12_2021_variables.csv"]
+        },
+        {
+          "filename": "2021-antropometria.zip",
+          "sha256": "6e4c5e99a57789b12539888795b8fcf8ad34b1b78f75c58d2909f3a1a06eaf8b",
+          "required_members": ["ensaantro21_entrega_w_17_12_2021.csv", "ensaantro21_entrega_w_17_12_2021_valores.csv", "ensaantro21_entrega_w_17_12_2021_variables.csv"]
+        },
+        {
+          "filename": "2021-sangre.zip",
+          "sha256": "53063c632a8b9bfca31c32acbb7882199f52ee048bc902fe106862fcdb485f1f",
+          "required_members": ["ensasangre21_entrega_w_integrada.csv", "ensasangre21_entrega_w_integrada_valores.csv", "ensasangre21_entrega_w_integrada_variables.csv"]
+        }
+      ]
+    }
+  }
+}
+
